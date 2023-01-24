@@ -32,6 +32,7 @@ Spotify Project Inception Worksheet
     2. Track Recommendations
     3. Spotify Authentication and Display
     4. Collaboritive Playlists
+    5. Customizability
 
 ## Initial Modeling
 
