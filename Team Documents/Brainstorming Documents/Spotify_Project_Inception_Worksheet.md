@@ -2,7 +2,6 @@ Spotify Project Inception Worksheet
 =====================================
 
 ## Summary of Our Approach to Software Development 
-    What are we choosing to do, how will we do it and at what level of detail or extent?
     We will be using an agile approach to this project and will be using Scrum as our main workflow. 
 
 ## Initial Vision Discussion with Stakeholders
@@ -32,7 +31,7 @@ Spotify Project Inception Worksheet
     1. Playlist Generator Questionaire 
     2. Track Recommendations
     3. Spotify Authentication and Display
-    4. Need a Nap
+    4. Collaboritive Playlists
 
 ## Initial Modeling
 
@@ -63,7 +62,7 @@ T: Task
         a. [T]
 
 ## Initial Architecture Envisioning
-    <img src="./Team Documents/Brainstorming Documents/Architecture Designs/Spotify Project Initial Architecture Diagram.png" width="400">
+    ![ArichtectureDesign][./Architecture Designs/Spotify_Project_Initial_Architecture_Diagram.png "Architecture Design"]
 
 ## Agile Data Modeling
     Diagrams, SQL modeling (dbdiagram.io), UML diagrams
