@@ -67,9 +67,7 @@ Spotify Project Inception Worksheet
     Diagrams, UI wireframes, page flows, ...
 
 ## Identify Non-Functional Requirements
-    1.
-    2.
-    3.
+    1. Interface Customizability needs to load quickly with JS
 
 ## Identify Functional Requirements (In User Story Format)
 
@@ -88,6 +86,7 @@ T: Task
 <img src="./Architecture Designs/Spotify_Project_Revised_Architecture_Diagram.png">
 
 ## Agile Data Modeling
+<img src="./Data Models/Music Collaboration Project.png">
     Diagrams, SQL modeling (dbdiagram.io), UML diagrams
 
 ## Timeline and Release Plan
