@@ -52,6 +52,9 @@ Hello and welcome to our repository. We are the panda programmers and we strive 
   <img src="https://contrib.rocks/image?repo=WH-Designs/Panda-Programmers" />
 
 **Wyatt Haak** - [@WH-Designs](https://github.com/WH-Designs)
+
 **Blake Finnie** - [@bfinnie21](https://github.com/bfinnie21)
+
 **Jasper Smith** - [@Bubbles0989](https://github.com/Bubbles0989)
+
 **Michael Larios** - [@mlarios7512](https://github.com/mlarios7512)
