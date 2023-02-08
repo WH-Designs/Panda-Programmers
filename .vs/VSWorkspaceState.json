@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src",
+    "\\src\\BDD Tests",
+    "\\src\\Initial Scripts",
     "\\Team Documents"
   ],
-  "SelectedNode": "\\Team Documents\\Brainstorming Documents",
+  "SelectedNode": "\\src\\BDD Tests\\Blank.txt",
   "PreviewInSolutionExplorer": false
 }
