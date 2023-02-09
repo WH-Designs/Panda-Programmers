@@ -1,4 +1,76 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<body class="bg-gray-300">
+    <h1 class="font-bold text-2xl ml-5">Music Collaboration Manager</h1>
+    <div class="flex flex-row">
 
+        <div class="flex flex-col w-3/4 mx-5">
+            <p class="my-4 font-sans">
+                Welcome to Music Collaboration Manager. Here you can interact with your Spotify account to enhance your listening experience. We provide our own
+                unique features including custom site themes, a playlist generator, and more.
+            </p>
+            <div class="w-full h-max max-h-max bg-sky-700 my-3 p-3 rounded-lg text-white">
+                <br>
+                <h2 class="font-bold mb-5 mt-2">Top songs</h2> <!--REMEMBER THAT Spotify logo MUST be present when display content from spotify-->
+                <div class="columns-5 mb-5 h-full max-h-max">
+                    <div class="w-fit bg-violet-500">
+                        <img src="~/img/panda_logo.png" alt="Test image" class="h-fit">
+                        <p>Song #1</p>
+                    </div>
+                    <div class="w-fit bg-black">
+                        <img src="~/img/panda_logo.png" alt="Test image" class="h-fit">
+                    </div>
+                    <div class="w-fit bg-lime-400">
+                        <img src="~/img/panda_logo.png" alt="Test image" class="h-fit">
+                    </div>
+                    <div class="w-fit bg-yellow-500">
+                        <img src="~/img/panda_logo.png" alt="Test image" class="h-fit">
+                    </div>
+                    <div class="w-fit bg-red-400">
+                        <img src="~/img/panda_logo.png" alt="Test image" class="h-fit">
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full h-max max-h-max bg-sky-700 my-1 p-3 rounded-lg text-white">
+                <br>
+                <h2 class="font-bold mb-5 mt-2">Top playlists</h2> <!--REMEMBER THAT Spotify logo MUST be present when display content from spotify-->
+                <div class="columns-5 mb-5 h-full max-h-max">
+                    <div class="w-fit bg-violet-500">
+                        <img src="~/img/panda_logo.png" alt="Test image" class="h-fit">
+                        <p>Playlist #1</p>
+                    </div>
+                    <div class="w-fit bg-black">
+                        <img src="~/img/panda_logo.png" alt="Test image" class="h-fit">
+                    </div>
+                    <div class="w-fit bg-lime-400">
+                        <img src="~/img/panda_logo.png" alt="Test image" class="h-fit">
+                    </div>
+                    <div class="w-fit bg-yellow-500">
+                        <img src="~/img/panda_logo.png" alt="Test image" class="h-fit">
+                    </div>
+                    <div class="w-fit bg-red-400">
+                        <img src="~/img/panda_logo.png" alt="Test image" class="h-fit">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="flex flex-col w-52 mx-5 text-white">
+            <div class="w-full bg-sky-700 my-1 p-3 rounded-lg text-center">
+                <h4 class="font-bold mb-5 mt-2">Playlist generator</h4>
+            </div>
+            <div class="w-full bg-sky-700 my-1 p-3 rounded-lg text-center">
+                <h4 class="font-bold mb-5 mt-2">Top categories</h4>
+                <div>Category #1</div>
+                <div>Category #2</div>
+                <div>Category #3</div>
+                <div>Category #4</div>
+                <div>Category #5</div>
+            </div>
+        </div>
+    </div>
+</body>
