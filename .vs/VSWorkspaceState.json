@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Team Documents"
+    "\\src",
+    "\\src\\PandaProgrammers",
+    "\\src\\PandaProgrammers\\MusicCollaborationManager"
   ],
-  "SelectedNode": "\\Team Documents\\Brainstorming Documents",
+  "SelectedNode": "\\src\\PandaProgrammers\\MusicCollaborationManager\\MusicCollaborationManager.csproj",
   "PreviewInSolutionExplorer": false
 }
