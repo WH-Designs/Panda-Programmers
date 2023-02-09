@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\PandaProgrammers",
     "\\src\\PandaProgrammers\\MusicCollaborationManager"
   ],
-  "SelectedNode": "\\src",
+  "SelectedNode": "\\src\\PandaProgrammers\\MusicCollaborationManager\\MusicCollaborationManager.csproj",
   "PreviewInSolutionExplorer": false
 }
