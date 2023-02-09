@@ -2,10 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\BDD Tests",
-    "\\src\\Initial Scripts",
-    "\\Team Documents"
+    "\\src\\PandaProgrammers",
+    "\\src\\PandaProgrammers\\MusicCollaborationManager"
   ],
-  "SelectedNode": "\\src\\BDD Tests\\Blank.txt",
+  "SelectedNode": "\\src\\PandaProgrammers\\MusicCollaborationManager\\MusicCollaborationManager.csproj",
   "PreviewInSolutionExplorer": false
 }

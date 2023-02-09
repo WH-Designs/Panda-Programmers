@@ -22,7 +22,7 @@
 ## Javascript Library
 
     jQuery
-    Version 3.6.3
+    Version 3.6
 
 ## Git Branch Naming Convention
 
