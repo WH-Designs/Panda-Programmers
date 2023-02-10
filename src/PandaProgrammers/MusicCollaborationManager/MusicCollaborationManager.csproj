@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-MusicCollaborationManager-f1888883-c732-4f3a-a9c2-5e415adf23e1</UserSecretsId>
   </PropertyGroup>
