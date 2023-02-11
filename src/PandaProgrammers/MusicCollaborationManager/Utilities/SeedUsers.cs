@@ -38,6 +38,34 @@ namespace MusicCollaborationManager.Utilities
             }
         }
 
+        public static async Task InitializeAdmin(IServiceProvider serviceProvider, string email, string userName, string adminPw, 
+            string firstName, string lastName)
+        {
+            try
+            {
+                using (var context = new MCMDbContext(serviceProvider.GetRequiredService<DbContextOptions<MCMDbContext>>())) 
+                { 
+                    var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+                    var identityID = await EnsureUser(userManager, adminPw, email, email, true);
+                    Listener li = new Listener { AspnetIdentityId = identityID, FirstName =firstName, LastName=lastName };
+                    if (!context.Listeners.Any(x => x.AspnetIdentityId == li.AspnetIdentityId && x.FirstName == li.FirstName &&
+                        x.LastName== li.LastName)) 
+                    { 
+                        context.Add(li);
+                        await context.SaveChangesAsync();
+                    }
+                    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                    await EnsureRoleForUser(roleManager, userManager, identityID, "admin");
+                }
+            }
+            catch(InvalidOperationException ex)
+            {
+                throw new Exception("Failed to initialize admin user or role, service provider did not have the correct service:" +
+                    ex.Message);
+            }
+        }
+
         private static async Task<string> EnsureUser(UserManager<IdentityUser> userManager, string password, string username, string email, bool emailConfirmed)
         {
             var user = await userManager.FindByNameAsync(username);
@@ -56,6 +84,29 @@ namespace MusicCollaborationManager.Utilities
                 throw new Exception("The password is probably not strong enough");
             }
             return user.Id;
+        }
+
+        private static async Task<IdentityResult> EnsureRoleForUser(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser>
+            userManager, string uid, string role)
+        {
+            IdentityResult iR = null;
+
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                iR = await roleManager.CreateAsync(new IdentityRole(role));
+            }
+
+            var user = await userManager.FindByIdAsync(uid);
+            if(user == null)
+            {
+                throw new Exception("An AspNetUser does not exist with the given id so we cannot give them the requested role");
+            }
+
+            if(!await userManager.IsInRoleAsync(user, role))
+            {
+                iR = await userManager.AddToRoleAsync(user, role);
+            }
+            return iR;
         }
     
     }

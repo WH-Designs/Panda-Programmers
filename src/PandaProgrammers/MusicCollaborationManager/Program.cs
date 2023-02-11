@@ -26,6 +26,7 @@ public class Program {
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddRoles<IdentityRole>()                           //enables roles, ie admin
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
 
@@ -39,7 +40,10 @@ public class Program {
             {
                 var config = app.Services.GetService<IConfiguration>();
                 var testUserPw = config["SeedUserPw"];
+                var adminPw = config["SeedAdminPw"];
+
                 SeedUsers.Initialize(services, SeedData.UserSeedData, testUserPw).Wait();
+                SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "The", "Admin").Wait();
             }
             catch (Exception ex)
             {
