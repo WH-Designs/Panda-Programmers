@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MusicCollaborationManager.Data;
 using MusicCollaborationManager.Models;
+using MusicCollaborationManager.Utilities;
 using System.Runtime.Serialization;
 
 
@@ -29,6 +30,23 @@ public class Program {
         builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
+
+        //After build has been called and before run, configure for auth seed data
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            try
+            {
+                var config = app.Services.GetService<IConfiguration>();
+                var testUserPw = config["SeedUserPw"];
+                SeedUsers.Initialize(services, SeedData.UserSeedData, testUserPw).Wait();
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occured seeding the DB");
+            }
+        }
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
