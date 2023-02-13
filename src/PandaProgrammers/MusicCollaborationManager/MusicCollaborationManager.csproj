@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-MusicCollaborationManager-f1888883-c732-4f3a-a9c2-5e415adf23e1</UserSecretsId>
+    <UserSecretsId>d4c9a598-09d8-4771-9d16-95da035ddae4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
