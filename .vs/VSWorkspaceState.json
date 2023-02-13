@@ -1,12 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Team Documents",
-    "\\Team Documents\\Brainstorming Documents",
-    "\\Team Documents\\Brainstorming Documents\\Architecture Designs",
-    "\\Team Documents\\Brainstorming Documents\\Mindmaps",
-    "\\Team Documents\\Email Footers"
+    "\\src",
+    "\\src\\PandaProgrammers",
+    "\\src\\PandaProgrammers\\MusicCollaborationManager"
   ],
-  "SelectedNode": "\\Team Documents\\Brainstorming Documents\\Architecture Designs\\Spotify_Project_Revised_Architecture_Diagram.png",
+  "SelectedNode": "\\src\\PandaProgrammers\\MusicCollaborationManager\\MusicCollaborationManager.csproj",
   "PreviewInSolutionExplorer": false
 }

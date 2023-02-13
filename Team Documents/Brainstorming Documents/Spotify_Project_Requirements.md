@@ -51,10 +51,8 @@ Go through all the information gathered during the previous round of elicitation
         * Spotify API
             * Use Spotify player to plays songs retrieved from API
             * Use Spotify player to play playlists retrieved from API
-        * Embedded player
-            * Allows user to play songs they uploaded from local
     * >Collaboritive Playlists
-        * Allowing users to make playlists together using local music and music from spotify
+        * Allowing users to make playlists together using music from spotify
     * >Spotify Profile Authentication and Display
         * Spotify API
             * Connect to users Spotify account 
@@ -74,7 +72,7 @@ Go through all the information gathered during the previous round of elicitation
         * Youtube API
         * Apple Music API
     * >Friend and Follower System
-        * Be able to follow artists and othe users
+        * Be able to follow artists and other users
             * Determine if users are friends
             * See updates on friends profiles
         * Be able to follow certain playlists
