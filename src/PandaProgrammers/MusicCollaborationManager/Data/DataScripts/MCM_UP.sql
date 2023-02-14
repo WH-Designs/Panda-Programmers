@@ -1,4 +1,4 @@
-CREATE DATABASE MCMDatabase;
+--CREATE DATABASE MCMDatabase;
 
 CREATE TABLE [Listener] (
     [ID]                int             PRIMARY KEY IDENTITY(1, 1),
