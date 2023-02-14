@@ -24,7 +24,7 @@ function errorOnAjax() {
 function getVisitorPlaylists(data)
 {
     $.each(data, function (index, item) {
-        let playlistName = `<p><a href="${item["spotifyLinkToPlaylist"]}">${item["playlistName"]}</a></p>`;
+        let playlistName = `<a href="${item["spotifyLinkToPlaylist"]}">${item["playlistName"]}</a>`;
         let playlistImage = `<img src="${item["playlistImageURL"]}">`;
 
 
@@ -36,7 +36,7 @@ function getVisitorPlaylists(data)
 function getVisitorTracks(data)
 {
     $.each(data, function (index, item) {
-        let trackName = `<p><a href="${item["spotifyTrackLinkURL"]}">${item["name"]}</a></p>`;
+        let trackName = `<a href="${item["spotifyTrackLinkURL"]}">${item["name"]}</a>`;
         let trackImage = `<img src="${item["imageURL"]}">`;
 
         

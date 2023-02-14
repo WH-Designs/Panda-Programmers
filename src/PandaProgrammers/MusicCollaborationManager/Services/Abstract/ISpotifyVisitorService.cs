@@ -2,7 +2,7 @@
 
 namespace MusicCollaborationManager.Services.Abstract
 {
-    public interface ISpotifyService
+    public interface ISpotifyVisitorService
     {
         Task<FeaturedPlaylistsResponse> GetVisitorPlaylists();
         Task<ArtistsTopTracksResponse> GetVisitorTracks(string artistId, string tracksFromRegion);

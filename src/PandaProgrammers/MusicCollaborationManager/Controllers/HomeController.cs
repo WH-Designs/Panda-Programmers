@@ -14,13 +14,11 @@ namespace MusicCollaborationManager.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly ISpotifyService _spotifyService;
      private readonly UserManager<IdentityUser> _userManager;
 
-    public HomeController(ILogger<HomeController> logger, ISpotifyService spotifyService, UserManager<IdentityUser> userManager)
+    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
     {
         _logger = logger;
-        _spotifyService = spotifyService;
         _userManager = userManager;
     }
 
