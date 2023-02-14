@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicCollaborationManager.Models;
 using MusicCollaborationManager.Services.Abstract;
@@ -13,11 +15,13 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly ISpotifyService _spotifyService;
+     private readonly UserManager<IdentityUser> _userManager;
 
-    public HomeController(ILogger<HomeController> logger, ISpotifyService spotifyService)
+    public HomeController(ILogger<HomeController> logger, ISpotifyService spotifyService, UserManager<IdentityUser> userManager)
     {
         _logger = logger;
         _spotifyService = spotifyService;
+        _userManager = userManager;
     }
 
     public IActionResult Index()
@@ -25,10 +29,6 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
@@ -36,3 +36,6 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
+
+
+
