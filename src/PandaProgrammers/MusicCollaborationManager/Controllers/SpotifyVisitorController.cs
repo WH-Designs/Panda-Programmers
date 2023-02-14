@@ -13,9 +13,9 @@ namespace MusicCollaborationManager.Controllers
     [ApiController]
     public class SpotifyVisitorController : ControllerBase
     {
-        private readonly ISpotifyService _spotifyService;
+        private readonly ISpotifyVisitorService _spotifyService;
 
-        public SpotifyVisitorController(ISpotifyService spotifyService)
+        public SpotifyVisitorController(ISpotifyVisitorService spotifyService)
         {
             _spotifyService = spotifyService;
         }

@@ -39,7 +39,7 @@ public class Program {
             .AddRoles<IdentityRole>()                           //enables roles, ie admin
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
-        builder.Services.AddScoped<ISpotifyService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
+        builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
 
         builder.Services.AddSwaggerGen();
         var app = builder.Build();
