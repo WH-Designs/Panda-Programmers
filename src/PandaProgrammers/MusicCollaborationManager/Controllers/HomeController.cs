@@ -3,13 +3,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicCollaborationManager.Models;
+using MusicCollaborationManager.Services.Abstract;
+using SpotifyAPI.Web.Auth;
+using SpotifyAPI.Web;
+using MusicCollaborationManager.Services.Concrete;
+
 
 namespace MusicCollaborationManager.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly UserManager<IdentityUser> _userManager;
+     private readonly UserManager<IdentityUser> _userManager;
+
     public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
     {
         _logger = logger;
@@ -17,7 +23,7 @@ public class HomeController : Controller
     }
 
     public IActionResult Index()
-    {
+    {    
         return View();
     }
 
