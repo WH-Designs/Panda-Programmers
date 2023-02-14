@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MusicCollaborationManager.Data;
+using MusicCollaborationManager.Services.Concrete;
+using MusicCollaborationManager.Services.Abstract;
+using SpotifyAPI.Web;
 namespace MCM;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +12,17 @@ using MusicCollaborationManager.Models;
 using MusicCollaborationManager.Utilities;
 using System.Runtime.Serialization;
 
-
 public class Program { 
+
+   
+
+  
     public static void Main(string[] args) {
+        
         var builder = WebApplication.CreateBuilder(args);
+
+        string clientID = "3501352792214d5398432642bc300544";
+        string clientSecret = builder.Configuration["SpotifySecret"];
 
         builder.Services.AddControllersWithViews();
         var MCMconnectionString = builder.Configuration.GetConnectionString("MCMConnection");
@@ -29,7 +39,9 @@ public class Program {
             .AddRoles<IdentityRole>()                           //enables roles, ie admin
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
+        builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
 
+        builder.Services.AddSwaggerGen();
         var app = builder.Build();
 
         //After build has been called and before run, configure for auth seed data
@@ -56,6 +68,10 @@ public class Program {
         if (app.Environment.IsDevelopment())
         {
             app.UseMigrationsEndPoint();
+
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
         }
         else
         {
