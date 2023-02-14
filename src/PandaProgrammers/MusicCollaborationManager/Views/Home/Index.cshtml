@@ -4,17 +4,17 @@
 <body class="bg-gray-300">
     <div class="flex flex-row relative">
 
-        <div class="flex flex-row sticky inset-0 top-0 bottom-0 min-w-fit h-full my-3 p-4 bg-gray-800 text-white">
-            <nav id="sidenav" class="h-full bg-gray-800">
-                <ul class="space-y-2 list-outside h-full max-h-full mr-3 w-36 text-left p-5 bg-gray-800">
-                    <li>Settings</li>
-                    <li>Help</li>
-                    <li>Log in</li>
-                </ul>
-            </nav>
-        </div>
+        @*        <div class="flex flex-row fixed inset-0 top-0 bottom-0 min-w-fit h-full my-3 p-4 bg-gray-800 text-white">*@
+        <nav id="sidenav" class="fixed h-full bg-gray-800 text-white">
+            <ul class="space-y-2 list-outside h-full max-h-full mr-3 w-36 text-left p-5 bg-gray-800">
+                <li>Settings</li>
+                <li>Help</li>
+                <li>Log in</li>
+            </ul>
+        </nav>
+        @*      </div>*@
 
-        <div class="flex flex-row">
+        <div class="flex flex-row" style="margin-left:20%;">
             <div class="flex flex-col w-3/4 mx-5">
                 <div>
 
@@ -28,7 +28,7 @@
 
                     <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
                         <h2 class="font-bold mb-5 mt-2 text-white">Top songs</h2>
-                        <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white"/>
+                        <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
                     </div>
                     <div class="columns-5 mb-5 h-full max-h-max">
                         <div class="w-fit overflow-hidden bg-gray-300" id="track-0-container">
