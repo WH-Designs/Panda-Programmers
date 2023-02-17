@@ -52,37 +52,37 @@ public class Program
         builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
         
         builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
-        // builder.Services.AddScoped<SpotifyClientBuilder>();
+        builder.Services.AddScoped<ISpotifyUserService, SpotifyUserService>(s => new SpotifyUserService(clientID, clientSecret));
 
-        builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Spotify", policy =>
-                {
-                    policy.AuthenticationSchemes.Add("Spotify");
-                    policy.RequireAuthenticatedUser();
-                });
-            });
-        builder.Services
-          .AddAuthentication(options =>
-          {
-              options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-          })
-          .AddCookie(options =>
-          {
-              options.ExpireTimeSpan = TimeSpan.FromMinutes(50);
-          })
-          .AddSpotify(options =>
-          {
-              options.ClientId = clientID;
-              options.ClientSecret = clientSecret;
-              options.CallbackPath = "/api/callback"; // endpoint for us to recieve the callback
-              options.SaveTokens = true;
+        // builder.Services.AddAuthorization(options =>
+        //     {
+        //         options.AddPolicy("Spotify", policy =>
+        //         {
+        //             policy.AuthenticationSchemes.Add("Spotify");
+        //             policy.RequireAuthenticatedUser();
+        //         });
+        //     });
+        // builder.Services
+        //   .AddAuthentication(options =>
+        //   {
+        //       options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //   })
+        //   .AddCookie(options =>
+        //   {
+        //       options.ExpireTimeSpan = TimeSpan.FromMinutes(50);
+        //   })
+        //   .AddSpotify(options =>
+        //   {
+        //       options.ClientId = clientID;
+        //       options.ClientSecret = clientSecret;
+        //       options.CallbackPath = "/auth/callback"; // endpoint for us to recieve the callback
+        //       options.SaveTokens = true;
 
-              var scopes = new List<string> {
-                    UserReadEmail, UserReadPrivate, PlaylistReadPrivate, PlaylistReadCollaborative, PlaylistModifyPrivate, PlaylistModifyPublic
-            };
-              options.Scope.Add(string.Join(",", scopes));
-          });
+        //       var scopes = new List<string> {
+        //             UserReadEmail, UserReadPrivate, PlaylistReadPrivate, PlaylistReadCollaborative, PlaylistModifyPrivate, PlaylistModifyPublic
+        //     };
+        //       options.Scope.Add(string.Join(",", scopes));
+        //   });
 
 
 

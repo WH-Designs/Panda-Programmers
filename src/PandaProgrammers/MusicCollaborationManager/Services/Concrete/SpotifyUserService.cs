@@ -17,6 +17,17 @@ namespace MusicCollaborationManager.Services.Abstract
 
 
         public SpotifyUserService(string id, string secret)
-        {}
+        {
+            ClientId = id;
+            ClientSecret = secret;
+
+            Config = SpotifyClientConfig
+              .CreateDefault()
+              .WithAuthenticator(new ClientCredentialsAuthenticator(
+                  ClientId,
+              ClientSecret));
+
+            Spotify = new SpotifyClient(Config);
+        }
     }
 }
