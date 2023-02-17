@@ -1,124 +1,64 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@{
-    Layout = null;
-}
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MusicCollaborationManager</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MusicCollaborationManager.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
-</head>
-
-<body class="flex flex-col bg-gray-300">
-
-
-    <nav id="sidenav" class="fixed h-full bg-gray-800 text-white">
-        <ul class="space-y-2 list-outside h-full max-h-full mr-3 w-36 text-left p-5 bg-gray-800 mt-24">
-            <li>
-                <a asp-controller="Home" asp-action="Index" aria-current="page">Home</a>
-                
-            </li>
-            <li class="space-y-2">
-                <partial name="_LoginPartial" />
-            </li>
-        </ul>
-    </nav>
-
-
-    <div class="flex flex-col">
-
-        <header class="fixed w-full">
-            <nav class="bg-gray-800">
-                <div class="flex flex-row ml-5 gap-x-2.5"> <!--Panda logo-->
-                    <img src="~/img/Panda_Logo.png" class="w-12 h-14 bg-white" alt="Logo">
-                    <p class="text-white self-center">Music Collaboration Manager</p>
+<div class="flex flex-col">
+    <div class="flex flex-row ml-48 mt-36">
+        <div class="flex flex-col w-3/4 mx-5">
+            <div>
+                <h1 class="font-bold text-2xl">Music Collaboration Manager</h1>
+                <p class="my-4 font-sans">
+                    Welcome to Music Collaboration Manager. Here you can interact with your Spotify account to enhance
+                    your listening experience. We provide our own
+                    unique features including custom site themes, a playlist generator, and more.
+                </p>
+            </div>
+            <div class="w-full h-max max-h-max bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
+                <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
+                    <h2 class="font-bold mb-5 mt-2 text-white">Top songs</h2>
+                    <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
                 </div>
-                <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                    <div class="relative flex h-16 items-center justify-between">
-                        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                            <div class="hidden sm:ml-6 sm:block">
-                                <div class="flex space-x-4">
-                                    <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                    @* <a asp-controller="Home" asp-action="Index" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</a>
-                                    <partial name="_LoginPartial" /> *@
-                                </div>
-                            </div>
-                        </div>
+                <div class="columns-5 mb-5 h-full max-h-max">
+                    <div class="w-fit overflow-hidden bg-gray-300" id="track-0-container">
+                    </div>
+                    <div class="w-fit overflow-hidden bg-gray-300" id="track-1-container">
+                    </div>
+                    <div class="w-fit overflow-hidden bg-gray-300" id="track-2-container">
+                    </div>
+                    <div class="w-fit overflow-hidden bg-gray-300" id="track-3-container">
+                    </div>
+                    <div class="w-fit overflow-hidden bg-gray-300" id="track-4-container">
                     </div>
                 </div>
-            </nav>
-        </header>
-
-
-        <div class="flex flex-row ml-48 mt-36">
-                <div class="flex flex-col w-3/4 mx-5">
-                    <div>
-
-                        <h1 class="font-bold text-2xl">Music Collaboration Manager</h1>
-                        <p class="my-4 font-sans">
-                            Welcome to Music Collaboration Manager. Here you can interact with your Spotify account to enhance your listening experience. We provide our own
-                            unique features including custom site themes, a playlist generator, and more.
-                        </p>
-                    </div>
-                    <div class="w-full h-max max-h-max bg-gray-800 my-3 p-3 rounded-lg">
-
-                        <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
-                            <h2 class="font-bold mb-5 mt-2 text-white">Top songs</h2>
-                            <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
-                        </div>
-                        <div class="columns-5 mb-5 h-full max-h-max">
-                            <div class="w-fit overflow-hidden bg-gray-300" id="track-0-container">
-                            </div>
-                            <div class="w-fit overflow-hidden bg-gray-300" id="track-1-container">
-                            </div>
-                            <div class="w-fit overflow-hidden bg-gray-300" id="track-2-container">
-                            </div>
-                            <div class="w-fit overflow-hidden bg-gray-300" id="track-3-container">
-                            </div>
-                            <div class="w-fit overflow-hidden bg-gray-300" id="track-4-container">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="w-full h-max max-h-max bg-gray-800 my-1 p-3 rounded-lg">
-                        <div class="flex flex-row gap-x-3 mt-5">
-                            <h2 class="font-bold mb-5 mt-2 text-white">Top playlists</h2>
-                            <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
-                        </div>
-                        <div class="columns-5 mb-5 h-full max-h-max">
-                            <div class="w-fit bg-gray-300" id="playlist-0-container">
-                            </div>
-                            <div class="w-fit bg-gray-300" id="playlist-1-container">
-                            </div>
-                            <div class="w-fit bg-gray-300" id="playlist-2-container">
-                            </div>
-                            <div class="w-fit bg-gray-300" id="playlist-3-container">
-                            </div>
-                            <div class="w-fit bg-gray-300" id="playlist-4-container">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="flex flex-col w-52 mx-5 text-white">
-                    <div class="w-full bg-gray-800 my-1 p-3 rounded-lg text-center">
-                        <h4 class="font-bold mb-5 mt-2">Playlist generator</h4>
-                    </div>
-
-                </div>
-
             </div>
 
+            <div class="w-full h-max max-h-max bg-gray-800 my-1 p-3 rounded-lg shadow-2xl">
+                <div class="flex flex-row gap-x-3 mt-5">
+                    <h2 class="font-bold mb-5 mt-2 text-white">Top playlists</h2>
+                    <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
+                </div>
+                <div class="columns-5 mb-5 h-full max-h-max">
+                    <div class="w-fit bg-gray-300" id="playlist-0-container">
+                    </div>
+                    <div class="w-fit bg-gray-300" id="playlist-1-container">
+                    </div>
+                    <div class="w-fit bg-gray-300" id="playlist-2-container">
+                    </div>
+                    <div class="w-fit bg-gray-300" id="playlist-3-container">
+                    </div>
+                    <div class="w-fit bg-gray-300" id="playlist-4-container">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col w-52 mx-5 text-white">
+            <div class="w-full bg-gray-800 my-1 p-3 rounded-lg text-center">
+                <h4 class="font-bold mb-5 mt-2">Playlist generator</h4>
+            </div>
+        </div>
     </div>
+</div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="~/js/landing.js"></script>
-
-</body>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/js/landing.js"></script>
