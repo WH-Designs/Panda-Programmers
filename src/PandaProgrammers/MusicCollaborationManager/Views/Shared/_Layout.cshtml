@@ -29,26 +29,20 @@
             </div>
         </nav>
     </header>*@
+    <div class="flex fixed w-screen flex-row-reverse text-white shadow-lg bg-gray-800 h-28">
+        <img src="~/img/Panda_Logo.png" class="w-24 h-24 mr-4 bg-white self-center" alt="Logo">
+        <h1 class="text-white self-center mr-4 text-2xl">Music Collaboration Manager</h1>
+    </div>
+    <nav class="fixed top-5 left-0 h-screen w-48 m-0 flex flex-col text-white shadow-lg bg-gray-800 items-center">
+        <ul class="mt-24 text-center">
+            <li class="py-5 top-4 fixed -ml-16">
+                <a asp-controller="Home" asp-action="Index" class="bg-gray-900 text-white py-2 rounded-md text-4xl hover:bg-gray-700 px-4 border-b-4 border-gray-600" aria-current="page">Home</a>
+            </li>
+            <partial name="_LoginPartial" />
+        </ul>
+    </nav>
 
-    <header>
-        <nav class="bg-gray-800">
-            <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                <div class="relative flex h-16 items-center justify-between">
-                    <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <div class="hidden sm:ml-6 sm:block">
-                            <div class="flex space-x-4">
-                                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                <a asp-controller="Home" asp-action="Index" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</a>
-                                <partial name="_LoginPartial" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div class="container">
+    <div class="flex">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
