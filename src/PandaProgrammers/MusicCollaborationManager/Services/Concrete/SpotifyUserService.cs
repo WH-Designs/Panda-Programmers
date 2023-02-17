@@ -12,22 +12,33 @@ namespace MusicCollaborationManager.Services.Abstract
     {
         public static string ClientId { get; set; }
         public static string ClientSecret { get; set; }
-        private static SpotifyClientConfig Config { get; set; }
-        private static SpotifyClient Spotify { get; set; }
-
 
         public SpotifyUserService(string id, string secret)
         {
-            ClientId = id;
-            ClientSecret = secret;
+            // ClientId = id;
+            // ClientSecret = secret;
 
-            Config = SpotifyClientConfig
-              .CreateDefault()
-              .WithAuthenticator(new ClientCredentialsAuthenticator(
-                  ClientId,
-              ClientSecret));
-
-            Spotify = new SpotifyClient(Config);
+            // var loginRequest = new LoginRequest(new Uri("http://localhost:5191"), ClientId, LoginRequest.ResponseType.Code)
+            // {
+            //     Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative }
+            // };
+            
+            // var uri = loginRequest.ToUri();
         }
+
+        // public async Task GetCallback(string new_code)
+        // {
+
+        //     Uri uri = new Uri("http://localhost:5191");
+        //     var response = await new OAuthClient().RequestToken(
+        //         new AuthorizationCodeTokenRequest(ClientId, ClientSecret, new_code, uri)
+        //     );
+
+        //     var config = SpotifyClientConfig
+        //         .CreateDefault()
+        //         .WithAuthenticator(new AuthorizationCodeAuthenticator(ClientId, ClientSecret, response));
+
+        //     var spotify = new SpotifyClient(config);
+        // }
     }
 }

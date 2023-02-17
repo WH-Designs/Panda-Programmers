@@ -7,6 +7,7 @@ using MusicCollaborationManager.Services.Abstract;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web;
 using MusicCollaborationManager.Services.Concrete;
+using MusicCollaborationManager.Models.DTO;
 
 
 namespace MusicCollaborationManager.Controllers;
@@ -15,13 +16,13 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly ISpotifyUserService _spotifyUserService;
+    private readonly SpotifyClientBuilder _spotifyClientBuilder;
 
-    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, ISpotifyUserService spotifyService)
+    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SpotifyClientBuilder spotifyClientBuilder)
     {
         _logger = logger;
         _userManager = userManager;
-        _spotifyUserService = spotifyService;
+        _spotifyClientBuilder = spotifyClientBuilder;
     }
 
     public IActionResult Index()
@@ -29,17 +30,13 @@ public class HomeController : Controller
         return View();
     }
 
-
-    [HttpPost]
-    public IActionResult SpotifyRedirect()
+    [HttpGet]
+    public async Task<UserProfileDTO> UserPage()
     {
-        var loginRequest = new LoginRequest(new Uri("http://localhost:5191/auth/callback"), "ClientId", LoginRequest.ResponseType.Code)
-        {
-            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadEmail }
-        };
-
-        var uri = loginRequest.ToUri();
-        return View(uri);
+        UserProfileDTO this_user = new UserProfileDTO();
+        var spotify = await _spotifyClientBuilder.BuildClient();
+        this_user.Me = await spotify.UserProfile.Current();
+        return this_user;
     }
 
 

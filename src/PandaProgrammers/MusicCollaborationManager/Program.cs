@@ -50,39 +50,43 @@ public class Program
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
         builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
-        
-        builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
         builder.Services.AddScoped<ISpotifyUserService, SpotifyUserService>(s => new SpotifyUserService(clientID, clientSecret));
+        
+        
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
+        builder.Services.AddScoped<SpotifyClientBuilder>();
 
-        // builder.Services.AddAuthorization(options =>
-        //     {
-        //         options.AddPolicy("Spotify", policy =>
-        //         {
-        //             policy.AuthenticationSchemes.Add("Spotify");
-        //             policy.RequireAuthenticatedUser();
-        //         });
-        //     });
-        // builder.Services
-        //   .AddAuthentication(options =>
-        //   {
-        //       options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        //   })
-        //   .AddCookie(options =>
-        //   {
-        //       options.ExpireTimeSpan = TimeSpan.FromMinutes(50);
-        //   })
-        //   .AddSpotify(options =>
-        //   {
-        //       options.ClientId = clientID;
-        //       options.ClientSecret = clientSecret;
-        //       options.CallbackPath = "/auth/callback"; // endpoint for us to recieve the callback
-        //       options.SaveTokens = true;
+        builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Spotify", policy =>
+                {
+                    policy.AuthenticationSchemes.Add("Spotify");
+                    policy.RequireAuthenticatedUser();
+                });
+            });
+        
+        builder.Services
+          .AddAuthentication(options =>
+          {
+              options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+          })
+          .AddCookie(options =>
+          {
+              options.ExpireTimeSpan = TimeSpan.FromMinutes(50);
+          })
+          .AddSpotify(options =>
+          {
+              options.ClientId = clientID;
+              options.ClientSecret = clientSecret;
+              options.CallbackPath = "/auth/callback"; // endpoint for us to recieve the callback
+              options.SaveTokens = true;
 
-        //       var scopes = new List<string> {
-        //             UserReadEmail, UserReadPrivate, PlaylistReadPrivate, PlaylistReadCollaborative, PlaylistModifyPrivate, PlaylistModifyPublic
-        //     };
-        //       options.Scope.Add(string.Join(",", scopes));
-        //   });
+              var scopes = new List<string> {
+                    UserReadEmail, UserReadPrivate, PlaylistReadPrivate, PlaylistReadCollaborative, PlaylistModifyPrivate, PlaylistModifyPublic
+            };
+              options.Scope.Add(string.Join(",", scopes));
+          });
 
 
 
@@ -129,7 +133,6 @@ public class Program
         app.UseStaticFiles();
 
         app.UseRouting();
-
         app.UseAuthorization();
 
         app.MapControllerRoute(
