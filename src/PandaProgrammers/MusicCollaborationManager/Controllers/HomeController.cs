@@ -33,7 +33,7 @@ public class HomeController : Controller
     [HttpGet]
     public async Task<UserProfileDTO> UserPage()
     {
-        UserProfileDTO this_user = new UserProfileDTO();
+        UserProfileDTO this_user = new UserProfileDTO(_spotifyClientBuilder);
         var spotify = await _spotifyClientBuilder.BuildClient();
         this_user.Me = await spotify.UserProfile.Current();
         return this_user;

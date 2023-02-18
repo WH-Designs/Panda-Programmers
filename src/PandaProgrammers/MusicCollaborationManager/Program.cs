@@ -51,8 +51,8 @@ public class Program
         builder.Services.AddControllersWithViews();
         builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
         builder.Services.AddScoped<ISpotifyUserService, SpotifyUserService>(s => new SpotifyUserService(clientID, clientSecret));
-        
-        
+
+
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
         builder.Services.AddScoped<SpotifyClientBuilder>();
@@ -65,7 +65,7 @@ public class Program
                     policy.RequireAuthenticatedUser();
                 });
             });
-        
+
         builder.Services
           .AddAuthentication(options =>
           {
@@ -87,8 +87,11 @@ public class Program
             };
               options.Scope.Add(string.Join(",", scopes));
           });
-
-
+        builder.Services.AddRazorPages()
+            .AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizeFolder("/Views/Home", "Spotify");
+            });
 
         builder.Services.AddSwaggerGen();
         var app = builder.Build();
@@ -129,16 +132,21 @@ public class Program
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
+        app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+            });
 
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
-        app.MapRazorPages();
 
         app.Run();
 
