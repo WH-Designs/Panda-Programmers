@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using SpotifyAPI.Web;
 
-// this is what the service is
-
 namespace MusicCollaborationManager.Services.Concrete
 {
     public class SpotifyClientBuilder

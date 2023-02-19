@@ -50,48 +50,11 @@ public class Program
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
         builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
-        builder.Services.AddScoped<ISpotifyUserService, SpotifyUserService>(s => new SpotifyUserService(clientID, clientSecret));
-
+        builder.Services.AddScoped<SpotifyAuthService>(s => new SpotifyAuthService(clientID, clientSecret));
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
         builder.Services.AddScoped<SpotifyClientBuilder>();
-
-        builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Spotify", policy =>
-                {
-                    policy.AuthenticationSchemes.Add("Spotify");
-                    policy.RequireAuthenticatedUser();
-                });
-            });
-
-        builder.Services
-          .AddAuthentication(options =>
-          {
-              options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-          })
-          .AddCookie(options =>
-          {
-              options.ExpireTimeSpan = TimeSpan.FromMinutes(50);
-          })
-          .AddSpotify(options =>
-          {
-              options.ClientId = clientID;
-              options.ClientSecret = clientSecret;
-              options.CallbackPath = "/auth/callback"; // endpoint for us to recieve the callback
-              options.SaveTokens = true;
-
-              var scopes = new List<string> {
-                    UserReadEmail, UserReadPrivate, PlaylistReadPrivate, PlaylistReadCollaborative, PlaylistModifyPrivate, PlaylistModifyPublic
-            };
-              options.Scope.Add(string.Join(",", scopes));
-          });
-        builder.Services.AddRazorPages()
-            .AddRazorPagesOptions(options =>
-            {
-                options.Conventions.AuthorizeFolder("/Views/Home", "Spotify");
-            });
 
         builder.Services.AddSwaggerGen();
         var app = builder.Build();
@@ -139,15 +102,11 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapRazorPages();
-            });
-
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
-
+        
+        app.MapRazorPages();
         app.Run();
 
     }
