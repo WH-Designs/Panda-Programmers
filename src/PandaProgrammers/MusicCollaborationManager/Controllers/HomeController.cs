@@ -32,10 +32,18 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult callback()
+    public IActionResult callforward()
     {
         String uri = _spotifyService.GetUri();
         return Redirect(uri);
+    }
+
+    public async Task<IActionResult> callback(string code)
+    {
+        AuthorizedUserDTO authUser = new AuthorizedUserDTO();
+        var user = await _spotifyService.GetCallback(code);
+        authUser.Me = user;
+        return View("UserPage", authUser);
     }
 
     public IActionResult UserPage()

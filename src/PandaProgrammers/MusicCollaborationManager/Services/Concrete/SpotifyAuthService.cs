@@ -33,9 +33,9 @@ namespace MusicCollaborationManager.Services.Concrete
             return uri.AbsoluteUri;
         }
 
-        public async Task GetCallback(string code)
+        public async Task<PrivateUser> GetCallback(string code)
         {
-            Uri uri = new Uri("http://localhost:5000/home/UserPage");
+            Uri uri = new Uri("http://localhost:5000/home/callback");
             var response = await new OAuthClient().RequestToken(new AuthorizationCodeTokenRequest(ClientId, ClientSecret, code, uri));
             var config = SpotifyClientConfig
                 .CreateDefault()
@@ -43,6 +43,8 @@ namespace MusicCollaborationManager.Services.Concrete
 
             var authenticatedSpotify = new SpotifyClient(config);
             var user = authenticatedSpotify.UserProfile.Current();
+
+            return await user;
         }
     }
 }
