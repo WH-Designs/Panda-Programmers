@@ -11,23 +11,33 @@ using MusicCollaborationManager.Data;
 using MusicCollaborationManager.Models;
 using MusicCollaborationManager.Utilities;
 using System.Runtime.Serialization;
+using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using static SpotifyAPI.Web.Scopes;
 
-public class Program { 
+public class Program
+{
 
-   
+    public static void Main(string[] args)
+    {
 
-  
-    public static void Main(string[] args) {
-        
         var builder = WebApplication.CreateBuilder(args);
 
-        string clientID = "3501352792214d5398432642bc300544";
+        string clientID = builder.Configuration["SpotifyClientID"];
         string clientSecret = builder.Configuration["SpotifySecret"];
 
         builder.Services.AddControllersWithViews();
         var MCMconnectionString = builder.Configuration.GetConnectionString("MCMConnection");
         builder.Services.AddDbContext<MCMDbContext>(options => options
-                                    .UseLazyLoadingProxies()   
+                                    .UseLazyLoadingProxies()
                                     .UseSqlServer(MCMconnectionString));
 
         var connectionString = builder.Configuration.GetConnectionString("AuthenticationConnection") ?? throw new InvalidOperationException("Connection string 'AuthenticationConnection' not found.");
@@ -40,6 +50,11 @@ public class Program {
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
         builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
+        builder.Services.AddScoped<SpotifyAuthService>(s => new SpotifyAuthService(clientID, clientSecret));
+
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
+        builder.Services.AddScoped<SpotifyClientBuilder>();
 
         builder.Services.AddSwaggerGen();
         var app = builder.Build();
@@ -69,9 +84,9 @@ public class Program {
         {
             app.UseMigrationsEndPoint();
 
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI();
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
         else
         {
@@ -80,18 +95,18 @@ public class Program {
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
-
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
+        
         app.MapRazorPages();
-
         app.Run();
 
     }
