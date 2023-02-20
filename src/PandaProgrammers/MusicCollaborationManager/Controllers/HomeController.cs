@@ -49,7 +49,7 @@ public class HomeController : Controller
         //     authUser.Playlists.Add(item);
         // }
 
-        return View("Index");
+        return View("UserPage");
     }
 
     public IActionResult UserPage()
