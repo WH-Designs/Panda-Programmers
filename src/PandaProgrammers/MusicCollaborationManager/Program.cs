@@ -38,6 +38,7 @@ public class Program {
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
 
+        builder.Services.AddScoped<DbContext, MCMDbContext>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         builder.Services.AddScoped<IListenerRepository, ListenerRepository>();
 
