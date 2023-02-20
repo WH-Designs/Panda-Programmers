@@ -1,0 +1,24 @@
+@* @model MusicCollaborationManager.Models.DTO.AuthorizedUserDTO; *@
+@{
+    ViewData["Title"] = "User Page";
+}
+
+<div id='display-name-div'>
+
+</div>
+@* <h1 class="flex flex-col items-center justify-center h-screen w-screen" id='auth-display-name'></h1>  *@
+@* @Model.Me.DisplayName *@
+@* <h1 class="flex flex-col items-center justify-center">@Model.Me.Followers.Total</h1>
+<div class='flex flex-col items-center justify-center'>
+    @foreach (var item in @Model.Playlists){
+        <h1>@item.Name</h1>
+        <h1>@item.Description</h1>
+    }   
+
+</div> *@
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/js/userpage.js"></script>
+
+
