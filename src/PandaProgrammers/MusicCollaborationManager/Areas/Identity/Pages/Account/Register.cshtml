@@ -4,72 +4,48 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+<div class="flex flex-col items-center justify-center h-screen w-screen bg-gray-300"> <!-- Form Container -->
+    <h1 class="text-4xl pb-3">Create a new account</h1>
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="w-full max-w-2xl bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div asp-validation-summary="ModelOnly" role="alert" class="text-red-500 text-sm"></div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3"> <!-- Email Container -->
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" asp-for="Input.Email">Email</label>
+                <input asp-for="Input.Email" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" autocomplete="username" aria-required="true"
+                    placeholder="name@example.com" />
+                <span asp-validation-for="Input.Email" class="text-red-500 text-sm"></span>
             </div>
-            <div>
-                <label asp-for="Input.FirstName"></label>
-                <input asp-for="Input.FirstName"/>
-                <span asp-validation-for="Input.FirstName"></span>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6"> <!-- Name Inputs -->
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0"> <!-- First Name Container -->
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" asp-for="Input.FirstName"></label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" asp-for="Input.FirstName" placeholder="First Name"/>
+                <span asp-validation-for="Input.FirstName" class="text-red-500 text-sm"></span>
             </div>
-            <div>
-                <label asp-for="Input.LastName"></label>
-                <input asp-for="Input.LastName" />
-                <span asp-validation-for="Input.LastName"></span>
+            <div class="w-full md:w-1/2 px-3"> <!-- Last Name Container -->
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" asp-for="Input.LastName"></label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" asp-for="Input.LastName" placeholder="Last Name"/>
+                <span asp-validation-for="Input.LastName" class="text-red-500 text-sm"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" asp-for="Input.Password">Password</label>
+                <input asp-for="Input.Password" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" autocomplete="new-password" aria-required="true"
+                    placeholder="Password!1" />
+                <span asp-validation-for="Input.Password" class="text-red-500 text-sm"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <input asp-for="Input.ConfirmPassword" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" autocomplete="new-password" aria-required="true"
+                    placeholder="Password!1" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-red-500 text-sm"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
+        </div>
+        <button id="registerSubmit" type="submit" class="w-full flex-shrink-0 bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 border-b-4 border-gray-900 hover:border-gray-700 rounded">Register</button>
+    </form>
 </div>
 
 @section Scripts {
