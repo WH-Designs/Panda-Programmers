@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MusicCollaborationManager.DAL.Abstract;
+using MusicCollaborationManager.DAL.Concrete;
 using MusicCollaborationManager.Data;
 using MusicCollaborationManager.Services.Concrete;
 using MusicCollaborationManager.Services.Abstract;
@@ -10,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using MusicCollaborationManager.Data;
 using MusicCollaborationManager.Models;
 using MusicCollaborationManager.Utilities;
+using Reminders.DAL.Abstract;
+using Reminders.DAL.Concrete;
 using System.Runtime.Serialization;
 
 public class Program { 
@@ -33,6 +37,10 @@ public class Program {
         var connectionString = builder.Configuration.GetConnectionString("AuthenticationConnection") ?? throw new InvalidOperationException("Connection string 'AuthenticationConnection' not found.");
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
+
+        builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        builder.Services.AddScoped<IListenerRepository, ListenerRepository>();
+
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
