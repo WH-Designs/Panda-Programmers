@@ -20,11 +20,11 @@ namespace MusicCollaborationManager.Controllers
             _spotifyService = spotifyService;
         }
 
-        // [HttpGet("authuser")]
-        // public async Task<PrivateUser> callback(string code)
-        // {
-        //     var user = await _spotifyService.GetCallback(code);
-        //     return user;
-        // } 
+        [HttpGet("authuser")]
+        public async Task<PrivateUser> GetAuthUser()
+        {
+            PrivateUser CurrentUser = await _spotifyService.GetAuthUser();
+            return CurrentUser;
+        }        
     }
 }

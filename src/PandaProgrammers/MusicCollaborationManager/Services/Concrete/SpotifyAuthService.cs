@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SpotifyAPI.Web.Auth;
 using Microsoft.AspNetCore.Authentication;
 using System.Diagnostics;
+using MusicCollaborationManager.Models.DTO;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -14,6 +15,7 @@ namespace MusicCollaborationManager.Services.Concrete
         public static string ClientSecret { get; set; }
         private static SpotifyClientConfig Config { get; set; }
         private static SpotifyClient Spotify { get; set; }
+        public AuthorizedUserDTO authUser { get; set; }
 
 
         public SpotifyAuthService(string id, string secret)
@@ -33,7 +35,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return uri.AbsoluteUri;
         }
 
-        public async Task<PrivateUser> GetCallback(string code)
+        public async Task<SpotifyClient> GetCallback(string code)
         {
             Uri uri = new Uri("http://localhost:5000/home/callback");
             var response = await new OAuthClient().RequestToken(new AuthorizationCodeTokenRequest(ClientId, ClientSecret, code, uri));
@@ -42,9 +44,24 @@ namespace MusicCollaborationManager.Services.Concrete
                 .WithAuthenticator(new AuthorizationCodeAuthenticator(ClientId, ClientSecret, response));
 
             var authenticatedSpotify = new SpotifyClient(config);
-            var user = authenticatedSpotify.UserProfile.Current();
+            Spotify = authenticatedSpotify;
 
-            return await user;
+            // var user = authenticatedSpotify.UserProfile.Current();
+            // var user_playlists = authenticatedSpotify.Playlists.CurrentUsers();
+            // var user_playlists_and_information = (user, user_playlists);
+
+            return authenticatedSpotify;
         }
+
+        public async Task<PrivateUser> GetAuthUser()
+        {
+            return await Spotify.UserProfile.Current();
+        }
+
+        // public async Task GetCurrentDisplayName(); 
+        // {
+        //     //authUser.Me = await Spotify.UserProfile.Current();
+        //     return null
+        // }
     }
 }

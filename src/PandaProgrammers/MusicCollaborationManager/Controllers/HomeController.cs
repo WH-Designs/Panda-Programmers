@@ -41,9 +41,15 @@ public class HomeController : Controller
     public async Task<IActionResult> callback(string code)
     {
         AuthorizedUserDTO authUser = new AuthorizedUserDTO();
-        var user = await _spotifyService.GetCallback(code);
-        authUser.Me = user;
-        return View("UserPage", authUser);
+        authUser.AuthClient = await _spotifyService.GetCallback(code);
+        // authUser.Me = await authUser.AuthClient.UserProfile.Current();
+        // authUser.Playlists = new List<SimplePlaylist>();
+        // SpotifyAPI.Web.Paging<SimplePlaylist> playlist_page = await authUser.AuthClient.Playlists.GetUsers(authUser.Me.Id);
+        // foreach (var item in playlist_page.Items){
+        //     authUser.Playlists.Add(item);
+        // }
+
+        return View("Index");
     }
 
     public IActionResult UserPage()
