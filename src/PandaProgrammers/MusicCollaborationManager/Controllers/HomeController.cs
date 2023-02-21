@@ -42,19 +42,8 @@ public class HomeController : Controller
     {
         AuthorizedUserDTO authUser = new AuthorizedUserDTO();
         authUser.AuthClient = await _spotifyService.GetCallback(code);
-        // authUser.Me = await authUser.AuthClient.UserProfile.Current();
-        // authUser.Playlists = new List<SimplePlaylist>();
-        // SpotifyAPI.Web.Paging<SimplePlaylist> playlist_page = await authUser.AuthClient.Playlists.GetUsers(authUser.Me.Id);
-        // foreach (var item in playlist_page.Items){
-        //     authUser.Playlists.Add(item);
-        // }
 
-        return View("UserPage");
-    }
-
-    public IActionResult UserPage()
-    {
-        return View();
+        return View("Index");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
