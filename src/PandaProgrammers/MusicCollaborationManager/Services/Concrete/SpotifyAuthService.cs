@@ -77,5 +77,9 @@ namespace MusicCollaborationManager.Services.Concrete
 
             return topTracksList;
         }
+        public async Task<FeaturedPlaylistsResponse> GetPersonalizedRecommenedForUser()
+        {
+            return await Spotify.Browse.GetFeaturedPlaylists();
+        }
     }
 }
