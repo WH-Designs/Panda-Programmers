@@ -18,7 +18,7 @@ $(function () {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/api/spotifyauth/authplaylists",
+        url: "/api/SpotifyAuth/authplaylists",
         success: getRecomPlaylists,
         error: errorOnAjax
     });
@@ -31,14 +31,14 @@ function errorOnAjax() {
 
 function getAuthUser(data)
 {
-    console.log(data);
+    /*console.log(data);*/
     let htmlDisplayName = `<h1 class="flex flex-col items-center justify-center h-screen w-screen">${data["displayName"]}</h1> `
     $("#display-name-div").append(htmlDisplayName);
 }
 
 function getAuthTopTracks(data)
 {
-    console.log(data);
+  /*  console.log(data);*/
 
     $.each(data, function (index, item) {
         let trackName = `<a href="${item["externalUrls"]["spotify"]}">${item["name"]}</a>`;
@@ -52,6 +52,7 @@ function getAuthTopTracks(data)
 }
 
 function getRecomPlaylists(data) {
+
     $.each(data, function (index, item) {
 
         let playlistImage = `<img src="${item["playlistImageURL"]}">`;
