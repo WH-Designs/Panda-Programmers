@@ -8,6 +8,7 @@ using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web;
 using MusicCollaborationManager.Services.Concrete;
 using MusicCollaborationManager.Models.DTO;
+using System.Web;
 
 
 namespace MusicCollaborationManager.Controllers;
@@ -42,6 +43,10 @@ public class HomeController : Controller
     {
         AuthorizedUserDTO authUser = new AuthorizedUserDTO();
         authUser.AuthClient = await _spotifyService.GetCallback(code);
+        //database saved spotify user id == new user id?
+        //if not : give a logout of spotify<--
+        //if is proceed:
+        //logout of spotify elsewhere
 
         return RedirectToAction("Index", "Listener");
     }
