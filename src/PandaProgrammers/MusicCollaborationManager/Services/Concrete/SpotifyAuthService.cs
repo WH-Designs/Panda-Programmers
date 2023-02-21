@@ -77,9 +77,26 @@ namespace MusicCollaborationManager.Services.Concrete
 
             return topTracksList;
         }
-        public async Task<FeaturedPlaylistsResponse> GetPersonalizedRecommenedForUser()
+        public async Task<FeaturedPlaylistsResponse> GetAuthFeatPlaylists()
         {
-            return await Spotify.Browse.GetFeaturedPlaylists();
+            PrivateUser CurUser = await Spotify.UserProfile.Current();
+            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
+            {
+                Limit = 5,
+                Country = CurUser.Country,
+            };
+
+            if (CurUser.Country == "US")
+                RequestParameters.Limit = 10;
+
+            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
+            
+            if (CurUser.Country == "US") 
+                FeaturedPlaylists.Playlists.Items.Reverse();
+
+            return FeaturedPlaylists;
         }
+
+        
     }
 }

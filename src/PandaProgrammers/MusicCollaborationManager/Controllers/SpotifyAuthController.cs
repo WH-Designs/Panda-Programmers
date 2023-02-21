@@ -35,9 +35,9 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [HttpGet("authplaylists")]
-        public async Task<List<VisitorPlaylistDTO>> GetRecommenedForUser()
+        public async Task<List<VisitorPlaylistDTO>> GetAuthFeatPlaylist()
         {
-            var playlists = await _spotifyService.GetPersonalizedRecommenedForUser();
+            var playlists = await _spotifyService.GetAuthFeatPlaylists();
             List<VisitorPlaylistDTO> PlaylistsToReturn = new List<VisitorPlaylistDTO>();
 
 
