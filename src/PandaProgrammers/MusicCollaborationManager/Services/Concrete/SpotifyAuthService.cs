@@ -58,6 +58,23 @@ namespace MusicCollaborationManager.Services.Concrete
         {
             var topTracks = await Spotify.Personalization.GetTopTracks();
             var topTracksList = topTracks.Items;
+
+            if (topTracksList.Count == 0) {
+                List<string> trackIDs = new List<string>();
+
+                trackIDs.Add("4cktbXiXOapiLBMprHFErI");
+                trackIDs.Add("6KBYk8OFtod7brGuZ3Y67q");
+                trackIDs.Add("2iuZJX9X9P0GKaE93xcPjk");
+                trackIDs.Add("5zFglKYiknIxks8geR8rcL");
+                trackIDs.Add("0tuyEYTaqLxE41yGHSsXjy");
+                
+                TracksRequest trackReq = new TracksRequest(trackIDs);
+
+                var topGenTracks = await Spotify.Tracks.GetSeveral(trackReq);
+                var returnTracks = topGenTracks.Tracks.ToList();
+                return returnTracks;
+            }
+
             return topTracksList;
         }
     }

@@ -31,6 +31,7 @@ function getAuthUser(data)
 function getAuthTopTracks(data)
 {
     console.log(data);
+
     $.each(data, function (index, item) {
         let trackName = `<a href="${item["externalUrls"]["spotify"]}">${item["name"]}</a>`;
         let artistName = `<p>${item["artists"][0]["name"]}</p>`;
