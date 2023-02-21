@@ -7,7 +7,7 @@ using Reminders.DAL.Concrete;
 
 namespace MusicCollaborationManager.DAL.Concrete;
 
-class ListenerRepository : Repository<Listener>, IListenerRepository
+public class ListenerRepository : Repository<Listener>, IListenerRepository
 {
     public ListenerRepository(DbContext ctx) : base(ctx)
     {
