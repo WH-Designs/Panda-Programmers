@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,26 +10,8 @@
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
-@*    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MusicCollaborationManager</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>*@
     <div class="flex fixed w-screen flex-row-reverse text-white shadow-lg bg-gray-800 h-28">
         <img src="~/img/Panda_Logo.png" class="w-24 h-24 mr-4 bg-white self-center" alt="Logo">
         <h1 class="text-white self-center mr-4 text-2xl">Music Collaboration Manager</h1>
@@ -36,7 +19,12 @@
     <nav class="fixed top-5 left-0 h-screen w-48 m-0 flex flex-col text-white shadow-lg bg-gray-800 items-center">
         <ul class="mt-24 text-center">
             <li class="py-5 top-4 fixed -ml-16">
-                <a asp-controller="Home" asp-action="Index" class="bg-gray-900 text-white py-2 rounded-md text-4xl hover:bg-gray-700 px-4 border-b-4 border-gray-600" aria-current="page">Home</a>
+                <a asp-controller="Home" asp-action="Index"
+                    class="bg-gray-900 text-white py-2 rounded-md text-4xl hover:bg-gray-700 px-4 border-b-4 border-gray-600"
+                    aria-current="page">Home</a>
+                <a asp-controller="Listener" asp-action="Index"
+                    class="bg-gray-900 text-white py-2 rounded-md text-4xl hover:bg-gray-700 px-4 border-b-4 border-gray-600"
+                    aria-current="page">Dashboard</a>
             </li>
             <partial name="_LoginPartial" />
         </ul>
@@ -50,6 +38,8 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/landing.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
