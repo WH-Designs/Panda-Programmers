@@ -30,7 +30,7 @@ namespace MusicCollaborationManager.Services.Concrete
             Spotify = new SpotifyClient(Config);
         }
 
-        public static async Task<ArtistsTopTracksResponse> GetVisitorTracks(string artistId, string tracksFromRegion)
+        public async Task<ArtistsTopTracksResponse> GetVisitorTracks(string artistId, string tracksFromRegion)
         {
             ArtistsTopTracksRequest RequestParameters = new ArtistsTopTracksRequest(tracksFromRegion);
 
@@ -38,7 +38,7 @@ namespace MusicCollaborationManager.Services.Concrete
         }
 
 
-        public static async Task<FeaturedPlaylistsResponse> GetVisitorPlaylists()
+        public async Task<FeaturedPlaylistsResponse> GetVisitorPlaylists()
         {
             FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
             {
