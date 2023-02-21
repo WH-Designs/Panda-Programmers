@@ -14,6 +14,14 @@ $(function () {
         success: getAuthTopTracks,
         error: errorOnAjax
     });
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/api/spotifyauth/authplaylists",
+        success: getRecomPlaylists,
+        error: errorOnAjax
+    });
 });
 
 
@@ -40,5 +48,17 @@ function getAuthTopTracks(data)
         $(trackImage).appendTo(`#user-track-${index}-container`);
         $(trackName).appendTo(`#user-track-${index}-container`);
         $(artistName).appendTo(`#user-track-${index}-container`);
+    });
+}
+
+function getRecomPlaylists(data) {
+    $.each(data, function (index, item) {
+
+        let playlistImage = `<img src="${item["playlistImageURL"]}">`;
+        $(playlistImage).appendTo(`#user-playlist-${index}-container`);
+
+        let playlistName = `<a href="${item["spotifyToPlaylist"]}">${item["playlistName"]}</a>`;
+        $(playlistName).appendTo(`#user-playlist-${index}-container`);
+
     });
 }
