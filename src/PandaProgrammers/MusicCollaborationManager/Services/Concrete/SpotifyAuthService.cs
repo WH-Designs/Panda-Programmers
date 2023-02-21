@@ -16,17 +16,19 @@ namespace MusicCollaborationManager.Services.Concrete
         private static SpotifyClientConfig Config { get; set; }
         private static SpotifyClient Spotify { get; set; }
         public AuthorizedUserDTO authUser { get; set; }
+        public string Uri { get; set; }
 
 
-        public SpotifyAuthService(string id, string secret)
+        public SpotifyAuthService(string id, string secret, string redirect)
         {
             ClientId = id;
             ClientSecret = secret;
+            Uri = redirect;
         }
 
         public string GetUri(){
             var loginRequest = new LoginRequest(
-            new Uri("http://localhost:5000/home/callback"), ClientId, LoginRequest.ResponseType.Code)
+            new Uri(Uri), ClientId, LoginRequest.ResponseType.Code)
             {
             Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead}
             };
@@ -37,7 +39,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
         public async Task<SpotifyClient> GetCallback(string code)
         {
-            Uri uri = new Uri("http://localhost:5000/home/callback");
+            Uri uri = new Uri(Uri);
             var response = await new OAuthClient().RequestToken(new AuthorizationCodeTokenRequest(ClientId, ClientSecret, code, uri));
             var config = SpotifyClientConfig
                 .CreateDefault()

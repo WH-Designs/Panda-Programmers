@@ -37,6 +37,7 @@ public class Program
 
         string clientID = builder.Configuration["SpotifyClientID"];
         string clientSecret = builder.Configuration["SpotifySecret"];
+        string redirectUri = builder.Configuration["RedirectUri"];
 
         builder.Services.AddControllersWithViews();
         var MCMconnectionString = builder.Configuration.GetConnectionString("MCMConnection");
@@ -59,7 +60,7 @@ public class Program
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
         builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
-        builder.Services.AddScoped<SpotifyAuthService>(s => new SpotifyAuthService(clientID, clientSecret));
+        builder.Services.AddScoped<SpotifyAuthService>(s => new SpotifyAuthService(clientID, clientSecret, redirectUri));
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
