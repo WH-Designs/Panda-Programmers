@@ -43,7 +43,7 @@ public class HomeController : Controller
         AuthorizedUserDTO authUser = new AuthorizedUserDTO();
         authUser.AuthClient = await _spotifyService.GetCallback(code);
 
-        return View("Index");
+        return RedirectToAction("Index", "Listener");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
