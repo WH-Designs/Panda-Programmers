@@ -4,10 +4,10 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="py-5 bottom-21 fixed text-xl -ml-20">
+    @* <li class="py-5 bottom-21 fixed text-xl -ml-20">
         <h2 class="text-white text-center">Hello</h2>
         <a class="text-white text-center" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity?.Name!</a>
-    </li>
+    </li> *@
     <li class="py-5 bottom-20 fixed -ml-16">
         <form action='http://localhost:5000/home/callforward'>
             <button type='submit' class="bg-gray-900 text-white px-4 border-b-4 py-2 rounded-md text-2xl hover:bg-green-700 ml-2 border-green-600">Spotify</button>

@@ -28,7 +28,7 @@ namespace MusicCollaborationManager.Services.Concrete
             var loginRequest = new LoginRequest(
             new Uri("http://localhost:5000/home/callback"), ClientId, LoginRequest.ResponseType.Code)
             {
-            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate }
+            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead}
             };
             var uri = loginRequest.ToUri();
             
@@ -46,10 +46,6 @@ namespace MusicCollaborationManager.Services.Concrete
             var authenticatedSpotify = new SpotifyClient(config);
             Spotify = authenticatedSpotify;
 
-            // var user = authenticatedSpotify.UserProfile.Current();
-            // var user_playlists = authenticatedSpotify.Playlists.CurrentUsers();
-            // var user_playlists_and_information = (user, user_playlists);
-
             return authenticatedSpotify;
         }
 
@@ -58,10 +54,11 @@ namespace MusicCollaborationManager.Services.Concrete
             return await Spotify.UserProfile.Current();
         }
 
-        // public async Task GetCurrentDisplayName(); 
-        // {
-        //     //authUser.Me = await Spotify.UserProfile.Current();
-        //     return null
-        // }
+        public async Task<List<FullTrack>> GetAuthUserTopTracks()
+        {
+            var topTracks = await Spotify.Personalization.GetTopTracks();
+            var topTracksList = topTracks.Items;
+            return topTracksList;
+        }
     }
 }
