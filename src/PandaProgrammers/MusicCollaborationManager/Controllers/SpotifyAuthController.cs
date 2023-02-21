@@ -25,6 +25,13 @@ namespace MusicCollaborationManager.Controllers
         {
             PrivateUser CurrentUser = await _spotifyService.GetAuthUser();
             return CurrentUser;
-        }        
+        }    
+        
+        [HttpGet("authtoptracks")]
+        public async Task<List<FullTrack>> GetAuthUserTopTracks()
+        {
+            List<FullTrack> TopTracks = await _spotifyService.GetAuthUserTopTracks();
+            return TopTracks;
+        }       
     }
 }

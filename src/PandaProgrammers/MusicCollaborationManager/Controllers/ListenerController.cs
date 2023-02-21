@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using MusicCollaborationManager.DAL.Abstract;
 using MusicCollaborationManager.Models;
 using MusicCollaborationManager.ViewModels;
+using MusicCollaborationManager.Services.Concrete;
+using MusicCollaborationManager.Models.DTO;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -12,12 +14,14 @@ namespace MusicCollaborationManager.Controllers
         private readonly IListenerRepository _listenerRepository;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly SpotifyAuthService _spotifyService;
 
-        public ListenerController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public ListenerController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService)
         {
             _listenerRepository = listenerRepository;
             _userManager = userManager;
             _signInManager = signInManager;
+            _spotifyService = spotifyService;
         }
 
         [Authorize]
