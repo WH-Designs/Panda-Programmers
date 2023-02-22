@@ -15,18 +15,22 @@ namespace MusicCollaborationManager.Services.Concrete
         public static string ClientSecret { get; set; }
         private static SpotifyClientConfig Config { get; set; }
         private static SpotifyClient Spotify { get; set; }
+
+        //public static SpotifyClientConfig DefaultConfig = SpotifyClientConfig.CreateDefault();
         public AuthorizedUserDTO authUser { get; set; }
+        public string Uri { get; set; }
 
 
-        public SpotifyAuthService(string id, string secret)
+        public SpotifyAuthService(string id, string secret, string redirect)
         {
             ClientId = id;
             ClientSecret = secret;
+            Uri = redirect;
         }
 
         public string GetUri(){
             var loginRequest = new LoginRequest(
-            new Uri("http://localhost:5000/home/callback"), ClientId, LoginRequest.ResponseType.Code)
+            new Uri(Uri), ClientId, LoginRequest.ResponseType.Code)
             {
             Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead}
             };
@@ -37,7 +41,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
         public async Task<SpotifyClient> GetCallback(string code)
         {
-            Uri uri = new Uri("http://localhost:5000/home/callback");
+            Uri uri = new Uri(Uri);
             var response = await new OAuthClient().RequestToken(new AuthorizationCodeTokenRequest(ClientId, ClientSecret, code, uri));
             var config = SpotifyClientConfig
                 .CreateDefault()
@@ -77,5 +81,26 @@ namespace MusicCollaborationManager.Services.Concrete
 
             return topTracksList;
         }
+        public async Task<FeaturedPlaylistsResponse> GetAuthFeatPlaylists()
+        {
+            PrivateUser CurUser = await Spotify.UserProfile.Current();
+            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
+            {
+                Limit = 5,
+                Country = CurUser.Country,
+            };
+
+            if (CurUser.Country == "US")
+                RequestParameters.Limit = 10;
+
+            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
+            
+            if (CurUser.Country == "US") 
+                FeaturedPlaylists.Playlists.Items.Reverse();
+
+            return FeaturedPlaylists;
+        }
+
+        
     }
 }
