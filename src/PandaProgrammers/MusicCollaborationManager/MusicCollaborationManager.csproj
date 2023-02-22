@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.Spotify" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.2" />
@@ -33,8 +34,8 @@
 		<UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
 	</ItemGroup>
 
-	<Target Name="Tailwind" BeforeTargets="Build">
+	<!-- <Target Name="Tailwind" BeforeTargets="Build">
 		<Exec Command="npm run css:build" />
-	</Target>
+	</Target> -->
 
 </Project>

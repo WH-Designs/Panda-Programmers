@@ -10,6 +10,7 @@
 *.cache
 *.suo
 .vscode
+h origin dev
 # Include dlls if they’re in the NuGet packages directory
 !/packages/*/lib/*.dll
 !/packages/*/lib/*/*.dll
@@ -88,3 +89,11 @@ src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.projects.v5.2
 /src/PandaProgrammers/.vs/PandaProgrammers/v17/.futdcache.v2
 /src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.metadata.v5.2
 /src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.projects.v5.2
+src/PandaProgrammers/.vs/PandaProgrammers/v17/.futdcache.v2
+src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.metadata.v5.2
+src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.projects.v5.2
+/src/PandaProgrammers/.vs/PandaProgrammers/v17/.futdcache.v2
+/src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.metadata.v5.2
+/src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.projects.v5.2
+/src/PandaProgrammers/.vs/PandaProgrammers/v17/TestStore/0/000.testlog
+/src/PandaProgrammers/.vs/PandaProgrammers/v17/TestStore/0/testlog.manifest
