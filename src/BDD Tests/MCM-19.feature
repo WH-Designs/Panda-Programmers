@@ -7,18 +7,16 @@ When I login into my MCM account
 
 And I login into my Spotify account
 
-Then I should see the landing page
+And I go to my profile page
+
+Then I should see my Spotify and personal information
 
 
 
 Given I am a user on the landing page
 
-When I click the dashboard button on the navbar
+When I click the dashboard button on the navbar to take me to my profile page
 
-Then I should be taken to a personal dashboard page
+And I am not logged into Spotify 
 
-
-
-Given I am a user on the dashboard page
-
-Then I should see all of my Spotify Information displayed in a clean and organized fashion
+Then I should NOT see my Spotify information and just see my personal information
