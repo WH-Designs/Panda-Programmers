@@ -1,18 +1,25 @@
 Feature: MCM users each have their unique spotify accounts connected 
 
-Scenario: 
+Scenario: Multiple MCM users connect via the same browser
 
-    Given I am on the authenticated MCM dashboard
-    And I am logged in as a user on MCM
-    And I am logged into Spotify
-    Then I should see my top genres from Spotify
+    Given I am on the MCM Visitor Dashboard
+    When I am not logged in
+    Then I cannot see the Spotify button
 
-    Given I am on the authenticated MCM Dashboard
-    and I am not logged in as a user on MCM
-    and I am not logged into spotify
-    then I should not see top genres from Spotify
+    Given I am on the MCM dashboard
+    And I am logged into my MCM account
+    And my browser is not logged into spotify
+    When I click the spotify button
+    Then I am redirected to spotifys site to login to the correct account
 
-    Given I am on the authenticated MCM Dashboard
-    and I am logged in as a user on MCM
-    and I am not logged into spotify
-    then I should not see top genres from Spotify
+    Given I am on the MCM dashboard
+    And I am logged into my MCM account
+    And my browser is logged into the correct spotify account
+    When I click the spotify button
+    Then I am redirected to my personalized MCM Dashboard
+    
+    Given I am on the MCM dashboard
+    And I am logged into my MCM account
+    And my browser is logged into the incorrect spotify account
+    When I click the spotify button
+    Then I am redirected to a spotify logout page  
