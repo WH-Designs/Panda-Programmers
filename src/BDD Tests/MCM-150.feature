@@ -1,6 +1,6 @@
-Feature: View top Genres on Authenticated Dashboard
+Feature: MCM users each have their unique spotify accounts connected 
 
-Scenario: MCM User connects to spotify and is on their dashboard
+Scenario: 
 
     Given I am on the authenticated MCM dashboard
     And I am logged in as a user on MCM
@@ -16,4 +16,3 @@ Scenario: MCM User connects to spotify and is on their dashboard
     and I am logged in as a user on MCM
     and I am not logged into spotify
     then I should not see top genres from Spotify
-
