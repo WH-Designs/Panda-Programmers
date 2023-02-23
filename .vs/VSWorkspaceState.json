@@ -2,15 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-<<<<<<< HEAD
-    "\\Team Documents"
+    "\\src\\BDD Tests"
   ],
-  "SelectedNode": "\\src\\BDD Tests",
-=======
-    "\\src\\BDD Tests",
-    "\\Team Documents"
-  ],
-  "SelectedNode": "\\src\\BDD Tests\\MCM-84.feature",
->>>>>>> eb0d63f987b16c8718ff95018ebda88bc633f262
+  "SelectedNode": "\\src\\BDD Tests\\MCM-19.feature",
   "PreviewInSolutionExplorer": false
 }
