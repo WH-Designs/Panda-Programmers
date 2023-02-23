@@ -101,6 +101,21 @@ namespace MusicCollaborationManager.Services.Concrete
             return FeaturedPlaylists;
         }
 
+        public async Task<List<SimplePlaylist>> GetAuthPersonalPlaylists()
+        {
+            List<SimplePlaylist> PersonalPlaylists = new List<SimplePlaylist>();
+
+            PlaylistCurrentUsersRequest RequestParameters = new PlaylistCurrentUsersRequest
+            {
+                Limit = 5
+            };
+
+            var currentUsersPlaylists = await Spotify.Playlists.CurrentUsers(RequestParameters);
+            PersonalPlaylists = currentUsersPlaylists.Items;
+
+            return PersonalPlaylists;
+        }
+
         
     }
 }
