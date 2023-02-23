@@ -22,6 +22,14 @@ $(function () {
         success: getRecomPlaylists,
         error: errorOnAjax
     });
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/api/SpotifyAuth/authpersonalplaylists",
+        success: getPersonalPlaylists,
+        error: errorOnAjax
+    });
 });
 
 
@@ -61,5 +69,16 @@ function getRecomPlaylists(data) {
         let playlistName = `<a href="${item["spotifyToPlaylist"]}">${item["playlistName"]}</a>`;
         $(playlistName).appendTo(`#user-playlist-${index}-container`);
 
+    });
+}
+
+function getPersonalPlaylists(data) {
+
+    $.each(data, function(index, item) {
+        let playlistImage = `<img src="${item["playlistImageURL"]}">`;
+        $(playlistImage).appendTo(`#user-personal-playlist-${index}-container`);
+
+        let playlistName = `<a href="${item["spotifyToPlaylist"]}">${item["playlistName"]}</a>`;
+        $(playlistName).appendTo(`#user-personal-playlist-${index}-container`);
     });
 }
