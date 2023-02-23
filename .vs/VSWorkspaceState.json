@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\PandaProgrammers",
-    "\\src\\PandaProgrammers\\MusicCollaborationManager"
+    "\\src\\BDD Tests"
   ],
-  "SelectedNode": "\\src\\PandaProgrammers\\MusicCollaborationManager\\MusicCollaborationManager.csproj",
+  "SelectedNode": "\\src\\BDD Tests\\MCM-19.feature",
   "PreviewInSolutionExplorer": false
 }
