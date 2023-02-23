@@ -6,6 +6,8 @@ using MusicCollaborationManager.Models;
 using MusicCollaborationManager.ViewModels;
 using MusicCollaborationManager.Services.Concrete;
 using MusicCollaborationManager.Models.DTO;
+using SpotifyAPI.Web;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -41,5 +43,46 @@ namespace MusicCollaborationManager.Controllers
 
             return View(vm);
         }
+
+        [Authorize]
+        public IActionResult Profile(UserProfileViewModel vm)
+        {
+            string aspId = _userManager.GetUserId(User);
+            Listener listener = new Listener();
+            listener = _listenerRepository.FindListenerByAspId(aspId);
+            vm.fullName = _listenerRepository.GetListenerFullName(listener.Id);
+            vm.listener = listener;
+            vm.aspUser = User;
+
+            try
+            {
+                var holder = _spotifyService.GetAuthUser();
+
+                vm.spotifyName = holder.Result.DisplayName;
+                vm.accountType = holder.Result.Product;
+                vm.country = holder.Result.Country;
+                vm.followerCount = holder.Result.Followers.Total;
+                if(holder.Result.Images.Count > 0)
+                {
+                    vm.profilePic = holder.Result.Images[0].Url;
+                }
+                else
+                {
+                    vm.profilePic = "https://t4america.org/wp-content/uploads/2016/10/Blank-User.jpg";
+                }
+            }
+            catch (Exception ex)
+            {
+                vm.spotifyName = "Log in to see";
+                vm.accountType = "Log in to see";
+                vm.country = "Log in to see";
+                vm.followerCount = 0;
+                vm.profilePic = "https://t4america.org/wp-content/uploads/2016/10/Blank-User.jpg";
+            }
+
+
+            return View(vm);
+        }
     }
 }
+
