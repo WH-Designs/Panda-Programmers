@@ -27,7 +27,7 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
-        public IActionResult Index(UserDashboardViewModel vm)
+        public async Task<IActionResult> Index(UserDashboardViewModel vm)
         {
             string aspId = _userManager.GetUserId(User);
 
@@ -40,6 +40,12 @@ namespace MusicCollaborationManager.Controllers
             vm.listener = listener;
 
             vm.aspUser = User;
+
+
+            //Add songs here below.(NEED TO CHANGE VM first!)
+            List<FullTrack> Tracks = new List<FullTrack>();
+            vm.TracksBasicInfo = await _spotifyService.GetAuthUserTopTracks();
+             
 
             return View(vm);
         }
