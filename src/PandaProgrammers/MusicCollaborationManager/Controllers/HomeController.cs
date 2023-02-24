@@ -43,6 +43,7 @@ public class HomeController : Controller
     {
         AuthorizedUserDTO authUser = new AuthorizedUserDTO();
         authUser.AuthClient = await _spotifyService.GetCallback(code);
+        
         //database saved spotify user id == new user id?
         //if not : give a logout of spotify<--
         //if is proceed:

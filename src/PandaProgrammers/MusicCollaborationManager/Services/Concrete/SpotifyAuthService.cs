@@ -100,7 +100,5 @@ namespace MusicCollaborationManager.Services.Concrete
 
             return FeaturedPlaylists;
         }
-
-        
     }
 }

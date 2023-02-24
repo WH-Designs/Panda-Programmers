@@ -27,6 +27,9 @@ namespace MusicCollaborationManager.Controllers
         [Authorize]
         public IActionResult Index(UserDashboardViewModel vm)
         {
+            
+            //fix this to check if the cookie is something that exists
+
             string aspId = _userManager.GetUserId(User);
 
             Listener listener = new Listener();
