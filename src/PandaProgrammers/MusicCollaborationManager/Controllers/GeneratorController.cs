@@ -8,6 +8,7 @@ using MusicCollaborationManager.Services.Concrete;
 using MusicCollaborationManager.Models.DTO;
 using SpotifyAPI.Web;
 using static NuGet.Packaging.PackagingConstants;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -33,9 +34,34 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
-        public IActionResult Questionaire()
+        public IActionResult Questionaire(QuestionViewModel vm)
         {
-            return View();
+            var holder = _spotifyService.GetSeedGenres();
+            vm.genresSelect = new List<SelectListItem>();
+            foreach (string genre in holder.Result.Genres)
+            {
+                var item = new SelectListItem()
+                {
+                    Text = genre,
+                    Value = genre
+                };
+                vm.genresSelect.Add(item);
+            }
+
+            return View("Questionaire", vm);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult QuestionairePost(QuestionViewModel vm)
+        {
+            RecommendDTO recommendDTO = new RecommendDTO();
+            recommendDTO = recommendDTO.convertToDTO(vm);
+            var response = _spotifyService.GetRecommendations(recommendDTO);
+            List<SimpleTrack> result = new List<SimpleTrack>();
+            result = response.Result.Tracks;
+
+            return View("GeneratedPlaylists", result);
         }
 
         [Authorize]
@@ -46,6 +72,12 @@ namespace MusicCollaborationManager.Controllers
 
         [Authorize]
         public IActionResult Time()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult GeneratedPlaylists()
         {
             return View();
         }

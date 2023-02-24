@@ -1,0 +1,43 @@
+﻿@model List<SpotifyAPI.Web.SimpleTrack>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="flex flex-col">
+    <div class="flex flex-row ml-48 mt-36">
+        <div class="flex flex-col w-3/4 mx-5">
+            <div>
+                <h1 class="font-bold text-2xl">Music Collaboration Manager</h1>
+                <p class="my-4 font-sans">
+                    Welcome to Music Collaboration Manager. Here you can interact with your Spotify account to enhance
+                    your listening experience. We provide our own
+                    unique features including custom site themes, a playlist generator, and more.
+                </p>
+            </div>
+            <div class="w-full h-max max-h-max bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
+                <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
+                    <h2 class="font-bold mb-5 mt-2 text-white">Top songs</h2>
+                    <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
+                </div>
+                <div class="columns-5 mb-5 h-full max-h-max">
+                    <div class="w-fit overflow-hidden bg-gray-300" id="track-0-container">
+                    </div>
+                    <div class="w-fit overflow-hidden bg-gray-300" id="track-1-container">
+                    </div>
+                    <div class="w-fit overflow-hidden bg-gray-300" id="track-2-container">
+                    </div>
+                    <div class="w-fit overflow-hidden bg-gray-300" id="track-3-container">
+                    </div>
+                    <div class="w-fit overflow-hidden bg-gray-300" id="track-4-container">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

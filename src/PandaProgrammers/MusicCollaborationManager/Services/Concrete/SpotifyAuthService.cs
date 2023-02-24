@@ -112,10 +112,38 @@ namespace MusicCollaborationManager.Services.Concrete
 
             var currentUsersPlaylists = await Spotify.Playlists.CurrentUsers(RequestParameters);
             PersonalPlaylists = currentUsersPlaylists.Items;
-
+        
             return PersonalPlaylists;
         }
 
-        
+        public async Task<RecommendationGenresResponse> GetSeedGenres()
+        {
+            var currentGenres = await Spotify.Browse.GetRecommendationGenres();
+
+            return currentGenres;
+        }
+
+        public async Task<RecommendationsResponse> GetRecommendations(RecommendDTO recommendDTO)
+        {
+            RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
+            recommendationsRequest.Market = recommendDTO.market;
+            recommendationsRequest.Limit = recommendDTO.limit;
+            recommendationsRequest.SeedGenres.Add(recommendDTO.genre);
+
+            recommendationsRequest.Target.Add("acousticness", recommendDTO.target_acousticness.ToString());
+            recommendationsRequest.Target.Add("danceability", recommendDTO.target_danceability.ToString());
+            recommendationsRequest.Target.Add("energy", recommendDTO.target_energy.ToString());
+            recommendationsRequest.Target.Add("instrumentalness", recommendDTO.target_instrumentalness.ToString());
+            recommendationsRequest.Target.Add("liveness", recommendDTO.target_liveness.ToString());
+            recommendationsRequest.Target.Add("popularity", recommendDTO.target_popularity.ToString());
+            recommendationsRequest.Target.Add("speechiness", recommendDTO.target_speechiness.ToString());
+            recommendationsRequest.Target.Add("temp", recommendDTO.target_tempo.ToString());
+            recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
+
+            var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
+
+            return recommendations;
+        }
+
     }
 }
