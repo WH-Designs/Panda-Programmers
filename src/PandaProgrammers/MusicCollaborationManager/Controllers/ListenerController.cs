@@ -29,6 +29,11 @@ namespace MusicCollaborationManager.Controllers
         [Authorize]
         public async Task<IActionResult> Index(UserDashboardViewModel vm)
         {
+            // PrivateUser user = _spotifyService.authUser.Me;
+            // if (user == null){
+            //     return RedirectToAction("callforward", "Home");
+            // }
+
             string aspId = _userManager.GetUserId(User);
 
             Listener listener = new Listener();
