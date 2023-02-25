@@ -13,6 +13,8 @@ namespace MusicCollaborationManager.ViewModels
         public string fullName { get; set; }
         public List<string> tracks { get; set; }
         public List<string> playlists { get; set; }
-        public List<FullTrack> TracksBasicInfo { get; set; }
+        public List<FullTrack> TopTracks { get; set; }
+        public List<SimplePlaylist> FeatPlaylists { get; set; }
+        public List<SimplePlaylist> UserPlaylists { get; set; }
     }
 }

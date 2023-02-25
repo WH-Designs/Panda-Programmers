@@ -22,33 +22,25 @@
                 <div class="columns-5 mb-5 h-full max-h-max">
                     @{
                         int Index = 0;
-                        foreach (var song in Model.TracksBasicInfo)
+                        foreach (var song in Model.TopTracks)
                         {
-                            <div class="w-fit overflow-hidden bg-gray-300" id="user-track-0-container">
+                            <div class="w-fit overflow-hidden bg-gray-300">
                                 @{
                                     if (song.Album.Images[1].Url != null)
                                     {
                                         <img src="@song.Album.Images[1].Url">
                                     }
                                     <a href=`@song.ExternalUrls["spotify"]`>@song.Name</a>
-                                    <p>@song.Artists.ElementAt(0).Name</p> 
+                                    <p>@song.Artists.ElementAt(0).Name</p>
+                                    <button class="playable-item hover:bg-gray-800 hover:text-white" data-spotify-id="@song.Uri">Play</button>  <!--Hide this until the Ajax loads?-->
                                 }
-                                <button class="some-song hover:bg-gray-800 hover:text-white" data-spotify-id="@song.Uri">Play</button>  <!--Hide this until the Ajax loads?-->
+                                
                             </div>
 
                             if (Index >= 5) //The containers were NOT made in mind with more than 5 songs. Consider "overflow-x-auto" or similar as future solution.
                             { break; }
                         }
                     }
-                   
-                    <div class="w-fit overflow-hidden bg-gray-300" id="user-track-1-container">
-                    </div>
-                    <div class="w-fit overflow-hidden bg-gray-300" id="user-track-2-container">
-                    </div>
-                    <div class="w-fit overflow-hidden bg-gray-300" id="user-track-3-container">
-                    </div>
-                    <div class="w-fit overflow-hidden bg-gray-300" id="user-track-4-container">
-                    </div>
                 </div>
             </div>
 
@@ -76,16 +68,22 @@
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
                 </div>
                 <div class="columns-5 mb-5 h-full max-h-max">
-                    <div class="w-fit bg-gray-300" id="user-personal-playlist-0-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-personal-playlist-1-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-personal-playlist-2-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-personal-playlist-3-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-personal-playlist-4-container">
-                    </div>
+                    @{
+                        foreach(var playlist in Model.UserPlaylists)
+                        {
+                            <div class="w-fit bg-gray-300">
+                                @{
+                                    if (playlist.Images[0].Url != null)
+                                    {
+                                        <img src="@playlist.Images[0].Url">  <!--Not sure what happens if nothing shows up here. Maybe add a black box?-->
+                                    }
+                                    <a href="@playlist.ExternalUrls["spotify"]">@playlist.Name</a>
+                                    <button class="playable-item hover:bg-gray-800 hover:text-white block" data-spotify-id="@playlist.Uri">Play</button>
+                                    
+                                }
+                            </div>
+                        }
+                    }
                 </div>
             </div>
             <div id="embed-iframe" class="music-player"></div>
@@ -102,10 +100,10 @@
             width: '60%',
             height: '200',
             //uri: 'spotify:track:2iuZJX9X9P0GKaE93xcPjk' //Sugar - Maroon 5
-            uri: '@Model.TracksBasicInfo.ElementAtOrDefault(0).Uri'
+            uri: '@Model.TopTracks.ElementAtOrDefault(0).Uri'
         };
         let callback = (EmbedController) => {   //Does NOT load any songs that get loaded AFTERWARDS. Consider loading all songs from controller into a VM.
-            document.querySelectorAll('.some-song').forEach(
+            document.querySelectorAll('.playable-item').forEach(
                 episode => {
                     episode.addEventListener('click', () => {
                         EmbedController.loadUri(episode.dataset.spotifyId)

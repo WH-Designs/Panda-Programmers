@@ -44,7 +44,9 @@ namespace MusicCollaborationManager.Controllers
 
             //Add songs here below.(NEED TO CHANGE VM first!)
             List<FullTrack> Tracks = new List<FullTrack>();
-            vm.TracksBasicInfo = await _spotifyService.GetAuthUserTopTracks();
+            vm.TopTracks = await _spotifyService.GetAuthUserTopTracks();
+            vm.FeatPlaylists = await _spotifyService.GetFeatPlaylists(5);
+            vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
              
 
             return View(vm);

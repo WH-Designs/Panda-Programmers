@@ -23,13 +23,13 @@ $(function () {
         error: errorOnAjax
     });
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/api/SpotifyAuth/authpersonalplaylists",
-        success: getPersonalPlaylists,
-        error: errorOnAjax
-    });
+    //$.ajax({
+    //    type: "GET",
+    //    dataType: "json",
+    //    url: "/api/SpotifyAuth/authpersonalplaylists",
+    //    success: getPersonalPlaylists,
+    //    error: errorOnAjax
+    //});
 
     //window.onSpotifyIframeApiReady = (IFrameAPI) => {
     //    let element = document.getElementById('embed-iframe');
@@ -99,13 +99,13 @@ function getRecomPlaylists(data) {
     });
 }
 
-function getPersonalPlaylists(data) {
+//function getPersonalPlaylists(data) {
 
-    $.each(data, function(index, item) {
-        let playlistImage = `<img src="${item["playlistImageURL"]}">`;
-        $(playlistImage).appendTo(`#user-personal-playlist-${index}-container`);
+//    $.each(data, function(index, item) {
+//        let playlistImage = `<img src="${item["playlistImageURL"]}">`;
+//        $(playlistImage).appendTo(`#user-personal-playlist-${index}-container`);
 
-        let playlistName = `<a href="${item["spotifyToPlaylist"]}">${item["playlistName"]}</a>`;
-        $(playlistName).appendTo(`#user-personal-playlist-${index}-container`);
-    });
-}
+//        let playlistName = `<a href="${item["spotifyToPlaylist"]}">${item["playlistName"]}</a>`;
+//        $(playlistName).appendTo(`#user-personal-playlist-${index}-container`);
+//    });
+//}
