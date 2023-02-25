@@ -8,31 +8,43 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MusicCollaborationManager.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/c88114ae42.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <div class="flex fixed w-screen flex-row-reverse text-white shadow-lg bg-gray-800 h-28">
-        <img src="~/img/Panda_Logo.png" class="w-24 h-24 mr-4 bg-white self-center" alt="Logo">
-        <h1 class="text-white self-center mr-4 text-2xl">Music Collaboration Manager</h1>
+<body class="bg-gray-300 font-[Montserrat]">
+    <div class="fixed flex w-screen flex-row text-white shadow-lg bg-gray-800 h-28 justify-center items-center">
+        <img src="~/img/Panda_Logo.png" class="w-24 h-24 mr-4 bg-white" alt="Logo">
+        <h1 class="text-white mr-4 text-2xl">Music Collaboration Manager</h1>
     </div>
-    <nav class="fixed top-5 left-0 h-screen w-48 m-0 flex flex-col text-white shadow-lg bg-gray-800 items-center">
-        <ul class="mt-24 text-center">
-            <li class="py-5 top-4 fixed -ml-16">
+    <nav class="fixed mt-28 left-0 h-screen w-52 flex flex-col text-white shadow-lg bg-gray-800">
+        <ul class="px-3 text-start text-xl">
+            <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
                 <a asp-controller="Home" asp-action="Index"
-                    class="bg-gray-900 text-white py-2 rounded-md text-4xl hover:bg-gray-700 px-4 border-b-4 border-gray-600"
-                    aria-current="page">Home</a>
-                <a asp-controller="Listener" asp-action="Index"
-                    class="bg-gray-900 text-white py-2 rounded-md text-4xl hover:bg-gray-700 px-4 border-b-4 border-gray-600"
-                    aria-current="page">Dashboard</a>
-                <a asp-controller="Listener" asp-action="Profile"
-                   class="bg-gray-900 text-white py-2 rounded-md text-4xl hover:bg-gray-700 px-4 border-b-4 border-gray-600"
-                   aria-current="page">Profile</a>
-                <a asp-controller="Generator" asp-action="Index"
-                   class="bg-gray-900 text-white py-2 rounded-md text-4xl hover:bg-gray-700 px-4 border-b-4 border-gray-600"
-                   aria-current="page">Generators</a>
+                    class=""
+                    aria-current="page"><i class="fa-solid fa-house"></i> Home</a>
             </li>
-            <partial name="_LoginPartial" />
+            <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
+                <a asp-controller="Listener" asp-action="Index"
+                    class=""
+                    aria-current="page"><i class="fa-solid fa-house-user"></i> Dashboard</a>
+            </li>
+            <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
+                <a asp-controller="Listener" asp-action="Profile"
+                   class=""
+                   aria-current="page"><i class="fa-solid fa-user"></i> Profile</a>
+            </li>
+            <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
+                <a asp-controller="Generator" asp-action="Index"
+                   class=""
+                   aria-current="page"><i class="fa-solid fa-wand-magic-sparkles"></i> Generators</a>
+            </li>
+            <span class="block mb-4"></span>
+            <hr class="fixed w-44 bg-gray-400">
+
+            <hr class="bottom-40 fixed w-44 bg-gray-400">
+            <partial name="_LoginPartial"/>
         </ul>
     </nav>
 
