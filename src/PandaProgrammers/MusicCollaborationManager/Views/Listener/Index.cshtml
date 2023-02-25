@@ -25,13 +25,13 @@
                         {
                             <div class="w-fit overflow-hidden bg-gray-300">
                                 @{
-                                    if (song.Album.Images[1].Url != null)
+                                    if (song.Album.Images[1]?.Url != null)
                                     {
                                         <img src="@song.Album.Images[1].Url">
                                     }
                                     <a href="@song.ExternalUrls["spotify"]">@song.Name</a>
                                     <p>@song.Artists.ElementAt(0).Name</p>
-                                    <button class="playable-item hover:bg-gray-800 hover:text-white" data-spotify-id="@song.Uri">Play</button>  <!--Hide this until the Ajax loads?-->
+                                    <button class="playable-item hover:bg-gray-800 hover:text-white" data-spotify-id="@song.Uri">Play</button>
                                 }
                             </div>
                         }
@@ -51,16 +51,16 @@
                         {
                             <div class="w-fit bg-gray-300 mb-5">
                                 @{
-                                    if (playlist.Images[0].Url != null)
+                                    if (playlist.Images[0]?.Url != null)
                                     {
-                                        <img src="@playlist.Images[0].Url">  <!--Not sure what happens if nothing shows up here. Maybe add a black box?-->
+                                        <img src="@playlist.Images[0].Url">
                                     }
                                     <a href="@playlist.ExternalUrls["spotify"]">@playlist.Name</a>
                                     <button class="playable-item hover:bg-gray-800 hover:text-white block" data-spotify-id="@playlist.Uri">Play</button>
                                     
                                 }
                             </div>
-                            if (FeatIndex > 3) //The containers were NOT made in mind with more than 5 songs. Consider "overflow-x-auto" or similar as future solution.
+                            if (FeatIndex > 3) //The containers were NOT made in mind with more than 5 songs.
                             { break; }
                             FeatIndex++;
                         }  
@@ -78,10 +78,9 @@
                         {
                             <div class="w-fit overflow-hidden bg-gray-300">
                                 @{
-                                    if (playlist.Images[0].Url != null)
+                                    if (playlist.Images[0]?.Url != null)
                                     {
-                                        //<img src="@playlist.Images[0].Url">
-                                        <div class="h-28 w-28 bg-black"></div>
+                                        <img src="@playlist.Images[0].Url">
                                     }
                                     <a href="@playlist.ExternalUrls["spotify"]">@playlist.Name</a>
                                     <button class="playable-item hover:bg-gray-800 hover:text-white block" data-spotify-id="@playlist.Uri">Play</button>
@@ -91,7 +90,7 @@
                     }
                 </div>
             </div>
-            <div id="embed-iframe" class="music-player"></div>
+            <div id="embed-iframe"></div>
         </div>
     </div>
 </div>
@@ -102,7 +101,7 @@
         let element = document.getElementById('embed-iframe');
         let options = {
             width: '60%',
-            height: '200',
+            height: '400',
             uri: 'spotify:track:2iuZJX9X9P0GKaE93xcPjk' //Sugar - Maroon 5
         };
         let callback = (EmbedController) => {
@@ -117,10 +116,6 @@
         IFrameAPI.createController(element, options, callback);
         
     };
-
-    $(document).ready(function () {
-        $("#embed-iframe").("display", "none");;
-    });
 </script>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
