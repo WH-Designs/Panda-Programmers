@@ -27,35 +27,35 @@ namespace MusicCollaborationManager.Models.DTO
             conDTO.market = "US";
             conDTO.limit = 20;
             
-            if(qVM.acousticness <= 0 || qVM.acousticness > 10)
+            if(qVM.acousticness <= 0 || qVM.acousticness > 10 || qVM.acousticness == null)
             {
                 qVM.acousticness = conDTO.rngValue();
             }
-            if (qVM.danceability <= 0 || qVM.danceability > 10)
+            if (qVM.danceability <= 0 || qVM.danceability > 10 || qVM.danceability == null)
             {
                 qVM.danceability = conDTO.rngValue();
             }
-            if (qVM.energy <= 0 || qVM.energy > 10)
+            if (qVM.energy <= 0 || qVM.energy > 10 || qVM.energy == null)
             {
                 qVM.energy = conDTO.rngValue();
             }
-            if (qVM.instrumentalness <= 0 || qVM.instrumentalness > 10)
+            if (qVM.instrumentalness <= 0 || qVM.instrumentalness > 10 || qVM.instrumentalness == null)
             {
                 qVM.instrumentalness = conDTO.rngValue();
             }
-            if (qVM.liveness <= 0 || qVM.liveness > 10)
+            if (qVM.liveness <= 0 || qVM.liveness > 10 || qVM.liveness == null)
             {
                 qVM.liveness = conDTO.rngValue();
             }
-            if (qVM.popularity <= 0 || qVM.popularity > 10)
+            if (qVM.popularity <= 0 || qVM.popularity > 10 || qVM.popularity == null)
             {
                 qVM.popularity = conDTO.rngValue();
             }
-            if (qVM.speechiness <= -20 || qVM.speechiness > 10)
+            if (qVM.speechiness <= 0 || qVM.speechiness > 10 || qVM.speechiness == null)
             {
                 qVM.speechiness = conDTO.rngValue();
             }
-            if (qVM.valence <= 0 || qVM.valence > 10)
+            if (qVM.valence <= 0 || qVM.valence > 10 || qVM.valence == null)
             {
                 qVM.valence = conDTO.rngValue();
             }

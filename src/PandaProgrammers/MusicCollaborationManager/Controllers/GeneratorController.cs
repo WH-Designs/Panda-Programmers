@@ -53,7 +53,7 @@ namespace MusicCollaborationManager.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult QuestionairePost(QuestionViewModel vm)
+        public async Task<IActionResult> QuestionairePost(QuestionViewModel vm)
         {
             RecommendDTO recommendDTO = new RecommendDTO();
             recommendDTO = recommendDTO.convertToDTO(vm);
@@ -61,7 +61,10 @@ namespace MusicCollaborationManager.Controllers
             List<SimpleTrack> result = new List<SimpleTrack>();
             result = response.Result.Tracks;
 
-            return View("GeneratedPlaylists", result);
+            List<FullTrack> fullResult = new List<FullTrack>();
+            fullResult = await _spotifyService.ConvertToFullTrack(result);
+
+            return View("GeneratedPlaylists", fullResult);
         }
 
         [Authorize]

@@ -145,5 +145,21 @@ namespace MusicCollaborationManager.Services.Concrete
             return recommendations;
         }
 
+        public async Task<List<FullTrack>> ConvertToFullTrack(List<SimpleTrack> tracks)
+        {
+            List<string> trackIds = new List<string>();
+            foreach (var track in tracks)
+            {
+                trackIds.Add(track.Id);
+            }
+
+            TracksRequest trackReq = new TracksRequest(trackIds);
+
+            var genTracks = await Spotify.Tracks.GetSeveral(trackReq);
+            var returnTracks = genTracks.Tracks;
+            return returnTracks;
+
+        }
+
     }
 }
