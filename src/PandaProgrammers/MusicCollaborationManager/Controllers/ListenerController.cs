@@ -29,8 +29,10 @@ namespace MusicCollaborationManager.Controllers
         [Authorize]
         public IActionResult Index(UserDashboardViewModel vm)
         {
-            
-            //fix this to check if the cookie is something that exists
+            // PrivateUser user = _spotifyService.authUser.Me;
+            // if (user == null){
+            //     return RedirectToAction("callforward", "Home");
+            // }
 
             string aspId = _userManager.GetUserId(User);
 

@@ -26,6 +26,7 @@ namespace MusicCollaborationManager.Services.Concrete
             ClientId = id;
             ClientSecret = secret;
             Uri = redirect;
+            authUser = new AuthorizedUserDTO();
         }
 
         public string GetUri(){
@@ -49,7 +50,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
             var authenticatedSpotify = new SpotifyClient(config);
             Spotify = authenticatedSpotify;
-
+            authUser.Me = await Spotify.UserProfile.Current();
             return authenticatedSpotify;
         }
 
@@ -81,6 +82,30 @@ namespace MusicCollaborationManager.Services.Concrete
 
             return topTracksList;
         }
+
+        public async Task<List<FullArtist>> GetAuthTopArtists()
+        {
+            var topArtists = await Spotify.Personalization.GetTopArtists();
+            List<FullArtist> returnArtists = topArtists.Items;
+            
+            if (returnArtists.Count == 0) {
+                List<string> artistIDs = new List<string>();
+
+                artistIDs.Add("04gDigrS5kc9YWfZHwBETP");
+                artistIDs.Add("1Xyo4u8uXC1ZmMpatF05PJ");
+                artistIDs.Add("5cj0lLjcoR7YOSnhnX0Po5");
+                artistIDs.Add("06HL4z0CvFAxyc27GXpf02");
+                artistIDs.Add("66CXWjxzNUsdJxJ2JdwvnR");
+                
+                ArtistsRequest artistReq = new ArtistsRequest(artistIDs);
+
+                var topGenArtists = await Spotify.Artists.GetSeveral(artistReq);
+                var returnGenArtists = topGenArtists.Artists.ToList();
+                return returnGenArtists;
+            } 
+            return returnArtists;
+        }
+
         public async Task<FeaturedPlaylistsResponse> GetAuthFeatPlaylists()
         {
             PrivateUser CurUser = await Spotify.UserProfile.Current();
@@ -116,6 +141,5 @@ namespace MusicCollaborationManager.Services.Concrete
             return PersonalPlaylists;
         }
 
-        
     }
 }

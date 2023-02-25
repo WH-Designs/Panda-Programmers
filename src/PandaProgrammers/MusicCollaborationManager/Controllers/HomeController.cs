@@ -41,8 +41,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> callback(string code)
     {
-        AuthorizedUserDTO authUser = new AuthorizedUserDTO();
-        authUser.AuthClient = await _spotifyService.GetCallback(code);
+        _spotifyService.authUser.AuthClient = await _spotifyService.GetCallback(code);
         
         //database saved spotify user id == new user id?
         //if not : give a logout of spotify<--
