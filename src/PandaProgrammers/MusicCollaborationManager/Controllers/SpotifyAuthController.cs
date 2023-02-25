@@ -34,6 +34,13 @@ namespace MusicCollaborationManager.Controllers
             return TopTracks;
         }
 
+        [HttpGet("authtopartists")]
+        public async Task<List<FullArtist>> GetAuthUserTopArtists()
+        {
+            List<FullArtist> TopArtists = await _spotifyService.GetAuthTopArtists();
+            return TopArtists;
+        }
+
         [HttpGet("authplaylists")]
         public async Task<List<VisitorPlaylistDTO>> GetAuthFeatPlaylist()
         {
