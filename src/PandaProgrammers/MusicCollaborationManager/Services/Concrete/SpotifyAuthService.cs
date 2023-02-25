@@ -140,8 +140,6 @@ namespace MusicCollaborationManager.Services.Concrete
         
             return PersonalPlaylists;
         }
-
-<<<<<<< HEAD
         public async Task<RecommendationGenresResponse> GetSeedGenres()
         {
             var currentGenres = await Spotify.Browse.GetRecommendationGenres();
@@ -186,8 +184,5 @@ namespace MusicCollaborationManager.Services.Concrete
             return returnTracks;
 
         }
-
-=======
->>>>>>> dev
     }
 }
