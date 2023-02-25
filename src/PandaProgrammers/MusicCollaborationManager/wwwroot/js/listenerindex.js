@@ -108,7 +108,7 @@ function getRecomPlaylists(data) {
 }
 
 function getPersonalPlaylists(data) {
-
+    console.log(data);
     $.each(data, function(index, item) {
         let playlistImage = `<img src="${item["playlistImageURL"]}">`;
         $(playlistImage).appendTo(`#user-personal-playlist-${index}-container`);
