@@ -41,13 +41,19 @@ namespace MusicCollaborationManager.Controllers
 
             vm.aspUser = User;
 
-
-            //Add songs here below.(NEED TO CHANGE VM first!)
-            List<FullTrack> Tracks = new List<FullTrack>();
-            vm.TopTracks = await _spotifyService.GetAuthUserTopTracks();
-            vm.FeatPlaylists = await _spotifyService.GetFeatPlaylists(5);
-            vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
-             
+            try
+            {
+                vm.TopTracks = await _spotifyService.GetAuthUserTopTracks();
+                vm.FeatPlaylists = await _spotifyService.GetFeatPlaylists();
+                vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
+            }
+            catch (NullReferenceException e) 
+            {
+                vm.TopTracks = new List<FullTrack>();
+                vm.FeatPlaylists = new List<SimplePlaylist>();
+                vm.UserPlaylists = new List<SimplePlaylist>();
+            }
+           
 
             return View(vm);
         }

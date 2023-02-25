@@ -21,7 +21,6 @@
                 </div>
                 <div class="columns-5 mb-5 h-full max-h-max">
                     @{
-                        int Index = 0;
                         foreach (var song in Model.TopTracks)
                         {
                             <div class="w-fit overflow-hidden bg-gray-300">
@@ -30,15 +29,11 @@
                                     {
                                         <img src="@song.Album.Images[1].Url">
                                     }
-                                    <a href=`@song.ExternalUrls["spotify"]`>@song.Name</a>
+                                    <a href="@song.ExternalUrls["spotify"]">@song.Name</a>
                                     <p>@song.Artists.ElementAt(0).Name</p>
                                     <button class="playable-item hover:bg-gray-800 hover:text-white" data-spotify-id="@song.Uri">Play</button>  <!--Hide this until the Ajax loads?-->
                                 }
-                                
                             </div>
-
-                            if (Index >= 5) //The containers were NOT made in mind with more than 5 songs. Consider "overflow-x-auto" or similar as future solution.
-                            { break; }
                         }
                     }
                 </div>
@@ -50,16 +45,26 @@
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
                 </div>
                 <div class="columns-5 mb-5 h-full max-h-max">
-                    <div class="w-fit bg-gray-300" id="user-playlist-0-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-playlist-1-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-playlist-2-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-playlist-3-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-playlist-4-container">
-                    </div>
+                    @{
+                        int FeatIndex = 0;
+                        foreach(var playlist in Model.FeatPlaylists)
+                        {
+                            <div class="w-fit bg-gray-300 mb-5">
+                                @{
+                                    if (playlist.Images[0].Url != null)
+                                    {
+                                        <img src="@playlist.Images[0].Url">  <!--Not sure what happens if nothing shows up here. Maybe add a black box?-->
+                                    }
+                                    <a href="@playlist.ExternalUrls["spotify"]">@playlist.Name</a>
+                                    <button class="playable-item hover:bg-gray-800 hover:text-white block" data-spotify-id="@playlist.Uri">Play</button>
+                                    
+                                }
+                            </div>
+                            if (FeatIndex > 3) //The containers were NOT made in mind with more than 5 songs. Consider "overflow-x-auto" or similar as future solution.
+                            { break; }
+                            FeatIndex++;
+                        }  
+                    }
                 </div>
             </div>
             <div class="w-full h-max max-h-max bg-gray-800 my-1 p-3 rounded-lg shadow-2xl">
@@ -69,17 +74,17 @@
                 </div>
                 <div class="columns-5 mb-5 h-full max-h-max">
                     @{
-                        foreach(var playlist in Model.UserPlaylists)
+                        foreach (var playlist in Model.UserPlaylists)
                         {
-                            <div class="w-fit bg-gray-300">
+                            <div class="w-fit overflow-hidden bg-gray-300">
                                 @{
                                     if (playlist.Images[0].Url != null)
                                     {
-                                        <img src="@playlist.Images[0].Url">  <!--Not sure what happens if nothing shows up here. Maybe add a black box?-->
+                                        //<img src="@playlist.Images[0].Url">
+                                        <div class="h-28 w-28 bg-black"></div>
                                     }
                                     <a href="@playlist.ExternalUrls["spotify"]">@playlist.Name</a>
                                     <button class="playable-item hover:bg-gray-800 hover:text-white block" data-spotify-id="@playlist.Uri">Play</button>
-                                    
                                 }
                             </div>
                         }
@@ -91,7 +96,6 @@
     </div>
 </div>
 
-<!--Move this to a js file.-->
 <script>
 
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
@@ -99,10 +103,9 @@
         let options = {
             width: '60%',
             height: '200',
-            //uri: 'spotify:track:2iuZJX9X9P0GKaE93xcPjk' //Sugar - Maroon 5
-            uri: '@Model.TopTracks.ElementAtOrDefault(0).Uri'
+            uri: 'spotify:track:2iuZJX9X9P0GKaE93xcPjk' //Sugar - Maroon 5
         };
-        let callback = (EmbedController) => {   //Does NOT load any songs that get loaded AFTERWARDS. Consider loading all songs from controller into a VM.
+        let callback = (EmbedController) => {
             document.querySelectorAll('.playable-item').forEach(
                 episode => {
                     episode.addEventListener('click', () => {
@@ -112,7 +115,12 @@
                 })
         };
         IFrameAPI.createController(element, options, callback);
+        
     };
+
+    $(document).ready(function () {
+        $("#embed-iframe").("display", "none");;
+    });
 </script>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
