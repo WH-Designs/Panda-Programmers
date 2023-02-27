@@ -1,0 +1,48 @@
+﻿@model MusicCollaborationManager.ViewModels.QuestionViewModel
+
+<form asp-controller="Generator" asp-action="QuestionairePost" method="post" id="songForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="w-screen">
+        <div class="flex flex-col justify-center items-center mt-56">
+            <div class="bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
+                <h1 class="font-bold text-5xl text-white p-2">Questionnaire Playlist Generator</h1>
+                <div class="text-white font-bold p-2">Select a Genre</div>
+                <select id="genre" asp-for="genre" asp-items="@Model.genresSelect" required>
+                </select>
+                <div class="text-white font-bold p-2">Tempo (Beats per minute)</div>
+                <input asp-for="tempo" min="30" max="250" type="number"/>
+
+                <div class="text-white text-2xl font-bold p-2">For all inputs below make sure the number is between 1 and 10</div>
+                <div class="text-white font-bold p-2">Level of acoustics</div>
+                <input asp-for="acousticness" min="0" max="10" type="number"/>
+
+                <div class="text-white font-bold p-2">Level of dancebility</div>
+                <input asp-for="danceability" min="0" max="10" type="number" />
+
+                <div class="text-white font-bold p-2">Level of energy</div>
+                <input asp-for="energy" min="0" max="10" type="number" />
+
+                <div class="text-white font-bold p-2">Level of instruments</div>
+                <input asp-for="instrumentalness" min="0" max="10" type="number" />
+
+                <div class="text-white font-bold p-2">Level of liveliness</div>
+                <input asp-for="liveness" min="0" max="10" type="number" />
+
+                <div class="text-white font-bold p-2">Level of popularity</div>
+                <input asp-for="popularity" min="0" max="10" type="number" />
+
+                <div class="text-white font-bold p-2">Level of vocals</div>
+                <input asp-for="speechiness" min="0" max="10" type="number" />
+
+                <div class="text-white font-bold p-2">Level of valence</div>
+                <input asp-for="valence" min="0" max="10" type="number" />
+
+                <button class="text-white font-bold p-2" type="submit">Generate Playlist</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+

@@ -4,28 +4,24 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    @* <li class="py-5 bottom-21 fixed text-xl -ml-20">
-        <h2 class="text-white text-center">Hello</h2>
-        <a class="text-white text-center" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity?.Name!</a>
-    </li> *@
-    <li class="py-5 bottom-20 fixed -ml-16">
+    <li class="p-4 bottom-20 fixed bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
         <form asp-controller='home' asp-action='callforward'>
-            <button type='submit' class="bg-gray-900 text-white px-4 border-b-4 py-2 rounded-md text-2xl hover:bg-green-700 ml-2 border-green-600">Spotify</button>
+            <button type='submit' class=""><i class="fa-brands fa-spotify"></i> Spotify</button>
         </form>
     </li>
     <br>
-    <li class="py-5 bottom-4 fixed -ml-16">
+    <li class="p-4 bottom-3 fixed bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
         <form  class="" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="bg-gray-900 text-white px-4 border-b-4 py-2 rounded-md text-2xl hover:bg-gray-700 ml-2 border-gray-600">Logout</button>
+            <button  type="submit" class=""><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
         </form>
     </li>
 }
 else
 {
-    <li class="py-5 bottom-20 fixed -ml-16">
-        <a class="bg-gray-900 text-white px-4 border-b-4 py-2 rounded-md text-2xl hover:bg-gray-700 border-gray-600" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    <li class="p-4 bottom-20 fixed bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
+        <a class="" asp-area="Identity" asp-page="/Account/Login"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
     </li>
-    <li class="py-5 bottom-4 fixed -ml-16">
-        <a class="bg-gray-900 text-white px-4 border-b-4 py-2 rounded-md text-2xl hover:bg-gray-700 border-gray-600" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    <li class="p-4 bottom-3 fixed bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
+        <a class="" asp-area="Identity" asp-page="/Account/Register"><i class="fa-solid fa-pen-to-square"></i> Register</a>
     </li>
 }
