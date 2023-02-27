@@ -24,9 +24,12 @@ public class DeepAiService : IDeepAIService
 
         try
         {
-            StandardApiResponse response = _DeepApi.callStandardApi("text2img", new
+            StandardApiResponse response = _DeepApi.callStandardApi("stable-diffusion", new
             {
-                text = UserInput
+                grid_size = "1",
+                text = UserInput,
+                width = "300",
+                height = "300"
             });
 
             return response.output_url;
