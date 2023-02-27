@@ -50,13 +50,14 @@ namespace MusicCollaborationManager.Services.Concrete
 
             var authenticatedSpotify = new SpotifyClient(config);
             Spotify = authenticatedSpotify;
-            authUser.Me = await Spotify.UserProfile.Current();
+
             return authenticatedSpotify;
         }
 
         public async Task<PrivateUser> GetAuthUser()
         {
-            return await Spotify.UserProfile.Current();
+            authUser.Me = await Spotify.UserProfile.Current();
+            return authUser.Me;
         }
 
         public async Task<List<FullTrack>> GetAuthUserTopTracks()

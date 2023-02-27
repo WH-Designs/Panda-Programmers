@@ -30,6 +30,7 @@ public class HomeController : Controller
     
     public IActionResult Index()
     {
+        
         return View();
     }
 
@@ -41,7 +42,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> callback(string code)
     {
-        _spotifyService.authUser.AuthClient = await _spotifyService.GetCallback(code);
+        await _spotifyService.GetCallback(code);
+        //HttpContext.Connection.RequestClose();
         
         //database saved spotify user id == new user id?
         //if not : give a logout of spotify<--
