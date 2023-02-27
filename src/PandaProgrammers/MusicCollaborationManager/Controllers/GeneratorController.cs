@@ -9,6 +9,7 @@ using MusicCollaborationManager.Models.DTO;
 using SpotifyAPI.Web;
 using static NuGet.Packaging.PackagingConstants;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MusicCollaborationManager.Services.Abstract;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -18,13 +19,15 @@ namespace MusicCollaborationManager.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SpotifyAuthService _spotifyService;
+        private readonly IDeepAIService _deepAIService;
 
-        public GeneratorController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService)
+        public GeneratorController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService, DeepAiService deepAiService)
         {
             _listenerRepository = listenerRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _spotifyService = spotifyService;
+            _deepAIService = deepAiService;
         }
 
         [Authorize]
@@ -55,16 +58,21 @@ namespace MusicCollaborationManager.Controllers
         [HttpPost]
         public async Task<IActionResult> QuestionairePost(QuestionViewModel vm)
         {
+            GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+            string UserInputCoverImage = vm.coverImageInput;
+
             RecommendDTO recommendDTO = new RecommendDTO();
             recommendDTO = recommendDTO.convertToDTO(vm);
+
             var response = _spotifyService.GetRecommendations(recommendDTO);
             List<SimpleTrack> result = new List<SimpleTrack>();
             result = response.Result.Tracks;
 
-            List<FullTrack> fullResult = new List<FullTrack>();
-            fullResult = await _spotifyService.ConvertToFullTrack(result);
+            generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrack(result);
 
-            return View("GeneratedPlaylists", fullResult);
+            generatorsViewModel.PlaylistCoverImageUrl = _deepAIService.GetImageUrlFromApi(UserInputCoverImage);
+
+            return View("GeneratedPlaylists", generatorsViewModel);
         }
 
         [Authorize]

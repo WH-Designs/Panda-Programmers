@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCollaborationManager.Models;
@@ -19,6 +20,8 @@ namespace MusicCollaborationManager.ViewModels
         public double speechiness { get; set; }
         public double tempo { get; set; }
         public double valence { get; set; }
+        [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
+        public string coverImageInput { get; set; }
         
     }
 }
