@@ -90,5 +90,14 @@ namespace MusicCollaborationManager.Controllers
 
             return PersonalPlaylistsToReturn;
         }
+
+        [HttpPost("savegeneratedplaylist")]
+        public async Task<bool> SaveMCMGeneratedPlaylist(List<string> newTrackUris) 
+        {
+            FullPlaylist NewPlaylist = new FullPlaylist();
+            NewPlaylist = await _spotifyService.CreateNewSpotifyPlaylist();
+
+            return await _spotifyService.AddSongsToPlaylist(NewPlaylist, newTrackUris);
+        }
     }
 }

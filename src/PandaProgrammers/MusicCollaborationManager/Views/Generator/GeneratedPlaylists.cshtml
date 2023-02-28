@@ -25,11 +25,11 @@
                     }
                 </div>
                
-                <form class="flex flex-row gap-x-3.5" id="playlist-form">
+                <form class="bg-gray-800 flex flex-row gap-x-3.5" id="playlist-form">
                     @{
                         for (int i = 0; i < Model.Count; i++)
                         {
-                            <input value="@Model.ElementAt(i).Uri" name="newTrackUris[@i]"/>
+                            <input value="@Model.ElementAt(i).Uri" type="hidden" name="newTrackUris[@i]"/>
                         }
                     }
 

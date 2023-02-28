@@ -33,7 +33,7 @@ namespace MusicCollaborationManager.Services.Concrete
             var loginRequest = new LoginRequest(
             new Uri(Uri), ClientId, LoginRequest.ResponseType.Code)
             {
-            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead}
+            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead, Scopes.PlaylistModifyPrivate}
             };
             var uri = loginRequest.ToUri();
             
@@ -184,5 +184,33 @@ namespace MusicCollaborationManager.Services.Concrete
             return returnTracks;
 
         }
+
+        public async Task<FullPlaylist> CreateNewSpotifyPlaylist()
+        {
+            PrivateUser User = await Spotify.UserProfile.Current();
+
+            PlaylistCreateRequest CreatePlaylistRequest = new PlaylistCreateRequest("MCM Playlist");
+            CreatePlaylistRequest.Public = false;
+            
+            return await Spotify.Playlists.Create(User.Id, CreatePlaylistRequest);
+           
+        }
+
+        public async Task<bool> AddSongsToPlaylist(FullPlaylist playlistToFill, List<string> trackUris)
+        {
+            bool TracksSuccessfullyAdded = false;
+            try //In case "trackUris" param is null.
+            {
+                PlaylistAddItemsRequest AddItemsRequest = new PlaylistAddItemsRequest(trackUris);
+                await Spotify.Playlists.AddItems(playlistToFill.Id, AddItemsRequest);
+                TracksSuccessfullyAdded = true;
+            }
+            catch (NullReferenceException)
+            {
+                Debug.WriteLine("An error occured while adding songs to a spotify playlist");
+            }
+
+             return TracksSuccessfullyAdded;
+        } 
     }
 }

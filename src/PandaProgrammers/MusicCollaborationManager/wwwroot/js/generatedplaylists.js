@@ -13,29 +13,36 @@ function getFormData($form) {
 
 
 $("#save-playlist-btn").click(function () {
-    console.log("save button clicked");
 
     var $form = $("#playlist-form");
     var actualData = getFormData($form);
-    /*    console.log(actualData)*/
+/*    console.log(data)*/
 
-    //$.each(actualData, function (index, item) {
-    //    console.log(`Item ${index}: ${item}`);
-    //});
-
-    console.log("LAST ENTRY: " + actualData["__RequestVerificationToken"]);
+ /*   console.log("LAST ENTRY: " + actualData["__RequestVerificationToken"]);*/
     delete actualData["__RequestVerificationToken"];
 
     let dataAsArray = [];
     $.each(actualData, function (index, item) {
         dataAsArray.push(item);
     });
+/*    console.log(dataAsArray);*/
+    
+    $.ajax({
+        method: "POST",
+        url: "/api/spotifyauth/savegeneratedplaylist",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        data: JSON.stringify(dataAsArray),
+        success: savePlaylist,
+        error: errorOnAjax
+    });
  
 });
 
 
 function savePlaylist(data) {
-    console.log("Printing 'data' (savePlaylist): " + data);  //Assume that 'data' is a bool. C# variable name is: "TracksSuccessfullyAdded".
+    console.log("Result of 'SaveMCMGeneratedPlaylist': " + data);
+    //Perform redirect
 }
 
 function errorOnAjax(){
@@ -45,4 +52,6 @@ function errorOnAjax(){
 
 $("#discard-playlist-btn").click(function () {
     console.log("discard button clicked");
+    //Perform redirect
+
 });
