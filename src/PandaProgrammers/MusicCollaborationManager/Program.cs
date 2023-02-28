@@ -38,6 +38,7 @@ public class Program
         string clientID = builder.Configuration["SpotifyClientID"];
         string clientSecret = builder.Configuration["SpotifySecret"];
         string redirectUri = builder.Configuration["RedirectUri"];
+        string deepAiKey = builder.Configuration["DeepAiKey"];
 
         builder.Services.AddControllersWithViews();
         var MCMconnectionString = builder.Configuration.GetConnectionString("MCMConnection");
@@ -65,6 +66,8 @@ public class Program
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
         builder.Services.AddScoped<SpotifyClientBuilder>();
+
+        builder.Services.AddScoped<IDeepAiService, DeepAiService>(d => new DeepAiService(deepAiKey));
 
         builder.Services.AddSwaggerGen();
         var app = builder.Build();
