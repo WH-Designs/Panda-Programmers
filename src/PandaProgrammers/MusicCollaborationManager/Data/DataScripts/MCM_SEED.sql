@@ -1,8 +1,8 @@
-INSERT INTO [Listener] (FirstName, LastName, FriendID, ASPNetIdentityID)
-   VALUES
-   ('Chad' ,'Bass' ,1 , '0'),
-   ('Tiffany' ,'Fox' ,2 , '0'),
-   ('Dwight' ,'Morse' ,3 , '0');
+--INSERT INTO [Listener] (FirstName, LastName, FriendID, ASPNetIdentityID, SpotifyID)
+--   VALUES
+--   ('Chad' ,'Bass' ,1 , '0', '0'),
+--   ('Tiffany' ,'Fox' ,2 , '0', '0'),
+--   ('Dwight' ,'Morse' ,3 , '0', '0');
 
 INSERT INTO [Playlist] (ServiceID)
     VALUES
