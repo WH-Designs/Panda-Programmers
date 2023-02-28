@@ -39,18 +39,9 @@ namespace MusicCollaborationManager.Controllers
             try
             {
                 var holder = _spotifyService.GetSeedGenres();
-                vm.genresSelect = new List<SelectListItem>();
-                foreach (string genre in holder.Result.Genres)
-                {
-                    var item = new SelectListItem()
-                    {
-                        Text = genre,
-                        Value = genre
-                    };
-                    vm.genresSelect.Add(item);
-                }
+                var seededVM = vm.SeedGenres(vm, holder);
 
-                return View("Questionaire", vm);
+                return View("Questionaire", seededVM);
             }
             catch (Exception e)
             {

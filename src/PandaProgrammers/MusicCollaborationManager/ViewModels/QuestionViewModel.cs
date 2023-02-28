@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCollaborationManager.Models;
 using MusicCollaborationManager.Models.DTO;
+using SpotifyAPI.Web;
 
 namespace MusicCollaborationManager.ViewModels
 {
@@ -31,5 +32,20 @@ namespace MusicCollaborationManager.ViewModels
         [Range(1, 10)]
         public double valence { get; set; } 
         
+
+        public QuestionViewModel SeedGenres(QuestionViewModel vm ,Task<RecommendationGenresResponse> recommendation)
+        {
+            vm.genresSelect = new List<SelectListItem>();
+            foreach (string genre in recommendation.Result.Genres)
+            {
+                var item = new SelectListItem()
+                {
+                    Text = genre,
+                    Value = genre
+                };
+                vm.genresSelect.Add(item);
+            }
+            return vm;
+        }
     }
 }

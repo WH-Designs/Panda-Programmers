@@ -1,31 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace MusicCollaborationManager.Models;
 
-[Table("Theme")]
 public partial class Theme
 {
-    [Key]
-    [Column("ID")]
     public int Id { get; set; }
 
-    [StringLength(6)]
-    public string PrimaryColor { get; set; } = null!;
+    public string PrimaryColor { get; set; }
 
-    [StringLength(6)]
-    public string SecondaryColor { get; set; } = null!;
+    public string SecondaryColor { get; set; }
 
-    [StringLength(32)]
-    public string Font { get; set; } = null!;
+    public string Font { get; set; }
 
-    [Column("ListenerID")]
     public int ListenerId { get; set; }
 
-    [ForeignKey("ListenerId")]
-    [InverseProperty("Themes")]
-    public virtual Listener Listener { get; set; } = null!;
+    public virtual Listener Listener { get; set; }
 }
