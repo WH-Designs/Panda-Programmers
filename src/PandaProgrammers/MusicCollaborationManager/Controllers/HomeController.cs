@@ -43,6 +43,7 @@ public class HomeController : Controller
     public async Task<IActionResult> callback(string code)
     {
         await _spotifyService.GetCallback(code);
+        
         //HttpContext.Connection.RequestClose();
         
         //database saved spotify user id == new user id?

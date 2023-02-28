@@ -48,7 +48,7 @@ namespace MusicCollaborationManager.Controllers
                 vm.FeatPlaylists = await _spotifyService.GetFeatPlaylists();
                 vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
             }
-            catch (NullReferenceException e) 
+            catch (Exception e) 
             {
                 return RedirectToAction("callforward", "Home");
             }
