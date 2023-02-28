@@ -67,7 +67,7 @@ public class Program
         builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
         builder.Services.AddScoped<SpotifyClientBuilder>();
 
-        builder.Services.AddScoped<IDeepAIService, DeepAiService>(d => new DeepAiService(deepAiKey));
+        builder.Services.AddScoped<IDeepAiService, DeepAiService>(d => new DeepAiService(deepAiKey));
 
         builder.Services.AddSwaggerGen();
         var app = builder.Build();

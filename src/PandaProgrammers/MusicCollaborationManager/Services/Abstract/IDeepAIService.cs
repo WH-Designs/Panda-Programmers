@@ -1,6 +1,6 @@
 ﻿namespace MusicCollaborationManager.Services.Abstract
 {
-    public interface IDeepAIService
+    public interface IDeepAiService
     {
         string GetImageUrlFromApi(string UserInput);
     }

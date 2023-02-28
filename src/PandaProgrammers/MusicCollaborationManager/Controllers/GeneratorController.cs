@@ -19,15 +19,15 @@ namespace MusicCollaborationManager.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SpotifyAuthService _spotifyService;
-        private readonly IDeepAIService _deepAIService;
+        private readonly IDeepAiService _deepAiService;
 
-        public GeneratorController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService, DeepAiService deepAiService)
+        public GeneratorController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService, IDeepAiService deepAiService)
         {
             _listenerRepository = listenerRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _spotifyService = spotifyService;
-            _deepAIService = deepAiService;
+            _deepAiService = deepAiService;
         }
 
         [Authorize]
@@ -70,7 +70,7 @@ namespace MusicCollaborationManager.Controllers
 
             generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrack(result);
 
-            generatorsViewModel.PlaylistCoverImageUrl = _deepAIService.GetImageUrlFromApi(UserInputCoverImage);
+            generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
 
             return View("GeneratedPlaylists", generatorsViewModel);
         }

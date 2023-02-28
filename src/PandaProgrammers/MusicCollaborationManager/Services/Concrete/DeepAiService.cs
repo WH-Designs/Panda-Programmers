@@ -3,7 +3,7 @@ using MusicCollaborationManager.Services.Abstract;
 
 namespace MusicCollaborationManager.Services.Concrete;
 
-public class DeepAiService : IDeepAIService
+public class DeepAiService : IDeepAiService
 {
     public string DeepAiKey { get; set; }
     private static DeepAI_API _DeepApi { get; set; }
