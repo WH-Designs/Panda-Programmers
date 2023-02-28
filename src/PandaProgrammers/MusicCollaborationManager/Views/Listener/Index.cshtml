@@ -4,6 +4,8 @@
 
 }
 
+
+<script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
 <div class="flex flex-col">
     <div class="flex flex-row ml-48 mt-36">
         <div class="flex flex-col w-3/4 mx-5">
@@ -18,16 +20,22 @@
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
                 </div>
                 <div class="columns-5 mb-5 h-full max-h-max">
-                    <div class="w-fit overflow-hidden bg-gray-300" id="user-track-0-container">
-                    </div>
-                    <div class="w-fit overflow-hidden bg-gray-300" id="user-track-1-container">
-                    </div>
-                    <div class="w-fit overflow-hidden bg-gray-300" id="user-track-2-container">
-                    </div>
-                    <div class="w-fit overflow-hidden bg-gray-300" id="user-track-3-container">
-                    </div>
-                    <div class="w-fit overflow-hidden bg-gray-300" id="user-track-4-container">
-                    </div>
+                    @{
+                        foreach (var song in Model.TopTracks)
+                        {
+                            <div class="w-fit overflow-hidden bg-gray-300">
+                                @{
+                                    if (song.Album.Images[1]?.Url != null)
+                                    {
+                                        <img src="@song.Album.Images[1].Url">
+                                    }
+                                    <a href="@song.ExternalUrls["spotify"]">@song.Name</a>
+                                    <p>@song.Artists.ElementAt(0).Name</p>
+                                    <button class="playable-item hover:bg-gray-800 hover:text-white" data-spotify-id="@song.Uri">Play</button>
+                                }
+                            </div>
+                        }
+                    }
                 </div>
             </div>
 
@@ -37,37 +45,52 @@
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
                 </div>
                 <div class="columns-5 mb-5 h-full max-h-max">
-                    <div class="w-fit bg-gray-300" id="user-playlist-0-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-playlist-1-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-playlist-2-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-playlist-3-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-playlist-4-container">
-                    </div>
+                    @{
+                        int FeatIndex = 0;
+                        foreach(var playlist in Model.FeatPlaylists)
+                        {
+                            <div class="w-fit bg-gray-300 mb-5">
+                                @{
+                                    if (playlist.Images[0]?.Url != null)
+                                    {
+                                        <img src="@playlist.Images[0].Url">
+                                    }
+                                    <a href="@playlist.ExternalUrls["spotify"]">@playlist.Name</a>
+                                    <button class="playable-item hover:bg-gray-800 hover:text-white block" data-spotify-id="@playlist.Uri">Play</button>
+                                    
+                                }
+                            </div>
+                            if (FeatIndex > 3) //Containers were NOT made in mind with more than 5 songs.
+                            { break; }
+                            FeatIndex++;
+                        }  
+                    }
                 </div>
             </div>
-            
             <div class="w-full h-max max-h-max bg-gray-800 my-1 p-3 rounded-lg shadow-2xl">
                 <div class="flex flex-row gap-x-3 mt-5">
                     <h2 class="font-bold mb-5 mt-2 text-white">My Playlists</h2>
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
                 </div>
                 <div class="columns-5 mb-5 h-full max-h-max">
-                    <div class="w-fit bg-gray-300" id="user-personal-playlist-0-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-personal-playlist-1-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-personal-playlist-2-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-personal-playlist-3-container">
-                    </div>
-                    <div class="w-fit bg-gray-300" id="user-personal-playlist-4-container">
-                    </div>
+                    @{
+                        foreach (var playlist in Model.UserPlaylists)
+                        {
+                            <div class="w-fit overflow-hidden bg-gray-300">
+                                @{
+                                    if (playlist.Images[0]?.Url != null)
+                                    {
+                                        <img src="@playlist.Images[0].Url">
+                                    }
+                                    <a href="@playlist.ExternalUrls["spotify"]">@playlist.Name</a>
+                                    <button class="playable-item hover:bg-gray-800 hover:text-white block" data-spotify-id="@playlist.Uri">Play</button>
+                                }
+                            </div>
+                        }
+                    }
                 </div>
             </div>
+            <div id="embed-iframe"></div>
         </div>
         <div class="flex flex-col w-52 mx-5 text-white">
             <div class="w-full bg-gray-800 my-1 p-3 rounded-lg text-center">
@@ -82,6 +105,30 @@
         </div>        
     </div>
 </div>
+
+<script>
+
+    window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        let element = document.getElementById('embed-iframe');
+        let options = {
+            width: '80%',
+            height: '400',
+            uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
+            
+        };
+        let callback = (EmbedController) => {
+            document.querySelectorAll('.playable-item').forEach(
+                episode => {
+                    episode.addEventListener('click', () => {
+                        EmbedController.loadUri(episode.dataset.spotifyId)
+                        EmbedController.play();
+                    });
+                })
+        };
+        IFrameAPI.createController(element, options, callback);
+        
+    };
+</script>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
