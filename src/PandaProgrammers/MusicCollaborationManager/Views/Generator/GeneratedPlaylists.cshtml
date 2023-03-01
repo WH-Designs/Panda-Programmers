@@ -6,7 +6,7 @@
 
 <div class="flex flex-col">
     <div class="flex flex-row ml-48 mt-36">
-        <div class="flex flex-col w-3/4 mx-5">
+        <div class="flex flex-col w-3/4 mx-5" id="explanation-title">
             <div>
                 <h1 class="font-bold text-4xl">Generated Playlist</h1>
             </div>
@@ -14,7 +14,7 @@
                 <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
                 </div>
-                <div class="columns-5 mb-5 h-full max-h-max overflow-x-auto">
+                <div class="columns-5 mb-5 h-full max-h-max">
                     @foreach(var track in Model)
                     {
                         <div class="w-fit overflow-hidden mt-4">
@@ -32,11 +32,8 @@
                             <input value="@Model.ElementAt(i).Uri" type="hidden" name="newTrackUris[@i]"/>
                         }
                     }
-
                     <button class="text-white font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600" type="button" id="save-playlist-btn">Save playlist</button>
                     <button class="text-white font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600" type="button" id="discard-playlist-btn">Discard playlist</button>
-                     
-                    
                 </form>
                 
             </div>
