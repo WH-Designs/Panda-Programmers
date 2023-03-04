@@ -8,6 +8,15 @@ using MusicCollaborationManager.Services.Concrete;
 using MusicCollaborationManager.Models.DTO;
 using SpotifyAPI.Web;
 using static NuGet.Packaging.PackagingConstants;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using MusicCollaborationManager.Models;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -101,6 +110,33 @@ namespace MusicCollaborationManager.Controllers
 
 
             return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditListenerInformation(int id,
+            [Bind("Id,FirstName,LastName")] Listener listener)
+        {
+            if (id != listener.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _listenerRepository.AddOrUpdateListener(listener);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+
+                return RedirectToAction(nameof(Profile));
+            }
+
+            return View("Settings", listener);
         }
     }
 }
