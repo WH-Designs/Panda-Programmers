@@ -7,8 +7,8 @@ using MusicCollaborationManager.Services.Abstract;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web;
 using MusicCollaborationManager.Services.Concrete;
-using MusicCollaborationManager.Models.DTO;
-using System.Web;
+using MusicCollaborationManager.DAL.Abstract;
+using Microsoft.AspNetCore.Authentication;
 
 
 namespace MusicCollaborationManager.Controllers;
@@ -17,15 +17,15 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly SpotifyClientBuilder _spotifyClientBuilder;
+    private readonly IListenerRepository _listenerRepository;
     private readonly SpotifyAuthService _spotifyService;
 
-    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SpotifyClientBuilder spotifyClientBuilder, SpotifyAuthService spotifyService)
+    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SpotifyAuthService spotifyService, IListenerRepository listenerRepository)
     {
         _logger = logger;
         _userManager = userManager;
-        _spotifyClientBuilder = spotifyClientBuilder;
         _spotifyService = spotifyService;
+        _listenerRepository = listenerRepository;
     }
     
     public IActionResult Index()
@@ -42,8 +42,24 @@ public class HomeController : Controller
 
     public async Task<IActionResult> callback(string code)
     {
-        await _spotifyService.GetCallback(code);
+        string aspId = _userManager.GetUserId(User);
+        Listener listener = new Listener();
+        listener = _listenerRepository.FindListenerByAspId(aspId);        
         
+        await _spotifyService.GetCallback(code);
+        PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUser();
+
+        if (listener.SpotifyId == null) {
+            listener.SpotifyId = currentSpotifyUser.Id;
+            _listenerRepository.AddOrUpdate(listener);
+        } else if (listener.SpotifyId != currentSpotifyUser.Id) {
+            HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+            //return Redirect("https://open.spotify.com/");
+            // AuthenticationProperties authentication = new AuthenticationProperties();
+            // AuthenticationService.SignOutAsync(HttpContext, "Spotify", authentication);
+        }
+
         //HttpContext.Connection.RequestClose();
         
         //database saved spotify user id == new user id?

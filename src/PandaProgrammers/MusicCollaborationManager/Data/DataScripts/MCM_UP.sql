@@ -6,7 +6,8 @@ CREATE TABLE [Listener] (
     [LastName]          nvarchar(64)    NOT NULL,
     [FriendID]          int             NOT NULL,
     [ASPNetIdentityID]  nvarchar(64)    NOT NULL,
-    [SpotifyID]         nvarchar(128)   NOT NULL
+    [SpotifyID]         nvarchar(128)   NULL,
+    [AuthToken]         nvarchar(255)   NULL
 );
 
 CREATE TABLE [Theme] (
@@ -14,7 +15,7 @@ CREATE TABLE [Theme] (
     [PrimaryColor]      nvarchar(6)     NOT NULL,
     [SecondaryColor]    nvarchar(6)     NOT NULL,
     [Font]              nvarchar(32)    NOT NULL,
-    [ListenerID]       int             NOT NULL
+    [ListenerID]       int              NOT NULL
 );
 
 CREATE TABLE [Comment] (

@@ -6,6 +6,7 @@ using SpotifyAPI.Web.Auth;
 using Microsoft.AspNetCore.Authentication;
 using System.Diagnostics;
 using MusicCollaborationManager.Models.DTO;
+using MusicCollaborationManager.Models;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -44,14 +45,15 @@ namespace MusicCollaborationManager.Services.Concrete
         {
             Uri uri = new Uri(Uri);
             var response = await new OAuthClient().RequestToken(new AuthorizationCodeTokenRequest(ClientId, ClientSecret, code, uri));
+                
             var config = SpotifyClientConfig
                 .CreateDefault()
                 .WithAuthenticator(new AuthorizationCodeAuthenticator(ClientId, ClientSecret, response));
 
-            var authenticatedSpotify = new SpotifyClient(config);
-            Spotify = authenticatedSpotify;
+            var authenticatedNewSpotify = new SpotifyClient(config);
+            Spotify = authenticatedNewSpotify;
 
-            return authenticatedSpotify;
+            return authenticatedNewSpotify;
         }
 
         public async Task<PrivateUser> GetAuthUser()

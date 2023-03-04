@@ -36,6 +36,12 @@ namespace MusicCollaborationManager.Controllers
 
             listener = _listenerRepository.FindListenerByAspId(aspId);
 
+            // if (listener.SpotifyId == null) {
+            //     PrivateUser currentSpotifyID = await _spotifyService.GetAuthUser();
+            //     listener.SpotifyId = currentSpotifyID.Id;
+            //     _listenerRepository.AddOrUpdate(listener);
+            // }  
+
             vm.fullName = _listenerRepository.GetListenerFullName(listener.Id);
 
             vm.listener = listener;
