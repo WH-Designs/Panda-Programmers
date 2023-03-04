@@ -30,8 +30,9 @@ namespace MusicCollaborationManager.ViewModels
         [Range(30, 250)]
         public double tempo { get; set; }
         [Range(1, 10)]
-        public double valence { get; set; } 
-        
+        public double valence { get; set; }
+        [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
+        public string coverImageInput { get; set; }
 
         public QuestionViewModel SeedGenres(QuestionViewModel vm ,Task<RecommendationGenresResponse> recommendation)
         {

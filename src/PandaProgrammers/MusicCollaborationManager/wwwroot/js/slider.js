@@ -1,4 +1,4 @@
-﻿
+﻿//https://www.w3schools.com/howto/howto_js_rangeslider.asp This resource was helpful with setting up the JS for the sliders
 
 var tempoSlider = document.getElementById("tempoRange");
 var tempoOutput = document.getElementById("tempoValue");
