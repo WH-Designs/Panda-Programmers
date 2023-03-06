@@ -16,16 +16,16 @@ $("#save-playlist-btn").click(function () {
 
     var $form = $("#playlist-form");
     var actualData = getFormData($form);
-/*    console.log(data)*/
+/*    console.log(actualData)*/
 
- /*   console.log("LAST ENTRY: " + actualData["__RequestVerificationToken"]);*/
+    console.log("LAST ENTRY: " + actualData["__RequestVerificationToken"]);
     delete actualData["__RequestVerificationToken"];
 
     let dataAsArray = [];
     $.each(actualData, function (index, item) {
         dataAsArray.push(item);
     });
-/*    console.log(dataAsArray);*/
+    console.log(dataAsArray);
 
     $.ajax({
         method: "POST",
@@ -45,13 +45,8 @@ function redirectToGenIndex() {
 }
 
 
-$("#save-playlist-btn").click(function () {
- 
-});
-
-
 function savePlaylist(data) {
-    console.log("Result of 'SaveMCMGeneratedPlaylist': " + data);
+    //console.log("Result of 'SaveMCMGeneratedPlaylist': " + data);
     let text = "The playlist has been saved to your Spotify account";
 
     if (data === false) {

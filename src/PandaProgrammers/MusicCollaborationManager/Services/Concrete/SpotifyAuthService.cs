@@ -14,7 +14,7 @@ namespace MusicCollaborationManager.Services.Concrete
         public static string ClientId { get; set; }
         public static string ClientSecret { get; set; }
         private static SpotifyClientConfig Config { get; set; }
-        private static SpotifyClient Spotify { get; set; }
+        public static SpotifyClient Spotify { get; set; }
 
         //public static SpotifyClientConfig DefaultConfig = SpotifyClientConfig.CreateDefault();
         public AuthorizedUserDTO authUser { get; set; }
@@ -33,7 +33,8 @@ namespace MusicCollaborationManager.Services.Concrete
             var loginRequest = new LoginRequest(
             new Uri(Uri), ClientId, LoginRequest.ResponseType.Code)
             {
-            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead, Scopes.PlaylistModifyPrivate}
+            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead, Scopes.PlaylistModifyPrivate, 
+                Scopes.PlaylistModifyPublic}
             };
             var uri = loginRequest.ToUri();
             
@@ -185,32 +186,26 @@ namespace MusicCollaborationManager.Services.Concrete
 
         }
 
-        public async Task<FullPlaylist> CreateNewSpotifyPlaylist()
+        public static IUserProfileClient GetUserProfileClient() 
         {
-            PrivateUser User = await Spotify.UserProfile.Current();
-
-            PlaylistCreateRequest CreatePlaylistRequest = new PlaylistCreateRequest("MCM Playlist");
-            CreatePlaylistRequest.Public = false;
-            
-            return await Spotify.Playlists.Create(User.Id, CreatePlaylistRequest);
-           
+            return Spotify.UserProfile;
         }
 
-        public async Task<bool> AddSongsToPlaylist(FullPlaylist playlistToFill, List<string> trackUris)
+        public static IPlaylistsClient GetPlaylistsClient() 
         {
-            bool TracksSuccessfullyAdded = false;
-            try //In case "trackUris" param is null.
-            {
-                PlaylistAddItemsRequest AddItemsRequest = new PlaylistAddItemsRequest(trackUris);
-                await Spotify.Playlists.AddItems(playlistToFill.Id, AddItemsRequest);
-                TracksSuccessfullyAdded = true;
-            }
-            catch (NullReferenceException)
-            {
-                Debug.WriteLine("An error occured while adding songs to a spotify playlist");
-            }
+            return Spotify.Playlists;
+        }
 
-             return TracksSuccessfullyAdded;
+        public async Task AddSongsToPlaylistAsync(FullPlaylist playlistToFill, List<string> trackUris)
+        {
+            PlaylistAddItemsRequest AddItemsRequest = new PlaylistAddItemsRequest(trackUris);
+            await Spotify.Playlists.AddItems(playlistToFill.Id, AddItemsRequest);
+        }
+
+        public static async Task<FullPlaylist> CreateNewSpotifyPlaylistAsync(PlaylistCreateRequest createRequest, IUserProfileClient userProfileClient, IPlaylistsClient playlistsClient)
+        {
+            PrivateUser CurUser = await userProfileClient.Current();
+            return await playlistsClient.Create(CurUser.Id, createRequest);
         }
     }
 }
