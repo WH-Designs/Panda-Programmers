@@ -1,4 +1,5 @@
-﻿@model List<SpotifyAPI.Web.FullTrack>
+﻿@using Microsoft.IdentityModel.Tokens
+@model MusicCollaborationManager.ViewModels.GeneratorsViewModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -11,14 +12,15 @@
                 <h1 class="font-bold text-4xl">Generated Playlist</h1>
             </div>
             <div class="w-full h-max max-h-max bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
+                <img src="@Model.PlaylistCoverImageUrl" alt="Playlist Image"/>
                 <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
-                    <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
+                    <h1>Tracks</h1>
                 </div>
                 <div class="columns-5 mb-5 h-full max-h-max">
-                    @foreach(var track in Model)
+                    @foreach(var track in Model.fullResult)
                     {
                         <div class="w-fit overflow-hidden mt-4">
-                            <img src="@track.Album.Images[0].Url"  />
+                            <img src="@track.Album.Images[0].Url" />
                             <h2 class="text-white">Track Name: @track.Name</h2>
                             <h2 class="text-white">Album Name: @track.Album.Name</h2>
                         </div>

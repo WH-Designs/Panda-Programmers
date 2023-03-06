@@ -27,7 +27,7 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
-        public IActionResult Index(UserDashboardViewModel vm)
+        public async Task<IActionResult> Index(UserDashboardViewModel vm)
         {
             // PrivateUser user = _spotifyService.authUser.Me;
             // if (user == null){
@@ -45,6 +45,20 @@ namespace MusicCollaborationManager.Controllers
             vm.listener = listener;
 
             vm.aspUser = User;
+
+            try
+            {
+                vm.TopTracks = await _spotifyService.GetAuthUserTopTracks();
+                vm.FeatPlaylists = await _spotifyService.GetFeatPlaylists();
+                vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
+            }
+            catch (NullReferenceException e) 
+            {
+                vm.TopTracks = new List<FullTrack>();
+                vm.FeatPlaylists = new List<SimplePlaylist>();
+                vm.UserPlaylists = new List<SimplePlaylist>();
+            }
+           
 
             return View(vm);
         }

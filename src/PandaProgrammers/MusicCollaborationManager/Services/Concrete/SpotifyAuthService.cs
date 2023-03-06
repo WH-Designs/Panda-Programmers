@@ -62,7 +62,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
         public async Task<List<FullTrack>> GetAuthUserTopTracks()
         {
-            var topTracks = await Spotify.Personalization.GetTopTracks();
+            var topTracks = await Spotify.Personalization.GetTopTracks();   
             var topTracksList = topTracks.Items;
 
             if (topTracksList.Count == 0) {
@@ -144,9 +144,44 @@ namespace MusicCollaborationManager.Services.Concrete
         public async Task<RecommendationGenresResponse> GetSeedGenres()
         {
             var currentGenres = await Spotify.Browse.GetRecommendationGenres();
-
             return currentGenres;
         }
+
+        public async Task<List<SimplePlaylist>> GetFeatPlaylists()
+        {
+            PrivateUser CurUser = new PrivateUser();
+            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
+            {
+                Limit = 5,
+            };
+            try
+            {
+                CurUser = await Spotify.UserProfile.Current();
+                RequestParameters.Country = CurUser.Country;
+            }
+            catch (NullReferenceException e) 
+            {
+                RequestParameters.Country = "NA";
+            }
+
+
+            if (RequestParameters.Country == "US")
+                RequestParameters.Limit = 10;
+
+            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
+            if (FeaturedPlaylists == null) 
+            {
+                return null;
+            }
+
+            if (CurUser.Country == "US")
+                FeaturedPlaylists.Playlists.Items.Reverse();
+
+            return FeaturedPlaylists.Playlists.Items;
+        }
+
+
+   
 
         public async Task<RecommendationsResponse> GetRecommendations(RecommendDTO recommendDTO)
         {

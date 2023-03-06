@@ -9,6 +9,7 @@ using MusicCollaborationManager.Models.DTO;
 using SpotifyAPI.Web;
 using static NuGet.Packaging.PackagingConstants;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MusicCollaborationManager.Services.Abstract;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -18,13 +19,15 @@ namespace MusicCollaborationManager.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SpotifyAuthService _spotifyService;
+        private readonly IDeepAiService _deepAiService;
 
-        public GeneratorController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService)
+        public GeneratorController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService, IDeepAiService deepAiService)
         {
             _listenerRepository = listenerRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _spotifyService = spotifyService;
+            _deepAiService = deepAiService;
         }
 
         [Authorize]
@@ -36,35 +39,46 @@ namespace MusicCollaborationManager.Controllers
         [Authorize]
         public IActionResult Questionaire(QuestionViewModel vm)
         {
-            var holder = _spotifyService.GetSeedGenres();
-            vm.genresSelect = new List<SelectListItem>();
-            foreach (string genre in holder.Result.Genres)
+            try
             {
-                var item = new SelectListItem()
-                {
-                    Text = genre,
-                    Value = genre
-                };
-                vm.genresSelect.Add(item);
-            }
+                var holder = _spotifyService.GetSeedGenres();
+                var seededVM = vm.SeedGenres(vm, holder);
 
-            return View("Questionaire", vm);
+                return View("Questionaire", seededVM);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("callforward", "Home");
+            }
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> QuestionairePost(QuestionViewModel vm)
         {
-            RecommendDTO recommendDTO = new RecommendDTO();
-            recommendDTO = recommendDTO.convertToDTO(vm);
-            var response = _spotifyService.GetRecommendations(recommendDTO);
-            List<SimpleTrack> result = new List<SimpleTrack>();
-            result = response.Result.Tracks;
+            try
+            {
+                GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+                string UserInputCoverImage = vm.coverImageInput;
 
-            List<FullTrack> fullResult = new List<FullTrack>();
-            fullResult = await _spotifyService.ConvertToFullTrack(result);
+                RecommendDTO recommendDTO = new RecommendDTO();
+                recommendDTO = recommendDTO.convertToDTO(vm);
 
-            return View("GeneratedPlaylists", fullResult);
+                var response = _spotifyService.GetRecommendations(recommendDTO);
+                List<SimpleTrack> result = new List<SimpleTrack>();
+                result = response.Result.Tracks;
+
+                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrack(result);
+
+                generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
+
+                return View("GeneratedPlaylists", generatorsViewModel);
+            }
+            catch (Exception e) 
+            {
+                return RedirectToAction("callforward", "Home");
+            }
+
         }
 
         [Authorize]
