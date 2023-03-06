@@ -72,8 +72,8 @@ namespace MusicCollaborationManager.Services.Concrete
             } catch (APIUnauthorizedException e){
                 Console.WriteLine(e.Message);
 
-                // send the user to the spotify logout page
-                
+                listener.AuthRefreshToken = "";
+
                 return listener;
             }
         }
