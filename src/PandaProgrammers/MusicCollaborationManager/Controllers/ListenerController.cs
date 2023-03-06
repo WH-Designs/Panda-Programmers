@@ -29,18 +29,17 @@ namespace MusicCollaborationManager.Controllers
         [Authorize]
         public async Task<IActionResult> Index(UserDashboardViewModel vm)
         {
-
+            
             string aspId = _userManager.GetUserId(User);
 
             Listener listener = new Listener();
 
             listener = _listenerRepository.FindListenerByAspId(aspId);
 
-            // if (listener.SpotifyId == null) {
-            //     PrivateUser currentSpotifyID = await _spotifyService.GetAuthUser();
-            //     listener.SpotifyId = currentSpotifyID.Id;
-            //     _listenerRepository.AddOrUpdate(listener);
-            // }  
+            if (listener.SpotifyId != null) {
+                await _spotifyService.GetCallback("", listener);
+                _listenerRepository.AddOrUpdate(listener);
+            }
 
             vm.fullName = _listenerRepository.GetListenerFullName(listener.Id);
 
@@ -56,6 +55,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e) 
             {
+                Console.WriteLine(e);
                 return RedirectToAction("callforward", "Home");
             }
            

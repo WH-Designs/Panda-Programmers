@@ -30,7 +30,7 @@ public partial class MCMDbContext : DbContext
     {
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27B0EDC9D7");
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC2776306FB4");
 
             entity.ToTable("Comment");
 
@@ -54,7 +54,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Listener>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC27DE6D75AD");
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC277E69B13D");
 
             entity.ToTable("Listener");
 
@@ -63,7 +63,8 @@ public partial class MCMDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(64)
                 .HasColumnName("ASPNetIdentityID");
-            entity.Property(e => e.AuthToken).HasMaxLength(255);
+            entity.Property(e => e.AuthRefreshToken).HasMaxLength(512);
+            entity.Property(e => e.AuthToken).HasMaxLength(512);
             entity.Property(e => e.FirstName)
                 .IsRequired()
                 .HasMaxLength(64);
@@ -78,7 +79,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Playlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC271C047E7D");
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC279E7DF800");
 
             entity.ToTable("Playlist");
 
@@ -88,7 +89,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Theme>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Theme__3214EC27ED82B981");
+            entity.HasKey(e => e.Id).HasName("PK__Theme__3214EC27C34A7FF6");
 
             entity.ToTable("Theme");
 

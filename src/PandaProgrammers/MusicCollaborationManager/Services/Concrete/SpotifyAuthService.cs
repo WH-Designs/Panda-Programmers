@@ -16,8 +16,6 @@ namespace MusicCollaborationManager.Services.Concrete
         public static string ClientSecret { get; set; }
         private static SpotifyClientConfig Config { get; set; }
         private static SpotifyClient Spotify { get; set; }
-
-        //public static SpotifyClientConfig DefaultConfig = SpotifyClientConfig.CreateDefault();
         public AuthorizedUserDTO authUser { get; set; }
         public string Uri { get; set; }
 
@@ -41,19 +39,43 @@ namespace MusicCollaborationManager.Services.Concrete
             return uri.AbsoluteUri;
         }
 
-        public async Task<SpotifyClient> GetCallback(string code)
+        public async Task<Listener> GetCallback(string code, Listener listener)
         {
             Uri uri = new Uri(Uri);
-            var response = await new OAuthClient().RequestToken(new AuthorizationCodeTokenRequest(ClientId, ClientSecret, code, uri));
+            
+            if (listener.AuthToken == null && listener.SpotifyId == null && listener.AuthRefreshToken == null) {
                 
-            var config = SpotifyClientConfig
-                .CreateDefault()
-                .WithAuthenticator(new AuthorizationCodeAuthenticator(ClientId, ClientSecret, response));
+                var response = await new OAuthClient().RequestToken(new AuthorizationCodeTokenRequest(ClientId, ClientSecret, code, uri));
+                listener.AuthToken = response.AccessToken;
+                listener.AuthRefreshToken = response.RefreshToken;
 
-            var authenticatedNewSpotify = new SpotifyClient(config);
-            Spotify = authenticatedNewSpotify;
+                var config = SpotifyClientConfig
+                    .CreateDefault()
+                    .WithAuthenticator(new AuthorizationCodeAuthenticator(ClientId, ClientSecret, response));
 
-            return authenticatedNewSpotify;
+                var authenticatedNewSpotify = new SpotifyClient(config);
+                Spotify = authenticatedNewSpotify;
+
+                return listener;
+            }
+
+            try {                
+                var refreshResponse = await new OAuthClient().RequestToken(new AuthorizationCodeRefreshRequest(ClientId, ClientSecret, listener.AuthRefreshToken));
+
+                listener.AuthToken = refreshResponse.AccessToken;          
+
+                var authenticatedSpotify = new SpotifyClient(listener.AuthToken);
+                Spotify = authenticatedSpotify;
+
+                return listener;                
+
+            } catch (APIUnauthorizedException e){
+                Console.WriteLine(e.Message);
+
+                // send the user to the spotify logout page
+                
+                return listener;
+            }
         }
 
         public async Task<PrivateUser> GetAuthUser()

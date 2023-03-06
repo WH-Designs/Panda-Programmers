@@ -36,36 +36,50 @@ public class HomeController : Controller
 
     public IActionResult callforward()
     {
-        String uri = _spotifyService.GetUri();
-        return Redirect(uri);
+        string aspId = _userManager.GetUserId(User);
+        Listener listener = new Listener();
+        listener = _listenerRepository.FindListenerByAspId(aspId);
+
+        if (listener.AuthToken == null){
+            String uri = _spotifyService.GetUri();
+            return Redirect(uri);  
+        }
+        
+        return RedirectToAction("callback", "Home", "");
     }
 
     public async Task<IActionResult> callback(string code)
     {
+        // grabs all the current spotify accounts that have spotify ids in the db
+        List<Listener> currentSpotifyAccountsWithSpotifyIDs = _listenerRepository.GetAll().Where(a => a.SpotifyId != null).ToList();
+
+        // gets current user account
         string aspId = _userManager.GetUserId(User);
         Listener listener = new Listener();
         listener = _listenerRepository.FindListenerByAspId(aspId);        
         
-        await _spotifyService.GetCallback(code);
+        // goes and does the callback which grabs the token after the user has signed into spotify (which is the callforward)
+        await _spotifyService.GetCallback(code, listener);
         PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUser();
+        _listenerRepository.AddOrUpdate(listener);
+
+        // // checks in the current listener has the same spotify account as someone else in the db that isnt the current listener and sends them away if they are
+        // foreach(Listener account in currentSpotifyAccountsWithSpotifyIDs) {
+        //     if (listener.SpotifyId == account.SpotifyId && listener.FirstName + listener.LastName != account.FirstName + account.LastName) {
+        //         return Redirect("https://open.spotify.com/");
+        //         // theoretically this should send the user to a new page that tells them they have the same spotify account as someone else
+        //     }
+        // }
 
         if (listener.SpotifyId == null) {
             listener.SpotifyId = currentSpotifyUser.Id;
             _listenerRepository.AddOrUpdate(listener);
-        } else if (listener.SpotifyId != currentSpotifyUser.Id) {
+        } else if (listener.SpotifyId != currentSpotifyUser.Id) {  
             HttpContext.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-            //return Redirect("https://open.spotify.com/");
+            return Redirect("https://open.spotify.com/");
             // AuthenticationProperties authentication = new AuthenticationProperties();
             // AuthenticationService.SignOutAsync(HttpContext, "Spotify", authentication);
         }
-
-        //HttpContext.Connection.RequestClose();
-        
-        //database saved spotify user id == new user id?
-        //if not : give a logout of spotify<--
-        //if is proceed:
-        //logout of spotify elsewhere
 
         return RedirectToAction("Index", "Listener");
     }
