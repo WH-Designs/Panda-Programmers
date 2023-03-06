@@ -114,29 +114,46 @@ namespace MusicCollaborationManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditListenerInformation(int id,
-            [Bind("Id,FirstName,LastName")] Listener listener)
+        public ActionResult<Task> EditListenerInformation(
+            [Bind("FirstName,LastName")] Listener listener)
         {
-            if (id != listener.Id)
-            {
-                return NotFound();
-            }
+            ModelState.ClearValidationState("FriendId");
+            ModelState.ClearValidationState("AspnetIdentityId");
+            ModelState.ClearValidationState("SpotifyId");
+
+            listener.FriendId = 0;
+            listener.AspnetIdentityId = _userManager.GetUserId(User);
+            listener.SpotifyId = null;
+
+            TryValidateModel(listener);
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _listenerRepository.AddOrUpdateListener(listener);
+                    _listenerRepository.AddOrUpdate(listener);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException exception)
                 {
-                    return NotFound();
+                    ViewBag.Message =
+                        "A concurrency error occurred while trying to create the item.  Please try again.";
+                    return View("Settings");
+                }
+                catch (DbUpdateException exception)
+                {
+                    ViewBag.Message =
+                        "An unknown database error occurred while trying to create the item.  Please try again.";
+                    return View("Settings");
                 }
 
                 return RedirectToAction(nameof(Profile));
             }
-
-            return View("Settings", listener);
+            else
+            {
+                ViewBag.Message =
+                    "Model state is invalid";
+                return View("Settings", _listenerRepository.FindListenerByAspId(_userManager.GetUserId(User)));
+            }
         }
     }
 }

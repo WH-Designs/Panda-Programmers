@@ -2,8 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MusicCollaborationManager.DAL.Abstract;
 using MusicCollaborationManager.Models;
-using Reminders.DAL.Abstract;
-using Reminders.DAL.Concrete;
+using MusicCollaborationManager.DAL.Concrete;
 
 namespace MusicCollaborationManager.DAL.Concrete;
 
@@ -58,17 +57,17 @@ public class ListenerRepository : Repository<Listener>, IListenerRepository
         }
     }
 
-    public Listener AddOrUpdateListener(Listener listener)
-    {
-        try
-        {
-            Listener newListener = new Listener();
-            newListener = _dbSet.AddOrUpdate(listener);
-            return newListener;
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
-    }
+    // public Listener AddOrUpdateListener(Listener listener)
+    // {
+    //     try
+    //     {
+    //         Listener newListener = new Listener();
+    //         newListener = _dbSet.AddOrUpdate(listener);
+    //         return newListener;
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return null;
+    //     }
+    // }
 }

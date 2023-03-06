@@ -12,8 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using MusicCollaborationManager.Data;
 using MusicCollaborationManager.Models;
 using MusicCollaborationManager.Utilities;
-using Reminders.DAL.Abstract;
-using Reminders.DAL.Concrete;
 using System.Runtime.Serialization;
 using System;
 using System.Collections.Generic;
