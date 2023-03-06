@@ -38,6 +38,7 @@ public class Program
         string clientID = builder.Configuration["SpotifyClientID"];
         string clientSecret = builder.Configuration["SpotifySecret"];
         string redirectUri = builder.Configuration["RedirectUri"];
+        string deepAiKey = builder.Configuration["DeepAiKey"];
 
         builder.Services.AddControllersWithViews();
         var MCMconnectionString = builder.Configuration.GetConnectionString("MCMConnection");
@@ -66,6 +67,8 @@ public class Program
         builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
         builder.Services.AddScoped<SpotifyClientBuilder>();
 
+        builder.Services.AddScoped<IDeepAiService, DeepAiService>(d => new DeepAiService(deepAiKey));
+
         builder.Services.AddSwaggerGen();
         var app = builder.Build();
 
@@ -80,7 +83,7 @@ public class Program
                 var adminPw = config["SeedAdminPw"];
 
                 SeedUsers.Initialize(services, SeedData.UserSeedData, testUserPw).Wait();
-                SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "The", "Admin").Wait();
+                SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "The", "Admin", 4, "31apsehiff3z54ok4i6fr6g4ks5q").Wait();
             }
             catch (Exception ex)
             {
