@@ -1,10 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Team Documents",
-    "\\Team Documents\\Brainstorming Documents",
-    "\\Team Documents\\Brainstorming Documents\\Diagrams"
+    "\\src",
+    "\\src\\BDD Tests"
   ],
-  "SelectedNode": "\\Team Documents\\timeline.html",
+  "SelectedNode": "\\src\\BDD Tests\\MCM-19.feature",
   "PreviewInSolutionExplorer": false
 }

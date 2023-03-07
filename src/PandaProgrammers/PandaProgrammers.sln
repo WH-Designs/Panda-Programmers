@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCollaborationManager", "MusicCollaborationManager\MusicCollaborationManager.csproj", "{A863DDB4-D8CC-4AEC-86C4-D14DC0E4721B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{03D8DC20-8C94-40A6-AFB2-3823D1E83199}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A863DDB4-D8CC-4AEC-86C4-D14DC0E4721B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A863DDB4-D8CC-4AEC-86C4-D14DC0E4721B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A863DDB4-D8CC-4AEC-86C4-D14DC0E4721B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A863DDB4-D8CC-4AEC-86C4-D14DC0E4721B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03D8DC20-8C94-40A6-AFB2-3823D1E83199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D8DC20-8C94-40A6-AFB2-3823D1E83199}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D8DC20-8C94-40A6-AFB2-3823D1E83199}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03D8DC20-8C94-40A6-AFB2-3823D1E83199}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B0020737-B41C-4D34-8521-AE4BFD9D4622}
+	EndGlobalSection
+EndGlobal
