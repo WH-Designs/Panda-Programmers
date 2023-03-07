@@ -15,13 +15,9 @@ namespace MusicCollaborationManager.Services.Concrete
         public static string ClientId { get; set; }
         public static string ClientSecret { get; set; }
         private static SpotifyClientConfig Config { get; set; }
-<<<<<<< HEAD
         public static SpotifyClient Spotify { get; set; }
 
         //public static SpotifyClientConfig DefaultConfig = SpotifyClientConfig.CreateDefault();
-=======
-        private static SpotifyClient Spotify { get; set; }
->>>>>>> dev
         public AuthorizedUserDTO authUser { get; set; }
         public string Uri { get; set; }
 
