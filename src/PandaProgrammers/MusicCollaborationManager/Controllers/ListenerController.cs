@@ -27,7 +27,12 @@ namespace MusicCollaborationManager.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SpotifyAuthService _spotifyService;
 
-        public ListenerController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService)
+        public ListenerController(
+            IListenerRepository listenerRepository,
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            SpotifyAuthService spotifyService
+        )
         {
             _listenerRepository = listenerRepository;
             _userManager = userManager;
@@ -38,14 +43,14 @@ namespace MusicCollaborationManager.Controllers
         [Authorize]
         public async Task<IActionResult> Index(UserDashboardViewModel vm)
         {
-            
             string aspId = _userManager.GetUserId(User);
 
             Listener listener = new Listener();
 
             listener = _listenerRepository.FindListenerByAspId(aspId);
 
-            if (listener.SpotifyId != null) {
+            if (listener.SpotifyId != null)
+            {
                 await _spotifyService.GetCallback("", listener);
                 _listenerRepository.AddOrUpdate(listener);
             }
@@ -62,12 +67,11 @@ namespace MusicCollaborationManager.Controllers
                 vm.FeatPlaylists = await _spotifyService.GetFeatPlaylists();
                 vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return RedirectToAction("callforward", "Home");
             }
-           
 
             return View(vm);
         }
@@ -90,13 +94,14 @@ namespace MusicCollaborationManager.Controllers
                 vm.accountType = holder.Result.Product;
                 vm.country = holder.Result.Country;
                 vm.followerCount = holder.Result.Followers.Total;
-                if(holder.Result.Images.Count > 0)
+                if (holder.Result.Images.Count > 0)
                 {
                     vm.profilePic = holder.Result.Images[0].Url;
                 }
                 else
                 {
-                    vm.profilePic = "https://t4america.org/wp-content/uploads/2016/10/Blank-User.jpg";
+                    vm.profilePic =
+                        "https://t4america.org/wp-content/uploads/2016/10/Blank-User.jpg";
                 }
             }
             catch (Exception ex)
@@ -108,14 +113,20 @@ namespace MusicCollaborationManager.Controllers
                 vm.profilePic = "https://t4america.org/wp-content/uploads/2016/10/Blank-User.jpg";
             }
 
-
             return View(vm);
+        }
+
+        [Authorize]
+        public IActionResult Settings(Listener listener)
+        {
+            return View(_listenerRepository.FindListenerByAspId(_userManager.GetUserId(User)));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult<Task> EditListenerInformation(
-            [Bind("FirstName,LastName")] Listener listener)
+            [Bind("FirstName,LastName")] Listener listener
+        )
         {
             ModelState.ClearValidationState("FriendId");
             ModelState.ClearValidationState("AspnetIdentityId");
@@ -131,7 +142,13 @@ namespace MusicCollaborationManager.Controllers
             {
                 try
                 {
-                    _listenerRepository.AddOrUpdate(listener);
+                    Listener oldListener = _listenerRepository.FindListenerByAspId(_userManager.GetUserId(User));
+
+                    if (oldListener.AspnetIdentityId.Equals(listener.AspnetIdentityId))
+                    {
+                        _listenerRepository.Delete(oldListener);
+                        _listenerRepository.AddOrUpdate(listener);
+                    }
                 }
                 catch (DbUpdateConcurrencyException exception)
                 {
@@ -150,11 +167,9 @@ namespace MusicCollaborationManager.Controllers
             }
             else
             {
-                ViewBag.Message =
-                    "Model state is invalid";
-                return View("Settings", _listenerRepository.FindListenerByAspId(_userManager.GetUserId(User)));
+                ViewBag.Message = "Model state is invalid";
+                return View("Settings");
             }
         }
     }
 }
-

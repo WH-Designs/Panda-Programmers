@@ -7,11 +7,11 @@ namespace MusicCollaborationManager.Models;
 public partial class Listener
 {
     public int Id { get; set; }
-    [Required]
+
     [StringLength(64)]
     [RegularExpression("^[\\w]*[^\\W][\\w]")]
     public string FirstName { get; set; }
-    [Required]
+
     [StringLength(64)]
     [RegularExpression("^[\\w]*[^\\W][\\w]")]
     public string LastName { get; set; }

@@ -57,17 +57,8 @@ public class ListenerRepository : Repository<Listener>, IListenerRepository
         }
     }
 
-    // public Listener AddOrUpdateListener(Listener listener)
-    // {
-    //     try
-    //     {
-    //         Listener newListener = new Listener();
-    //         newListener = _dbSet.AddOrUpdate(listener);
-    //         return newListener;
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         return null;
-    //     }
-    // }
+     public void AddOrUpdateListener(Listener listener)
+     {
+         _dbSet.Update(listener);
+     }
 }
