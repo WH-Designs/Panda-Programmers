@@ -17,6 +17,10 @@ public partial class Listener
 
     public string SpotifyId { get; set; }
 
+    public string AuthToken { get; set; }
+
+    public string AuthRefreshToken { get; set; }
+
     public virtual ICollection<Comment> Comments { get; } = new List<Comment>();
 
     public virtual ICollection<Theme> Themes { get; } = new List<Theme>();
