@@ -29,16 +29,17 @@ namespace MusicCollaborationManager.Controllers
         [Authorize]
         public async Task<IActionResult> Index(UserDashboardViewModel vm)
         {
-            // PrivateUser user = _spotifyService.authUser.Me;
-            // if (user == null){
-            //     return RedirectToAction("callforward", "Home");
-            // }
-
+            
             string aspId = _userManager.GetUserId(User);
 
             Listener listener = new Listener();
 
             listener = _listenerRepository.FindListenerByAspId(aspId);
+
+            if (listener.SpotifyId != null) {
+                await _spotifyService.GetCallback("", listener);
+                _listenerRepository.AddOrUpdate(listener);
+            }
 
             vm.fullName = _listenerRepository.GetListenerFullName(listener.Id);
 
@@ -52,11 +53,10 @@ namespace MusicCollaborationManager.Controllers
                 vm.FeatPlaylists = await _spotifyService.GetFeatPlaylists();
                 vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
             }
-            catch (NullReferenceException e) 
+            catch (Exception e) 
             {
-                vm.TopTracks = new List<FullTrack>();
-                vm.FeatPlaylists = new List<SimplePlaylist>();
-                vm.UserPlaylists = new List<SimplePlaylist>();
+                Console.WriteLine(e);
+                return RedirectToAction("callforward", "Home");
             }
            
 

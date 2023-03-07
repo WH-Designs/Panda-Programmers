@@ -23,7 +23,7 @@ namespace MusicCollaborationManager.Utilities
                     foreach (var u in seedData)
                     {
                         var identityID = await EnsureUser(userManager, testUserPw, u.Email, u.Email, u.EmailConfirmed);
-                        Listener li = new Listener { AspnetIdentityId = identityID, FirstName = u.FirstName, LastName = u.LastName, FriendId = u.FriendID, SpotifyId = u.SpotifyId};
+                        Listener li = new Listener { AspnetIdentityId = identityID, FirstName = u.FirstName, LastName = u.LastName, FriendId = u.FriendID};
                         if (!context.Listeners.Any(x => x.AspnetIdentityId == li.AspnetIdentityId && x.FirstName == li.FirstName && x.LastName == li.LastName))
                         {
                             context.Add(li);
@@ -39,7 +39,7 @@ namespace MusicCollaborationManager.Utilities
         }
 
         public static async Task InitializeAdmin(IServiceProvider serviceProvider, string email, string userName, string adminPw, 
-            string firstName, string lastName, int friendId, string spotifyId)
+            string firstName, string lastName, int friendId)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace MusicCollaborationManager.Utilities
                     var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
                     var identityID = await EnsureUser(userManager, adminPw, email, email, true);
-                    Listener li = new Listener { AspnetIdentityId = identityID, FirstName = firstName, LastName = lastName, FriendId = friendId, SpotifyId = spotifyId};
+                    Listener li = new Listener { AspnetIdentityId = identityID, FirstName = firstName, LastName = lastName, FriendId = friendId};
                     if (!context.Listeners.Any(x => x.AspnetIdentityId == li.AspnetIdentityId && x.FirstName == li.FirstName &&
                         x.LastName== li.LastName)) 
                     { 

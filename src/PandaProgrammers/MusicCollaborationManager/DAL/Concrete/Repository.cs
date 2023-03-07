@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-using Reminders.DAL.Abstract;
+using MusicCollaborationManager.DAL.Abstract;
 
-namespace Reminders.DAL.Concrete
+namespace MusicCollaborationManager.DAL.Concrete
 {
     /// <summary>
     /// Base class repository that implements common and CRUD operations.  Meant to be like an abstract 

@@ -90,7 +90,6 @@ function getAuthTopArtists(data)
         $(currentGenre).appendTo(`#user-genre-${count}-container`);  
         count = count + 1;  
     }   
-
 }
 
 
