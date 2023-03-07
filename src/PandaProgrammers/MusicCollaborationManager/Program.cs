@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using MusicCollaborationManager.Data;
 using MusicCollaborationManager.Models;
 using MusicCollaborationManager.Utilities;
-using Reminders.DAL.Abstract;
-using Reminders.DAL.Concrete;
+using MusicCollaborationManager.DAL.Abstract;
+using MusicCollaborationManager.DAL.Concrete;
 using System.Runtime.Serialization;
 using System;
 using System.Collections.Generic;
@@ -83,7 +83,7 @@ public class Program
                 var adminPw = config["SeedAdminPw"];
 
                 SeedUsers.Initialize(services, SeedData.UserSeedData, testUserPw).Wait();
-                SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "The", "Admin", 4, "31apsehiff3z54ok4i6fr6g4ks5q").Wait();
+                SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "The", "Admin", 4).Wait();
             }
             catch (Exception ex)
             {
