@@ -8,71 +8,61 @@ using Moq;
 using MusicCollaborationManager.DAL.Abstract;
 using MusicCollaborationManager.DAL.Concrete;
 using MusicCollaborationManager.Models;
-using RemindersTest;
+using Microsoft.Data.Sqlite;
 
 namespace UnitTests
 {
     public class ListenerRepository_Tests
     {
-        private Mock<MCMDbContext> _mockContext;
-        private Mock<DbSet<Listener>> _mockListenerDbSet;
-        private List<Listener> _listeners;
+        private static readonly string _seedFile = @"..\..\..\DATA\SEED.sql";
 
-        [SetUp]
-        public void Setup()
-        {
-            _listeners = new List<Listener>
-            {
-                new Listener {Id= 1, FirstName = "chad", LastName = "bass", AspnetIdentityId = "", FriendId = 0},
-                new Listener {Id= 2, FirstName = "tiffany", LastName = "fox", AspnetIdentityId = "", FriendId = 0},
-                new Listener {Id= 3, FirstName = "dale", LastName = "morse", AspnetIdentityId = "", FriendId = 0},
-            };
-
-            _mockContext = new Mock<MCMDbContext>();
-            _mockListenerDbSet = MockHelpers.GetMockDbSet(_listeners.AsQueryable());
-            _mockContext.Setup(ctx => ctx.Listeners).Returns(_mockListenerDbSet.Object);
-        }
+        private InMemoryDbHelper<MCMDbContext> _dbHelper = new InMemoryDbHelper<MCMDbContext>(
+            _seedFile,
+            DbPersistence.OneDbPerTest
+        );
 
         [Test]
         public void GetListenerFullName_WithAtLeast1Person_ReturnsCorrectFullName()
         {
             // Arrange
-            IListenerRepository listenerRepository = new ListenerRepository(_mockContext.Object);
-            string expected = "chad bass";
+            using MCMDbContext context = _dbHelper.GetContext();
+            IListenerRepository repo = new ListenerRepository( context );
+
+            string expected = "Chad Bass";
 
             // Act
-            string actual = listenerRepository.GetListenerFullName(1);
+            string actual = repo.GetListenerFullName(1);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
         public void GetListenerFullName_WithId0_ReturnsNull()
         {
             // Arrange
-            IListenerRepository listenerRepository = new ListenerRepository(_mockContext.Object);
-            string expected = null;
+            using MCMDbContext context = _dbHelper.GetContext();
+            IListenerRepository repo = new ListenerRepository(context);
 
             // Act
-            string actual = listenerRepository.GetListenerFullName(0);
+            string actual = repo.GetListenerFullName(0);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.Null(actual);
         }
 
         [Test]
         public void GetListenerFullName_WithNewPersonId_ReturnsNull()
         {
             // Arrange
-            IListenerRepository listenerRepository = new ListenerRepository(_mockContext.Object);
-            string expected = null;
+            using MCMDbContext context = _dbHelper.GetContext();
+            IListenerRepository repo = new ListenerRepository(context);
 
             // Act
-            string actual = listenerRepository.GetListenerFullName(5);
+            string actual = repo.GetListenerFullName(6);
 
             // Assert
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.Null(actual);
         }
     }
 }
