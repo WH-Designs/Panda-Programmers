@@ -4,17 +4,23 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="p-4 bottom-20 fixed bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
-        <form asp-controller='home' asp-action='callforward'>
-            <button type='submit' class=""><i class="fa-brands fa-spotify"></i> Spotify</button>
-        </form>
-    </li>
-    <br>
-    <li class="p-4 bottom-3 fixed bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
-        <form  class="" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class=""><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
-        </form>
-    </li>
+    <div class="bottom-0 fixed">
+        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
+            <form asp-controller='home' asp-action='callforward'>
+                <button type='submit' class=""><i class="fa-brands fa-spotify"></i> Spotify</button>
+            </form>
+        </li>
+        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
+            <form class="" asp-area="Identity" asp-page="/Account/Logout"
+            asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class=""><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </form>
+        </li>
+        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
+            <a asp-controller="Listener" asp-action="Settings" class="" aria-current="page"><i
+                    class="fa-solid fa-wrench"></i> Settings</a>
+        </li>
+    </div>
 }
 else
 {
