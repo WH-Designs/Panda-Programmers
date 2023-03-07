@@ -41,8 +41,10 @@ $("#save-playlist-btn").click(function () {
 
 function redirectToGenIndex() {
     //https://stackoverflow.com/questions/503093/how-do-i-redirect-to-another-webpage - Govind Singh's answer.
-    $(window).attr('location', 'musiccollaborationmanager.azurewebsites.net/Generator/Index')  //NEEDS ADJUSTING FOR DEPOYMENT!
- /*   $(window).attr('location', 'http://localhost:5000/Generator/Index')  //LOCALHOST VERSION.*/
+/*    $(window).attr('location', 'musiccollaborationmanager.azurewebsites.net/Generator/Index')  //NEEDS ADJUSTING FOR DEPOYMENT!*/
+    /*   $(window).attr('location', 'http://localhost:5000/Generator/Index')  //LOCALHOST VERSION.*/
+    $(window).attr('location', '/Generator/Index')
+
 }
 
 
