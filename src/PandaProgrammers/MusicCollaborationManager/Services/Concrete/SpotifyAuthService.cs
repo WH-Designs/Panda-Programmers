@@ -15,7 +15,13 @@ namespace MusicCollaborationManager.Services.Concrete
         public static string ClientId { get; set; }
         public static string ClientSecret { get; set; }
         private static SpotifyClientConfig Config { get; set; }
+<<<<<<< HEAD
+        public static SpotifyClient Spotify { get; set; }
+
+        //public static SpotifyClientConfig DefaultConfig = SpotifyClientConfig.CreateDefault();
+=======
         private static SpotifyClient Spotify { get; set; }
+>>>>>>> dev
         public AuthorizedUserDTO authUser { get; set; }
         public string Uri { get; set; }
 
@@ -32,7 +38,8 @@ namespace MusicCollaborationManager.Services.Concrete
             var loginRequest = new LoginRequest(
             new Uri(Uri), ClientId, LoginRequest.ResponseType.Code)
             {
-            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead}
+            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead, Scopes.PlaylistModifyPrivate, 
+                Scopes.PlaylistModifyPublic}
             };
             var uri = loginRequest.ToUri();
             
@@ -243,6 +250,28 @@ namespace MusicCollaborationManager.Services.Concrete
             var returnTracks = genTracks.Tracks;
             return returnTracks;
 
+        }
+
+        public static IUserProfileClient GetUserProfileClient() 
+        {
+            return Spotify.UserProfile;
+        }
+
+        public static IPlaylistsClient GetPlaylistsClient() 
+        {
+            return Spotify.Playlists;
+        }
+
+        public async Task AddSongsToPlaylistAsync(FullPlaylist playlistToFill, List<string> trackUris)
+        {
+            PlaylistAddItemsRequest AddItemsRequest = new PlaylistAddItemsRequest(trackUris);
+            await Spotify.Playlists.AddItems(playlistToFill.Id, AddItemsRequest);
+        }
+
+        public static async Task<FullPlaylist> CreateNewSpotifyPlaylistAsync(PlaylistCreateRequest createRequest, IUserProfileClient userProfileClient, IPlaylistsClient playlistsClient)
+        {
+            PrivateUser CurUser = await userProfileClient.Current();
+            return await playlistsClient.Create(CurUser.Id, createRequest);
         }
     }
 }

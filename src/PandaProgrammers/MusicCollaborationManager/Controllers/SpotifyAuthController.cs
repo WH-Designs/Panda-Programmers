@@ -90,5 +90,40 @@ namespace MusicCollaborationManager.Controllers
 
             return PersonalPlaylistsToReturn;
         }
+
+        [HttpPost("savegeneratedplaylist")]
+        public async Task<bool> SaveMCMGeneratedPlaylist(List<string> newTrackUris)
+        {
+            bool NoErrorsWhileCreatingPlaylist = true;
+            FullPlaylist NewPlaylist = new FullPlaylist();
+
+            PlaylistCreateRequest CreationRequest = new PlaylistCreateRequest("MCM Playlist");
+            UserProfileClient UserProfileClient = (UserProfileClient)SpotifyAuthService.GetUserProfileClient();
+            PlaylistsClient PlaylistsClient = (PlaylistsClient)SpotifyAuthService.GetPlaylistsClient();
+
+            try 
+            {
+                NewPlaylist = await SpotifyAuthService.CreateNewSpotifyPlaylistAsync(CreationRequest, UserProfileClient, PlaylistsClient);
+            }
+            catch (Exception ex) 
+            {
+                NoErrorsWhileCreatingPlaylist = false;
+                return NoErrorsWhileCreatingPlaylist;
+            }
+            
+            try 
+            {
+                await _spotifyService.AddSongsToPlaylistAsync(NewPlaylist, newTrackUris);
+            }
+            catch(Exception ex) 
+            {
+                NoErrorsWhileCreatingPlaylist = false;
+                return NoErrorsWhileCreatingPlaylist;
+            }
+            
+            return NoErrorsWhileCreatingPlaylist;
+
+            
+        }
     }
 }
