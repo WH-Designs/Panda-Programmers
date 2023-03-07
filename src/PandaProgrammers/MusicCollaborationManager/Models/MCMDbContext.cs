@@ -30,7 +30,7 @@ public partial class MCMDbContext : DbContext
     {
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC2776306FB4");
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27AACB14BA");
 
             entity.ToTable("Comment");
 
@@ -54,7 +54,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Listener>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC277E69B13D");
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC2758C249BD");
 
             entity.ToTable("Listener");
 
@@ -79,7 +79,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Playlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC279E7DF800");
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27A414087D");
 
             entity.ToTable("Playlist");
 
@@ -89,7 +89,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Theme>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Theme__3214EC27C34A7FF6");
+            entity.HasKey(e => e.Id).HasName("PK__Theme__3214EC27010E484E");
 
             entity.ToTable("Theme");
 
