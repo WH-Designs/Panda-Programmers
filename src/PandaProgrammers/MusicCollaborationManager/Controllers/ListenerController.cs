@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicCollaborationManager.Models;
+using System.Text.RegularExpressions;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -128,6 +129,15 @@ namespace MusicCollaborationManager.Controllers
             [Bind("FirstName,LastName")] Listener listener
         )
         {
+            if (
+                Regex.IsMatch(listener.FirstName, @"^[a-zA-Z]+$") == false
+                || Regex.IsMatch(listener.LastName, @"^[a-zA-Z]+$") == false
+            )
+            {
+                ViewBag.Message = "Name must not contain numbers or special characters";
+                return View("Settings");
+            }
+
             ModelState.ClearValidationState("FriendId");
             ModelState.ClearValidationState("AspnetIdentityId");
             ModelState.ClearValidationState("SpotifyId");
@@ -142,7 +152,9 @@ namespace MusicCollaborationManager.Controllers
             {
                 try
                 {
-                    Listener oldListener = _listenerRepository.FindListenerByAspId(_userManager.GetUserId(User));
+                    Listener oldListener = _listenerRepository.FindListenerByAspId(
+                        _userManager.GetUserId(User)
+                    );
 
                     if (oldListener.AspnetIdentityId.Equals(listener.AspnetIdentityId))
                     {
