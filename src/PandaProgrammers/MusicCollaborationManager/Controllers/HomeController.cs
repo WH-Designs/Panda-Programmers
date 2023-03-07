@@ -50,8 +50,6 @@ public class HomeController : Controller
 
     public async Task<IActionResult> callback(string code)
     {
-        List<Listener> currentSpotifyAccountsWithSpotifyIDs = _listenerRepository.GetAll().Where(a => a.SpotifyId != null).ToList();
-
         string aspId = _userManager.GetUserId(User);
         Listener listener = new Listener();
         listener = _listenerRepository.FindListenerByAspId(aspId);        
@@ -63,7 +61,7 @@ public class HomeController : Controller
         if (listener.SpotifyId == null) {
             listener.SpotifyId = currentSpotifyUser.Id;
             _listenerRepository.AddOrUpdate(listener);
-        }
+        } 
 
         return RedirectToAction("Index", "Listener");
     }
