@@ -24,7 +24,12 @@ public partial class MCMDbContext : DbContext
     public virtual DbSet<Theme> Themes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=MCMConnection");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer("Name=MCMConnection");
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

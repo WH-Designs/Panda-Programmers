@@ -10,16 +10,16 @@ Scenario: Multiple MCM users connect via the same browser
     And I am logged into my MCM account
     And my browser is not logged into spotify
     When I click the spotify button
-    Then I am redirected to spotifys site to login to the correct account
+    Then I am redirected to my correctly personalized MCM Dashboard
 
     Given I am on the MCM dashboard
     And I am logged into my MCM account
     And my browser is logged into the correct spotify account
     When I click the spotify button
-    Then I am redirected to my personalized MCM Dashboard
+    Then I am redirected to my correctly personalized MCM Dashboard
     
     Given I am on the MCM dashboard
     And I am logged into my MCM account
     And my browser is logged into the incorrect spotify account
     When I click the spotify button
-    Then I am redirected to a spotify logout page  
+    Then I am redirected to my correctly personalized MCM Dashboard
