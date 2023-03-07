@@ -6,7 +6,9 @@ CREATE TABLE [Listener] (
     [LastName]          nvarchar(64)    NOT NULL,
     [FriendID]          int             NOT NULL,
     [ASPNetIdentityID]  nvarchar(64)    NOT NULL,
-    [SpotifyID]         nvarchar(128)   NOT NULL
+    [SpotifyID]         nvarchar(128)   NULL,
+    [AuthToken]         nvarchar(512)   NULL,
+    [AuthRefreshToken]  nvarchar(512)   NULL
 );
 
 CREATE TABLE [Theme] (
@@ -14,7 +16,7 @@ CREATE TABLE [Theme] (
     [PrimaryColor]      nvarchar(6)     NOT NULL,
     [SecondaryColor]    nvarchar(6)     NOT NULL,
     [Font]              nvarchar(32)    NOT NULL,
-    [ListenerID]       int             NOT NULL
+    [ListenerID]       int              NOT NULL
 );
 
 CREATE TABLE [Comment] (
@@ -38,5 +40,6 @@ ALTER TABLE [Comment] ADD CONSTRAINT [Fk_Comment_Listener_ID]
 
 ALTER TABLE [Comment] ADD CONSTRAINT [Fk_Comment_Playlist_ID]
     FOREIGN KEY ([PlaylistID]) REFERENCES [Playlist] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 
 

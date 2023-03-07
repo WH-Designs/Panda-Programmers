@@ -21,9 +21,9 @@ namespace MusicCollaborationManager.Data
     {
         public static readonly UserInfoData[] UserSeedData = new UserInfoData[]
         {
-            new UserInfoData{UserName = "chadb@gmail.com", Email = "chadb@gmail.com", FirstName = "Chad", LastName = "Bass", FriendID = 1, SpotifyId = "31apsehiff3z54ok4i6fr6g4ks5q"},
-            new UserInfoData{UserName = "tiffanyf@gmail.com", Email = "tiffanyf@gmail.com", FirstName = "Tiffany", LastName = "Fox", FriendID = 2, SpotifyId = "31apsehiff3z54ok4i6fr6g4ks5q"},
-            new UserInfoData{UserName = "dwightm@gmail.com", Email = "dwightm@gmail.com", FirstName = "Dwight", LastName = "Morse", FriendID = 3, SpotifyId = "31apsehiff3z54ok4i6fr6g4ks5q"}
+            new UserInfoData{UserName = "chadb@gmail.com", Email = "chadb@gmail.com", FirstName = "Chad", LastName = "Bass", FriendID = 1},
+            new UserInfoData{UserName = "tiffanyf@gmail.com", Email = "tiffanyf@gmail.com", FirstName = "Tiffany", LastName = "Fox", FriendID = 2},
+            new UserInfoData{UserName = "dwightm@gmail.com", Email = "dwightm@gmail.com", FirstName = "Dwight", LastName = "Morse", FriendID = 3}
         };
     }
 }
