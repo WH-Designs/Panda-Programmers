@@ -9,6 +9,8 @@
 *.dll.config
 *.cache
 *.suo
+.vscode
+h origin dev
 # Include dlls if they’re in the NuGet packages directory
 !/packages/*/lib/*.dll
 !/packages/*/lib/*/*.dll
@@ -73,3 +75,28 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+/src/PandaProgrammers/.vs/PandaProgrammers/FileContentIndex/0d6bf664-3a09-431b-9485-88421b1d7401.vsidx
+*.vsidx
+/src/PandaProgrammers/.vs/PandaProgrammers/FileContentIndex/00506258-c392-41f3-af04-d6d91679929c.vsidx
+/src/PandaProgrammers/.vs/PandaProgrammers/FileContentIndex/1652039c-f6b2-4a00-8bf3-27c1a72b794b.vsidx
+/src/PandaProgrammers/.vs/PandaProgrammers/FileContentIndex/620971e5-48dc-45d2-9596-b473a2d54f1c.vsidx
+/src/PandaProgrammers/.vs/PandaProgrammers/FileContentIndex/e9b8b100-32f3-4fef-b95b-0dc3b854330b.vsidx
+/src/PandaProgrammers/.vs/PandaProgrammers/DesignTimeBuild/.dtbcache.v2
+/src/PandaProgrammers/.vs/PandaProgrammers/config/applicationhost.config
+src/PandaProgrammers/.vs/PandaProgrammers/v17/.futdcache.v2
+src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.metadata.v5.2
+src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.projects.v5.2
+/src/PandaProgrammers/.vs/PandaProgrammers/v17/.futdcache.v2
+/src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.metadata.v5.2
+/src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.projects.v5.2
+src/PandaProgrammers/.vs/PandaProgrammers/v17/.futdcache.v2
+src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.metadata.v5.2
+src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.projects.v5.2
+/src/PandaProgrammers/.vs/PandaProgrammers/v17/.futdcache.v2
+/src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.metadata.v5.2
+/src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.projects.v5.2
+/src/PandaProgrammers/.vs/PandaProgrammers/v17/TestStore/0/000.testlog
+/src/PandaProgrammers/.vs/PandaProgrammers/v17/TestStore/0/testlog.manifest
+*.1
+/src/PandaProgrammers/.vs/PandaProgrammers/v17/TestStore/1/001.testlog
+/src/PandaProgrammers/.vs/PandaProgrammers/v17/TestStore/1/testlog.manifest

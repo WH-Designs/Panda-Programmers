@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Team Documents"
+    "\\src",
+    "\\src\\BDD Tests"
   ],
-  "SelectedNode": "\\Team Documents\\Brainstorming Documents",
+  "SelectedNode": "\\src\\BDD Tests\\MCM-19.feature",
   "PreviewInSolutionExplorer": false
 }
