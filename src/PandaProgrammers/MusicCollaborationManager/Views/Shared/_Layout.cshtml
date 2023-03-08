@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/c88114ae42.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @* <script src="https://cdn.tailwindcss.com"></script> *@
 </head>
 
 <body class="bg-gray-300 font-[Montserrat]">
@@ -23,16 +23,24 @@
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
                 <a asp-controller="Home" asp-action="Index" class="" aria-current="page"><i
                         class="fa-solid fa-house"></i> Home</a>
+                <a asp-controller="Home" asp-action="Index" class="" aria-current="page"><i
+                        class="fa-solid fa-house"></i> Home</a>
             </li>
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
+                <a asp-controller="Listener" asp-action="Index" class="" aria-current="page"><i
+                        class="fa-solid fa-house-user"></i> Dashboard</a>
                 <a asp-controller="Listener" asp-action="Index" class="" aria-current="page"><i
                         class="fa-solid fa-house-user"></i> Dashboard</a>
             </li>
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
                 <a asp-controller="Listener" asp-action="Profile" class="" aria-current="page"><i
                         class="fa-solid fa-user"></i> Profile</a>
+                <a asp-controller="Listener" asp-action="Profile" class="" aria-current="page"><i
+                        class="fa-solid fa-user"></i> Profile</a>
             </li>
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
+                <a asp-controller="Generator" asp-action="Index" class="" aria-current="page"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Generators</a>
                 <a asp-controller="Generator" asp-action="Index" class="" aria-current="page"><i
                         class="fa-solid fa-wand-magic-sparkles"></i> Generators</a>
             </li>
