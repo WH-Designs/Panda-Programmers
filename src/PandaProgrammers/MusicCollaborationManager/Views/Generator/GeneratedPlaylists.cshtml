@@ -1,0 +1,51 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@model MusicCollaborationManager.ViewModels.GeneratorsViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="flex flex-col">
+    <div class="flex flex-row ml-48 mt-36">
+        <div class="flex flex-col w-3/4 mx-5" id="explanation-title">
+            <div>
+                <h1 class="font-bold text-4xl">Generated Playlist</h1>
+            </div>
+            <div class="w-full h-max max-h-max bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
+                <img src="@Model.PlaylistCoverImageUrl" alt="Playlist Image"/>
+                <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
+                    <h1>Tracks</h1>
+                </div>
+                <div class="columns-5 mb-5 h-full max-h-max">
+                    @foreach(var track in Model.fullResult)
+                    {
+                        <div class="w-fit overflow-hidden mt-4">
+                            <img src="@track.Album.Images[0].Url" />
+                            <h2 class="text-white">Track Name: @track.Name</h2>
+                            <h2 class="text-white">Album Name: @track.Album.Name</h2>
+                        </div>
+                    }
+                </div>
+               
+                <form class="bg-gray-800 flex flex-row gap-x-3.5" id="playlist-form">
+                    @{
+                        for (int i = 0; i < Model.fullResult.Count; i++)
+                        {
+                            <input value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="newTrackUris[@i]"/>
+                        }
+                    }
+                    <button class="text-white font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600" type="button" id="save-playlist-btn">Save playlist</button>
+                    <button class="text-white font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600" type="button" id="discard-playlist-btn">Discard playlist</button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/js/generatedplaylists.js"></script>
+}
+
+
