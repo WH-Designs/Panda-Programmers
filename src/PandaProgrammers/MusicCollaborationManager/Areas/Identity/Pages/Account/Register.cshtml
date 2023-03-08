@@ -6,6 +6,9 @@
 
 <div class="flex flex-col items-center justify-center ml-64 mt-36">
     <h1 class="text-4xl pb-3">Create a new account</h1>
+    <div class='max-w-2xl bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+        <h1 class="text-s font-bold pb-3">Check the currently signed in Spotify account. If that account is yours or if there is no one signed in, Great! Register at will. Otherwise, sign out of Spotify and come back.</h1>
+    </div>
     <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="max-w-2xl bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div asp-validation-summary="ModelOnly" role="alert" class="text-red-500 text-sm"></div>
         <div class="flex flex-wrap -mx-3 mb-6">
@@ -47,6 +50,8 @@
         <button id="registerSubmit" type="submit" class="w-full flex-shrink-0 bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 border-b-4 border-gray-900 hover:border-gray-700 rounded">Register</button>
     </form>
 </div>
+
+@* <div class="flex flex-col items-center justify-center ml-64 mt-36"></div> *@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

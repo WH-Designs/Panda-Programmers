@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Reminders.DAL.Abstract
+namespace MusicCollaborationManager.DAL.Abstract
 {
     /// <summary>
     /// Interface for common and CRUD operations on entities

@@ -1,4 +1,5 @@
 Feature: Playlist generator with mood
+
 Scenario: 
 Given I am a listener
 

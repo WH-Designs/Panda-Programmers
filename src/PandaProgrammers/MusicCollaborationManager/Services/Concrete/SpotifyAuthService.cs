@@ -6,6 +6,7 @@ using SpotifyAPI.Web.Auth;
 using Microsoft.AspNetCore.Authentication;
 using System.Diagnostics;
 using MusicCollaborationManager.Models.DTO;
+using MusicCollaborationManager.Models;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -14,9 +15,7 @@ namespace MusicCollaborationManager.Services.Concrete
         public static string ClientId { get; set; }
         public static string ClientSecret { get; set; }
         private static SpotifyClientConfig Config { get; set; }
-        private static SpotifyClient Spotify { get; set; }
-
-        //public static SpotifyClientConfig DefaultConfig = SpotifyClientConfig.CreateDefault();
+        public static SpotifyClient Spotify { get; set; }
         public AuthorizedUserDTO authUser { get; set; }
         public string Uri { get; set; }
 
@@ -33,30 +32,57 @@ namespace MusicCollaborationManager.Services.Concrete
             var loginRequest = new LoginRequest(
             new Uri(Uri), ClientId, LoginRequest.ResponseType.Code)
             {
-            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead}
+            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead, Scopes.PlaylistModifyPrivate, 
+                Scopes.PlaylistModifyPublic}
             };
             var uri = loginRequest.ToUri();
             
             return uri.AbsoluteUri;
         }
 
-        public async Task<SpotifyClient> GetCallback(string code)
+        public async Task<Listener> GetCallback(string code, Listener listener)
         {
             Uri uri = new Uri(Uri);
-            var response = await new OAuthClient().RequestToken(new AuthorizationCodeTokenRequest(ClientId, ClientSecret, code, uri));
-            var config = SpotifyClientConfig
-                .CreateDefault()
-                .WithAuthenticator(new AuthorizationCodeAuthenticator(ClientId, ClientSecret, response));
+            
+            if (listener.AuthToken == null && listener.SpotifyId == null && listener.AuthRefreshToken == null) {
+                
+                var response = await new OAuthClient().RequestToken(new AuthorizationCodeTokenRequest(ClientId, ClientSecret, code, uri));
+                listener.AuthToken = response.AccessToken;
+                listener.AuthRefreshToken = response.RefreshToken;
 
-            var authenticatedSpotify = new SpotifyClient(config);
-            Spotify = authenticatedSpotify;
-            authUser.Me = await Spotify.UserProfile.Current();
-            return authenticatedSpotify;
+                var config = SpotifyClientConfig
+                    .CreateDefault()
+                    .WithAuthenticator(new AuthorizationCodeAuthenticator(ClientId, ClientSecret, response));
+
+                var authenticatedNewSpotify = new SpotifyClient(config);
+                Spotify = authenticatedNewSpotify;
+
+                return listener;
+            }
+
+            try {                
+                var refreshResponse = await new OAuthClient().RequestToken(new AuthorizationCodeRefreshRequest(ClientId, ClientSecret, listener.AuthRefreshToken));
+
+                listener.AuthToken = refreshResponse.AccessToken;          
+
+                var authenticatedSpotify = new SpotifyClient(listener.AuthToken);
+                Spotify = authenticatedSpotify;
+
+                return listener;                
+
+            } catch (APIUnauthorizedException e){
+                Console.WriteLine(e.Message);
+
+                listener.AuthRefreshToken = "";
+
+                return listener;
+            }
         }
 
         public async Task<PrivateUser> GetAuthUser()
         {
-            return await Spotify.UserProfile.Current();
+            authUser.Me = await Spotify.UserProfile.Current();
+            return authUser.Me;
         }
 
         public async Task<List<FullTrack>> GetAuthUserTopTracks()
@@ -218,6 +244,28 @@ namespace MusicCollaborationManager.Services.Concrete
             var returnTracks = genTracks.Tracks;
             return returnTracks;
 
+        }
+
+        public static IUserProfileClient GetUserProfileClient() 
+        {
+            return Spotify.UserProfile;
+        }
+
+        public static IPlaylistsClient GetPlaylistsClient() 
+        {
+            return Spotify.Playlists;
+        }
+
+        public async Task AddSongsToPlaylistAsync(FullPlaylist playlistToFill, List<string> trackUris)
+        {
+            PlaylistAddItemsRequest AddItemsRequest = new PlaylistAddItemsRequest(trackUris);
+            await Spotify.Playlists.AddItems(playlistToFill.Id, AddItemsRequest);
+        }
+
+        public static async Task<FullPlaylist> CreateNewSpotifyPlaylistAsync(PlaylistCreateRequest createRequest, IUserProfileClient userProfileClient, IPlaylistsClient playlistsClient)
+        {
+            PrivateUser CurUser = await userProfileClient.Current();
+            return await playlistsClient.Create(CurUser.Id, createRequest);
         }
     }
 }
