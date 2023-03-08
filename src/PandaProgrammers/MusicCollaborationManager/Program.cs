@@ -104,8 +104,7 @@ public class Program
                         adminPw,
                         "The",
                         "Admin",
-                        4,
-                        "31apsehiff3z54ok4i6fr6g4ks5q"
+                        4
                     )
                     .Wait();
             }
