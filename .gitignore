@@ -109,3 +109,4 @@ src/PandaProgrammers/.vs/ProjectEvaluation/pandaprogrammers.projects.v5.2
 /src/PandaProgrammers/.vs/PandaProgrammers/FileContentIndex/b38604df-2169-496f-90ce-6a8c6f1143fd.vsidx
 /.vs/Panda-Programmers/v17
 /.vs/VSWorkspaceState.json
+*.lock
