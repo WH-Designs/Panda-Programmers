@@ -77,3 +77,7 @@ _[Ss]cripts
 *.vsidx
 *.lock
 *.1
+*.manifest
+*.testlog
+*.wsuo
+*.json
