@@ -6,7 +6,6 @@ using MusicCollaborationManager.Data;
 using MusicCollaborationManager.Services.Concrete;
 using MusicCollaborationManager.Services.Abstract;
 using SpotifyAPI.Web;
-namespace MCM;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MusicCollaborationManager.Data;
@@ -27,12 +26,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using static SpotifyAPI.Web.Scopes;
 
+namespace MCM;
+
 public class Program
 {
-
     public static void Main(string[] args)
     {
-
         var builder = WebApplication.CreateBuilder(args);
 
         string clientID = builder.Configuration["SpotifyClientID"];
@@ -42,13 +41,18 @@ public class Program
 
         builder.Services.AddControllersWithViews();
         var MCMconnectionString = builder.Configuration.GetConnectionString("MCMConnection");
-        builder.Services.AddDbContext<MCMDbContext>(options => options
-                                    .UseLazyLoadingProxies()
-                                    .UseSqlServer(MCMconnectionString));
+        builder.Services.AddDbContext<MCMDbContext>(
+            options => options.UseLazyLoadingProxies().UseSqlServer(MCMconnectionString)
+        );
 
-        var connectionString = builder.Configuration.GetConnectionString("AuthenticationConnection") ?? throw new InvalidOperationException("Connection string 'AuthenticationConnection' not found.");
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(connectionString));
+        var connectionString =
+            builder.Configuration.GetConnectionString("AuthenticationConnection")
+            ?? throw new InvalidOperationException(
+                "Connection string 'AuthenticationConnection' not found."
+            );
+        builder.Services.AddDbContext<ApplicationDbContext>(
+            options => options.UseSqlServer(connectionString)
+        );
 
         builder.Services.AddScoped<DbContext, MCMDbContext>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -56,18 +60,27 @@ public class Program
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddRoles<IdentityRole>()                           //enables roles, ie admin
+        builder.Services
+            .AddDefaultIdentity<IdentityUser>(
+                options => options.SignIn.RequireConfirmedAccount = true
+            )
+            .AddRoles<IdentityRole>() //enables roles, ie admin
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
-        builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
-        builder.Services.AddScoped<SpotifyAuthService>(s => new SpotifyAuthService(clientID, clientSecret, redirectUri));
+        builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(
+            s => new SpotifyVisitorService(clientID, clientSecret)
+        );
+        builder.Services.AddScoped<SpotifyAuthService>(
+            s => new SpotifyAuthService(clientID, clientSecret, redirectUri)
+        );
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
         builder.Services.AddScoped<SpotifyClientBuilder>();
 
-        builder.Services.AddScoped<IDeepAiService, DeepAiService>(d => new DeepAiService(deepAiKey));
+        builder.Services.AddScoped<IDeepAiService, DeepAiService>(
+            d => new DeepAiService(deepAiKey)
+        );
 
         builder.Services.AddSwaggerGen();
         var app = builder.Build();
@@ -83,7 +96,17 @@ public class Program
                 var adminPw = config["SeedAdminPw"];
 
                 SeedUsers.Initialize(services, SeedData.UserSeedData, testUserPw).Wait();
-                SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "The", "Admin", 4).Wait();
+                SeedUsers
+                    .InitializeAdmin(
+                        services,
+                        "admin@example.com",
+                        "admin",
+                        adminPw,
+                        "The",
+                        "Admin",
+                        4
+                    )
+                    .Wait();
             }
             catch (Exception ex)
             {
@@ -115,13 +138,9 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
-        
+        app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+
         app.MapRazorPages();
         app.Run();
-
     }
 }
-
