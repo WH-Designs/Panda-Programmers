@@ -77,5 +77,24 @@ $("#discard-playlist-btn").click(function () {
             <p class="text-white">Playlist has been discarded. You will be redirected shortly...</p>
     </div>`;
     $("#explanation-title").append(msg);
-    setTimeout(redirectToGenIndex, 4000);
+    setTimeout(redirectToGenIndex, 3000);
+});
+
+//Playing indication (below)----------------
+
+function removePlayingStatusText() {
+    $("#playing-status-active").remove();
+}
+
+$(".playable-item").click(function () {
+
+
+    $('#playing-status-active').remove();
+    let trackHtmlID = $(this)[0].id;
+
+    let playingStatus = '<p class="text-white" id="playing-status-active" style="font-family: Arial, sans-serif;">Playing...</p>'
+    $(`#${trackHtmlID}`).append(playingStatus);
+
+    setTimeout(removePlayingStatusText, 4000);
+
 });
