@@ -11,7 +11,7 @@
                 </select>
                 <br />
 
-                <div class="text-white font-bold p-2">What is the temp you would like songs in you playlist to have (Beats per minute)?</div>
+                <div class="text-white font-bold p-2">What is the tempo you would like songs in you playlist to have (Beats per minute)?</div>
                 <div class="slidecontainer">
                     <input asp-for="tempo" type="range" min="20" max="250" value="125" id="tempoRange">
                     <p class="text-white">Value: <span id="tempoValue"></span></p>
@@ -47,7 +47,7 @@
                 </div>
                 <br />
 
-                <div class="text-white font-bold p-2">High lively do you want your playlist to be?</div>
+                <div class="text-white font-bold p-2">How likely would you like to listen to live performances?</div>
                 <div class="slidecontainer">
                     <input asp-for="liveness" type="range" min="1" max="10" value="5" id="liveRange">
                     <p class="text-white">Value: <span id="liveValue"></span></p>
@@ -76,8 +76,8 @@
                 <div class="text-white font-bold p-2">Cover Image Input</div>
                 <input asp-for="coverImageInput" type="text" />
                 <br />
-
-                <button class="text-white font-bold p-2" type="submit">Generate Playlist</button>
+                
+                <button class="text-white font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 mt-4" type="submit">Generate Playlist</button>
             </div>
         </div>
     </div>

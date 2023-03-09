@@ -54,7 +54,7 @@ namespace MusicCollaborationManager.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> QuestionairePost(QuestionViewModel vm)
+        public async Task<IActionResult> QuestionairePostAsync(QuestionViewModel vm)
         {
             try
             {
@@ -62,11 +62,11 @@ namespace MusicCollaborationManager.Controllers
                 string UserInputCoverImage = vm.coverImageInput;
 
                 RecommendDTO recommendDTO = new RecommendDTO();
-                recommendDTO = recommendDTO.convertToDTO(vm);
+                recommendDTO = recommendDTO.convertToQuestionDTO(vm);
 
-                var response = _spotifyService.GetRecommendations(recommendDTO);
+                var response = await _spotifyService.GetRecommendations(recommendDTO);
                 List<SimpleTrack> result = new List<SimpleTrack>();
-                result = response.Result.Tracks;
+                result = response.Tracks;
 
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrack(result);
 
@@ -82,10 +82,36 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
-        public IActionResult Mood()
+        public IActionResult Mood(MoodViewModel vm)
         {
-            return View();
+            try
+            {             
+                return View("Mood", vm);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("callforward", "Home");
+            }
+
         }
+
+        //[Authorize]
+        //[HttpPost]
+        //public async Task<IActionResult> MoodPostAsync(QuestionViewModel vm)
+        //{
+        //    try
+        //    {
+        //        GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+        //        string UserInputCoverImage = vm.coverImageInput;
+
+        //        RecommendDTO recommendDTO = new RecommendDTO();
+        //        recommendDTO = 
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return RedirectToAction("callforward", "Home");
+        //    }
+        //}
 
         [Authorize]
         public IActionResult Time()

@@ -213,17 +213,47 @@ namespace MusicCollaborationManager.Services.Concrete
             RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
             recommendationsRequest.Market = recommendDTO.market;
             recommendationsRequest.Limit = recommendDTO.limit;
-            recommendationsRequest.SeedGenres.Add(recommendDTO.genre);
 
-            recommendationsRequest.Target.Add("acousticness", recommendDTO.target_acousticness.ToString());
-            recommendationsRequest.Target.Add("danceability", recommendDTO.target_danceability.ToString());
-            recommendationsRequest.Target.Add("energy", recommendDTO.target_energy.ToString());
-            recommendationsRequest.Target.Add("instrumentalness", recommendDTO.target_instrumentalness.ToString());
-            recommendationsRequest.Target.Add("liveness", recommendDTO.target_liveness.ToString());
-            recommendationsRequest.Target.Add("popularity", recommendDTO.target_popularity.ToString());
-            recommendationsRequest.Target.Add("speechiness", recommendDTO.target_speechiness.ToString());
-            recommendationsRequest.Target.Add("temp", recommendDTO.target_tempo.ToString());
-            recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
+            foreach (var genre in recommendDTO.genre)
+            {
+                recommendationsRequest.SeedGenres.Add(genre);
+            }
+            //recommendationsRequest.SeedGenres.Add(recommendDTO.genre); Older version of just passing single genre
+            if(recommendDTO.target_acousticness != null){
+                recommendationsRequest.Target.Add("acousticness", recommendDTO.target_acousticness.ToString());
+            }
+            if (recommendDTO.target_danceability != null)
+            {
+                recommendationsRequest.Target.Add("danceability", recommendDTO.target_danceability.ToString());
+            }
+            if (recommendDTO.target_energy != null)
+            {
+                recommendationsRequest.Target.Add("energy", recommendDTO.target_energy.ToString());
+            }
+            if (recommendDTO.target_instrumentalness!= null)
+            {
+                recommendationsRequest.Target.Add("instrumentalness", recommendDTO.target_instrumentalness.ToString());
+            }
+            if (recommendDTO.target_liveness != null)
+            {
+                recommendationsRequest.Target.Add("liveness", recommendDTO.target_liveness.ToString());
+            }
+            if (recommendDTO.target_popularity != null)
+            {
+                recommendationsRequest.Target.Add("popularity", recommendDTO.target_popularity.ToString());
+            }
+            if (recommendDTO.target_speechiness != null)
+            {
+                recommendationsRequest.Target.Add("speechiness", recommendDTO.target_speechiness.ToString());
+            }
+            if (recommendDTO.target_tempo != null)
+            {
+                recommendationsRequest.Target.Add("temp", recommendDTO.target_tempo.ToString());
+            }
+            if (recommendDTO.target_valence != null)
+            {
+                recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
+            }
 
             var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
 
