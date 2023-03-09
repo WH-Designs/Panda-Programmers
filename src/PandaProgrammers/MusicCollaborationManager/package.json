@@ -8,5 +8,9 @@
   "license": "ISC",
   "devDependencies": {
     "tailwindcss": "^3.2.6"
+  },
+  "scripts": {
+    "start": "npm run css:build",
+    "css:build": "npx tailwind build ./wwwroot/css/site.css -o ./wwwroot/css/styles.css"
   }
 }

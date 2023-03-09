@@ -7,13 +7,16 @@
     <div class="flex flex-col ml-52 mt-36">
         <div class="flex flex-col w-3/4 mx-5">
             <div>
+                <button id="classicpanda-btn">Theme 1 (original)</button>
+                <button id="revolution-btn">Theme 1 (red)</button>
+                <button id="autumn-btn">Theme 3 (purple)</button>
                 <p class="mb-4 font-semibold text-2xl">
                     Welcome to Music Collaboration Manager. Here you can interact with your Spotify account to enhance
                     your listening experience. We provide our own
                     unique features including custom site themes, a playlist generator, and more.
                 </p>
             </div>
-            <div class="w-auto max-h-max bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
+            <div class="w-auto max-h-max bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
                 <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
                     <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
                     <h2 class="font-bold mb-5 mt-1 text-white text-xl">Top songs</h2>
@@ -32,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="w-auto max-h-max bg-gray-800 my-1 p-3 rounded-lg shadow-2xl">
+            <div class="w-auto max-h-max bg-secondaryback classicpanda:bg-coreback my-1 p-3 rounded-lg shadow-2xl">
                 <div class="flex flex-row gap-x-3 mt-5">
                     <img src="~/img/spotify-logo-white.png" class="w-32  h-10" />
                     <h2 class="font-bold mb-5 mt-1 text-white text-xl">Top playlists</h2>
@@ -79,3 +82,7 @@
     };
     $("#my-thing").css("opactiy", "0.6");
 </script>
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/colorchanger.js"></script>
+}
