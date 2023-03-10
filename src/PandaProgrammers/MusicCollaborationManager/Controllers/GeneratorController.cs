@@ -62,6 +62,7 @@ namespace MusicCollaborationManager.Controllers
                 string UserInputCoverImage = vm.coverImageInput;
 
                 RecommendDTO recommendDTO = new RecommendDTO();
+                //Calls questionairre dto method
                 recommendDTO = recommendDTO.convertToQuestionDTO(vm);
 
                 RecommendationsResponse response = await _spotifyService.GetRecommendations(recommendDTO);
@@ -76,6 +77,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e) 
             {
+                //Error occurs when not logged into spotify
                 return RedirectToAction("callforward", "Home");
             }
 
@@ -105,6 +107,7 @@ namespace MusicCollaborationManager.Controllers
                 string UserInputCoverImage = vm.coverImageInput;
 
                 RecommendDTO recommendDTO = new RecommendDTO();
+                //Calls mood dto method
                 recommendDTO = recommendDTO.convertToMoodDTO(vm);
 
                 RecommendationsResponse response = await _spotifyService.GetRecommendations(recommendDTO);
@@ -120,6 +123,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
+                //Error occurs when not logged into spotify
                 return RedirectToAction("callforward", "Home");
             }
         }

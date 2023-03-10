@@ -19,6 +19,7 @@ namespace MusicCollaborationManager.Models.DTO
         public double target_speechiness { get; set; }
         public double target_tempo { get; set; }
         public double target_valence { get; set; }
+
         //public double target_acousticnessMax { get; set; }
         //public double target_danceabilityMax { get; set; }
         //public double target_energyMax { get; set; }
@@ -37,39 +38,17 @@ namespace MusicCollaborationManager.Models.DTO
             conDTO.market = "US";
             conDTO.limit = 20;
             
-            if(qVM.acousticness <= 0 || qVM.acousticness > 10 || qVM.acousticness == null)
-            {
-                qVM.acousticness = conDTO.rngValue();
-            }
-            if (qVM.danceability <= 0 || qVM.danceability > 10 || qVM.danceability == null)
-            {
-                qVM.danceability = conDTO.rngValue();
-            }
-            if (qVM.energy <= 0 || qVM.energy > 10 || qVM.energy == null)
-            {
-                qVM.energy = conDTO.rngValue();
-            }
-            if (qVM.instrumentalness <= 0 || qVM.instrumentalness > 10 || qVM.instrumentalness == null)
-            {
-                qVM.instrumentalness = conDTO.rngValue();
-            }
-            if (qVM.liveness <= 0 || qVM.liveness > 10 || qVM.liveness == null)
-            {
-                qVM.liveness = conDTO.rngValue();
-            }
-            if (qVM.popularity <= 0 || qVM.popularity > 10 || qVM.popularity == null)
-            {
-                qVM.popularity = conDTO.rngValue();
-            }
-            if (qVM.speechiness <= 0 || qVM.speechiness > 10 || qVM.speechiness == null)
-            {
-                qVM.speechiness = conDTO.rngValue();
-            }
-            if (qVM.valence <= 0 || qVM.valence > 10 || qVM.valence == null)
-            {
-                qVM.valence = conDTO.rngValue();
-            }
+            //RNG if value not provided 
+            if(qVM.acousticness <= 0 || qVM.acousticness > 10 || qVM.acousticness == null){qVM.acousticness = conDTO.rngValue();}
+            if (qVM.danceability <= 0 || qVM.danceability > 10 || qVM.danceability == null){qVM.danceability = conDTO.rngValue();}
+            if (qVM.energy <= 0 || qVM.energy > 10 || qVM.energy == null){qVM.energy = conDTO.rngValue();}
+            if (qVM.instrumentalness <= 0 || qVM.instrumentalness > 10 || qVM.instrumentalness == null){qVM.instrumentalness = conDTO.rngValue();}
+            if (qVM.liveness <= 0 || qVM.liveness > 10 || qVM.liveness == null){qVM.liveness = conDTO.rngValue();}
+            if (qVM.popularity <= 0 || qVM.popularity > 10 || qVM.popularity == null){qVM.popularity = conDTO.rngValue();}
+            if (qVM.speechiness <= 0 || qVM.speechiness > 10 || qVM.speechiness == null){qVM.speechiness = conDTO.rngValue();}
+            if (qVM.valence <= 0 || qVM.valence > 10 || qVM.valence == null) { qVM.valence = conDTO.rngValue();}
 
+            //Converts to format accepted by api
             conDTO.target_acousticness = qVM.acousticness / 10;
             conDTO.target_danceability= qVM.danceability / 10;
             conDTO.target_energy = qVM.energy / 10;
@@ -88,6 +67,7 @@ namespace MusicCollaborationManager.Models.DTO
             mVM.mood = mVM.moodList[int.Parse(mVM.mood) - 1];
             RecommendDTO conDTO = new RecommendDTO();
 
+            //Sets values within certain params using rng and formats for api
             switch (mVM.mood)
             {
                 case "Happy":
@@ -157,7 +137,7 @@ namespace MusicCollaborationManager.Models.DTO
                 case "Sad":
                     for (int i = 0; i < 5; i++)
                     {
-                        string genreHolder = mVM.sadGenreList[conDTO.rngValueInput(0, 7)];
+                        string genreHolder = mVM.sadGenreList[conDTO.rngValueInput(0, 8)];
                         if (!conDTO.genre.Contains(genreHolder))
                         {
                             conDTO.genre.Add(genreHolder);
@@ -176,8 +156,6 @@ namespace MusicCollaborationManager.Models.DTO
                     conDTO.target_acousticness /= 10;
                     conDTO.target_instrumentalness = conDTO.rngValue();
                     conDTO.target_instrumentalness /= 10;
-                    conDTO.target_liveness = conDTO.rngValueInput(1, 3);
-                    conDTO.target_liveness /= 10;
                     conDTO.target_popularity = conDTO.rngValueInput(1, 11);
                     conDTO.target_popularity *= 10;
                     conDTO.target_speechiness = conDTO.rngValue();
@@ -186,10 +164,10 @@ namespace MusicCollaborationManager.Models.DTO
                     conDTO.target_valence /= 10;
 
                     break;
-                case "Calming":
+                case "Chill":
                     for (int i = 0; i < 5; i++)
                     {
-                        string genreHolder = mVM.calmGenreList[conDTO.rngValueInput(0, 6)];
+                        string genreHolder = mVM.calmGenreList[conDTO.rngValueInput(0, 7)];
                         if (!conDTO.genre.Contains(genreHolder))
                         {
                             conDTO.genre.Add(genreHolder);
@@ -205,14 +183,12 @@ namespace MusicCollaborationManager.Models.DTO
                     conDTO.target_energy = conDTO.rngValueInput(1, 5);
                     conDTO.target_energy /= 10;
                     conDTO.target_acousticness = conDTO.rngValue();
-                    conDTO.target_acousticness /= 10;
-                    conDTO.target_instrumentalness = conDTO.rngValue();
-                    conDTO.target_instrumentalness /= 10;
+                    conDTO.target_acousticness /= 10;          
                     conDTO.target_liveness = conDTO.rngValueInput(1, 3);
                     conDTO.target_liveness /= 10;
                     conDTO.target_popularity = conDTO.rngValueInput(1, 11);
                     conDTO.target_popularity *= 10;
-                    conDTO.target_tempo = conDTO.rngValueInput(30, 90);
+                    conDTO.target_tempo = conDTO.rngValueInput(10, 80);
 
                     break;
                 case "Energetic":
@@ -262,8 +238,6 @@ namespace MusicCollaborationManager.Models.DTO
                     conDTO.target_danceability /= 10;
                     conDTO.target_energy = conDTO.rngValueInput(6, 11);
                     conDTO.target_energy /= 10;
-                    conDTO.target_liveness = conDTO.rngValueInput(1, 3);
-                    conDTO.target_liveness /= 10;
                     conDTO.target_popularity = conDTO.rngValueInput(1, 11);
                     conDTO.target_popularity *= 10;
                     conDTO.target_valence = conDTO.rngValueInput(5, 11);

@@ -14,15 +14,16 @@ namespace MusicCollaborationManager.ViewModels
         [Required]
         public string mood { get; set; }
 
-        public List<string> moodList = new List<string> {"Happy", "Sad", "Angry", "Calming", "Energetic", "Dancing" };
+        public List<string> moodList = new List<string> {"Happy", "Sad", "Angry", "Chill", "Energetic", "Dancing" };
 
+        //Lists to populate genre pools for different moods
         public List<string> happyGenreList = new List<string> { "acoustic", "reggae", "pop", "alt-rock", "guitar", "rock", "summer", "groove", "happy", "world-music" };
 
         public List<string> angryGenreList = new List<string> { "death-metal", "emo", "hardcore", "punk-rock", "heavy-metal", "alt-rock", "black-metal", "grunge", "indie", "metalcore", "punk-rock" };
 
-        public List<string> sadGenreList = new List<string> { "country", "sad", "blues", "acoustic", "emo", "bluegrass", "goth" };
+        public List<string> sadGenreList = new List<string> { "country", "sad", "blues", "acoustic", "emo", "bluegrass", "goth", "opera" };
 
-        public List<string> calmGenreList = new List<string> { "classical", "chill", "jazz", "ambient", "study", "paino" };
+        public List<string> calmGenreList = new List<string> { "classical", "chill", "jazz", "ambient", "study", "piano", "guitar" };
 
         public List<string> energyGenreList = new List<string> { "work-out", "rock-n-roll", "pop", "hip-hop", "metal", "brazil", "anime", "dubstep", "electronic", "heavy-metal", "techno" };
 
