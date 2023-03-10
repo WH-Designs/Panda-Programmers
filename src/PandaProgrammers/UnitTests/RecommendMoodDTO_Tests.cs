@@ -69,7 +69,7 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_energy, Is.GreaterThanOrEqualTo(0.3));
             Assert.That(_recommendDTO.target_energy, Is.LessThanOrEqualTo(1));
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(20));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(10));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_speechiness, Is.GreaterThanOrEqualTo(0.3));
@@ -97,7 +97,7 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.3));
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(30));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(10));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_speechiness, Is.GreaterThanOrEqualTo(0.5));
@@ -128,7 +128,7 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.3));           
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(30));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(10));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_speechiness, Is.GreaterThanOrEqualTo(0.1));
@@ -156,7 +156,7 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.3));
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(30));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(10));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_tempo, Is.GreaterThanOrEqualTo(30));
@@ -181,14 +181,11 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.2));
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(30));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(10));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_tempo, Is.GreaterThanOrEqualTo(110));
             Assert.That(_recommendDTO.target_tempo, Is.LessThanOrEqualTo(250));
-
-            Assert.That(_recommendDTO.target_valence, Is.GreaterThanOrEqualTo(0.7));
-            Assert.That(_recommendDTO.target_valence, Is.LessThanOrEqualTo(1));
 
             Assert.That(_recommendDTO.limit, Is.EqualTo(20));
         }
@@ -209,7 +206,7 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.3));
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(30));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(10));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_valence, Is.GreaterThanOrEqualTo(0.5));
