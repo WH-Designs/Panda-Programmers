@@ -213,22 +213,113 @@ namespace MusicCollaborationManager.Services.Concrete
             RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
             recommendationsRequest.Market = recommendDTO.market;
             recommendationsRequest.Limit = recommendDTO.limit;
-            recommendationsRequest.SeedGenres.Add(recommendDTO.genre);
 
-            recommendationsRequest.Target.Add("acousticness", recommendDTO.target_acousticness.ToString());
-            recommendationsRequest.Target.Add("danceability", recommendDTO.target_danceability.ToString());
-            recommendationsRequest.Target.Add("energy", recommendDTO.target_energy.ToString());
-            recommendationsRequest.Target.Add("instrumentalness", recommendDTO.target_instrumentalness.ToString());
-            recommendationsRequest.Target.Add("liveness", recommendDTO.target_liveness.ToString());
-            recommendationsRequest.Target.Add("popularity", recommendDTO.target_popularity.ToString());
-            recommendationsRequest.Target.Add("speechiness", recommendDTO.target_speechiness.ToString());
-            recommendationsRequest.Target.Add("temp", recommendDTO.target_tempo.ToString());
-            recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
+            foreach (var genre in recommendDTO.genre)
+            {
+                recommendationsRequest.SeedGenres.Add(genre);
+            }
+            if (recommendDTO.target_valence != 0)
+            {
+                recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
+            }
+            if (recommendDTO.target_acousticness != 0){
+                recommendationsRequest.Target.Add("acousticness", recommendDTO.target_acousticness.ToString());
+            }
+            if (recommendDTO.target_danceability != 0)
+            {
+                recommendationsRequest.Target.Add("danceability", recommendDTO.target_danceability.ToString());
+            }
+            if (recommendDTO.target_energy != 0)
+            {
+                recommendationsRequest.Target.Add("energy", recommendDTO.target_energy.ToString());
+            }
+            if (recommendDTO.target_instrumentalness != 0)
+            {
+                recommendationsRequest.Target.Add("instrumentalness", recommendDTO.target_instrumentalness.ToString());
+            }
+            if (recommendDTO.target_liveness != 0)
+            {
+                recommendationsRequest.Target.Add("liveness", recommendDTO.target_liveness.ToString());
+            }
+            if (recommendDTO.target_popularity != 0)
+            {
+                recommendationsRequest.Target.Add("popularity", recommendDTO.target_popularity.ToString());
+            }
+            if (recommendDTO.target_speechiness != 0)
+            {
+                recommendationsRequest.Target.Add("speechiness", recommendDTO.target_speechiness.ToString());
+            }
+            if (recommendDTO.target_tempo != 0)
+            {
+                recommendationsRequest.Target.Add("tempo", recommendDTO.target_tempo.ToString());
+            }          
 
             var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
 
             return recommendations;
         }
+
+        //public async Task<RecommendationsResponse> GetRecommendationsMinMax(RecommendDTO recommendDTO)
+        //{
+        //    RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
+        //    recommendationsRequest.Market = recommendDTO.market;
+        //    recommendationsRequest.Limit = recommendDTO.limit;
+
+        //    foreach (var genre in recommendDTO.genre)
+        //    {
+        //        recommendationsRequest.SeedGenres.Add(genre);
+        //    }            
+
+        //    if (recommendDTO.target_acousticness != 0)
+        //    {
+        //        recommendationsRequest.Min.Add("acousticness", recommendDTO.target_acousticness.ToString());
+        //        recommendationsRequest.Max.Add("acousticness", recommendDTO.target_acousticnessMax.ToString());
+        //    }
+        //    if (recommendDTO.target_danceability != 0)
+        //    {
+        //        recommendationsRequest.Min.Add("danceability", recommendDTO.target_danceability.ToString());
+        //        recommendationsRequest.Max.Add("danceability", recommendDTO.target_danceabilityMax.ToString());
+        //    }
+        //    if (recommendDTO.target_energy != 0)
+        //    {
+        //        recommendationsRequest.Min.Add("energy", recommendDTO.target_energy.ToString());
+        //        recommendationsRequest.Max.Add("energy", recommendDTO.target_energyMax.ToString());
+        //    }
+        //    if (recommendDTO.target_instrumentalness != 0)
+        //    {
+        //        recommendationsRequest.Min.Add("instrumentalness", recommendDTO.target_instrumentalness.ToString());
+        //        recommendationsRequest.Max.Add("instrumentalness", recommendDTO.target_instrumentalnessMax.ToString());
+        //    }
+        //    if (recommendDTO.target_liveness != 0)
+        //    {
+        //        recommendationsRequest.Min.Add("liveness", recommendDTO.target_liveness.ToString());
+        //        recommendationsRequest.Max.Add("liveness", recommendDTO.target_livenessMax.ToString());
+        //    }
+        //    if (recommendDTO.target_popularity != 0)
+        //    {
+        //        recommendationsRequest.Min.Add("popularity", recommendDTO.target_popularity.ToString());
+        //        recommendationsRequest.Max.Add("popularity", recommendDTO.target_popularityMax.ToString());
+        //    }
+        //    if (recommendDTO.target_speechiness != 0)
+        //    {
+        //        recommendationsRequest.Min.Add("speechiness", recommendDTO.target_speechiness.ToString());
+        //        recommendationsRequest.Max.Add("speechiness", recommendDTO.target_speechinessMax.ToString());
+        //    }
+        //    if (recommendDTO.target_tempo != 0)
+        //    {
+        //        recommendationsRequest.Min.Add("temp", recommendDTO.target_tempo.ToString());
+        //        recommendationsRequest.Max.Add("temp", recommendDTO.target_tempoMax.ToString());
+        //    }
+        //    if (recommendDTO.target_valence != 0)
+        //    {
+        //        recommendationsRequest.Min.Add("valence", recommendDTO.target_valence.ToString());
+        //        recommendationsRequest.Max.Add("valence", recommendDTO.target_valenceMax.ToString());
+        //    }
+
+        //    var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
+
+        //    return recommendations;
+        //}
 
         public async Task<List<FullTrack>> ConvertToFullTrack(List<SimpleTrack> tracks)
         {

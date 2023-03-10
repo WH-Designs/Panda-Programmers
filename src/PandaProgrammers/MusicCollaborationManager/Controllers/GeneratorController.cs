@@ -54,7 +54,7 @@ namespace MusicCollaborationManager.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> QuestionairePost(QuestionViewModel vm)
+        public async Task<IActionResult> QuestionairePostAsync(QuestionViewModel vm)
         {
             try
             {
@@ -62,11 +62,12 @@ namespace MusicCollaborationManager.Controllers
                 string UserInputCoverImage = vm.coverImageInput;
 
                 RecommendDTO recommendDTO = new RecommendDTO();
-                recommendDTO = recommendDTO.convertToDTO(vm);
+                //Calls questionairre dto method
+                recommendDTO = recommendDTO.convertToQuestionDTO(vm);
 
-                var response = _spotifyService.GetRecommendations(recommendDTO);
+                RecommendationsResponse response = await _spotifyService.GetRecommendations(recommendDTO);
                 List<SimpleTrack> result = new List<SimpleTrack>();
-                result = response.Result.Tracks;
+                result = response.Tracks;
 
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrack(result);
 
@@ -76,15 +77,55 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e) 
             {
+                //Error occurs when not logged into spotify
                 return RedirectToAction("callforward", "Home");
             }
 
         }
 
         [Authorize]
-        public IActionResult Mood()
+        public IActionResult Mood(MoodViewModel vm)
         {
-            return View();
+            try
+            {
+                return View("Mood", vm);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("callforward", "Home");
+            }
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> MoodPostAsync(MoodViewModel vm)
+        {
+            try
+            {
+                GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+                string UserInputCoverImage = vm.coverImageInput;
+
+                RecommendDTO recommendDTO = new RecommendDTO();
+                //Calls mood dto method
+                recommendDTO = recommendDTO.convertToMoodDTO(vm);
+
+                RecommendationsResponse response = await _spotifyService.GetRecommendations(recommendDTO);
+                List<SimpleTrack> result = new List<SimpleTrack>();
+                result = response.Tracks;
+
+                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrack(result);
+
+                generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
+
+                return View("GeneratedPlaylists", generatorsViewModel);
+
+            }
+            catch (Exception e)
+            {
+                //Error occurs when not logged into spotify
+                return RedirectToAction("callforward", "Home");
+            }
         }
 
         [Authorize]
