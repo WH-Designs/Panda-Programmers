@@ -1,9 +1,26 @@
-﻿
+﻿@model MusicCollaborationManager.ViewModels.MoodViewModel
 
-
-<div class="w-screen">
-    <div class="flex flex-col justify-center items-center mt-36">
-        <h1>Future home of playlist generator based on mood</h1>
+<form asp-controller="Generator" asp-action="MoodPost" method="post" id="songForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="w-screen">
+        <div class="flex flex-col justify-center items-center mt-56">
+            <div class="bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
+                <h1 class="font-bold text-5xl text-white p-2">Mood Playlist Generator</h1>
+                <div class="text-white font-bold p-2">What mood would you like your playlist to have?</div>
+                <br />
+                <div class="slidecontainer">
+                    <input asp-for="mood" type="range" min="1" max="6" value="1" id="moodRange">
+                    <p class="text-white">Mood: <span id="moodValue"></span></p>
+                </div>
+                <br />
+                <button class="text-white font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 mt-4" type="submit">Generate Playlist</button>
+            </div>
+        </div>
     </div>
-</div>
+</form>
+
+
+<script src="~/js/rSlider.js"></script>
+
+
 

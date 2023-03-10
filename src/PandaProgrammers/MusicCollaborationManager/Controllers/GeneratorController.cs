@@ -64,7 +64,7 @@ namespace MusicCollaborationManager.Controllers
                 RecommendDTO recommendDTO = new RecommendDTO();
                 recommendDTO = recommendDTO.convertToQuestionDTO(vm);
 
-                var response = await _spotifyService.GetRecommendations(recommendDTO);
+                RecommendationsResponse response = await _spotifyService.GetRecommendations(recommendDTO);
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
@@ -85,7 +85,7 @@ namespace MusicCollaborationManager.Controllers
         public IActionResult Mood(MoodViewModel vm)
         {
             try
-            {             
+            {
                 return View("Mood", vm);
             }
             catch (Exception e)
@@ -95,23 +95,34 @@ namespace MusicCollaborationManager.Controllers
 
         }
 
-        //[Authorize]
-        //[HttpPost]
-        //public async Task<IActionResult> MoodPostAsync(QuestionViewModel vm)
-        //{
-        //    try
-        //    {
-        //        GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
-        //        string UserInputCoverImage = vm.coverImageInput;
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> MoodPostAsync(MoodViewModel vm)
+        {
+            try
+            {
+                GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+                string UserInputCoverImage = vm.coverImageInput;
 
-        //        RecommendDTO recommendDTO = new RecommendDTO();
-        //        recommendDTO = 
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return RedirectToAction("callforward", "Home");
-        //    }
-        //}
+                RecommendDTO recommendDTO = new RecommendDTO();
+                recommendDTO = recommendDTO.convertToMoodDTO(vm);
+
+                RecommendationsResponse response = await _spotifyService.GetRecommendations(recommendDTO);
+                List<SimpleTrack> result = new List<SimpleTrack>();
+                result = response.Tracks;
+
+                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrack(result);
+
+                generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
+
+                return View("GeneratedPlaylists", generatorsViewModel);
+
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("callforward", "Home");
+            }
+        }
 
         [Authorize]
         public IActionResult Time()

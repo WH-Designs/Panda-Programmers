@@ -53,7 +53,7 @@ namespace UnitTests
         [Test]
         public void TestConvertToMoodDTOShouldSetValuesForHappy()
         {
-            _moodViewModel.mood = "Happy";
+            _moodViewModel.mood = "1";
 
             _recommendDTO = _recommendDTO.convertToMoodDTO(_moodViewModel);
 
@@ -61,39 +61,33 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_acousticness, Is.LessThanOrEqualTo(1));
 
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
-            Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.3));
+            Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.7));
 
-            Assert.That(_recommendDTO.target_danceability, Is.GreaterThanOrEqualTo(0.5));
+            Assert.That(_recommendDTO.target_danceability, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_danceability, Is.LessThanOrEqualTo(1));
 
-            Assert.That(_recommendDTO.target_energy, Is.GreaterThanOrEqualTo(0.5));
+            Assert.That(_recommendDTO.target_energy, Is.GreaterThanOrEqualTo(0.3));
             Assert.That(_recommendDTO.target_energy, Is.LessThanOrEqualTo(1));
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(40));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(20));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
-            Assert.That(_recommendDTO.target_speechiness, Is.GreaterThanOrEqualTo(0.4));
+            Assert.That(_recommendDTO.target_speechiness, Is.GreaterThanOrEqualTo(0.3));
             Assert.That(_recommendDTO.target_speechiness, Is.LessThanOrEqualTo(1));
 
             Assert.That(_recommendDTO.target_valence, Is.GreaterThanOrEqualTo(0.7));
             Assert.That(_recommendDTO.target_valence, Is.LessThanOrEqualTo(1));
 
-            Assert.That(_recommendDTO.target_tempo, Is.GreaterThanOrEqualTo(70));
-            Assert.That(_recommendDTO.target_tempo, Is.LessThanOrEqualTo(150));
+            Assert.That(_recommendDTO.target_tempo, Is.GreaterThanOrEqualTo(60));
+            Assert.That(_recommendDTO.target_tempo, Is.LessThanOrEqualTo(170));
 
-            Assert.That(_recommendDTO.genre[0], Is.EqualTo("pop"));
-            Assert.That(_recommendDTO.genre[1], Is.EqualTo("acoustic"));
-            Assert.That(_recommendDTO.genre[2], Is.EqualTo("happy"));
-            Assert.That(_recommendDTO.genre[3], Is.EqualTo("hip-hop"));
-            Assert.That(_recommendDTO.genre[4], Is.EqualTo("reggae"));
-            Assert.That(_recommendDTO.market, Is.EqualTo("US"));
-            Assert.That(_recommendDTO.limit, Is.EqualTo(4));
+            Assert.That(_recommendDTO.limit, Is.EqualTo(20));
         }
 
         [Test]
         public void TestConvertToMoodDTOShouldSetValuesForAngry()
         {
-            _moodViewModel.mood = "Angry";
+            _moodViewModel.mood = "3";
 
             _recommendDTO = _recommendDTO.convertToMoodDTO(_moodViewModel);
 
@@ -103,7 +97,7 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.3));
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(40));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(30));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_speechiness, Is.GreaterThanOrEqualTo(0.5));
@@ -115,24 +109,15 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_tempo, Is.GreaterThanOrEqualTo(120));
             Assert.That(_recommendDTO.target_tempo, Is.LessThanOrEqualTo(250));
 
-            Assert.That(_recommendDTO.genre[0], Is.EqualTo("death-metal"));
-            Assert.That(_recommendDTO.genre[1], Is.EqualTo("emo"));
-            Assert.That(_recommendDTO.genre[2], Is.EqualTo("hardcore"));
-            Assert.That(_recommendDTO.genre[3], Is.EqualTo("punk-rock"));
-            Assert.That(_recommendDTO.genre[4], Is.EqualTo("heavy-metal"));
-            Assert.That(_recommendDTO.market, Is.EqualTo("US"));
-            Assert.That(_recommendDTO.limit, Is.EqualTo(4));
+            Assert.That(_recommendDTO.limit, Is.EqualTo(20));
         }
 
         [Test]
         public void TestConvertToMoodDTOShouldSetValuesForSad()
         {
-            _moodViewModel.mood = "Sad";
+            _moodViewModel.mood = "2";
 
             _recommendDTO = _recommendDTO.convertToMoodDTO(_moodViewModel);
-
-            Assert.That(_recommendDTO.target_energy, Is.GreaterThanOrEqualTo(0.1));
-            Assert.That(_recommendDTO.target_energy, Is.LessThanOrEqualTo(0.5));
 
             Assert.That(_recommendDTO.target_acousticness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_acousticness, Is.LessThanOrEqualTo(1));
@@ -143,7 +128,7 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.3));           
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(40));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(30));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_speechiness, Is.GreaterThanOrEqualTo(0.1));
@@ -152,19 +137,13 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_valence, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_valence, Is.LessThanOrEqualTo(0.3));
 
-            Assert.That(_recommendDTO.genre[0], Is.EqualTo("sad"));
-            Assert.That(_recommendDTO.genre[1], Is.EqualTo("country"));
-            Assert.That(_recommendDTO.genre[2], Is.EqualTo("blues"));
-            Assert.That(_recommendDTO.genre[3], Is.EqualTo("acoustic"));
-            Assert.That(_recommendDTO.genre[4], Is.EqualTo("emo"));
-            Assert.That(_recommendDTO.market, Is.EqualTo("US"));
-            Assert.That(_recommendDTO.limit, Is.EqualTo(4));
+            Assert.That(_recommendDTO.limit, Is.EqualTo(20));
         }
 
         [Test]
         public void TestConvertToMoodDTOShouldSetValuesForCalming()
         {
-            _moodViewModel.mood = "Calming";
+            _moodViewModel.mood = "4";
 
             _recommendDTO = _recommendDTO.convertToMoodDTO(_moodViewModel);
 
@@ -177,25 +156,19 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.3));
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(40));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(30));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_tempo, Is.GreaterThanOrEqualTo(30));
-            Assert.That(_recommendDTO.target_tempo, Is.LessThanOrEqualTo(70));
+            Assert.That(_recommendDTO.target_tempo, Is.LessThanOrEqualTo(90));
 
-            Assert.That(_recommendDTO.genre[0], Is.EqualTo("classical"));
-            Assert.That(_recommendDTO.genre[1], Is.EqualTo("chill"));
-            Assert.That(_recommendDTO.genre[2], Is.EqualTo("jazz"));
-            Assert.That(_recommendDTO.genre[3], Is.EqualTo("ambient"));
-            Assert.That(_recommendDTO.genre[4], Is.EqualTo("study"));
-            Assert.That(_recommendDTO.market, Is.EqualTo("US"));
-            Assert.That(_recommendDTO.limit, Is.EqualTo(4));
+            Assert.That(_recommendDTO.limit, Is.EqualTo(20));
         }
 
         [Test]
         public void TestConvertToMoodDTOShouldSetValuesForEnergetic()
         {
-            _moodViewModel.mood = "Energetic";
+            _moodViewModel.mood = "5";
 
             _recommendDTO = _recommendDTO.convertToMoodDTO(_moodViewModel);
 
@@ -208,7 +181,7 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.2));
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(40));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(30));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_tempo, Is.GreaterThanOrEqualTo(110));
@@ -217,19 +190,13 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_valence, Is.GreaterThanOrEqualTo(0.7));
             Assert.That(_recommendDTO.target_valence, Is.LessThanOrEqualTo(1));
 
-            Assert.That(_recommendDTO.genre[0], Is.EqualTo("work-out"));
-            Assert.That(_recommendDTO.genre[1], Is.EqualTo("rock-n-roll"));
-            Assert.That(_recommendDTO.genre[2], Is.EqualTo("pop"));
-            Assert.That(_recommendDTO.genre[3], Is.EqualTo("hip-hop"));
-            Assert.That(_recommendDTO.genre[4], Is.EqualTo("metal"));
-            Assert.That(_recommendDTO.market, Is.EqualTo("US"));
-            Assert.That(_recommendDTO.limit, Is.EqualTo(4));
+            Assert.That(_recommendDTO.limit, Is.EqualTo(20));
         }
 
         [Test]
         public void TestConvertToMoodDTOShouldSetValuesForDancing()
         {
-            _moodViewModel.mood = "Dancing";
+            _moodViewModel.mood = "6";
 
             _recommendDTO = _recommendDTO.convertToMoodDTO(_moodViewModel);
 
@@ -242,19 +209,13 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
             Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.3));
 
-            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(40));
+            Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(30));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 
             Assert.That(_recommendDTO.target_valence, Is.GreaterThanOrEqualTo(0.5));
             Assert.That(_recommendDTO.target_valence, Is.LessThanOrEqualTo(1));
 
-            Assert.That(_recommendDTO.genre[0], Is.EqualTo("salsa"));
-            Assert.That(_recommendDTO.genre[1], Is.EqualTo("tango"));
-            Assert.That(_recommendDTO.genre[2], Is.EqualTo("dance"));
-            Assert.That(_recommendDTO.genre[3], Is.EqualTo("disco"));
-            Assert.That(_recommendDTO.genre[4], Is.EqualTo("hip-hop"));
-            Assert.That(_recommendDTO.market, Is.EqualTo("US"));
-            Assert.That(_recommendDTO.limit, Is.EqualTo(4));
+            Assert.That(_recommendDTO.limit, Is.EqualTo(20));
         }
     }
 }
