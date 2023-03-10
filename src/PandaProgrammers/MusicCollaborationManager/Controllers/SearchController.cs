@@ -1,0 +1,35 @@
+using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using MusicCollaborationManager.Models;
+using MusicCollaborationManager.Services.Abstract;
+using SpotifyAPI.Web.Auth;
+using SpotifyAPI.Web;
+using MusicCollaborationManager.Services.Concrete;
+using MusicCollaborationManager.DAL.Abstract;
+using Microsoft.AspNetCore.Authentication;
+
+
+namespace MusicCollaborationManager.Controllers;
+
+public class SearchController : Controller
+{
+    private readonly ILogger<HomeController> _logger;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly IListenerRepository _listenerRepository;
+    private readonly SpotifyAuthService _spotifyService;
+
+    public SearchController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SpotifyAuthService spotifyService, IListenerRepository listenerRepository)
+    {
+        _logger = logger;
+        _userManager = userManager;
+        _spotifyService = spotifyService;
+        _listenerRepository = listenerRepository;
+    }
+
+    public IActionResult Search() 
+    {
+        return View();
+    }
+}
