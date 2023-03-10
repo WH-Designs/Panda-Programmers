@@ -209,7 +209,7 @@ namespace MusicCollaborationManager.Models.DTO
 
                     conDTO.target_danceability = conDTO.rngValueInput(5, 11);
                     conDTO.target_danceability /= 10;
-                    conDTO.target_energy = conDTO.rngValueInput(8, 11);
+                    conDTO.target_energy = conDTO.rngValueInput(6, 11);
                     conDTO.target_energy /= 10;
                     conDTO.target_liveness = conDTO.rngValueInput(1, 3);
                     conDTO.target_liveness /= 10;
@@ -234,10 +234,8 @@ namespace MusicCollaborationManager.Models.DTO
                     //conDTO.market = "US";
                     conDTO.limit = 20;
 
-                    conDTO.target_danceability = conDTO.rngValueInput(8, 11);
+                    conDTO.target_danceability = conDTO.rngValueInput(6, 11);
                     conDTO.target_danceability /= 10;
-                    conDTO.target_energy = conDTO.rngValueInput(6, 11);
-                    conDTO.target_energy /= 10;
                     conDTO.target_popularity = conDTO.rngValueInput(1, 11);
                     conDTO.target_popularity *= 10;
                     conDTO.target_valence = conDTO.rngValueInput(5, 11);

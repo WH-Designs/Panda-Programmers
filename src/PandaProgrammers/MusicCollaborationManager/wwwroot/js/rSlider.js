@@ -37,7 +37,7 @@ moodSlider.oninput = function () {
             break;
         case "6":
             moodOutput.innerHTML = "Dancing"
-            moodDesc.innerHTML = "Dancing music will generally be upbeat and have high energy. You may want to dance to these songs."
+            moodDesc.innerHTML = "Dancing music will generally be upbeat and have dancebility. You may want to dance to these songs."
             moodGenres.innerHTML = "Salsa, Tango, Dance, Disco, Hip-Hop, Dancehall, Club, Party, Reggaeton"
             break;
     }

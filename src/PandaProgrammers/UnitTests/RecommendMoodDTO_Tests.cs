@@ -169,7 +169,7 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_danceability, Is.GreaterThanOrEqualTo(0.5));
             Assert.That(_recommendDTO.target_acousticness, Is.LessThanOrEqualTo(1));
 
-            Assert.That(_recommendDTO.target_energy, Is.GreaterThanOrEqualTo(0.8));
+            Assert.That(_recommendDTO.target_energy, Is.GreaterThanOrEqualTo(0.6));
             Assert.That(_recommendDTO.target_energy, Is.LessThanOrEqualTo(1));
 
             Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
@@ -191,11 +191,8 @@ namespace UnitTests
 
             _recommendDTO = _recommendDTO.convertToMoodDTO(_moodViewModel);
 
-            Assert.That(_recommendDTO.target_danceability, Is.GreaterThanOrEqualTo(0.8));
+            Assert.That(_recommendDTO.target_danceability, Is.GreaterThanOrEqualTo(0.6));
             Assert.That(_recommendDTO.target_acousticness, Is.LessThanOrEqualTo(1));
-
-            Assert.That(_recommendDTO.target_energy, Is.GreaterThanOrEqualTo(0.6));
-            Assert.That(_recommendDTO.target_energy, Is.LessThanOrEqualTo(1));
 
             Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(10));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
