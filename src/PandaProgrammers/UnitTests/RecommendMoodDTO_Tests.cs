@@ -26,29 +26,6 @@ namespace UnitTests
             _recommendDTO = new RecommendDTO();
             _moodViewModel = new MoodViewModel();
         }
-        [Test]
-        public void TestRNGValueInputShouldReturnANumberBetweenMinAndMax()
-        {
-            int min = 1;
-            int max = 10;
-
-            int result = _recommendDTO.rngValueInput(min, max);
-
-            Assert.That(result, Is.GreaterThanOrEqualTo(1));
-            Assert.That(result, Is.LessThanOrEqualTo(10));
-        }
-
-        [Test]
-        public void TestRNGValueInputShouldReturnANumberBetweenMinAndMaxWithNegatives()
-        {
-            int min = -50;
-            int max = -10;
-
-            int result = _recommendDTO.rngValueInput(min, max);
-
-            Assert.That(result, Is.GreaterThanOrEqualTo(-50));
-            Assert.That(result, Is.LessThanOrEqualTo(-10));
-        }
 
         [Test]
         public void TestConvertToMoodDTOShouldSetValuesForHappy()
