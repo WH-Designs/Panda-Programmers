@@ -72,7 +72,7 @@ namespace UnitTests
         public void TestGetTimeValueShouldReturnCorrectTimeCategoryStringSunMorning()
         {
             DateTime fakeDateTime = new DateTime(2023, 3, 12, 4, 0, 0);
-            string expected = "sunMorning";
+            string expected = "endMorning";
 
             string result = _generatorUtilities.getTimeValue(fakeDateTime);
 

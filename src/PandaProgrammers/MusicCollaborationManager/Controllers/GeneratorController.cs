@@ -10,6 +10,7 @@ using SpotifyAPI.Web;
 using static NuGet.Packaging.PackagingConstants;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCollaborationManager.Services.Abstract;
+using MusicCollaborationManager.Utilities;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -129,9 +130,50 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
-        public IActionResult Time()
+        public IActionResult Time(TimeViewModel vm)
         {
-            return View();
+            try
+            {
+                return View("Time", vm);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("callforward", "Home");
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> TimePostAsync(TimeViewModel vm)
+        {
+            try
+            {
+                GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+                string UserInputCoverImage = vm.coverImageInput;
+                RecommendDTO recommendDTO = new RecommendDTO();
+                GeneratorUtilities generatorUtilities = new GeneratorUtilities();
+
+                //Sets time category
+                vm.timeCategory = generatorUtilities.getTimeValue(DateTime.Now);
+                //Calls time dto method                
+                recommendDTO = recommendDTO.convertToTimeDTO(vm);
+
+                RecommendationsResponse response = await _spotifyService.GetRecommendations(recommendDTO);
+                List<SimpleTrack> result = new List<SimpleTrack>();
+                result = response.Tracks;
+
+                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrack(result);
+
+                generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
+
+                return View("GeneratedPlaylists", generatorsViewModel);
+
+            }
+            catch (Exception e)
+            {
+                //Error occurs when not logged into spotify
+                return RedirectToAction("callforward", "Home");
+            }
         }
 
         [Authorize]

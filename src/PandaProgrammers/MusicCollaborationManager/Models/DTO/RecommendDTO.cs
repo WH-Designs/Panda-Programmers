@@ -84,19 +84,17 @@ namespace MusicCollaborationManager.Models.DTO
                     conDTO.target_acousticness /= 10;
                     conDTO.target_danceability = utility.rngValue();
                     conDTO.target_danceability /= 10;
-                    conDTO.target_liveness = utility.rngValueInput(1, 7);
-                    conDTO.target_liveness /= 10;
                     conDTO.target_energy = utility.rngValueInput(3, 11);
                     conDTO.target_energy /= 10;
                     conDTO.target_speechiness = utility.rngValueInput(3, 11);
                     conDTO.target_speechiness /= 10;
-                    conDTO.target_popularity = utility.rngValueInput(1, 11);
+                    conDTO.target_popularity = utility.rngValue();
                     conDTO.target_popularity *= 10;
                     conDTO.target_tempo = utility.rngValueInput(60, 170);
                     conDTO.target_valence = utility.rngValueInput(7, 11);
                     conDTO.target_valence /= 10;
-
                     break;
+
                 case "Angry":
                     for (int i = 0; i < 5; i++)
                     {
@@ -126,8 +124,8 @@ namespace MusicCollaborationManager.Models.DTO
                     conDTO.target_tempo = utility.rngValueInput(120, 250);
                     conDTO.target_valence = utility.rngValueInput(1, 3);
                     conDTO.target_valence /= 10;
-
                     break;
+
                 case "Sad":
                     for (int i = 0; i < 5; i++)
                     {
@@ -156,8 +154,8 @@ namespace MusicCollaborationManager.Models.DTO
                     conDTO.target_speechiness /= 10;
                     conDTO.target_valence = utility.rngValueInput(1, 4);
                     conDTO.target_valence /= 10;
-
                     break;
+
                 case "Chill":
                     for (int i = 0; i < 5; i++)
                     {
@@ -183,8 +181,8 @@ namespace MusicCollaborationManager.Models.DTO
                     conDTO.target_popularity = utility.rngValueInput(1, 11);
                     conDTO.target_popularity *= 10;
                     conDTO.target_tempo = utility.rngValueInput(10, 80);
-
                     break;
+
                 case "Energetic":
                     for (int i = 0; i < 5; i++)
                     {
@@ -210,8 +208,8 @@ namespace MusicCollaborationManager.Models.DTO
                     conDTO.target_popularity = utility.rngValueInput(1, 11);
                     conDTO.target_popularity *= 10;
                     conDTO.target_tempo = utility.rngValueInput(110, 200);
-
                     break;
+
                 case "Dancing":
                     for (int i = 0; i < 5; i++)
                     {
@@ -234,18 +232,172 @@ namespace MusicCollaborationManager.Models.DTO
                     conDTO.target_popularity *= 10;
                     conDTO.target_valence = utility.rngValueInput(5, 11);
                     conDTO.target_valence /= 10;
-
                     break;
             }
             return conDTO;
 
         }
 
-        public RecommendDTO convertToTimeDTO()
+        public RecommendDTO convertToTimeDTO(TimeViewModel tVM)
         {
             RecommendDTO conDTO = new RecommendDTO();
-            return conDTO;
+            GeneratorUtilities utility = new GeneratorUtilities();
 
+            if (tVM.timeCategory == null)
+            {
+                throw new Exception("Category was empty");
+            }
+
+            if(tVM.timeCategory == "workDay")
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    string genreHolder = tVM.workGenres[utility.rngValueInput(0, 7)];
+                    if (!conDTO.genre.Contains(genreHolder))
+                    {
+                        conDTO.genre.Add(genreHolder);
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+                conDTO.limit = 20;
+
+                conDTO.target_acousticness = utility.rngValue();
+                conDTO.target_acousticness /= 10;
+                conDTO.target_energy = utility.rngValue();
+                conDTO.target_energy /= 10;
+                conDTO.target_speechiness = utility.rngValue();
+                conDTO.target_speechiness /= 10;
+                conDTO.target_popularity = utility.rngValue();
+                conDTO.target_popularity *= 10;
+                conDTO.target_tempo = utility.rngValueInput(40, 130);
+
+            }
+            else if (tVM.timeCategory == "workMorning")
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    string genreHolder = tVM.exerciseGenres[utility.rngValueInput(0, 11)];
+                    if (!conDTO.genre.Contains(genreHolder))
+                    {
+                        conDTO.genre.Add(genreHolder);
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+                conDTO.limit = 20;
+
+                conDTO.target_energy = utility.rngValueInput(6, 11);
+                conDTO.target_energy /= 10;
+                conDTO.target_popularity = utility.rngValue();
+                conDTO.target_popularity *= 10;
+                conDTO.target_tempo = utility.rngValueInput(100, 180);
+            }
+            else if (tVM.timeCategory == "endMorning" || tVM.timeCategory == "friEvening" || tVM.timeCategory == "endEvening")
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    string genreHolder = tVM.partyGenres[utility.rngValueInput(0, 10)];
+                    if (!conDTO.genre.Contains(genreHolder))
+                    {
+                        conDTO.genre.Add(genreHolder);
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+                conDTO.limit = 20;
+
+                conDTO.target_danceability = utility.rngValueInput(6, 11);
+                conDTO.target_danceability /= 10;
+                conDTO.target_energy = utility.rngValueInput(4, 11);
+                conDTO.target_energy /= 10;
+                conDTO.target_popularity = utility.rngValueInput(1, 11);
+                conDTO.target_popularity *= 10;
+                conDTO.target_valence = utility.rngValueInput(5, 11);
+                conDTO.target_valence /= 10;
+            }
+            else if (tVM.timeCategory == "workEvening")
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    string genreHolder = tVM.chillGenres[utility.rngValueInput(0, 6)];
+                    if (!conDTO.genre.Contains(genreHolder))
+                    {
+                        conDTO.genre.Add(genreHolder);
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+                conDTO.limit = 20;
+
+                conDTO.target_energy = utility.rngValueInput(1, 5);
+                conDTO.target_energy /= 10;
+                conDTO.target_acousticness = utility.rngValue();
+                conDTO.target_acousticness /= 10;
+                conDTO.target_popularity = utility.rngValue();
+                conDTO.target_popularity *= 10;
+                conDTO.target_tempo = utility.rngValueInput(10, 80);
+            }
+            else if (tVM.timeCategory == "bedTime")
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    string genreHolder = tVM.bedGenres[utility.rngValueInput(0, 3)];
+                    if (!conDTO.genre.Contains(genreHolder))
+                    {
+                        conDTO.genre.Add(genreHolder);
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+                conDTO.limit = 20;
+
+                conDTO.target_energy = utility.rngValueInput(1, 5);
+                conDTO.target_energy /= 10;
+                conDTO.target_popularity = utility.rngValue();
+                conDTO.target_popularity *= 10;
+                conDTO.target_tempo = utility.rngValueInput(10, 80);
+            }
+            else if (tVM.timeCategory == "sunDay" || tVM.timeCategory == "endDay")
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    string genreHolder = tVM.upbeatGenres[utility.rngValueInput(0, 10)];
+                    if (!conDTO.genre.Contains(genreHolder))
+                    {
+                        conDTO.genre.Add(genreHolder);
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+                conDTO.limit = 20;
+
+                conDTO.target_danceability = utility.rngValue();
+                conDTO.target_danceability /= 10;
+                conDTO.target_energy = utility.rngValueInput(3, 11);
+                conDTO.target_energy /= 10;
+                conDTO.target_speechiness = utility.rngValueInput(3, 11);
+                conDTO.target_speechiness /= 10;
+                conDTO.target_popularity = utility.rngValue();
+                conDTO.target_popularity *= 10;
+                conDTO.target_tempo = utility.rngValueInput(80, 170);
+                conDTO.target_valence = utility.rngValueInput(6, 11);
+                conDTO.target_valence /= 10;
+            }
+
+            return conDTO;
         }
         
     }

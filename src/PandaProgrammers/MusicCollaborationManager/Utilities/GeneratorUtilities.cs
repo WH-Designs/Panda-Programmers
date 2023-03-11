@@ -34,7 +34,7 @@
                 }
                 else if (currTimeHours < 5)
                 {
-                    timeCategory = "sunMorning";
+                    timeCategory = "endMorning";
                 }
                 else if (currTimeHours >= 18 && currTimeHours < 21)
                 {
@@ -55,7 +55,7 @@
                 {
                     timeCategory = "workMorning";
                 }
-                else if (currTimeHours > 17 && currTimeHours < 23)
+                else if (currTimeHours > 17 && currTimeHours < 22)
                 {
                     timeCategory = "friEvening";
                 }
