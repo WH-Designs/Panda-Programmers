@@ -203,10 +203,7 @@ namespace MusicCollaborationManager.Services.Concrete
                 FeaturedPlaylists.Playlists.Items.Reverse();
 
             return FeaturedPlaylists.Playlists.Items;
-        }
-
-
-   
+        }   
 
         public async Task<RecommendationsResponse> GetRecommendations(RecommendDTO recommendDTO)
         {
