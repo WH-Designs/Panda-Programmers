@@ -249,7 +249,11 @@ namespace MusicCollaborationManager.Services.Concrete
             if (recommendDTO.target_tempo != 0)
             {
                 recommendationsRequest.Target.Add("tempo", recommendDTO.target_tempo.ToString());
-            }          
+            }
+
+            //recommendationsRequest.SeedArtists.Add("2ye2Wgw4gimLv2eAKyk1NB");
+
+            //recommendationsRequest.SeedTracks.Add("6EGP6PqtYHPswtvQc1vHTD");
 
             var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
 
