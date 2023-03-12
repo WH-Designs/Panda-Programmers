@@ -13,10 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MusicCollaborationManager.Models;
 using System.Text.RegularExpressions;
 
 namespace MusicCollaborationManager.Controllers
@@ -105,7 +102,7 @@ namespace MusicCollaborationManager.Controllers
                         "https://t4america.org/wp-content/uploads/2016/10/Blank-User.jpg";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 vm.spotifyName = "Log in to see";
                 vm.accountType = "Log in to see";
@@ -162,13 +159,13 @@ namespace MusicCollaborationManager.Controllers
                         _listenerRepository.AddOrUpdate(listener);
                     }
                 }
-                catch (DbUpdateConcurrencyException exception)
+                catch (DbUpdateConcurrencyException)
                 {
                     ViewBag.Message =
                         "A concurrency error occurred while trying to create the item.  Please try again.";
                     return View("Settings");
                 }
-                catch (DbUpdateException exception)
+                catch (DbUpdateException)
                 {
                     ViewBag.Message =
                         "An unknown database error occurred while trying to create the item.  Please try again.";

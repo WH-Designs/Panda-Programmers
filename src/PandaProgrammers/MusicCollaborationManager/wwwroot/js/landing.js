@@ -17,8 +17,8 @@ $(function () {
 });
 
 
-function errorOnAjax() {
-    console.log("ERROR in ajax request");
+function errorOnAjax(data) {
+    console.log("ERROR in ajax request: " + data.status + " " + data.statusText);
 }
 
 function getVisitorPlaylists(data)
