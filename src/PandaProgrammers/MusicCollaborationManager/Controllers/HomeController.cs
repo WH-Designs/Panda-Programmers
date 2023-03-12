@@ -9,6 +9,8 @@ using SpotifyAPI.Web;
 using MusicCollaborationManager.Services.Concrete;
 using MusicCollaborationManager.DAL.Abstract;
 using Microsoft.AspNetCore.Authentication;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 
 namespace MusicCollaborationManager.Controllers;
@@ -27,10 +29,9 @@ public class HomeController : Controller
         _spotifyService = spotifyService;
         _listenerRepository = listenerRepository;
     }
-    
+
     public IActionResult Index()
     {
-        
         return View();
     }
 
