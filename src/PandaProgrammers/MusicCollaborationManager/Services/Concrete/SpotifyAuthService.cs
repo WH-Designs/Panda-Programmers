@@ -211,10 +211,11 @@ namespace MusicCollaborationManager.Services.Concrete
             recommendationsRequest.Market = recommendDTO.market;
             recommendationsRequest.Limit = recommendDTO.limit;
 
-            foreach (var genre in recommendDTO.genre)
-            {
-                recommendationsRequest.SeedGenres.Add(genre);
-            }
+            recommendationsRequest.SeedGenres.Add("metal");
+            //foreach (var genre in recommendDTO.genre)
+            //{
+            //    recommendationsRequest.SeedGenres.Add(genre);
+            //}
             if (recommendDTO.target_valence != 0)
             {
                 recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
@@ -250,10 +251,6 @@ namespace MusicCollaborationManager.Services.Concrete
             {
                 recommendationsRequest.Target.Add("tempo", recommendDTO.target_tempo.ToString());
             }
-
-            //recommendationsRequest.SeedArtists.Add("2ye2Wgw4gimLv2eAKyk1NB");
-
-            //recommendationsRequest.SeedTracks.Add("6EGP6PqtYHPswtvQc1vHTD");
 
             var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
 
@@ -297,5 +294,6 @@ namespace MusicCollaborationManager.Services.Concrete
             PrivateUser CurUser = await userProfileClient.Current();
             return await playlistsClient.Create(CurUser.Id, createRequest);
         }
+
     }
 }

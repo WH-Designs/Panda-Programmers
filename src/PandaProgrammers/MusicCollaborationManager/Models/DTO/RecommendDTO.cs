@@ -60,7 +60,7 @@ namespace MusicCollaborationManager.Models.DTO
             GeneratorUtilities utility = new GeneratorUtilities();
             mVM.mood = mVM.moodList[int.Parse(mVM.mood) - 1];
             RecommendDTO conDTO = new RecommendDTO();
-
+            conDTO.market = "US";
             //Sets values within certain params using rng and formats for api
             switch (mVM.mood)
             {
@@ -242,6 +242,7 @@ namespace MusicCollaborationManager.Models.DTO
         {
             RecommendDTO conDTO = new RecommendDTO();
             GeneratorUtilities utility = new GeneratorUtilities();
+            conDTO.market = "US";
 
             if (tVM.timeCategory == null)
             {
