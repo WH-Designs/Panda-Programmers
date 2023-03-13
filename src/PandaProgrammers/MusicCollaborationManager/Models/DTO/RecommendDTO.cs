@@ -1,13 +1,17 @@
 ﻿
 
+using Microsoft.IdentityModel.Tokens;
+using MusicCollaborationManager.Utilities;
 using MusicCollaborationManager.ViewModels;
+using System.Drawing;
 
 namespace MusicCollaborationManager.Models.DTO
 {
     public class RecommendDTO
     {
         public List<string> genre = new List<string> { };
-        public string market { get; set; }
+        public List<string> seed = new List<string> { };
+        public string market = "US";
         public int limit { get; set; }
         public double target_acousticness { get; set; } 
         public double target_danceability { get; set; }
@@ -20,33 +24,23 @@ namespace MusicCollaborationManager.Models.DTO
         public double target_tempo { get; set; }
         public double target_valence { get; set; }
 
-        //public double target_acousticnessMax { get; set; }
-        //public double target_danceabilityMax { get; set; }
-        //public double target_energyMax { get; set; }
-        //public double target_instrumentalnessMax { get; set; }
-        //public double target_livenessMax { get; set; }
-        //public double target_loudnessMax { get; set; }
-        //public int target_popularityMax { get; set; }
-        //public double target_speechinessMax { get; set; }
-        //public double target_tempoMax { get; set; }
-        //public double target_valenceMax { get; set; }
-
         public RecommendDTO convertToQuestionDTO(QuestionViewModel qVM)
         {
+            GeneratorUtilities utility = new GeneratorUtilities();
             RecommendDTO conDTO = new RecommendDTO();
             conDTO.genre.Add(qVM.genre);
             conDTO.market = "US";
             conDTO.limit = 20;
             
             //RNG if value not provided 
-            if(qVM.acousticness <= 0 || qVM.acousticness > 10 || qVM.acousticness == null){qVM.acousticness = conDTO.rngValue();}
-            if (qVM.danceability <= 0 || qVM.danceability > 10 || qVM.danceability == null){qVM.danceability = conDTO.rngValue();}
-            if (qVM.energy <= 0 || qVM.energy > 10 || qVM.energy == null){qVM.energy = conDTO.rngValue();}
-            if (qVM.instrumentalness <= 0 || qVM.instrumentalness > 10 || qVM.instrumentalness == null){qVM.instrumentalness = conDTO.rngValue();}
-            if (qVM.liveness <= 0 || qVM.liveness > 10 || qVM.liveness == null){qVM.liveness = conDTO.rngValue();}
-            if (qVM.popularity <= 0 || qVM.popularity > 10 || qVM.popularity == null){qVM.popularity = conDTO.rngValue();}
-            if (qVM.speechiness <= 0 || qVM.speechiness > 10 || qVM.speechiness == null){qVM.speechiness = conDTO.rngValue();}
-            if (qVM.valence <= 0 || qVM.valence > 10 || qVM.valence == null) { qVM.valence = conDTO.rngValue();}
+            if(qVM.acousticness <= 0 || qVM.acousticness > 10 || qVM.acousticness == null){qVM.acousticness = utility.rngValue();}
+            if (qVM.danceability <= 0 || qVM.danceability > 10 || qVM.danceability == null){qVM.danceability = utility.rngValue();}
+            if (qVM.energy <= 0 || qVM.energy > 10 || qVM.energy == null){qVM.energy = utility.rngValue();}
+            if (qVM.instrumentalness <= 0 || qVM.instrumentalness > 10 || qVM.instrumentalness == null){qVM.instrumentalness = utility.rngValue();}
+            if (qVM.liveness <= 0 || qVM.liveness > 10 || qVM.liveness == null){qVM.liveness = utility.rngValue();}
+            if (qVM.popularity <= 0 || qVM.popularity > 10 || qVM.popularity == null){qVM.popularity = utility.rngValue();}
+            if (qVM.speechiness <= 0 || qVM.speechiness > 10 || qVM.speechiness == null){qVM.speechiness = utility.rngValue();}
+            if (qVM.valence <= 0 || qVM.valence > 10 || qVM.valence == null) { qVM.valence = utility.rngValue();}
 
             //Converts to format accepted by api
             conDTO.target_acousticness = qVM.acousticness / 10;
@@ -64,356 +58,323 @@ namespace MusicCollaborationManager.Models.DTO
 
         public RecommendDTO convertToMoodDTO(MoodViewModel mVM)
         {
+            GeneratorUtilities utility = new GeneratorUtilities();
             mVM.mood = mVM.moodList[int.Parse(mVM.mood) - 1];
             RecommendDTO conDTO = new RecommendDTO();
-
+            conDTO.market = "US";
             //Sets values within certain params using rng and formats for api
             switch (mVM.mood)
             {
                 case "Happy":
-                    for (int i = 0; i < 5; i++)
-                    {
-                        string genreHolder = mVM.happyGenreList[conDTO.rngValueInput(0, 10)];
-                        if (!conDTO.genre.Contains(genreHolder))
-                        {
-                            conDTO.genre.Add(genreHolder);
-                        }
-                        else
-                        {
-                            i--;
-                        }
-                    }
+                    //for (int i = 0; i < 5; i++)
+                    //{
+                    //    string genreHolder = mVM.happyGenreList[utility.rngValueInput(0, 10)];
+                    //    if (!conDTO.genre.Contains(genreHolder))
+                    //    {
+                    //        conDTO.genre.Add(genreHolder);
+                    //    }
+                    //    else
+                    //    {
+                    //        i--;
+                    //    }
+                    //}
+                    conDTO.genre.Add("happy");
                     //conDTO.market = "US";
                     conDTO.limit = 20;
 
-                    conDTO.target_acousticness = conDTO.rngValue();
+                    conDTO.target_acousticness = utility.rngValue();
                     conDTO.target_acousticness /= 10;
-                    conDTO.target_danceability = conDTO.rngValue();
+                    conDTO.target_danceability = utility.rngValue();
                     conDTO.target_danceability /= 10;
-                    conDTO.target_liveness = conDTO.rngValueInput(1, 7);
-                    conDTO.target_liveness /= 10;
-                    conDTO.target_energy = conDTO.rngValueInput(3, 11);
+                    conDTO.target_energy = utility.rngValueInput(3, 11);
                     conDTO.target_energy /= 10;
-                    conDTO.target_speechiness = conDTO.rngValueInput(3, 11);
+                    conDTO.target_speechiness = utility.rngValueInput(3, 11);
                     conDTO.target_speechiness /= 10;
-                    conDTO.target_popularity = conDTO.rngValueInput(1, 11);
+                    conDTO.target_popularity = utility.rngValue();
                     conDTO.target_popularity *= 10;
-                    conDTO.target_tempo = conDTO.rngValueInput(60, 170);
-                    conDTO.target_valence = conDTO.rngValueInput(7, 11);
+                    conDTO.target_tempo = utility.rngValueInput(60, 170);
+                    conDTO.target_valence = utility.rngValueInput(7, 11);
                     conDTO.target_valence /= 10;
 
+
                     break;
+
                 case "Angry":
-                    for (int i = 0; i < 5; i++)
-                    {
-                        string genreHolder = mVM.angryGenreList[conDTO.rngValueInput(0, 11)];
-                        if (!conDTO.genre.Contains(genreHolder))
-                        {
-                            conDTO.genre.Add(genreHolder);
-                        }
-                        else
-                        {
-                            i--;
-                        }
-                    }
+                    //for (int i = 0; i < 5; i++)
+                    //{
+                    //    string genreHolder = mVM.angryGenreList[utility.rngValueInput(0, 5)];
+                    //    if (!conDTO.genre.Contains(genreHolder))
+                    //    {
+                    //        conDTO.genre.Add(genreHolder);
+                    //    }
+                    //    else
+                    //    {
+                    //        i--;
+                    //    }
+                    //}
+                    conDTO.genre.Add("death-metal");
                     //conDTO.market = "US";
                     conDTO.limit = 20;
 
-                    conDTO.target_energy = conDTO.rngValueInput(7, 11);
+                    conDTO.target_energy = utility.rngValueInput(7, 11);
                     conDTO.target_energy /= 10;
-                    conDTO.target_liveness = conDTO.rngValueInput(1, 3);
-                    conDTO.target_liveness /= 10;
-                    conDTO.target_instrumentalness = conDTO.rngValueInput(4, 11);
-                    conDTO.target_instrumentalness /= 10;
-                    conDTO.target_popularity = conDTO.rngValueInput(1, 11);
-                    conDTO.target_popularity *= 10;
-                    conDTO.target_speechiness = conDTO.rngValueInput(5, 11);
-                    conDTO.target_speechiness /= 10;
-                    conDTO.target_tempo = conDTO.rngValueInput(120, 250);
-                    conDTO.target_valence = conDTO.rngValueInput(1, 3);
+                    conDTO.target_tempo = utility.rngValueInput(150, 250);
+                    conDTO.target_valence = utility.rngValueInput(1, 3);
                     conDTO.target_valence /= 10;
-
                     break;
+
                 case "Sad":
-                    for (int i = 0; i < 5; i++)
-                    {
-                        string genreHolder = mVM.sadGenreList[conDTO.rngValueInput(0, 8)];
-                        if (!conDTO.genre.Contains(genreHolder))
-                        {
-                            conDTO.genre.Add(genreHolder);
-                        }
-                        else
-                        {
-                            i--;
-                        }
-                    }
+                    //for (int i = 0; i < 1; i++)
+                    //{
+                    //    string genreHolder = mVM.sadGenreList[utility.rngValueInput(0, 1)];
+                    //    if (!conDTO.genre.Contains(genreHolder))
+                    //    {
+                    //        conDTO.genre.Add(genreHolder);
+                    //    }
+                    //    else
+                    //    {
+                    //        i--;
+                    //    }
+                    //}
+                    conDTO.genre.Add("sad");
                     //conDTO.market = "US";
                     conDTO.limit = 20;
 
-                    conDTO.target_energy = conDTO.rngValueInput(1, 5);
+                    conDTO.target_energy = utility.rngValueInput(1, 5);
                     conDTO.target_energy /= 10;
-                    conDTO.target_acousticness = conDTO.rngValue();
-                    conDTO.target_acousticness /= 10;
-                    conDTO.target_instrumentalness = conDTO.rngValue();
-                    conDTO.target_instrumentalness /= 10;
-                    conDTO.target_popularity = conDTO.rngValueInput(1, 11);
-                    conDTO.target_popularity *= 10;
-                    conDTO.target_speechiness = conDTO.rngValue();
-                    conDTO.target_speechiness /= 10;
-                    conDTO.target_valence = conDTO.rngValueInput(1, 4);
+                    conDTO.target_valence = utility.rngValueInput(1, 4);
                     conDTO.target_valence /= 10;
-
+                    conDTO.target_tempo = utility.rngValueInput(20, 80);
                     break;
+
                 case "Chill":
-                    for (int i = 0; i < 5; i++)
-                    {
-                        string genreHolder = mVM.calmGenreList[conDTO.rngValueInput(0, 7)];
-                        if (!conDTO.genre.Contains(genreHolder))
-                        {
-                            conDTO.genre.Add(genreHolder);
-                        }
-                        else
-                        {
-                            i--;
-                        }
-                    }
-                    //conDTO.market = "US";
+                    //for (int i = 0; i < 5; i++)
+                    //{
+                    //    string genreHolder = mVM.calmGenreList[utility.rngValueInput(0, 7)];
+                    //    if (!conDTO.genre.Contains(genreHolder))
+                    //    {
+                    //        conDTO.genre.Add(genreHolder);
+                    //    }
+                    //    else
+                    //    {
+                    //        i--;
+                    //    }
+                    //}
+                    conDTO.genre.Add("sleep");
                     conDTO.limit = 20;
 
-                    conDTO.target_energy = conDTO.rngValueInput(1, 5);
+                    conDTO.target_energy = utility.rngValueInput(1, 4);
                     conDTO.target_energy /= 10;
-                    conDTO.target_acousticness = conDTO.rngValue();
-                    conDTO.target_acousticness /= 10;          
-                    conDTO.target_liveness = conDTO.rngValueInput(1, 3);
-                    conDTO.target_liveness /= 10;
-                    conDTO.target_popularity = conDTO.rngValueInput(1, 11);
-                    conDTO.target_popularity *= 10;
-                    conDTO.target_tempo = conDTO.rngValueInput(10, 80);
-
+                    conDTO.target_tempo = utility.rngValueInput(10, 70);
                     break;
+
                 case "Energetic":
-                    for (int i = 0; i < 5; i++)
-                    {
-                        string genreHolder = mVM.energyGenreList[conDTO.rngValueInput(0, 11)];
-                        if (!conDTO.genre.Contains(genreHolder))
-                        {
-                            conDTO.genre.Add(genreHolder);
-                        }
-                        else
-                        {
-                            i--;
-                        }
-                    }
+                    //for (int i = 0; i < 5; i++)
+                    //{
+                    //    string genreHolder = mVM.energyGenreList[utility.rngValueInput(0, 11)];
+                    //    if (!conDTO.genre.Contains(genreHolder))
+                    //    {
+                    //        conDTO.genre.Add(genreHolder);
+                    //    }
+                    //    else
+                    //    {
+                    //        i--;
+                    //    }
+                    //}
+                    conDTO.genre.Add("intenseworkout");
                     //conDTO.market = "US";
                     conDTO.limit = 20;
 
-                    conDTO.target_danceability = conDTO.rngValueInput(5, 11);
-                    conDTO.target_danceability /= 10;
-                    conDTO.target_energy = conDTO.rngValueInput(6, 11);
+                    conDTO.target_energy = utility.rngValueInput(8, 11);
                     conDTO.target_energy /= 10;
-                    conDTO.target_liveness = conDTO.rngValueInput(1, 3);
-                    conDTO.target_liveness /= 10;
-                    conDTO.target_popularity = conDTO.rngValueInput(1, 11);
-                    conDTO.target_popularity *= 10;
-                    conDTO.target_tempo = conDTO.rngValueInput(110, 200);
-
+                    conDTO.target_tempo = utility.rngValueInput(130, 200);
                     break;
+
                 case "Dancing":
-                    for (int i = 0; i < 5; i++)
-                    {
-                        string genreHolder = mVM.danceGenreList[conDTO.rngValueInput(0, 9)];
-                        if (!conDTO.genre.Contains(genreHolder))
-                        {
-                            conDTO.genre.Add(genreHolder);
-                        }
-                        else
-                        {
-                            i--;
-                        }
-                    }
+                    //for (int i = 0; i < 5; i++)
+                    //{
+                    //    string genreHolder = mVM.danceGenreList[utility.rngValueInput(0, 9)];
+                    //    if (!conDTO.genre.Contains(genreHolder))
+                    //    {
+                    //        conDTO.genre.Add(genreHolder);
+                    //    }
+                    //    else
+                    //    {
+                    //        i--;
+                    //    }
+                    //}
+                    conDTO.genre.Add("dance");
                     //conDTO.market = "US";
                     conDTO.limit = 20;
 
-                    conDTO.target_danceability = conDTO.rngValueInput(6, 11);
+                    conDTO.target_danceability = utility.rngValueInput(6, 11);
                     conDTO.target_danceability /= 10;
-                    conDTO.target_popularity = conDTO.rngValueInput(1, 11);
+                    conDTO.target_popularity = utility.rngValueInput(1, 11);
                     conDTO.target_popularity *= 10;
-                    conDTO.target_valence = conDTO.rngValueInput(5, 11);
+                    conDTO.target_valence = utility.rngValueInput(5, 11);
                     conDTO.target_valence /= 10;
-
                     break;
             }
             return conDTO;
 
         }
 
-        //public RecommendDTO convertToMoodDTO(MoodViewModel mVM)
-        //{
-        //    mVM.mood = mVM.moodList[int.Parse(mVM.mood) - 1];
-        //    RecommendDTO conDTO = new RecommendDTO();
-
-        //    switch (mVM.mood)
-        //    {
-        //        case "Happy":
-        //            conDTO.genre.Add("pop");
-        //            conDTO.genre.Add("acoustic");
-        //            conDTO.genre.Add("happy");
-        //            conDTO.genre.Add("summer");
-        //            conDTO.genre.Add("reggae");
-        //            conDTO.market = "US";
-        //            conDTO.limit = 20;
-
-        //            conDTO.target_acousticness = 0.1;
-        //            conDTO.target_acousticnessMax = 1;
-        //            conDTO.target_danceability = 0.1;
-        //            conDTO.target_danceabilityMax = 1;
-        //            conDTO.target_liveness = 0.1;
-        //            conDTO.target_livenessMax = 0.7;
-        //            conDTO.target_energy = 0.3;
-        //            conDTO.target_energyMax = 1;
-        //            conDTO.target_speechiness = 0.3;
-        //            conDTO.target_speechinessMax = 1;
-        //            conDTO.target_popularity = 20; 
-        //            conDTO.target_popularityMax = 100;
-        //            conDTO.target_tempo = 60;
-        //            conDTO.target_tempoMax = 160;
-        //            conDTO.target_valence = 0.7; 
-        //            conDTO.target_valenceMax = 1;
-
-        //            break;
-        //        case "Angry":
-        //            conDTO.genre.Add("death-metal");
-        //            conDTO.genre.Add("emo");
-        //            conDTO.genre.Add("hardcore");
-        //            conDTO.genre.Add("punk-rock");
-        //            conDTO.genre.Add("heavy-metal");
-        //            conDTO.market = "US";
-        //            conDTO.limit = 20;
-
-        //            conDTO.target_energy = 0.7;
-        //            conDTO.target_energyMax = 1;
-        //            conDTO.target_liveness = 0.1;
-        //            conDTO.target_livenessMax = 0.3;
-        //            conDTO.target_instrumentalness = 0.4;
-        //            conDTO.target_instrumentalnessMax = 1;
-        //            conDTO.target_popularity = 30;
-        //            conDTO.target_popularityMax = 100;
-        //            conDTO.target_speechiness = 0.5;
-        //            conDTO.target_speechinessMax = 1;
-        //            conDTO.target_tempo = 120;
-        //            conDTO.target_tempoMax = 250;
-        //            conDTO.target_valence = 0.1;
-        //            conDTO.target_valenceMax = 0.3;
-
-        //            break;
-        //        case "Sad":
-        //            conDTO.genre.Add("sad");
-        //            conDTO.genre.Add("country");
-        //            conDTO.genre.Add("blues");
-        //            conDTO.genre.Add("acoustic");
-        //            conDTO.genre.Add("emo");
-        //            conDTO.market = "US";
-        //            conDTO.limit = 20;
-
-        //            conDTO.target_acousticness = 0.1;
-        //            conDTO.target_acousticnessMax = 1;
-        //            conDTO.target_instrumentalness = 0.1;
-        //            conDTO.target_instrumentalnessMax = 1;
-        //            conDTO.target_liveness = 0.1;
-        //            conDTO.target_livenessMax = 0.3;
-        //            conDTO.target_popularity = 30;
-        //            conDTO.target_popularityMax = 100;
-        //            conDTO.target_speechiness = 0.1;
-        //            conDTO.target_speechinessMax = 1;
-        //            conDTO.target_valence = 0.1;
-        //            conDTO.target_valenceMax = 0.4;
-
-        //            break;
-        //        case "Calming":
-        //            conDTO.genre.Add("classical");
-        //            conDTO.genre.Add("chill");
-        //            conDTO.genre.Add("jazz");
-        //            conDTO.genre.Add("ambient");
-        //            conDTO.genre.Add("study");
-        //            conDTO.market = "US";
-        //            conDTO.limit = 20;
-
-        //            conDTO.target_energy = 0.1;
-        //            conDTO.target_energyMax = 0.5;
-        //            conDTO.target_acousticness = 0.1;
-        //            conDTO.target_acousticnessMax = 1;
-        //            conDTO.target_instrumentalness = 0.1;
-        //            conDTO.target_instrumentalnessMax = 1;
-        //            conDTO.target_liveness = 0.1;
-        //            conDTO.target_livenessMax = 0.3;
-        //            conDTO.target_popularity = 40;
-        //            conDTO.target_popularityMax = 100;
-        //            conDTO.target_tempo = 30;
-        //            conDTO.target_tempoMax = 100;
-
-        //            break;
-        //        case "Energetic":
-        //            conDTO.genre.Add("work-out");
-        //            conDTO.genre.Add("rock-n-roll");
-        //            conDTO.genre.Add("pop");
-        //            conDTO.genre.Add("hip-hop");
-        //            conDTO.genre.Add("metal");
-        //            conDTO.market = "US";
-        //            conDTO.limit = 20;
-
-        //            conDTO.target_danceability = 0.5;
-        //            conDTO.target_danceabilityMax = 1;
-        //            conDTO.target_energy = 0.8;
-        //            conDTO.target_energyMax = 1;
-        //            conDTO.target_liveness = 0.1;
-        //            conDTO.target_livenessMax = 0.3;
-        //            conDTO.target_popularity = 40;
-        //            conDTO.target_popularityMax = 100;
-        //            conDTO.target_tempo = 110;
-        //            conDTO.target_tempoMax = 250;
-        //            conDTO.target_valence = 0.5;
-        //            conDTO.target_valenceMax = 1;
-
-        //            break;
-        //        case "Dancing":
-        //            conDTO.genre.Add("salsa");
-        //            conDTO.genre.Add("tango");
-        //            conDTO.genre.Add("dance");
-        //            conDTO.genre.Add("disco");
-        //            conDTO.genre.Add("hip-hop");
-        //            conDTO.market = "US";
-        //            conDTO.limit = 20;
-
-        //            conDTO.target_danceability = 0.8;
-        //            conDTO.target_danceabilityMax = 1;
-        //            conDTO.target_energy = 0.6;
-        //            conDTO.target_energyMax = 1;
-        //            conDTO.target_liveness = 0.1;
-        //            conDTO.target_livenessMax = 0.3;
-        //            conDTO.target_popularity = 30;
-        //            conDTO.target_popularityMax = 100;
-        //            conDTO.target_valence = 0.5;
-        //            conDTO.target_valenceMax = 1;
-
-        //            break;
-        //    }
-        //    return conDTO;
-
-        //}
-
-        public int rngValue()
+        public RecommendDTO convertToTimeDTO(TimeViewModel tVM)
         {
-            Random rnd = new Random();
-            int result = rnd.Next(1, 11);
-            return result;
-        }
+            RecommendDTO conDTO = new RecommendDTO();
+            GeneratorUtilities utility = new GeneratorUtilities();
+            conDTO.market = "US";
 
-        public int rngValueInput(int min, int max)
-        {
-            Random rnd = new Random();
-            int result = rnd.Next(min, max);
-            return result;
+            if (tVM.timeCategory == null)
+            {
+                throw new Exception("Category was empty");
+            }
+
+            if(tVM.timeCategory == "workDay")
+            {
+                //for (int i = 0; i < 5; i++)
+                //{
+                //    string genreHolder = tVM.workGenres[utility.rngValueInput(0, 7)];
+                //    if (!conDTO.genre.Contains(genreHolder))
+                //    {
+                //        conDTO.genre.Add(genreHolder);
+                //    }
+                //    else
+                //    {
+                //        i--;
+                //    }
+                //}
+                conDTO.genre.Add("study focus");
+                conDTO.limit = 20;
+
+                conDTO.target_energy = utility.rngValueInput(1, 4);
+                conDTO.target_energy /= 10;
+                conDTO.target_tempo = utility.rngValueInput(40, 100);
+
+            }
+            else if (tVM.timeCategory == "workMorning")
+            {
+                //for (int i = 0; i < 5; i++)
+                //{
+                //    string genreHolder = tVM.exerciseGenres[utility.rngValueInput(0, 11)];
+                //    if (!conDTO.genre.Contains(genreHolder))
+                //    {
+                //        conDTO.genre.Add(genreHolder);
+                //    }
+                //    else
+                //    {
+                //        i--;
+                //    }
+                //}
+                conDTO.genre.Add("intenseworkout");
+                //conDTO.market = "US";
+                conDTO.limit = 20;
+
+                conDTO.target_energy = utility.rngValueInput(7, 11);
+                conDTO.target_energy /= 10;
+                conDTO.target_tempo = utility.rngValueInput(100, 250);
+            }
+            else if (tVM.timeCategory == "endMorning" || tVM.timeCategory == "friEvening" || tVM.timeCategory == "endEvening")
+            {
+                //for (int i = 0; i < 5; i++)
+                //{
+                //    string genreHolder = tVM.partyGenres[utility.rngValueInput(0, 10)];
+                //    if (!conDTO.genre.Contains(genreHolder))
+                //    {
+                //        conDTO.genre.Add(genreHolder);
+                //    }
+                //    else
+                //    {
+                //        i--;
+                //    }
+                //}
+                conDTO.genre.Add("party");
+                conDTO.limit = 20;
+
+                conDTO.target_danceability = utility.rngValueInput(7, 11);
+                conDTO.target_danceability /= 10;
+                conDTO.target_energy = utility.rngValueInput(7, 11);
+                conDTO.target_energy /= 10;
+                conDTO.target_valence = utility.rngValueInput(5, 11);
+                conDTO.target_valence /= 10;
+            }
+            else if (tVM.timeCategory == "workEvening")
+            {
+                //for (int i = 0; i < 5; i++)
+                //{
+                //    string genreHolder = tVM.chillGenres[utility.rngValueInput(0, 6)];
+                //    if (!conDTO.genre.Contains(genreHolder))
+                //    {
+                //        conDTO.genre.Add(genreHolder);
+                //    }
+                //    else
+                //    {
+                //        i--;
+                //    }
+                //}
+                conDTO.genre.Add("relaxing");
+                conDTO.limit = 20;
+
+                conDTO.target_energy = utility.rngValueInput(1, 5);
+                conDTO.target_energy /= 10;
+                conDTO.target_tempo = utility.rngValueInput(10, 80);
+            }
+            else if (tVM.timeCategory == "bedTime")
+            {
+                //for (int i = 0; i < 3; i++)
+                //{
+                //    string genreHolder = tVM.bedGenres[utility.rngValueInput(0, 3)];
+                //    if (!conDTO.genre.Contains(genreHolder))
+                //    {
+                //        conDTO.genre.Add(genreHolder);
+                //    }
+                //    else
+                //    {
+                //        i--;
+                //    }
+                //}
+                conDTO.genre.Add("sleep");
+                conDTO.limit = 20;
+
+                conDTO.target_energy = utility.rngValueInput(1, 4);
+                conDTO.target_energy /= 10;
+                conDTO.target_tempo = utility.rngValueInput(10, 80);
+            }
+            else if (tVM.timeCategory == "sunDay" || tVM.timeCategory == "endDay")
+            {
+                //for (int i = 0; i < 5; i++)
+                //{
+                //    string genreHolder = tVM.upbeatGenres[utility.rngValueInput(0, 10)];
+                //    if (!conDTO.genre.Contains(genreHolder))
+                //    {
+                //        conDTO.genre.Add(genreHolder);
+                //    }
+                //    else
+                //    {
+                //        i--;
+                //    }
+                //}
+                conDTO.genre.Add("happy");
+                conDTO.limit = 20;
+
+                conDTO.target_acousticness = utility.rngValue();
+                conDTO.target_acousticness /= 10;
+                conDTO.target_danceability = utility.rngValue();
+                conDTO.target_danceability /= 10;
+                conDTO.target_energy = utility.rngValueInput(3, 11);
+                conDTO.target_energy /= 10;
+                conDTO.target_speechiness = utility.rngValueInput(3, 11);
+                conDTO.target_speechiness /= 10;
+                conDTO.target_popularity = utility.rngValue();
+                conDTO.target_popularity *= 10;
+                conDTO.target_tempo = utility.rngValueInput(60, 170);
+                conDTO.target_valence = utility.rngValueInput(7, 11);
+                conDTO.target_valence /= 10;
+            }
+
+            return conDTO;
         }
+        
     }
 
 }

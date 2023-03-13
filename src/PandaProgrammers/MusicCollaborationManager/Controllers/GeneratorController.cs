@@ -10,6 +10,8 @@ using SpotifyAPI.Web;
 using static NuGet.Packaging.PackagingConstants;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCollaborationManager.Services.Abstract;
+using MusicCollaborationManager.Utilities;
+using Humanizer.Localisation;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -60,10 +62,14 @@ namespace MusicCollaborationManager.Controllers
             {
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
                 string UserInputCoverImage = vm.coverImageInput;
+                GeneratorUtilities utilities = new GeneratorUtilities();
 
                 RecommendDTO recommendDTO = new RecommendDTO();
                 //Calls questionairre dto method
                 recommendDTO = recommendDTO.convertToQuestionDTO(vm);
+                //Get seed artist
+                List<string> artistResult = await _spotifyService.searchTopGenrePlaylistArtist(recommendDTO.genre[0]);
+                recommendDTO.seed.Add(artistResult[0]);
 
                 RecommendationsResponse response = await _spotifyService.GetRecommendations(recommendDTO);
                 List<SimpleTrack> result = new List<SimpleTrack>();
@@ -108,8 +114,13 @@ namespace MusicCollaborationManager.Controllers
 
                 RecommendDTO recommendDTO = new RecommendDTO();
                 //Calls mood dto method
-                recommendDTO = recommendDTO.convertToMoodDTO(vm);
-
+                recommendDTO = recommendDTO.convertToMoodDTO(vm);                
+                
+                List<string> trackResult = await _spotifyService.searchTopGenrePlaylistArtist(recommendDTO.genre[0]);
+                foreach (string track in trackResult)
+                {
+                    recommendDTO.seed.Add(track);
+                }
                 RecommendationsResponse response = await _spotifyService.GetRecommendations(recommendDTO);
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
@@ -129,9 +140,56 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
-        public IActionResult Time()
+        public IActionResult Time(TimeViewModel vm)
         {
-            return View();
+            try
+            {
+                return View("Time", vm);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("callforward", "Home");
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> TimePostAsync(TimeViewModel vm)
+        {
+            try
+            {
+                GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+                string UserInputCoverImage = vm.coverImageInput;
+                RecommendDTO recommendDTO = new RecommendDTO();
+                GeneratorUtilities generatorUtilities = new GeneratorUtilities();
+
+                //Sets time category
+                vm.timeCategory = generatorUtilities.getTimeValue(DateTime.Now);
+                //Calls time dto method                
+                recommendDTO = recommendDTO.convertToTimeDTO(vm);
+
+                List<string> trackResult = await _spotifyService.searchTopGenrePlaylistArtist(recommendDTO.genre[0]);
+                foreach (string track in trackResult)
+                {
+                    recommendDTO.seed.Add(track);
+                }
+
+                RecommendationsResponse response = await _spotifyService.GetRecommendations(recommendDTO);
+                List<SimpleTrack> result = new List<SimpleTrack>();
+                result = response.Tracks;
+
+                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrack(result);
+
+                generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
+
+                return View("GeneratedPlaylists", generatorsViewModel);
+
+            }
+            catch (Exception e)
+            {
+                //Error occurs when not logged into spotify
+                return RedirectToAction("callforward", "Home");
+            }
         }
 
         [Authorize]
