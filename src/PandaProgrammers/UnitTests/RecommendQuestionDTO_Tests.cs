@@ -25,18 +25,7 @@ namespace UnitTests
         {
             _recommendDTO = new RecommendDTO();
             _questionViewModel = new QuestionViewModel();
-        }
-
-        [Test]
-        public void TestRNGValueShouldReturnANumberBetween1And10()
-        {
-            // Arrange
-            // Act
-            int result = _recommendDTO.rngValue();
-            // Assert
-            Assert.That(result, Is.GreaterThanOrEqualTo(1));
-            Assert.That(result, Is.LessThanOrEqualTo(10));
-        }
+        }    
 
         [Test]
         public void TestConvertToDTOShouldReasignValuesInCorrectFormatForSpotifyAPI()
