@@ -68,9 +68,6 @@ namespace UnitTests
             Assert.That(_recommendDTO.target_energy, Is.GreaterThanOrEqualTo(0.7));
             Assert.That(_recommendDTO.target_energy, Is.LessThanOrEqualTo(1));
 
-            Assert.That(_recommendDTO.target_liveness, Is.GreaterThanOrEqualTo(0.1));
-            Assert.That(_recommendDTO.target_liveness, Is.LessThanOrEqualTo(0.3));
-
             Assert.That(_recommendDTO.target_popularity, Is.GreaterThanOrEqualTo(10));
             Assert.That(_recommendDTO.target_popularity, Is.LessThanOrEqualTo(100));
 

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication;
 using System.Diagnostics;
 using MusicCollaborationManager.Models.DTO;
 using MusicCollaborationManager.Models;
+using System;
+using MusicCollaborationManager.Utilities;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -211,10 +213,15 @@ namespace MusicCollaborationManager.Services.Concrete
             recommendationsRequest.Market = recommendDTO.market;
             recommendationsRequest.Limit = recommendDTO.limit;
 
-            recommendationsRequest.SeedGenres.Add("metal");
+            foreach(var artist in recommendDTO.seed)
+            {
+                recommendationsRequest.SeedTracks.Add(artist);
+                if(recommendationsRequest.SeedTracks.Count >= 5) {break; }
+            }
             //foreach (var genre in recommendDTO.genre)
             //{
             //    recommendationsRequest.SeedGenres.Add(genre);
+            //    if (recommendationsRequest.SeedGenres.Count >= 1) { break; }
             //}
             if (recommendDTO.target_valence != 0)
             {
@@ -253,8 +260,8 @@ namespace MusicCollaborationManager.Services.Concrete
             }
 
             var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
-
             return recommendations;
+
         }
 
         public async Task<List<FullTrack>> ConvertToFullTrack(List<SimpleTrack> tracks)
@@ -271,6 +278,28 @@ namespace MusicCollaborationManager.Services.Concrete
             var returnTracks = genTracks.Tracks;
             return returnTracks;
 
+        }
+
+        public async Task<List<string>> searchTopGenrePlaylistArtist(string genre)
+        {
+            GeneratorUtilities generatorUtilities = new GeneratorUtilities();
+            SearchRequest.Types types = SearchRequest.Types.Playlist;
+            List<string> trackIDs = new List<string>();
+
+            SearchRequest request = new SearchRequest(types, genre);
+            request.Limit = 10;
+            SearchResponse response = await Spotify.Search.Item(request);
+
+            for (int i=0; i < 5; i++)
+            {
+                string playlistID = response.Playlists.Items[generatorUtilities.rngValueInput(1, response.Playlists.Items.Count())].Id;
+                var playlist = await Spotify.Playlists.GetItems(playlistID);
+
+                FullTrack track = (FullTrack)playlist.Items[generatorUtilities.rngValueInput(1, playlist.Items.Count - 1)].Track;
+                trackIDs.Add(track.Id);
+            }                 
+
+            return trackIDs;
         }
 
         public static IUserProfileClient GetUserProfileClient() 

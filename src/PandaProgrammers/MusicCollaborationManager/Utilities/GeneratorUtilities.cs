@@ -17,12 +17,6 @@
             return result;
         }
 
-        //public List<string> seedArtists()
-        //{
-        //    Dictionary<string, string> My_dict2 =
-        //     new Dictionary<string, string>(){
-        //                          {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""} };
-        //}
 
         public string getTimeValue(DateTime dt)
         {
