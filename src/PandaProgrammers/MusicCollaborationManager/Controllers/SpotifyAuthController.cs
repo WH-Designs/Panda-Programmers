@@ -21,12 +21,24 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<SearchResponse> Search([Bind("SearchQuery")] SearchDTO searchDTO)
+        public async Task<SearchResultsDTO> Search([Bind("SearchQuery")] SearchDTO searchDTO)
         {
             string query = searchDTO.SearchQuery;
 
-            SearchResponse search = await _spotifyService.GetSearchResultsAsync(query);
-            return search;
+            try {
+                SearchResponse search = await _spotifyService.GetSearchResultsAsync(query);
+                SearchResultsDTO results = new SearchResultsDTO();
+
+                results.AlbumsItems = search.Albums.Items;
+                results.ArtistsItems = search.Artists.Items;
+                results.PlaylistsItems = search.Playlists.Items;
+                results.TracksItems = search.Tracks.Items;
+                
+                return results;
+            } catch(Exception) {
+                SearchResultsDTO emptyResults = new SearchResultsDTO();
+                return emptyResults;
+            }
         }
 
         [HttpGet("authuser")]

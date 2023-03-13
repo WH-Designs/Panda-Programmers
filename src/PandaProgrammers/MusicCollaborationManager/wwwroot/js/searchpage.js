@@ -4,6 +4,8 @@ $(function () {
     })
 
     $('#search-button').click(function() {
+        $('#search-row').text("");
+        $('#search-query-display').text("");
         let search = getSearchQuery();
         console.log("Search: " + JSON.stringify(search));
         if (search.status) {
@@ -32,22 +34,46 @@ function displaySearchResults(data) {
     console.log('displaySearchResults');
     console.log(data);
 
-    $.each(data, function (index, item) {
+    if (data == []) {
         let searchItem = `<tr id='search-row' class="border-b border-neutral-500">
-                          <td class="whitespace-nowrap  px-6 py-4">${item["items"][0]["name"]}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">${item["items"][0]["name"]}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">${item["items"][0]["name"]}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">${item["items"][0]["name"]}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">No results</td>
                           </tr>`
-        $(searchItem).appendTo(`#search-row`);
-    });
-}
 
+        $(searchItem).appendTo(`#search-row`);
+    }
+
+    try {
+
+        $.each(data, function (index, item) {
+            $.each(item, function (index) {
+                let searchItem = 
+                `<tr id='search-row' class="border-b border-neutral-500">
+                    <td class="whitespace-nowrap  px-6 py-4"></td>
+                    <td class="whitespace-nowrap  px-6 py-4">${item[index]["name"]}</td>
+                    <td class="whitespace-nowrap  px-6 py-4">${item[index]["type"]}</td>
+                    <td class="whitespace-nowrap  px-6 py-4">${item[index]["releaseDate"]}</td>
+                </tr>`
+                $(searchItem).appendTo(`#search-row`);
+            });
+        });
+
+    } catch (error) {
+        console.log("error: " + error.status + ', ' + error.message);
+        let searchItem = `<tr id='search-row' class="border-b border-neutral-500">
+                            <td class="whitespace-nowrap  px-6 py-4">No results</td>
+                          </tr>`
+
+        $(searchItem).appendTo(`#search-row`);
+    }
+}
+//${item["images"][0]}
+// <td class="whitespace-nowrap  px-6 py-4">${item["items"][index]["name"]}</td>
 
 function getSearchQuery() {
     const searchQuery = document.getElementById("spotify-search");
     const searchForm = document.getElementById("search-form");
     $("#search-query-display").append(`<p>Showing results for: ${searchQuery.value}</p>`);
+    
     if (!searchForm.checkValidity()){
         console.log("Invalid form validation in getSearchQuery");
         return { status: false };
