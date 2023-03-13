@@ -78,23 +78,23 @@ namespace MusicCollaborationManager.Models.DTO
                     //        i--;
                     //    }
                     //}
-                    //conDTO.genre.Add("happy");
-                    ////conDTO.market = "US";
-                    //conDTO.limit = 20;
+                    conDTO.genre.Add("happy");
+                    //conDTO.market = "US";
+                    conDTO.limit = 20;
 
-                    //conDTO.target_acousticness = utility.rngValue();
-                    //conDTO.target_acousticness /= 10;
-                    //conDTO.target_danceability = utility.rngValue();
-                    //conDTO.target_danceability /= 10;
-                    //conDTO.target_energy = utility.rngValueInput(3, 11);
-                    //conDTO.target_energy /= 10;
-                    //conDTO.target_speechiness = utility.rngValueInput(3, 11);
-                    //conDTO.target_speechiness /= 10;
-                    //conDTO.target_popularity = utility.rngValue();
-                    //conDTO.target_popularity *= 10;
-                    //conDTO.target_tempo = utility.rngValueInput(60, 170);
-                    //conDTO.target_valence = utility.rngValueInput(7, 11);
-                    //conDTO.target_valence /= 10;
+                    conDTO.target_acousticness = utility.rngValue();
+                    conDTO.target_acousticness /= 10;
+                    conDTO.target_danceability = utility.rngValue();
+                    conDTO.target_danceability /= 10;
+                    conDTO.target_energy = utility.rngValueInput(3, 11);
+                    conDTO.target_energy /= 10;
+                    conDTO.target_speechiness = utility.rngValueInput(3, 11);
+                    conDTO.target_speechiness /= 10;
+                    conDTO.target_popularity = utility.rngValue();
+                    conDTO.target_popularity *= 10;
+                    conDTO.target_tempo = utility.rngValueInput(60, 170);
+                    conDTO.target_valence = utility.rngValueInput(7, 11);
+                    conDTO.target_valence /= 10;
 
 
                     break;
@@ -142,14 +142,6 @@ namespace MusicCollaborationManager.Models.DTO
 
                     conDTO.target_energy = utility.rngValueInput(1, 5);
                     conDTO.target_energy /= 10;
-                    //conDTO.target_acousticness = utility.rngValue();
-                    //conDTO.target_acousticness /= 10;
-                    //conDTO.target_instrumentalness = utility.rngValue();
-                    //conDTO.target_instrumentalness /= 10;
-                    //conDTO.target_popularity = utility.rngValueInput(1, 11);
-                    //conDTO.target_popularity *= 10;
-                    //conDTO.target_speechiness = utility.rngValue();
-                    //conDTO.target_speechiness /= 10;
                     conDTO.target_valence = utility.rngValueInput(1, 4);
                     conDTO.target_valence /= 10;
                     conDTO.target_tempo = utility.rngValueInput(20, 80);
@@ -252,18 +244,12 @@ namespace MusicCollaborationManager.Models.DTO
                 //        i--;
                 //    }
                 //}
-                conDTO.genre.Add("study");
+                conDTO.genre.Add("study focus");
                 conDTO.limit = 20;
 
-                conDTO.target_acousticness = utility.rngValue();
-                conDTO.target_acousticness /= 10;
-                conDTO.target_energy = utility.rngValue();
+                conDTO.target_energy = utility.rngValueInput(1, 4);
                 conDTO.target_energy /= 10;
-                conDTO.target_speechiness = utility.rngValue();
-                conDTO.target_speechiness /= 10;
-                conDTO.target_popularity = utility.rngValue();
-                conDTO.target_popularity *= 10;
-                conDTO.target_tempo = utility.rngValueInput(40, 130);
+                conDTO.target_tempo = utility.rngValueInput(40, 100);
 
             }
             else if (tVM.timeCategory == "workMorning")
@@ -286,7 +272,7 @@ namespace MusicCollaborationManager.Models.DTO
 
                 conDTO.target_energy = utility.rngValueInput(7, 11);
                 conDTO.target_energy /= 10;
-                conDTO.target_tempo = utility.rngValueInput(100, 200);
+                conDTO.target_tempo = utility.rngValueInput(100, 250);
             }
             else if (tVM.timeCategory == "endMorning" || tVM.timeCategory == "friEvening" || tVM.timeCategory == "endEvening")
             {
@@ -305,12 +291,10 @@ namespace MusicCollaborationManager.Models.DTO
                 conDTO.genre.Add("party");
                 conDTO.limit = 20;
 
-                conDTO.target_danceability = utility.rngValueInput(6, 11);
+                conDTO.target_danceability = utility.rngValueInput(7, 11);
                 conDTO.target_danceability /= 10;
-                conDTO.target_energy = utility.rngValueInput(4, 11);
+                conDTO.target_energy = utility.rngValueInput(7, 11);
                 conDTO.target_energy /= 10;
-                conDTO.target_popularity = utility.rngValueInput(1, 11);
-                conDTO.target_popularity *= 10;
                 conDTO.target_valence = utility.rngValueInput(5, 11);
                 conDTO.target_valence /= 10;
             }
@@ -333,10 +317,6 @@ namespace MusicCollaborationManager.Models.DTO
 
                 conDTO.target_energy = utility.rngValueInput(1, 5);
                 conDTO.target_energy /= 10;
-                conDTO.target_acousticness = utility.rngValue();
-                conDTO.target_acousticness /= 10;
-                conDTO.target_popularity = utility.rngValue();
-                conDTO.target_popularity *= 10;
                 conDTO.target_tempo = utility.rngValueInput(10, 80);
             }
             else if (tVM.timeCategory == "bedTime")
