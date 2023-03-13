@@ -35,6 +35,9 @@ function displaySearchResults(data) {
     $.each(data, function (index, item) {
         let searchItem = `<tr id='search-row' class="border-b border-neutral-500">
                           <td class="whitespace-nowrap  px-6 py-4">${item["items"][0]["name"]}</td>
+                          <td class="whitespace-nowrap  px-6 py-4">${item["items"][0]["name"]}</td>
+                          <td class="whitespace-nowrap  px-6 py-4">${item["items"][0]["name"]}</td>
+                          <td class="whitespace-nowrap  px-6 py-4">${item["items"][0]["name"]}</td>
                           </tr>`
         $(searchItem).appendTo(`#search-row`);
     });
