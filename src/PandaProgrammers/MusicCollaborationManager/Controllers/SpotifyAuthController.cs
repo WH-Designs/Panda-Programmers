@@ -20,6 +20,27 @@ namespace MusicCollaborationManager.Controllers
             _spotifyService = spotifyService;
         }
 
+        [HttpPost("search")]
+        public async Task<SearchResultsDTO> Search([Bind("SearchQuery")] SearchDTO searchDTO)
+        {
+            string query = searchDTO.SearchQuery;
+
+            try {
+                SearchResponse search = await _spotifyService.GetSearchResultsAsync(query);
+                SearchResultsDTO results = new SearchResultsDTO();
+
+                results.AlbumsItems = search.Albums.Items;
+                results.ArtistsItems = search.Artists.Items;
+                results.PlaylistsItems = search.Playlists.Items;
+                results.TracksItems = search.Tracks.Items;
+                
+                return results;
+            } catch(Exception) {
+                SearchResultsDTO emptyResults = new SearchResultsDTO();
+                return emptyResults;
+            }
+        }
+
         [HttpGet("authuser")]
         public async Task<PrivateUser> GetAuthUserAsync()
         {
@@ -105,7 +126,7 @@ namespace MusicCollaborationManager.Controllers
             {
                 NewPlaylist = await SpotifyAuthService.CreateNewSpotifyPlaylistAsync(CreationRequest, UserProfileClient, PlaylistsClient);
             }
-            catch (Exception ex) 
+            catch (Exception) 
             {
                 NoErrorsWhileCreatingPlaylist = false;
                 return NoErrorsWhileCreatingPlaylist;
@@ -115,14 +136,13 @@ namespace MusicCollaborationManager.Controllers
             {
                 await _spotifyService.AddSongsToPlaylistAsync(NewPlaylist, newTrackUris);
             }
-            catch(Exception ex) 
+            catch(Exception) 
             {
                 NoErrorsWhileCreatingPlaylist = false;
                 return NoErrorsWhileCreatingPlaylist;
             }
             
             return NoErrorsWhileCreatingPlaylist;
-
             
         }
     }

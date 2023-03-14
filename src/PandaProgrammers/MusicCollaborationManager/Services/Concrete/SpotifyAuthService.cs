@@ -87,6 +87,16 @@ namespace MusicCollaborationManager.Services.Concrete
             return authUser.Me;
         }
 
+        public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery) 
+        {
+            SearchRequest.Types types = SearchRequest.Types.All;
+            
+            SearchRequest request = new SearchRequest(types, searchQuery);
+            SearchResponse response = await Spotify.Search.Item(request);
+
+            return response;
+        }
+
         public async Task<List<FullTrack>> GetAuthUserTopTracksAsync()
         {
             var topTracks = await Spotify.Personalization.GetTopTracks();   
