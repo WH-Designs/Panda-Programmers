@@ -98,29 +98,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return response;
         }
 
-        public async Task<List<FullTrack>> GetAuthUserTopTracksAsync()
-        {
-            var topTracks = await Spotify.Personalization.GetTopTracks();   
-            var topTracksList = topTracks.Items;
 
-            if (topTracksList.Count == 0) {
-                List<string> trackIDs = new List<string>();
-
-                trackIDs.Add("4cktbXiXOapiLBMprHFErI");
-                trackIDs.Add("6KBYk8OFtod7brGuZ3Y67q");
-                trackIDs.Add("2iuZJX9X9P0GKaE93xcPjk");
-                trackIDs.Add("5zFglKYiknIxks8geR8rcL");
-                trackIDs.Add("0tuyEYTaqLxE41yGHSsXjy");
-                
-                TracksRequest trackReq = new TracksRequest(trackIDs);
-
-                var topGenTracks = await Spotify.Tracks.GetSeveral(trackReq);
-                var returnTracks = topGenTracks.Tracks.ToList();
-                return returnTracks;
-            }
-
-            return topTracksList;
-        }
 
         public async Task<List<FullArtist>> GetAuthTopArtistsAsync()
         {
@@ -145,78 +123,13 @@ namespace MusicCollaborationManager.Services.Concrete
             return returnArtists;
         }
 
-        public async Task<FeaturedPlaylistsResponse> GetAuthFeatPlaylistsAsync()
-        {
-            PrivateUser CurUser = await Spotify.UserProfile.Current();
-            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
-            {
-                Limit = 5,
-                Country = CurUser.Country,
-            };
-
-            if (CurUser.Country == "US")
-                RequestParameters.Limit = 10;
-
-            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
-            
-            if (CurUser.Country == "US") 
-                FeaturedPlaylists.Playlists.Items.Reverse();
-
-            return FeaturedPlaylists;
-        }
-
-        public async Task<List<SimplePlaylist>> GetAuthPersonalPlaylistsAsync()
-        {
-            List<SimplePlaylist> PersonalPlaylists = new List<SimplePlaylist>();
-
-            PlaylistCurrentUsersRequest RequestParameters = new PlaylistCurrentUsersRequest
-            {
-                Limit = 5
-            };
-
-            var currentUsersPlaylists = await Spotify.Playlists.CurrentUsers(RequestParameters);
-            PersonalPlaylists = currentUsersPlaylists.Items;
-        
-            return PersonalPlaylists;
-        }
         public async Task<RecommendationGenresResponse> GetSeedGenresAsync()
         {
             var currentGenres = await Spotify.Browse.GetRecommendationGenres();
             return currentGenres;
         }
 
-        public async Task<List<SimplePlaylist>> GetFeatPlaylistsAsync()
-        {
-            PrivateUser CurUser = new PrivateUser();
-            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
-            {
-                Limit = 5,
-            };
-            try
-            {
-                CurUser = await Spotify.UserProfile.Current();
-                RequestParameters.Country = CurUser.Country;
-            }
-            catch (NullReferenceException e) 
-            {
-                RequestParameters.Country = "NA";
-            }
 
-
-            if (RequestParameters.Country == "US")
-                RequestParameters.Limit = 10;
-
-            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
-            if (FeaturedPlaylists == null) 
-            {
-                return null;
-            }
-
-            if (CurUser.Country == "US")
-                FeaturedPlaylists.Playlists.Items.Reverse();
-
-            return FeaturedPlaylists.Playlists.Items;
-        }   
 
         public async Task<RecommendationsResponse> GetRecommendationsAsync(RecommendDTO recommendDTO)
         {
@@ -337,7 +250,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
 
 
-        public async Task<List<UserTrackDTO>> GetAuthRecomTracksImprovedAsync()
+        public async Task<List<UserTrackDTO>> GetAuthTopTracksAsync()
         {
 
             PersonalizationTopRequest Request = new PersonalizationTopRequest();
@@ -369,7 +282,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return TracksToReturn;
         }
 
-        public async Task<List<UserPlaylistDTO>> GetAuthFeatPlaylistsImproved()
+        public async Task<List<UserPlaylistDTO>> GetAuthFeatPlaylistsAsync()
         {
             PrivateUser CurUser = new PrivateUser();
             FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
@@ -413,7 +326,7 @@ namespace MusicCollaborationManager.Services.Concrete
         }
 
 
-        public async Task<List<UserPlaylistDTO>> GetAuthPersonalPlaylistsImprovedAsync()
+        public async Task<List<UserPlaylistDTO>> GetAuthPersonalPlaylistsAsync()
         {
             List<SimplePlaylist> PersonalPlaylists = new List<SimplePlaylist>();
 
