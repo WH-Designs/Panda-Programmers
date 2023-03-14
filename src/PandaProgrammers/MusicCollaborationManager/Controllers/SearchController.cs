@@ -35,7 +35,7 @@ public class SearchController : Controller
             Listener listener = new Listener();
             listener = _listenerRepository.FindListenerByAspId(aspId);
             string name = listener.FirstName;
-            await _spotifyService.GetAuthUser();
+            await _spotifyService.GetAuthUserAsync();
 
             return View("Search");
 
