@@ -120,7 +120,7 @@
 
                                 <div class="columns-5 mb-5 h-full max-h-max">
                                     @{
-                                        for (int FpIOne = 0; FpIOne < Model.FeatPlaylists.Count; FpIOne++)
+                                        for (int FpIOne = 0; FpIOne < Model.FeatPlaylists.Count; FpIOne++) //The first 5 playlists (which are always visible to the user)
                                         {
                                             <div class="w-fit overflow-hidden bg-gray-300">
                                                 @{
@@ -138,7 +138,7 @@
                                     }
                                 </div>
                             }
-                            while (FeatPlayIndex < Model.FeatPlaylists.Count)
+                            while (FeatPlayIndex < Model.FeatPlaylists.Count) //The extra 15 playlists (which the user can hide)
                             {
                                 <div class="columns-5 mb-5 h-full max-h-max hidden extra-feat-playlists">
                                     @{
@@ -183,8 +183,6 @@
                         }
                     }
                 </div>
-
-                <!--------My Attempt (below)-------------------------->
                 <div class="flex flex-col gap-y-3" id="user-playlists-container">
                     @{
                         int UserPlayIndex = 0;
@@ -249,7 +247,7 @@
                         }
                     }
                 </div>
-                <!--------My Attempt (above)-------------------------->
+                <!--------USER playlists (above)-------------------------->
             </div>
             <div id="embed-iframe"></div>
         </div>
