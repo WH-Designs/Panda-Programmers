@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/c88114ae42.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
     @* <script src="https://cdn.tailwindcss.com"></script> *@
 </head>
 
@@ -27,6 +28,10 @@
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
                 <a asp-controller="Listener" asp-action="Index" class="" aria-current="page"><i
                         class="fa-solid fa-house-user"></i> Dashboard</a>
+            </li>
+            <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
+                <a asp-controller="Search" asp-action="Search" class="" aria-current="page"><i
+                        class="fa-solid fa-search"></i> Search</a>
             </li>
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
                 <a asp-controller="Listener" asp-action="Profile" class="" aria-current="page"><i

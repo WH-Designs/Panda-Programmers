@@ -10,6 +10,8 @@ namespace MusicCollaborationManager.ViewModels
 {
     public class QuestionViewModel
     {
+        public List<string> genreArtists = new List<string>();
+
         public List<SelectListItem> genresSelect;
         [Required]
         public string genre { get; set; }

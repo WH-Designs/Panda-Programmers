@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Search";
+}
+
+<div class="flex ml-64 mt-36">
+    <form id='search-form'>   
+        <label for="spotify-search" class="mb-2 text-sm font-medium text-white sr-only">Search</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg aria-hidden="true" class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            <input type="search" id="spotify-search" class="block w-full p-4 pl-11 right-200 text-sm text-white border rounded-lg bg-gray-800 border-gray-600 placeholder-white text-white focus:border-gray-500" placeholder="Search" required>
+            <button type="submit" id='search-button' class="text-white absolute right-2.5 bottom-2.5 rounded-lg bg-gray-700 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
+        </div>
+    </form>
+</div>
+
+<div class="flex flex-col">
+  <div class="overflow-x-auto ml-64 mt-2">
+    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <div id='search-query-display'></div>
+        <table id='search-table' class="min-w-full text-center text-sm font-light">
+          <thead
+            class="border-b bg-neutral-50 font-medium">
+            <tr id='search-headers'>
+            </tr>
+          </thead>
+          <tbody id='search-row'>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/js/searchpage.js"></script>
