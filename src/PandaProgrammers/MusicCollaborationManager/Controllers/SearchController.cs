@@ -28,8 +28,20 @@ public class SearchController : Controller
         _listenerRepository = listenerRepository;
     }
 
-    public IActionResult Search() 
+    public async Task<IActionResult> Search() 
     {
-        return View();
+        try {
+            string aspId = _userManager.GetUserId(User);
+            Listener listener = new Listener();
+            listener = _listenerRepository.FindListenerByAspId(aspId);
+            string name = listener.FirstName;
+            await _spotifyService.GetAuthUser();
+
+            return View("Search");
+
+        } catch (Exception e) {
+            Console.WriteLine(e.Message);
+            return Redirect("/listener");
+        }
     }
 }

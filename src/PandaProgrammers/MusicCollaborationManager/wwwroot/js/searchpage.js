@@ -6,6 +6,7 @@ $(function () {
     $('#search-button').click(function() {
         $('#search-row').text("");
         $('#search-query-display').text("");
+        $(`#search-headers`).text("");
         let search = getSearchQuery();
         console.log("Search: " + JSON.stringify(search));
         if (search.status) {
@@ -34,7 +35,7 @@ function displaySearchResults(data) {
     console.log('displaySearchResults');
     console.log(data);
 
-    if (data == []) {
+    if (data[0] == []) {
         let searchItem = `<tr id='search-row' class="border-b border-neutral-500">
                             <td class="whitespace-nowrap  px-6 py-4">No results</td>
                           </tr>`
@@ -44,16 +45,134 @@ function displaySearchResults(data) {
 
     try {
 
+        let searchColNames = `<th scope="col" class=" px-6 py-4">Image</th>
+                              <th scope="col" class=" px-6 py-4">Information</th>`;
+
+        $(searchColNames).appendTo(`#search-headers`);
+
         $.each(data, function (index, item) {
-            $.each(item, function (index) {
-                let searchItem = 
-                `<tr id='search-row' class="border-b border-neutral-500">
-                    <td class="whitespace-nowrap  px-6 py-4"></td>
-                    <td class="whitespace-nowrap  px-6 py-4">${item[index]["name"]}</td>
-                    <td class="whitespace-nowrap  px-6 py-4">${item[index]["type"]}</td>
-                    <td class="whitespace-nowrap  px-6 py-4">${item[index]["releaseDate"]}</td>
-                </tr>`
+            if (item.length == 0) {
+                let searchItem = `<tr id='search-row' class="border-b border-neutral-500">
+                                    <td class="whitespace-nowrap  px-6 py-4">No results</td>
+                                  </tr>`
+
                 $(searchItem).appendTo(`#search-row`);
+                return false;
+            }
+            $.each(item, function (index) {
+                try {
+                    let imageUrl = item[index]["images"][0]['url'];
+                    let itemName = item[index]["name"];
+                    let itemType = item[index]["type"];
+                    let itemReleaseDate = item[index]["releaseDate"];
+                    let itemUrl = item[index]["externalUrls"]["spotify"];
+                    let ownerDisplayName = item[index]["owner"]["displayName"];
+                    
+                    if (itemReleaseDate == undefined) {
+                        itemReleaseDate = "";
+                    }
+
+                    if (itemType == 0) {
+                        itemType = "track";
+                    }
+
+                    let searchItem = 
+                    `<tr id='search-row' class="border-b border-gray-800">
+                        <td class="whitespace-nowrap  px-6 py-4"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
+                        <td class="whitespace-nowrap  px-6 py-4">
+                            <a class='text-blue-500' href='${itemUrl}'>${itemName}</a>
+                            <p>${itemType}</p>
+                            <p>${ownerDisplayName}</p>
+                            <p>${itemReleaseDate}</p>
+                        </td>
+                    </tr>`
+                    $(searchItem).appendTo(`#search-row`);
+                } catch (error) {
+                    if (error.message.includes("owner")) {
+                        let imageUrl = item[index]["images"][0]['url'];
+                        let itemName = item[index]["name"];
+                        let itemType = item[index]["type"];
+                        let itemReleaseDate = item[index]["releaseDate"];
+                        let itemUrl = item[index]["externalUrls"]["spotify"];
+                        let ownerDisplayName = "";
+                        
+                        if (itemReleaseDate == undefined) {
+                            itemReleaseDate = "";
+                        }
+    
+                        if (itemType == 0) {
+                            itemType = "track";
+                        }
+
+                        let searchItem = 
+                        `<tr id='search-row' class="border-b border-gray-800">
+                            <td class="whitespace-nowrap  px-6 py-4"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
+                            <td class="whitespace-nowrap  px-6 py-4">
+                                <a class='text-blue-500' href='${itemUrl}'>${itemName}</a>
+                                <p>${itemType}</p>
+                                <p>${ownerDisplayName}</p>
+                                <p>${itemReleaseDate}</p>
+                            </td>
+                        </tr>`
+                        $(searchItem).appendTo(`#search-row`);
+                    } else if (error.message.includes("images")) {
+                        try {
+                            let imageUrl = item[index]["album"]["images"][0]['url'];
+                            let itemName = item[index]["name"];
+                            let itemType = item[index]["type"];
+                            let itemReleaseDate = item[index]["releaseDate"];
+                            let itemUrl = item[index]["externalUrls"]["spotify"];
+                            let ownerDisplayName = "";
+
+                            if (itemReleaseDate == undefined) {
+                                itemReleaseDate = "";
+                            }
+        
+                            if (itemType == 0) {
+                                itemType = "track";
+                            }
+
+                            let searchItem = 
+                            `<tr id='search-row' class="border-b border-gray-800">
+                                <td class="whitespace-nowrap  px-6 py-4"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
+                                <td class="whitespace-nowrap  px-6 py-4">
+                                    <a class='text-blue-500' href='${itemUrl}'>${itemName}</a>
+                                    <p>${itemType}</p>
+                                    <p>${ownerDisplayName}</p>
+                                    <p>${itemReleaseDate}</p>
+                                </td>
+                            </tr>`
+                            $(searchItem).appendTo(`#search-row`);
+                        } catch (error) {
+                            let imageUrl = "";
+                            let itemName = item[index]["name"];
+                            let itemType = item[index]["type"];
+                            let itemReleaseDate = item[index]["releaseDate"];
+                            let itemUrl = item[index]["externalUrls"]["spotify"];
+                            let ownerDisplayName = "";
+
+                            if (itemReleaseDate == undefined) {
+                                itemReleaseDate = "";
+                            }
+        
+                            if (itemType == 0) {
+                                itemType = "track";
+                            }
+
+                            let searchItem = 
+                            `<tr id='search-row' class="border-b border-gray-800">
+                                <td class="whitespace-nowrap  px-6 py-4"><img src='${imageUrl}' width=0 height=0></td>
+                                <td class="whitespace-nowrap  px-6 py-4">
+                                    <a class='text-blue-500' href='${itemUrl}'>${itemName}</a>
+                                    <p>${itemType}</p>
+                                    <p>${ownerDisplayName}</p>
+                                    <p>${itemReleaseDate}</p>
+                                </td>
+                            </tr>`
+                            $(searchItem).appendTo(`#search-row`);
+                        }
+                    }
+                }
             });
         });
 
@@ -61,13 +180,11 @@ function displaySearchResults(data) {
         console.log("error: " + error.status + ', ' + error.message);
         let searchItem = `<tr id='search-row' class="border-b border-neutral-500">
                             <td class="whitespace-nowrap  px-6 py-4">No results</td>
-                          </tr>`
+                            </tr>`
 
         $(searchItem).appendTo(`#search-row`);
     }
 }
-//${item["images"][0]}
-// <td class="whitespace-nowrap  px-6 py-4">${item["items"][index]["name"]}</td>
 
 function getSearchQuery() {
     const searchQuery = document.getElementById("spotify-search");
