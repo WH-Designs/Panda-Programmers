@@ -9,6 +9,7 @@ using MusicCollaborationManager.Models.DTO;
 using MusicCollaborationManager.Models;
 using System;
 using MusicCollaborationManager.Utilities;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -97,29 +98,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return response;
         }
 
-        public async Task<List<FullTrack>> GetAuthUserTopTracksAsync()
-        {
-            var topTracks = await Spotify.Personalization.GetTopTracks();   
-            var topTracksList = topTracks.Items;
 
-            if (topTracksList.Count == 0) {
-                List<string> trackIDs = new List<string>();
-
-                trackIDs.Add("4cktbXiXOapiLBMprHFErI");
-                trackIDs.Add("6KBYk8OFtod7brGuZ3Y67q");
-                trackIDs.Add("2iuZJX9X9P0GKaE93xcPjk");
-                trackIDs.Add("5zFglKYiknIxks8geR8rcL");
-                trackIDs.Add("0tuyEYTaqLxE41yGHSsXjy");
-                
-                TracksRequest trackReq = new TracksRequest(trackIDs);
-
-                var topGenTracks = await Spotify.Tracks.GetSeveral(trackReq);
-                var returnTracks = topGenTracks.Tracks.ToList();
-                return returnTracks;
-            }
-
-            return topTracksList;
-        }
 
         public async Task<List<FullArtist>> GetAuthTopArtistsAsync()
         {
@@ -144,78 +123,13 @@ namespace MusicCollaborationManager.Services.Concrete
             return returnArtists;
         }
 
-        public async Task<FeaturedPlaylistsResponse> GetAuthFeatPlaylistsAsync()
-        {
-            PrivateUser CurUser = await Spotify.UserProfile.Current();
-            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
-            {
-                Limit = 5,
-                Country = CurUser.Country,
-            };
-
-            if (CurUser.Country == "US")
-                RequestParameters.Limit = 10;
-
-            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
-            
-            if (CurUser.Country == "US") 
-                FeaturedPlaylists.Playlists.Items.Reverse();
-
-            return FeaturedPlaylists;
-        }
-
-        public async Task<List<SimplePlaylist>> GetAuthPersonalPlaylistsAsync()
-        {
-            List<SimplePlaylist> PersonalPlaylists = new List<SimplePlaylist>();
-
-            PlaylistCurrentUsersRequest RequestParameters = new PlaylistCurrentUsersRequest
-            {
-                Limit = 5
-            };
-
-            var currentUsersPlaylists = await Spotify.Playlists.CurrentUsers(RequestParameters);
-            PersonalPlaylists = currentUsersPlaylists.Items;
-        
-            return PersonalPlaylists;
-        }
         public async Task<RecommendationGenresResponse> GetSeedGenresAsync()
         {
             var currentGenres = await Spotify.Browse.GetRecommendationGenres();
             return currentGenres;
         }
 
-        public async Task<List<SimplePlaylist>> GetFeatPlaylistsAsync()
-        {
-            PrivateUser CurUser = new PrivateUser();
-            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
-            {
-                Limit = 5,
-            };
-            try
-            {
-                CurUser = await Spotify.UserProfile.Current();
-                RequestParameters.Country = CurUser.Country;
-            }
-            catch (NullReferenceException e) 
-            {
-                RequestParameters.Country = "NA";
-            }
 
-
-            if (RequestParameters.Country == "US")
-                RequestParameters.Limit = 10;
-
-            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
-            if (FeaturedPlaylists == null) 
-            {
-                return null;
-            }
-
-            if (CurUser.Country == "US")
-                FeaturedPlaylists.Playlists.Items.Reverse();
-
-            return FeaturedPlaylists.Playlists.Items;
-        }   
 
         public async Task<RecommendationsResponse> GetRecommendationsAsync(RecommendDTO recommendDTO)
         {
@@ -332,6 +246,120 @@ namespace MusicCollaborationManager.Services.Concrete
         {
             PrivateUser CurUser = await userProfileClient.Current();
             return await playlistsClient.Create(CurUser.Id, createRequest);
+        }
+
+
+
+        public async Task<List<UserTrackDTO>> GetAuthTopTracksAsync()
+        {
+
+            PersonalizationTopRequest Request = new PersonalizationTopRequest();
+            Request.Limit = 20;
+            var topTracks = await Spotify.Personalization.GetTopTracks(Request);
+            var topTracksList = topTracks.Items;
+
+
+            List<UserTrackDTO> TracksToReturn = new List<UserTrackDTO>();
+            UserTrackDTO IndividualTrack = new UserTrackDTO();
+
+            foreach (FullTrack track in topTracksList)
+            {
+                IndividualTrack = new UserTrackDTO();
+                IndividualTrack.Title = track.Name;
+                IndividualTrack.LinkToTrack = track.ExternalUrls["spotify"];
+                IndividualTrack.Uri = track.Uri;
+                if (track.Album.Images.IsNullOrEmpty() == false)
+                {
+                    IndividualTrack.ImageURL = track.Album.Images[0].Url;
+                }
+                else
+                {
+                    IndividualTrack.ImageURL = null;
+                }
+                TracksToReturn.Add(IndividualTrack);
+            }
+
+            return TracksToReturn;
+        }
+
+        public async Task<List<UserPlaylistDTO>> GetAuthFeatPlaylistsAsync()
+        {
+            PrivateUser CurUser = new PrivateUser();
+            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
+            {
+                Limit = 20,
+            };
+            CurUser = await Spotify.UserProfile.Current();
+            try
+            {
+                RequestParameters.Country = CurUser.Country;
+            }
+            catch (NullReferenceException e)
+            {
+                RequestParameters.Country = "NA";
+            }
+
+            List<UserPlaylistDTO> PlaylistsToReturn = new List<UserPlaylistDTO>();
+            UserPlaylistDTO IndividualPlaylist = new UserPlaylistDTO();
+
+            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
+            foreach (var playlist in FeaturedPlaylists.Playlists.Items)
+            {
+                IndividualPlaylist = new UserPlaylistDTO();
+                IndividualPlaylist.Name = playlist.Name;
+                IndividualPlaylist.LinkToPlaylist = playlist.ExternalUrls["spotify"];
+                IndividualPlaylist.Uri = playlist.Uri;
+
+                if (playlist.Images.IsNullOrEmpty() == false)
+                {
+                    IndividualPlaylist.ImageURL = playlist.Images.First().Url;
+                }
+                else
+                {
+                    IndividualPlaylist.ImageURL = null;
+                }
+                PlaylistsToReturn.Add(IndividualPlaylist);
+            }
+
+            return PlaylistsToReturn;
+
+        }
+
+
+        public async Task<List<UserPlaylistDTO>> GetAuthPersonalPlaylistsAsync()
+        {
+            List<SimplePlaylist> PersonalPlaylists = new List<SimplePlaylist>();
+
+            PlaylistCurrentUsersRequest RequestParameters = new PlaylistCurrentUsersRequest
+            {
+                Limit = 20
+            };
+
+            var currentUsersPlaylists = await Spotify.Playlists.CurrentUsers(RequestParameters);
+            PersonalPlaylists = currentUsersPlaylists.Items;
+
+            List<UserPlaylistDTO> UserPlaylists = new List<UserPlaylistDTO>();
+            UserPlaylistDTO Playlist = new UserPlaylistDTO();
+
+            foreach (var item in currentUsersPlaylists.Items)
+            {
+                Playlist = new UserPlaylistDTO();
+                Playlist.Name = item.Name;
+                Playlist.LinkToPlaylist = item.ExternalUrls["spotify"];
+                Playlist.Uri = item.Uri;
+                if (item.Images.IsNullOrEmpty() == false)
+                {
+                    Playlist.ImageURL = item.Images[0].Url;
+                }
+                else
+                {
+                    Playlist.ImageURL = null;
+                }
+                UserPlaylists.Add(Playlist);
+
+            }
+
+            return UserPlaylists;
         }
 
     }
