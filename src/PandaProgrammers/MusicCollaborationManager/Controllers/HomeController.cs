@@ -42,7 +42,7 @@ public class HomeController : Controller
         listener = _listenerRepository.FindListenerByAspId(aspId);
 
         if (listener.AuthToken == null){
-            String uri = _spotifyService.GetUri();
+            String uri = _spotifyService.GetUriAsync();
             return Redirect(uri);  
         }
         
@@ -55,8 +55,8 @@ public class HomeController : Controller
         Listener listener = new Listener();
         listener = _listenerRepository.FindListenerByAspId(aspId);        
         
-        await _spotifyService.GetCallback(code, listener);
-        PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUser();
+        await _spotifyService.GetCallbackAsync(code, listener);
+        PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUserAsync();
         _listenerRepository.AddOrUpdate(listener);
 
         if (listener.SpotifyId == null) {

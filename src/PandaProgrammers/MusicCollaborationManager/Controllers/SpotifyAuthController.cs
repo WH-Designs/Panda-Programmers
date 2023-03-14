@@ -20,75 +20,39 @@ namespace MusicCollaborationManager.Controllers
             _spotifyService = spotifyService;
         }
 
-        [HttpGet("authuser")]
-        public async Task<PrivateUser> GetAuthUser()
+        [HttpPost("search")]
+        public async Task<SearchResultsDTO> Search([Bind("SearchQuery")] SearchDTO searchDTO)
         {
-            PrivateUser CurrentUser = await _spotifyService.GetAuthUser();
+            string query = searchDTO.SearchQuery;
+
+            try {
+                SearchResponse search = await _spotifyService.GetSearchResultsAsync(query);
+                SearchResultsDTO results = new SearchResultsDTO();
+
+                results.AlbumsItems = search.Albums.Items;
+                results.ArtistsItems = search.Artists.Items;
+                results.PlaylistsItems = search.Playlists.Items;
+                results.TracksItems = search.Tracks.Items;
+                
+                return results;
+            } catch(Exception) {
+                SearchResultsDTO emptyResults = new SearchResultsDTO();
+                return emptyResults;
+            }
+        }
+
+        [HttpGet("authuser")]
+        public async Task<PrivateUser> GetAuthUserAsync()
+        {
+            PrivateUser CurrentUser = await _spotifyService.GetAuthUserAsync();
             return CurrentUser;
         }    
-        
-        [HttpGet("authtoptracks")]
-        public async Task<List<FullTrack>> GetAuthUserTopTracks()
-        {
-            List<FullTrack> TopTracks = await _spotifyService.GetAuthUserTopTracks();
-            return TopTracks;
-        }
 
         [HttpGet("authtopartists")]
-        public async Task<List<FullArtist>> GetAuthUserTopArtists()
+        public async Task<List<FullArtist>> GetAuthUserAsyncTopArtists()
         {
-            List<FullArtist> TopArtists = await _spotifyService.GetAuthTopArtists();
+            List<FullArtist> TopArtists = await _spotifyService.GetAuthTopArtistsAsync();
             return TopArtists;
-        }
-
-        [HttpGet("authplaylists")]
-        public async Task<List<VisitorPlaylistDTO>> GetAuthFeatPlaylist()
-        {
-            var playlists = await _spotifyService.GetAuthFeatPlaylists();
-            List<VisitorPlaylistDTO> PlaylistsToReturn = new List<VisitorPlaylistDTO>();
-
-
-            foreach (var playlist in playlists.Playlists.Items)
-            {
-                VisitorPlaylistDTO IndividualPlaylist = new VisitorPlaylistDTO();
-                IndividualPlaylist.SpotifyLinkToPlaylist = playlist.ExternalUrls["spotify"];
-                IndividualPlaylist.PlaylistName = playlist.Name;
-
-                if (playlist.Images != null)
-                {
-                    IndividualPlaylist.PlaylistImageURL = playlist.Images[0].Url;
-                    IndividualPlaylist.ImageHeight = playlist.Images[0].Height;
-                    IndividualPlaylist.ImageWidth = playlist.Images[0].Width;
-                }
-                PlaylistsToReturn.Add(IndividualPlaylist);
-            }
-
-            return PlaylistsToReturn;
-        }
-
-        [HttpGet("authpersonalplaylists")]
-        public async Task<List<VisitorPlaylistDTO>> GetAuthPersonalPlaylist()
-        {
-            var personalPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
-            
-            List<VisitorPlaylistDTO> PersonalPlaylistsToReturn = new List<VisitorPlaylistDTO>();
-
-            foreach (var playlist in personalPlaylists)
-            {
-                VisitorPlaylistDTO IndividualPlaylist = new VisitorPlaylistDTO();
-                IndividualPlaylist.SpotifyLinkToPlaylist = playlist.ExternalUrls["spotify"];
-                IndividualPlaylist.PlaylistName = playlist.Name;
-
-                if (playlist.Images != null)
-                {
-                    IndividualPlaylist.PlaylistImageURL = playlist.Images[0].Url;
-                    IndividualPlaylist.ImageHeight = playlist.Images[0].Height;
-                    IndividualPlaylist.ImageWidth = playlist.Images[0].Width;
-                }
-                PersonalPlaylistsToReturn.Add(IndividualPlaylist);
-            }
-
-            return PersonalPlaylistsToReturn;
         }
 
         [HttpPost("savegeneratedplaylist")]
@@ -98,14 +62,14 @@ namespace MusicCollaborationManager.Controllers
             FullPlaylist NewPlaylist = new FullPlaylist();
 
             PlaylistCreateRequest CreationRequest = new PlaylistCreateRequest("MCM Playlist");
-            UserProfileClient UserProfileClient = (UserProfileClient)SpotifyAuthService.GetUserProfileClient();
-            PlaylistsClient PlaylistsClient = (PlaylistsClient)SpotifyAuthService.GetPlaylistsClient();
+            UserProfileClient UserProfileClient = (UserProfileClient)SpotifyAuthService.GetUserProfileClientAsync();
+            PlaylistsClient PlaylistsClient = (PlaylistsClient)SpotifyAuthService.GetPlaylistsClientAsync();
 
             try 
             {
                 NewPlaylist = await SpotifyAuthService.CreateNewSpotifyPlaylistAsync(CreationRequest, UserProfileClient, PlaylistsClient);
             }
-            catch (Exception ex) 
+            catch (Exception) 
             {
                 NoErrorsWhileCreatingPlaylist = false;
                 return NoErrorsWhileCreatingPlaylist;
@@ -115,14 +79,13 @@ namespace MusicCollaborationManager.Controllers
             {
                 await _spotifyService.AddSongsToPlaylistAsync(NewPlaylist, newTrackUris);
             }
-            catch(Exception ex) 
+            catch(Exception) 
             {
                 NoErrorsWhileCreatingPlaylist = false;
                 return NoErrorsWhileCreatingPlaylist;
             }
             
             return NoErrorsWhileCreatingPlaylist;
-
             
         }
     }
