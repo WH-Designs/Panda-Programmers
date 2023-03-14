@@ -9,6 +9,7 @@ using MusicCollaborationManager.Models.DTO;
 using MusicCollaborationManager.Models;
 using System;
 using MusicCollaborationManager.Utilities;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -332,6 +333,120 @@ namespace MusicCollaborationManager.Services.Concrete
         {
             PrivateUser CurUser = await userProfileClient.Current();
             return await playlistsClient.Create(CurUser.Id, createRequest);
+        }
+
+
+
+        public async Task<List<UserTrackDTO>> GetAuthRecomTracksImprovedAsync()
+        {
+
+            PersonalizationTopRequest Request = new PersonalizationTopRequest();
+            Request.Limit = 20;
+            var topTracks = await Spotify.Personalization.GetTopTracks(Request);
+            var topTracksList = topTracks.Items;
+
+
+            List<UserTrackDTO> TracksToReturn = new List<UserTrackDTO>();
+            UserTrackDTO IndividualTrack = new UserTrackDTO();
+
+            foreach (FullTrack track in topTracksList)
+            {
+                IndividualTrack = new UserTrackDTO();
+                IndividualTrack.Title = track.Name;
+                IndividualTrack.LinkToTrack = track.ExternalUrls["spotify"];
+                IndividualTrack.Uri = track.Uri;
+                if (track.Album.Images.IsNullOrEmpty() == false)
+                {
+                    IndividualTrack.ImageURL = track.Album.Images[0].Url;
+                }
+                else
+                {
+                    IndividualTrack.ImageURL = null;
+                }
+                TracksToReturn.Add(IndividualTrack);
+            }
+
+            return TracksToReturn;
+        }
+
+        public async Task<List<UserPlaylistDTO>> GetAuthFeatPlaylistsImproved()
+        {
+            PrivateUser CurUser = new PrivateUser();
+            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
+            {
+                Limit = 20,
+            };
+            CurUser = await Spotify.UserProfile.Current();
+            try
+            {
+                RequestParameters.Country = CurUser.Country;
+            }
+            catch (NullReferenceException e)
+            {
+                RequestParameters.Country = "NA";
+            }
+
+            List<UserPlaylistDTO> PlaylistsToReturn = new List<UserPlaylistDTO>();
+            UserPlaylistDTO IndividualPlaylist = new UserPlaylistDTO();
+
+            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
+            foreach (var playlist in FeaturedPlaylists.Playlists.Items)
+            {
+                IndividualPlaylist = new UserPlaylistDTO();
+                IndividualPlaylist.Name = playlist.Name;
+                IndividualPlaylist.LinkToPlaylist = playlist.ExternalUrls["spotify"];
+                IndividualPlaylist.Uri = playlist.Uri;
+
+                if (playlist.Images.IsNullOrEmpty() == false)
+                {
+                    IndividualPlaylist.ImageURL = playlist.Images.First().Url;
+                }
+                else
+                {
+                    IndividualPlaylist.ImageURL = null;
+                }
+                PlaylistsToReturn.Add(IndividualPlaylist);
+            }
+
+            return PlaylistsToReturn;
+
+        }
+
+
+        public async Task<List<UserPlaylistDTO>> GetAuthPersonalPlaylistsImprovedAsync()
+        {
+            List<SimplePlaylist> PersonalPlaylists = new List<SimplePlaylist>();
+
+            PlaylistCurrentUsersRequest RequestParameters = new PlaylistCurrentUsersRequest
+            {
+                Limit = 20
+            };
+
+            var currentUsersPlaylists = await Spotify.Playlists.CurrentUsers(RequestParameters);
+            PersonalPlaylists = currentUsersPlaylists.Items;
+
+            List<UserPlaylistDTO> UserPlaylists = new List<UserPlaylistDTO>();
+            UserPlaylistDTO Playlist = new UserPlaylistDTO();
+
+            foreach (var item in currentUsersPlaylists.Items)
+            {
+                Playlist = new UserPlaylistDTO();
+                Playlist.Name = item.Name;
+                Playlist.LinkToPlaylist = item.ExternalUrls["spotify"];
+                Playlist.Uri = item.Uri;
+                if (item.Images.IsNullOrEmpty() == false)
+                {
+                    Playlist.ImageURL = item.Images[0].Url;
+                }
+                else
+                {
+                    Playlist.ImageURL = null;
+                }
+                UserPlaylists.Add(Playlist);
+
+            }
+
+            return UserPlaylists;
         }
 
     }
