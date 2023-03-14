@@ -21,30 +21,30 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [HttpGet("authuser")]
-        public async Task<PrivateUser> GetAuthUser()
+        public async Task<PrivateUser> GetAuthUserAsync()
         {
-            PrivateUser CurrentUser = await _spotifyService.GetAuthUser();
+            PrivateUser CurrentUser = await _spotifyService.GetAuthUserAsync();
             return CurrentUser;
         }    
         
         [HttpGet("authtoptracks")]
-        public async Task<List<FullTrack>> GetAuthUserTopTracks()
+        public async Task<List<FullTrack>> GetAuthUserTopTracksAsync()
         {
-            List<FullTrack> TopTracks = await _spotifyService.GetAuthUserTopTracks();
+            List<FullTrack> TopTracks = await _spotifyService.GetAuthUserTopTracksAsync();
             return TopTracks;
         }
 
         [HttpGet("authtopartists")]
-        public async Task<List<FullArtist>> GetAuthUserTopArtists()
+        public async Task<List<FullArtist>> GetAuthUserAsyncTopArtists()
         {
-            List<FullArtist> TopArtists = await _spotifyService.GetAuthTopArtists();
+            List<FullArtist> TopArtists = await _spotifyService.GetAuthTopArtistsAsync();
             return TopArtists;
         }
 
         [HttpGet("authplaylists")]
         public async Task<List<VisitorPlaylistDTO>> GetAuthFeatPlaylist()
         {
-            var playlists = await _spotifyService.GetAuthFeatPlaylists();
+            var playlists = await _spotifyService.GetAuthFeatPlaylistsAsync();
             List<VisitorPlaylistDTO> PlaylistsToReturn = new List<VisitorPlaylistDTO>();
 
 
@@ -69,7 +69,7 @@ namespace MusicCollaborationManager.Controllers
         [HttpGet("authpersonalplaylists")]
         public async Task<List<VisitorPlaylistDTO>> GetAuthPersonalPlaylist()
         {
-            var personalPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
+            var personalPlaylists = await _spotifyService.GetAuthPersonalPlaylistsAsync();
             
             List<VisitorPlaylistDTO> PersonalPlaylistsToReturn = new List<VisitorPlaylistDTO>();
 
@@ -98,8 +98,8 @@ namespace MusicCollaborationManager.Controllers
             FullPlaylist NewPlaylist = new FullPlaylist();
 
             PlaylistCreateRequest CreationRequest = new PlaylistCreateRequest("MCM Playlist");
-            UserProfileClient UserProfileClient = (UserProfileClient)SpotifyAuthService.GetUserProfileClient();
-            PlaylistsClient PlaylistsClient = (PlaylistsClient)SpotifyAuthService.GetPlaylistsClient();
+            UserProfileClient UserProfileClient = (UserProfileClient)SpotifyAuthService.GetUserProfileClientAsync();
+            PlaylistsClient PlaylistsClient = (PlaylistsClient)SpotifyAuthService.GetPlaylistsClientAsync();
 
             try 
             {
