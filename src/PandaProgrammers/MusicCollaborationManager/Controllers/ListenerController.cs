@@ -61,9 +61,9 @@ namespace MusicCollaborationManager.Controllers
 
             try
             {
-                vm.TopTracks = await _spotifyService.GetAuthUserTopTracksAsync();
-                vm.FeatPlaylists = await _spotifyService.GetFeatPlaylistsAsync();
-                vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylistsAsync();
+                vm.TopTracks = await _spotifyService.GetAuthRecomTracksImprovedAsync();
+                vm.FeatPlaylists = await _spotifyService.GetAuthFeatPlaylistsImproved();
+                vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylistsImprovedAsync();
             }
             catch (Exception e)
             {
