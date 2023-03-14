@@ -47,69 +47,12 @@ namespace MusicCollaborationManager.Controllers
             PrivateUser CurrentUser = await _spotifyService.GetAuthUserAsync();
             return CurrentUser;
         }    
-        
-        [HttpGet("authtoptracks")]
-        public async Task<List<FullTrack>> GetAuthUserTopTracksAsync()
-        {
-            List<FullTrack> TopTracks = await _spotifyService.GetAuthUserTopTracksAsync();
-            return TopTracks;
-        }
 
         [HttpGet("authtopartists")]
         public async Task<List<FullArtist>> GetAuthUserAsyncTopArtists()
         {
             List<FullArtist> TopArtists = await _spotifyService.GetAuthTopArtistsAsync();
             return TopArtists;
-        }
-
-        [HttpGet("authplaylists")]
-        public async Task<List<VisitorPlaylistDTO>> GetAuthFeatPlaylist()
-        {
-            var playlists = await _spotifyService.GetAuthFeatPlaylistsAsync();
-            List<VisitorPlaylistDTO> PlaylistsToReturn = new List<VisitorPlaylistDTO>();
-
-
-            foreach (var playlist in playlists.Playlists.Items)
-            {
-                VisitorPlaylistDTO IndividualPlaylist = new VisitorPlaylistDTO();
-                IndividualPlaylist.SpotifyLinkToPlaylist = playlist.ExternalUrls["spotify"];
-                IndividualPlaylist.PlaylistName = playlist.Name;
-
-                if (playlist.Images != null)
-                {
-                    IndividualPlaylist.PlaylistImageURL = playlist.Images[0].Url;
-                    IndividualPlaylist.ImageHeight = playlist.Images[0].Height;
-                    IndividualPlaylist.ImageWidth = playlist.Images[0].Width;
-                }
-                PlaylistsToReturn.Add(IndividualPlaylist);
-            }
-
-            return PlaylistsToReturn;
-        }
-
-        [HttpGet("authpersonalplaylists")]
-        public async Task<List<VisitorPlaylistDTO>> GetAuthPersonalPlaylist()
-        {
-            var personalPlaylists = await _spotifyService.GetAuthPersonalPlaylistsAsync();
-            
-            List<VisitorPlaylistDTO> PersonalPlaylistsToReturn = new List<VisitorPlaylistDTO>();
-
-            foreach (var playlist in personalPlaylists)
-            {
-                VisitorPlaylistDTO IndividualPlaylist = new VisitorPlaylistDTO();
-                IndividualPlaylist.SpotifyLinkToPlaylist = playlist.ExternalUrls["spotify"];
-                IndividualPlaylist.PlaylistName = playlist.Name;
-
-                if (playlist.Images != null)
-                {
-                    IndividualPlaylist.PlaylistImageURL = playlist.Images[0].Url;
-                    IndividualPlaylist.ImageHeight = playlist.Images[0].Height;
-                    IndividualPlaylist.ImageWidth = playlist.Images[0].Width;
-                }
-                PersonalPlaylistsToReturn.Add(IndividualPlaylist);
-            }
-
-            return PersonalPlaylistsToReturn;
         }
 
         [HttpPost("savegeneratedplaylist")]
