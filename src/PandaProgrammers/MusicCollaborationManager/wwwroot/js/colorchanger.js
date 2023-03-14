@@ -122,6 +122,11 @@ $("#revolution-btn").click(function () {
     getSelectedTheme('revolution');
 });
 
+$("#moon-btn").click(function () {
+    console.log("The moon")
+    getSelectedTheme('moon');
+});
+
 $("#zenmmartian-btn").click(function () {
     console.log("MARTIAN BTN CLICKED")
     getSelectedTheme('zenmartian');
