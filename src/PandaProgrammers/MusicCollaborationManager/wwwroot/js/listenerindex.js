@@ -116,3 +116,69 @@ function getPersonalPlaylists(data) {
         $(playlistName).appendTo(`#user-personal-playlist-${index}-container`);
     });
 }
+
+
+//Managning extra items (below)---------------
+
+let extraRecomTracksVisible = false;
+
+$("#toggle-recom-tracks-btn").click(function () {
+
+    if (extraRecomTracksVisible) {
+        $(".extra-recom-tracks").removeClass("hidden");
+        $("#toggle-recom-tracks-btn").text("Show more");
+        extraRecomTracksVisible = false;
+        $("#link-to-spotify-recom-tracks").remove();
+
+        $("#link-to-spotify-recom-tracks").removeClass("hidden");
+    }
+    else {
+        $("#toggle-recom-tracks-btn").text("Show less");
+        extraRecomTracksVisible = true;
+    }
+
+    $("#link-to-spotify-recom-tracks").toggle();
+    $(".extra-recom-tracks").toggle();
+});
+
+let extraFeatPlaylistsVisible = false;
+
+$("#toggle-feat-playlists-btn").click(function () {
+    console.log("Feat playlist btn CLICKED")
+    if (extraFeatPlaylistsVisible) {
+        $(".extra-feat-playlists").removeClass("hidden");
+        $("#toggle-feat-playlists-btn").text("Show more");
+        extraFeatPlaylistsVisible = false;
+        $("#link-to-spotify-feat-playlists").removeClass("hidden");
+    }
+    else {
+        $("#toggle-feat-playlists-btn").text("Show less");
+        extraFeatPlaylistsVisible = true;
+    }
+
+    $("#link-to-spotify-feat-playlists").toggle();
+    $(".extra-feat-playlists").toggle();
+});
+
+
+let extraUserPlaylistsVisible = false;
+$("#toggle-user-playlists-btn").click(function () {
+
+    if (extraUserPlaylistsVisible) {
+        $(".extra-user-playlists").removeClass("hidden");
+        $("#toggle-user-playlists-btn").text("Show more");
+        extraUserPlaylistsVisible = false;
+
+        $("#link-to-spotify-user-playlists").removeClass("hidden");
+
+    }
+    else {
+        $("#toggle-user-playlists-btn").text("Show less");
+        extraUserPlaylistsVisible = true;
+    }
+
+    $("#link-to-spotify-user-playlists").toggle();
+    $(".extra-user-playlists").toggle();
+
+});
+
