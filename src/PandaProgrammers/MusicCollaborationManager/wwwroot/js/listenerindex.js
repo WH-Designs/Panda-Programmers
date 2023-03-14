@@ -3,7 +3,7 @@ $(function () {
         type: "GET",
         dataType: "json",
         url: "/api/spotifyauth/authuser",
-        success: getAuthUser,
+        success: GetAuthUserAsync,
         error: errorOnAjax
     });
 
@@ -19,7 +19,7 @@ $(function () {
         type: "GET",
         dataType: "json",
         url: "/api/spotifyauth/authtopartists",
-        success: getAuthTopArtists,
+        success: GetAuthTopArtistsAsync,
         error: errorOnAjax
     });
 
@@ -45,7 +45,7 @@ function errorOnAjax() {
     console.log("ERROR in ajax request");
 }
 
-function getAuthUser(data)
+function GetAuthUserAsync(data)
 {
     // console.log(data);
     let htmlDisplayName = `<h1 class="flex flex-col items-center justify-center h-screen w-screen">${data["displayName"]}</h1> `
@@ -68,7 +68,7 @@ function getAuthTopTracks(data)
 }
 
 
-function getAuthTopArtists(data) 
+function GetAuthTopArtistsAsync(data) 
 {
     let genreList = [];
     const genreDict = {};
