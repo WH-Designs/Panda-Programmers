@@ -52,7 +52,7 @@ namespace MusicCollaborationManager.Controllers
 
             if (listener.SpotifyId != null)
             {
-                await _spotifyService.GetCallback("", listener);
+                await _spotifyService.GetCallbackAsync("", listener);
                 _listenerRepository.AddOrUpdate(listener);
             }
 
@@ -64,9 +64,9 @@ namespace MusicCollaborationManager.Controllers
 
             try
             {
-                vm.TopTracks = await _spotifyService.GetAuthUserTopTracks();
-                vm.FeatPlaylists = await _spotifyService.GetFeatPlaylists();
-                vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
+                vm.TopTracks = await _spotifyService.GetAuthUserTopTracksAsync();
+                vm.FeatPlaylists = await _spotifyService.GetFeatPlaylistsAsync();
+                vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylistsAsync();
             }
             catch (Exception e)
             {
@@ -89,7 +89,7 @@ namespace MusicCollaborationManager.Controllers
 
             try
             {
-                var holder = _spotifyService.GetAuthUser();
+                var holder = _spotifyService.GetAuthUserAsync();
 
                 vm.spotifyName = holder.Result.DisplayName;
                 vm.accountType = holder.Result.Product;
