@@ -9,6 +9,19 @@
 //    $("#real-background").css("background-color", `#${primaryColor}`)
 //});
 
+$(function () {
+    console.log("Getting selected theme:\n")
+    var classList = $('#main-primary-color-control').attr('class').split(/\s+/);
+    var themeName = localStorage.theme;
+
+    $.each(classList, function (index, item) {
+        $('#main-primary-color-control').removeClass(item);
+
+    });
+    $('#main-primary-color-control').addClass(themeName);
+
+});
+
 $("#PrimaryColorInput").change(function () {
     let primaryColor = $("#PrimaryColorInput").val();
     console.log(primaryColor);

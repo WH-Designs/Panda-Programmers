@@ -52,7 +52,8 @@ module.exports = {
                             'primary': 'gold',
                             secondaryback: '#D1D5DB',
                             primback: '#d1d5db',
-                            textback: '#000000'
+                            textback: '#000000',
+                            whitetext: '#ffffff'
                         }
 
                     }
