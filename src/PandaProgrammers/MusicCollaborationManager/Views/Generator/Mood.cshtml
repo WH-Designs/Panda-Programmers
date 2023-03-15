@@ -5,30 +5,35 @@
     <div class="flex flex-col">
         <div class="flex flex-row ml-56 mt-36">
             <div class="flex flex-col w-3/4 mx-5">
-                <div class="w-full h-max max-h-max bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
-                    <h1 class="font-bold text-5xl text-white p-2">Mood Playlist Generator</h1>
-                    <div class="text-white font-bold p-2">What mood would you like your playlist to have?</div>
+                <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+                    <h1 class="font-bold text-5xl text-textback classicpanda:text-whitetext p-2">Mood Playlist Generator</h1>
+                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">What mood would you like your playlist to have?</div>
                     <br />
                     <div class="slidecontainer">
                         @*Pass in number values that correlate to moods*@
                         <input asp-for="mood" type="range" min="1" max="6" value="1" id="moodRange">
-                        <p class="text-white">Mood: <span id="moodValue"></span></p>
+                        <p class="text-textback classicpanda:text-whitetext">Mood: <span id="moodValue"></span></p>
                     </div>
                     <br />
-                    <div class="text-white">Description:</div>
-                    <div class="text-white" id="moodDescription"></div>
+                    <div class="text-textback classicpanda:text-whitetext">Description:</div>
+                    <div class="text-textback classicpanda:text-whitetext" id="moodDescription"></div>
                     <br />
-                    <div class="text-white font-bold p-2">Cover Image Input</div>
+                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">Cover Image Input</div>
                     <input asp-for="coverImageInput" type="text" />
                     <br />
-                    <button class="text-white font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 mt-4" type="submit">Generate Playlist</button>
+                    <button class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 mt-4" type="submit">Generate Playlist</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
 
-<script src="~/js/rSlider.js"></script>
+
+@section Scripts
+    {
+    <script src="~/js/rSlider.js"></script>
+    <script type="text/javascript" src="~/js/colorchanger.js"></script>
+}
 
 
 
