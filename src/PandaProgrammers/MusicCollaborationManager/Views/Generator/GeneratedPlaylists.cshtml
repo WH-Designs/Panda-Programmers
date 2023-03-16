@@ -25,7 +25,6 @@
                             <img src="@track.Album.Images[0].Url" />
                                 <h2 class="text-textback classicpanda:text-whitetext">Track Name: @track.Name</h2>
                                 <h2 class="text-textback classicpanda:text-whitetext">Album Name: @track.Album.Name</h2>
-                            @*<button class="playable-item" data-spotify-id="@track.Uri">Play</button> <!--Replace with "play" icon (Use font awesome)-->*@
                             <div class="flex flex-row">
                                     <i class="text-white playable-item fa-solid fa-circle-play" id="track-@trackIndex" data-spotify-id="@track.Uri"></i>
                             </div>
@@ -35,7 +34,7 @@
                     }
                 </div>
                
-                <form class="bg-gray-800 flex flex-row gap-x-3.5" id="playlist-form">
+                <form class="bg-secondaryback classicpanda:bg-coreback flex flex-row gap-x-3.5" id="playlist-form">
                     @{
                         for (int i = 0; i < Model.fullResult.Count; i++)
                         {
