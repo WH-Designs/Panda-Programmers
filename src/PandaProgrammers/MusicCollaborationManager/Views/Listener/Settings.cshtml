@@ -13,7 +13,7 @@
 else
 {
     <div class="flex flex-col items-center justify-center ml-64 mt-36 bg-secondaryback classicpanda:bg-coreback">
-        <h1 class="text-4xl pb-3 text-textback classicpanda:text-whitetext">@ViewData["Title"]</h1>
+        <h1 class="text-4xl pb-3 text-textback classicpanda:text-whitetext luxury:text-yellow-500">@ViewData["Title"]</h1>
         <h2 class="text-3xl pb-3 text-textback classicpanda:text-whitetext">Current Information:</h2>
         <div class="flex flex-col justify-center text-center">
             <p class="text-2xl text-textback classicpanda:text-whitetext">First Name: @Model.FirstName</p>
@@ -42,7 +42,10 @@ else
             <input type="hidden" asp-for="Id" />
             <div>
                 <button id="login-submit" type="submit"
-                    class="w-full flex-shrink-0 bg-gray-800 hover:bg-gray-600 text-textback font-bold py-2 px-4 border-b-4 border-gray-900 hover:border-gray-700 rounded classicpanda:text-whitetext">
+                    class="w-full flex-shrink-0 bg-gray-800 hover:bg-gray-600 text-textback font-bold py-2 px-4 border-b-4 border-gray-900 hover:border-gray-700 rounded 
+                    classicpanda:text-whitetext 
+                    autumn:text-white
+                    revolution:text-white">
                     Save
                 </button>
             </div>            
@@ -53,6 +56,7 @@ else
             <button id="revolution-btn" class="text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 classicpanda:text-whitetext">Red</button>
             <button id="autumn-btn" class="text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 classicpanda:text-whitetext">Purple</button>
             <button id="moon-btn" class="text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 classicpanda:text-whitetext">Dark</button>
+            <button id="mansion-btn" class="text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 classicpanda:text-whitetext">Gold</button>
         </div>
     </div>
 }
