@@ -5,29 +5,29 @@
         <div>
             <img src="@Model.profilePic" class="object-contain h-48 w-90" />
         </div>
-        <div class="bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
-            <h1 class="font-bold text-5xl text-white">Personal Information</h1>
-            <h2 class="text-white text-2xl p-1">@Model.fullName</h2>
-            <h2 class="text-white text-2xl p-1">@Model.aspUser.Identity.Name</h2>
+        <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+            <h1 class="font-bold text-5xl text-textback classicpanda:text-whitetext">Personal Information</h1>
+            <h2 class="text-textback classicpanda:text-whitetext text-2xl p-1">@Model.fullName</h2>
+            <h2 class="text-textback classicpanda:text-whitetext text-2xl p-1">@Model.aspUser.Identity.Name</h2>
         </div>
-        <div class="bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
-            <h1 class="font-bold text-5xl text-white p-1">Spotify Information</h1>
-            <h2 class="text-white text-2xl p-1">Username: @Model.spotifyName</h2>
-            <h2 class="text-white text-2xl p-1">Subscription Type: @Model.accountType</h2>
-            <h2 class="text-white text-2xl p-1">Country: @Model.country</h2>
-            <h2 class="text-white text-2xl p-1">Number of Followers: @Model.followerCount</h2>
+        <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+            <h1 class="font-bold text-5xl text-textback classicpanda:text-whitetext p-1">Spotify Information</h1>
+            <h2 class="text-textback classicpanda:text-whitetext text-2xl p-1">Username: @Model.spotifyName</h2>
+            <h2 class="text-textback classicpanda:text-whitetext text-2xl p-1">Subscription Type: @Model.accountType</h2>
+            <h2 class="text-textback classicpanda:text-whitetext text-2xl p-1">Country: @Model.country</h2>
+            <h2 class="text-textback classicpanda:text-whitetext text-2xl p-1">Number of Followers: @Model.followerCount</h2>
         </div>
-        <div class="bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
-            <h1 class="font-bold text-5xl text-white">Current Services</h1>
+        <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+            <h1 class="font-bold text-5xl text-textback classicpanda:text-whitetext">Current Services</h1>
             <div class="table">
                 <div class="table-header-group">
-                    <div class="table-cell text-white text-2xl p-2">Service</div>
-                    <div class="table-cell text-white text-2xl p-2">Username</div>
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-2xl p-2">Service</div>
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-2xl p-2">Username</div>
                 </div>
                 <div class="table-row-group">
                     <div class="table-row">
-                        <div class="table-cell text-white text-1xl p-3">Spotify</div>
-                        <div class="table-cell text-white text-1xl p-3">@Model.spotifyName</div>
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Spotify</div>
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">@Model.spotifyName</div>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,10 @@
     </div>
 </div>
 
-
+@section Scripts
+    {
+        <script type="text/javascript" src="~/js/colorchanger.js"></script>
+}
 
 
 
