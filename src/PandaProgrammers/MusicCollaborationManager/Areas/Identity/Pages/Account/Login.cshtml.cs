@@ -130,6 +130,12 @@ namespace MusicCollaborationManager.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
+
+                if (result.IsNotAllowed)
+                {
+                    ModelState.AddModelError(string.Empty, "Need to confirm email address");
+                    return Page();
+                }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
