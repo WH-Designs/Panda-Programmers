@@ -127,6 +127,7 @@ $("#classicpanda-btn").click(function () {
 });
 
 $("#autumn-btn").click(function () {
+    console.log('autumn');
     getSelectedTheme('autumn');
 });
 
@@ -189,18 +190,3 @@ $("#changing-btn").click(function () {
         localStorage.theme = 'revolution'
     }
 });
-
-
-//$("#panda").on("click", function () {
-//    event.preventDefault();
-//    var h2 = document.querySelector("h2");
-//    h2.classList.add("text-primary-green");
-
-//    var temp = document.querySelectorAll(".test");
-//    for (var i = 0; i < temp.length; i++) {
-//        temp[i].classList.add("text-primary-green");
-//    }
-
-//    var p = document.getElementById('pTest')
-//    p.className = 'text-primary-green'
-//});

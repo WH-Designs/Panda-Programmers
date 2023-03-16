@@ -1393,14 +1393,39 @@ video {
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
 }
 
+.revolution .revolution\:text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
 .classicpanda .classicpanda\:bg-coreback {
   --tw-bg-opacity: 1;
   background-color: rgba(var(--colors-coreback), var(--tw-bg-opacity));
 }
 
+.classicpanda .classicpanda\:bg-secondaryback {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--colors-secondaryback), var(--tw-bg-opacity));
+}
+
+.classicpanda .classicpanda\:text-textback {
+  --tw-text-opacity: 1;
+  color: rgba(var(--colors-textback), var(--tw-text-opacity));
+}
+
 .classicpanda .classicpanda\:text-whitetext {
   --tw-text-opacity: 1;
   color: rgba(var(--colors-whitetext), var(--tw-text-opacity));
+}
+
+.autumn .autumn\:text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.moon .moon\:bg-gray-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
 }
 
 @media (min-width: 640px) {
