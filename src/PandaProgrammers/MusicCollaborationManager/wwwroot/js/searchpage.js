@@ -31,6 +31,8 @@ function errorOnAjax(data) {
 }
 
 
+
+
 function displaySearchResults(data) {
     console.log('displaySearchResults');
     console.log(data);
