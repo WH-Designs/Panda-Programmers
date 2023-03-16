@@ -31,7 +31,7 @@
                         int UserTracksIndex = 0;
                         if (Model.TopTracks.Count <= 0)
                         {
-                            <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext" text-center">(No items to display)</p>
+                            <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center">(No items to display)</p>
                         }
                         else
                         {
@@ -95,14 +95,14 @@
 
             </div>
             <!--RECOMM TRACKS (above)----->
-            <div class="w-full h-max max-h-max bg-gray-800 my-1 p-3 rounded-lg shadow-2xl">
+            <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-1 p-3 rounded-lg shadow-2xl">
                 <div class="flex flex-row gap-x-3 mt-5">
-                                        <h2 class="font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext">Featured Playlists</h2>
+                    <h2 class="font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext">Featured Playlists</h2>
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
                     @{
                         if (Model.FeatPlaylists.Count > 5)
                         {
-                                            <button class="text-textback classicpanda:text-whitetext" id="toggle-feat-playlists-btn">Show more</button>
+                            <button class="text-textback classicpanda:text-whitetext" id="toggle-feat-playlists-btn">Show more</button>
                         }
                     }
                 </div>
@@ -110,7 +110,7 @@
                     @{
                         if (Model.FeatPlaylists.Count <= 0)
                         {
-                                                <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext" text-center">(No items to display)</p>
+                                <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center">(No items to display)</p>
                         }
                         else
                         {
@@ -172,14 +172,14 @@
             </div>
 
             <!---FEAT PLAYLISTS (above)-->
-            <div class="w-full h-max max-h-max bg-gray-800 my-1 p-3 rounded-lg shadow-2xl">
+            <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-1 p-3 rounded-lg shadow-2xl">
                 <div class="flex flex-row gap-x-3 mt-5">
-                                                        <h2 class="font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext">My Playlists</h2>
+                    <h2 class="font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext">My Playlists</h2>
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
                     @{
                         if (Model.UserPlaylists.Count > 5)
                         {
-                                                            <button class="text-textback classicpanda:text-whitetext" id="toggle-user-playlists-btn">Show more</button>
+                            <button class="text-textback classicpanda:text-whitetext" id="toggle-user-playlists-btn">Show more</button>
                         }
                     }
                 </div>
@@ -188,7 +188,7 @@
                         int UserPlayIndex = 0;
                         if (Model.UserPlaylists.Count <= 0)
                         {
-                                                                <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext" text-center">(No items to display)</p>
+                            <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center">(No items to display)</p>
                         }
                         else
                         {
@@ -252,14 +252,14 @@
             <div id="embed-iframe"></div>
         </div>
         <div class="flex flex-col w-52 mx-5 text-textback">
-            <div class="w-full bg-gray-800 my-1 p-3 rounded-lg text-center">
+            <div class="w-full my-1 p-3 bg-secondaryback classicpanda:bg-coreback rounded-lg text-center">
                 <h4 class="font-bold mb-6 mt-2 text-textback classicpanda:text-whitetext">Your Top Genres</h4>
                 <img src="~/img/Spotify_Logo_Black.png" class="ml-7 bg-white w-32 h-10" />
-                <div class="bg-gray-800 text-center text-textback classicpanda:text-whitetext" id="user-genre-0-container"></div>
-                <div class="bg-gray-800 text-center text-textback classicpanda:text-whitetext" id="user-genre-1-container"></div>
-                <div class="bg-gray-800 text-center text-textback classicpanda:text-whitetext" id="user-genre-2-container"></div>
-                <div class="bg-gray-800 text-center text-textback classicpanda:text-whitetext" id="user-genre-3-container"></div>
-                <div class="bg-gray-800 text-center text-textback classicpanda:text-whitetext" id="user-genre-4-container"></div>
+                <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext" id="user-genre-0-container"></div>
+                <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext" id="user-genre-1-container"></div>
+                <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext" id="user-genre-2-container"></div>
+                <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext" id="user-genre-3-container"></div>
+                <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext" id="user-genre-4-container"></div>
             </div>
         </div>
     </div>
