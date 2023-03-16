@@ -6,7 +6,7 @@
         <div class="flex flex-row ml-56 mt-36">
             <div class="flex flex-col w-3/4 mx-5">
                 <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
-                    <h1 class="font-bold text-5xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500">Questionnaire Playlist Generator</h1>
+                    <h1 class="font-bold text-5xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">Questionnaire Playlist Generator</h1>
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">What genre would you like your playlist to be centered on?</div>
                     <select id="genre" asp-for="genre" asp-items="@Model.genresSelect" required>
                     </select>
@@ -14,7 +14,7 @@
 
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">What is the tempo you would like songs in you playlist to have (Beats per minute)?</div>
                     <div class="slidecontainer">
-                        <input asp-for="tempo" type="range" min="20" max="250" value="125" id="tempoRange">
+                        <input asp-for="tempo" type="range" min="20" max="250" value="125" id="tempoRange" class="bg-secondaryback">
                         <p class="text-textback classicpanda:text-whitetext">Value: <span id="tempoValue"></span></p>
                     </div>
                     <br />
@@ -22,56 +22,56 @@
                     <div class="text-textback classicpanda:text-whitetext text-2xl font-bold p-2">For all inputs below make sure the number is between 1 and 10</div>
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">How prevelant should acoustics be in your playlist?</div>
                     <div class="slidecontainer">
-                        <input asp-for="acousticness" type="range" min="1" max="10" value="5" id="acoRange">
+                        <input asp-for="acousticness" type="range" min="1" max="10" value="5" id="acoRange" class="bg-secondaryback">
                         <p class="text-textback classicpanda:text-whitetext">Value: <span id="acoValue"></span></p>
                     </div>
                     <br />
 
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">How much should your playlist be able to be danced to?</div>
                     <div class="slidecontainer">
-                        <input asp-for="danceability" type="range" min="1" max="10" value="5" id="dancRange">
+                        <input asp-for="danceability" type="range" min="1" max="10" value="5" id="dancRange" class="bg-secondaryback">
                         <p class="text-textback classicpanda:text-whitetext">Value: <span id="dancValue"></span></p>
                     </div>
                     <br />
 
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">How much energy should your playlist have?</div>
                     <div class="slidecontainer">
-                        <input asp-for="energy" type="range" min="1" max="10" value="5" id="engRange">
+                        <input asp-for="energy" type="range" min="1" max="10" value="5" id="engRange" class="bg-secondaryback">
                         <p class="text-textback classicpanda:text-whitetext">Value: <span id="engValue"></span></p>
                     </div>
                     <br />
 
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">How prevelant should instruments be in your playlist?</div>
                     <div class="slidecontainer">
-                        <input asp-for="instrumentalness" type="range" min="1" max="10" value="5" id="instRange">
+                        <input asp-for="instrumentalness" type="range" min="1" max="10" value="5" id="instRange" class="bg-secondaryback">
                         <p class="text-textback classicpanda:text-whitetext">Value: <span id="instValue"></span></p>
                     </div>
                     <br />
 
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">How likely would you like to listen to live performances?</div>
                     <div class="slidecontainer">
-                        <input asp-for="liveness" type="range" min="1" max="10" value="5" id="liveRange">
+                        <input asp-for="liveness" type="range" min="1" max="10" value="5" id="liveRange" class="bg-secondaryback">
                         <p class="text-textback classicpanda:text-whitetext">Value: <span id="liveValue"></span></p>
                     </div>
                     <br />
 
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">How popular do you want the songs in your playlist to be?</div>
                     <div class="slidecontainer">
-                        <input asp-for="popularity" type="range" min="1" max="10" value="5" id="popRange">
+                        <input asp-for="popularity" type="range" min="1" max="10" value="5" id="popRange" class="bg-secondaryback">
                         <p class="text-textback classicpanda:text-whitetext">Value: <span id="popValue"></span></p>
                     </div>
                     <br />
 
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">How prevelant should vocals be in your playlist?</div>
                     <div class="slidecontainer">
-                        <input asp-for="speechiness" type="range" min="1" max="10" value="5" id="speechRange">
+                        <input asp-for="speechiness" type="range" min="1" max="10" value="5" id="speechRange" class="bg-secondaryback">
                         <p class="text-textback classicpanda:text-whitetext">Value: <span id="speechValue"></span></p>
                     </div>
                     <br />
 
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">How much postivity do you want in your playlist (valence)?</div>
                     <div class="slidecontainer">
-                        <input asp-for="valence" type="range" min="1" max="10" value="5" id="valRange">
+                        <input asp-for="valence" type="range" min="1" max="10" value="5" id="valRange" class="bg-secondaryback">
                         <p class="text-textback classicpanda:text-whitetext">Value: <span id="valValue"></span></p>
                     </div>
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">Cover Image Input</div>
