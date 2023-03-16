@@ -131,6 +131,11 @@ $("#autumn-btn").click(function () {
     getSelectedTheme('autumn');
 });
 
+$("#mansion-btn").click(function () {
+    console.log('luxury');
+    getSelectedTheme('luxury');
+});
+
 $("#revolution-btn").click(function () {
     console.log("THE REVOLUTION HAS BEGUN!")
     getSelectedTheme('revolution');

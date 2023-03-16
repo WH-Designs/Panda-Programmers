@@ -456,6 +456,14 @@ video {
   --colors-textback: 255, 255, 255;
 }
 
+.luxury {
+  --colors-coreback: 0, 0, 0;
+  --colors-primary: 0, 0, 0;
+  --colors-secondaryback: 0, 0, 0;
+  --colors-primback: 192, 192, 192;
+  --colors-textback: 255, 255, 255;
+}
+
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -1426,6 +1434,20 @@ video {
 .moon .moon\:bg-gray-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
+
+.luxury .luxury\:border-r-8 {
+  border-right-width: 8px;
+}
+
+.luxury .luxury\:border-r-yellow-500 {
+  --tw-border-opacity: 1;
+  border-right-color: rgb(234 179 8 / var(--tw-border-opacity));
+}
+
+.luxury .luxury\:text-yellow-500 {
+  --tw-text-opacity: 1;
+  color: rgb(234 179 8 / var(--tw-text-opacity));
 }
 
 @media (min-width: 640px) {
