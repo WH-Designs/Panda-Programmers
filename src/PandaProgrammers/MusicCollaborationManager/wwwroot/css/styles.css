@@ -1445,6 +1445,11 @@ video {
   border-right-color: rgb(234 179 8 / var(--tw-border-opacity));
 }
 
+.luxury .luxury\:text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 .luxury .luxury\:text-yellow-500 {
   --tw-text-opacity: 1;
   color: rgb(234 179 8 / var(--tw-text-opacity));
