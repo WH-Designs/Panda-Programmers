@@ -1426,6 +1426,11 @@ video {
   color: rgba(var(--colors-whitetext), var(--tw-text-opacity));
 }
 
+.autumn .autumn\:text-sky-500 {
+  --tw-text-opacity: 1;
+  color: rgb(14 165 233 / var(--tw-text-opacity));
+}
+
 .autumn .autumn\:text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
