@@ -31,19 +31,14 @@ function errorOnAjax(data) {
 }
 
 
+
+
 function displaySearchResults(data) {
     console.log('displaySearchResults');
     console.log(data);
-
-    if (data[0] == []) {
-        let searchItem = `<tr id='search-row' class="border-b border-neutral-500">
-                            <td class="whitespace-nowrap  px-6 py-4">No results</td>
-                          </tr>`
-
-        $(searchItem).appendTo(`#search-row`);
-    }
-
     try {
+
+        let count = 0;
 
         let searchColNames = `<th scope="col" class=" px-6 py-4">Image</th>
                               <th scope="col" class=" px-6 py-4">Information</th>`;
@@ -51,15 +46,16 @@ function displaySearchResults(data) {
         $(searchColNames).appendTo(`#search-headers`);
 
         $.each(data, function (index, item) {
-            if (item.length == 0) {
-                let searchItem = `<tr id='search-row' class="border-b border-neutral-500">
-                                    <td class="whitespace-nowrap  px-6 py-4">No results</td>
-                                  </tr>`
-
-                $(searchItem).appendTo(`#search-row`);
-                return false;
+            if (item == null || item == [] || item.length == 0) {
+                count += 1;
             }
+            
+            if (count == 4) {
+                throw new Error("No items found");
+            }
+        
             $.each(item, function (index) {
+
                 try {
                     let imageUrl = item[index]["images"][0]['url'];
                     let itemName = item[index]["name"];
@@ -186,9 +182,20 @@ function displaySearchResults(data) {
     }
 }
 
+function getCheckedFilters() {
+    const checkedDict = {"All" : $("#checkbox-item-1").is(":checked"), 
+                         "Artists" : $("#checkbox-item-2").is(":checked"),
+                         "Playlists" : $("#checkbox-item-3").is(":checked"),
+                         "Tracks" : $("#checkbox-item-4").is(":checked"),
+                         "Albums" : $("#checkbox-item-5").is(":checked")};
+
+    return checkedDict;
+}
+
 function getSearchQuery() {
     const searchQuery = document.getElementById("spotify-search");
-    const searchForm = document.getElementById("search-form");
+    const searchForm = document.getElementById("search-form"); 
+    const checkedList = getCheckedFilters();
     $("#search-query-display").append(`<p>Showing results for: ${searchQuery.value}</p>`);
     
     if (!searchForm.checkValidity()){
@@ -198,6 +205,7 @@ function getSearchQuery() {
 
     return {
         status: true,
-        SearchQuery: searchQuery.value
+        SearchQuery: searchQuery.value,
+        CheckedItems: checkedList
     }
 }

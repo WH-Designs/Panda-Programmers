@@ -11,7 +11,7 @@ $(function () {
         type: "GET",
         dataType: "json",
         url: "/api/spotifyauth/authtopartists",
-        success: GetAuthTopArtistsAsync,
+        success: TopArtistDomManip,
         error: errorOnAjax
     });
 
@@ -30,8 +30,20 @@ function GetAuthUserAsync(data)
 }
 
 
+function TopArtistDomManip(data) {
+    var keys = GetAuthTopArtistsAsync(data);
+    
+    let count = 0;
+    for (let i = keys.length - 1; i >= 0; i--) {
+        let currentGenre = `<p>${keys[i]}</p>`;
+        $(currentGenre).appendTo(`#user-genre-${count}-container`);  
+        count = count + 1;  
+    } 
+}
+
 function GetAuthTopArtistsAsync(data) 
 {
+    console.log(data);
     let genreList = [];
     const genreDict = {};
 
@@ -45,13 +57,8 @@ function GetAuthTopArtistsAsync(data)
     var keys = items.map((e) => { return e[0] });
 
     // sorting dictionary method^ found here: https://www.educative.io/answers/how-can-we-sort-a-dictionary-by-value-in-javascript
-
-    let count = 0;
-    for (let i = keys.length - 1; i >= 0; i--) {
-        let currentGenre = `<p>${keys[i]}</p>`;
-        $(currentGenre).appendTo(`#user-genre-${count}-container`);  
-        count = count + 1;  
-    }   
+    console.log(keys);
+    return keys;
 }
 
 

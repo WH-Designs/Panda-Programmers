@@ -91,7 +91,7 @@ namespace MusicCollaborationManager.Services.Concrete
         public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery) 
         {
             SearchRequest.Types types = SearchRequest.Types.All;
-            
+
             SearchRequest request = new SearchRequest(types, searchQuery);
             SearchResponse response = await Spotify.Search.Item(request);
 
