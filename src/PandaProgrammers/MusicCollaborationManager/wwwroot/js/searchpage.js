@@ -33,13 +33,11 @@ $(function () {
             }
         }
         else if (spotifyOrMcm == "mcm") {
+
             let mcmSearch = getSearchQueryMCM();
-            console.log("(MCM) You entered: " + mcmSearch);
-            //IF TIME, disable Spotify fileter input fields (and also add a mechanism for re-enabling them).
-            console.log("MCM SEARCH selected");
+            console.log("(MCM search) You entered: " + mcmSearch);
+
             if (mcmSearch.status == true) {
-
-
                 $.ajax({
                     method: "GET",
                     url: "/api/listenerinfo/basicuserinfo/" + mcmSearch.SearchQuery,
@@ -50,7 +48,7 @@ $(function () {
                 });
             }
             else {
-                console.log("INPUT IS REQUIRED (WAS EMPTY) [MCM search.]");
+                console.log("(MCM Search) INPUT IS REQUIRED!");
             }
         }
     })
@@ -248,13 +246,11 @@ function checkIfMcmOrSpotifySearch() {
 
     if ($("#spotify-radio").is(":checked")) {
         console.log("Spotify will be searched");
-        let curSpotifyRadioVal = $("#spotify-radio").val();
-        return curSpotifyRadioVal;
+        return $("#spotify-radio").val();
     }
     else if ($("#mcm-radio").is(":checked")) {
         console.log("MCM will be searched");
-        let curMcmRadioVal = $("#mcm-radio").val();
-        return curMcmRadioVal;
+        return $("#mcm-radio").val();
     }
 
 }
@@ -276,13 +272,10 @@ function getSearchQueryMCM() {
 
 function displayMCMSearchResults(data) {
     console.log("MCM search RESULT: " + data);
-    console.log(data["firstName"]);
-    console.log(data["lastName"]);
     console.log(data["username"]);
-
     console.log("confirming update")
-    if (data["username"] == null) {
 
+    if (data["username"] == null) {
         let noUserFoundDisplay = `
         <div id="mcm-user-info" class="bg-coreback text-textback pb-4">
             <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">(No results)</h3>
@@ -291,7 +284,6 @@ function displayMCMSearchResults(data) {
         $(noUserFoundDisplay).appendTo("#search-query-display");
     }
     else {
-
         let userInfoDisplay = `
         <div id="mcm-user-info" class="bg-coreback text-textback">
             <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">User Info</h3>
