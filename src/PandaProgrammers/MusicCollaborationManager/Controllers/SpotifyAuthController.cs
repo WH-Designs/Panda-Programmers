@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicCollaborationManager.Services.Abstract;
@@ -21,19 +22,17 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<SearchResultsDTO> Search([Bind("SearchQuery")] SearchDTO searchDTO)
+        public async Task<SearchResultsDTO> Search([Bind("SearchQuery", "CheckedItems")] SearchDTO searchDTO)
         {
             string query = searchDTO.SearchQuery;
+            Dictionary<String, Boolean> types = searchDTO.CheckedItems;
 
             try {
                 SearchResponse search = await _spotifyService.GetSearchResultsAsync(query);
                 SearchResultsDTO results = new SearchResultsDTO();
-
-                results.AlbumsItems = search.Albums.Items;
-                results.ArtistsItems = search.Artists.Items;
-                results.PlaylistsItems = search.Playlists.Items;
-                results.TracksItems = search.Tracks.Items;
                 
+                results.Filter(searchDTO, search);
+
                 return results;
             } catch(Exception) {
                 SearchResultsDTO emptyResults = new SearchResultsDTO();
