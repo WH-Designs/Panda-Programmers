@@ -7,21 +7,40 @@ $(function () {
         $('#search-row').text("");
         $('#search-query-display').text("");
         $(`#search-headers`).text("");
-        let search = getSearchQuery();
-        console.log("Search: " + JSON.stringify(search));
-        if (search.status) {
-            $.ajax({
-				method: "POST",
-				url: "/api/spotifyauth/search",
-				dataType: "json",					
-				contentType: "application/json; charset=UTF-8",
-				data: JSON.stringify(search),
-                success: displaySearchResults,
-				error: errorOnAjax
-			});
+
+
+        const spotifyOrMcm = checkIfMcmOrSpotifySearch();
+        if (spotifyOrMcm == "spotify") {
+
+            let search = getSearchQuery();
+            console.log("Search: " + JSON.stringify(search));
+            if (search.status) {
+                $.ajax({
+                    method: "POST",
+                    url: "/api/spotifyauth/search",
+                    dataType: "json",
+                    contentType: "application/json; charset=UTF-8",
+                    data: JSON.stringify(search),
+                    success: displaySearchResults,
+                    error: errorOnAjax
+                });
+            }
+            else {
+                console.log("Error on search status: " + search.status);
+            }
         }
-        else {
-            console.log("Error on search status: " + search.status);
+        else if (spotifyOrMcm == "mcm") {
+            //IF TIME, disable Spotify fileter input fields (and also add a mechanism for re-enabling them).
+            console.log("MCM SEARCH SUCCESSFUL")
+            $.ajax({
+                method: "POST",
+                url: "/api/spotifyauth/search",
+                dataType: "json",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(search),
+                success: displaySearchResults,
+                error: errorOnAjax
+            });
         }
     })
 });
@@ -196,6 +215,8 @@ function getSearchQuery() {
     const searchQuery = document.getElementById("spotify-search");
     const searchForm = document.getElementById("search-form"); 
     const checkedList = getCheckedFilters();
+
+
     $("#search-query-display").append(`<p>Showing results for: ${searchQuery.value}</p>`);
     
     if (!searchForm.checkValidity()){
@@ -208,4 +229,19 @@ function getSearchQuery() {
         SearchQuery: searchQuery.value,
         CheckedItems: checkedList
     }
+}
+
+function checkIfMcmOrSpotifySearch() {
+
+    if ($("#spotify-radio").is(":checked")) {
+        console.log("Spotify will be searched");
+        let curSpotifyRadioVal = $("#spotify-radio").val();
+        return curSpotifyRadioVal;
+    }
+    else if ($("#mcm-radio").is(":checked")) {
+        console.log("MCM will be searched");
+        let curMcmRadioVal = $("#mcm-radio").val();
+        return curMcmRadioVal;
+    }
+
 }
