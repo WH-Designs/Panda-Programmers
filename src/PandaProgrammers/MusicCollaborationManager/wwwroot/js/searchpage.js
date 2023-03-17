@@ -280,24 +280,37 @@ function displayMCMSearchResults(data) {
     console.log(data["lastName"]);
     console.log(data["username"]);
 
-    let content = `<div id="mcm-user-info" class="bg-coreback text-textback">
-        <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">User Info</h3>
+    console.log("confirming update")
+    if (data["username"] == null) {
+
+        let noUserFoundDisplay = `
+        <div id="mcm-user-info" class="bg-coreback text-textback pb-4">
+            <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">(No results)</h3>
+        </div>`;
+
+        $(noUserFoundDisplay).appendTo("#search-query-display");
+    }
+    else {
+
+        let userInfoDisplay = `
+        <div id="mcm-user-info" class="bg-coreback text-textback">
+            <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">User Info</h3>
 
 
-         <div class="table-row-group">
-            <div class="table-row"> 
-                 <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Full name:</div>
-                <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${data["firstName"]} ${data["lastName"]}</div>
-            </div>
+             <div class="table-row-group">
+                <div class="table-row"> 
+                     <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Full name:</div>
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${data["firstName"]} ${data["lastName"]}</div>
+                </div>
 
-            <div class="table-row">
-                <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Username:</div>
-                <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${data["username"]}</div>
-            </div>
-         </div>
-    </div>`;
+                <div class="table-row">
+                    <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Username:</div>
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${data["username"]}</div>
+                </div>
+             </div>
+        </div>`;
 
-    $(content).appendTo("#search-query-display")
-
+        $(userInfoDisplay).appendTo("#search-query-display")
+    }
 
 }
