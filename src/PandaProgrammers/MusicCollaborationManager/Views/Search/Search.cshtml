@@ -8,7 +8,6 @@
 <div class="flex ml-64 mt-36">
     <form id='search-form' class='grid grid-cols-3 gap-1'>   
         <div class=''>
-          <label id='listLabel'>Filters</label>
           <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="listLabel">
             <li>
               <div class="flex items-center p-2 rounded hover:bg-gray-100">
@@ -44,6 +43,13 @@
         </div>
 
         <div class=''>
+            <div class="bg-coreback text-textback">  <!--RADIO INPUT SECTION-->
+                <label for="spotify-radio">Spotify</label>
+                <input id="spotify-radio" type="radio" name="mcm-or-spotify-scope" value="spotify" checked/>
+
+                <label for="mcm-radio">MCM</label>
+                <input id="mcm-radio" type="radio" name="mcm-or-spotify-scope" value="mcm" />
+            </div>
           <label for="spotify-search" class="mb-2 text-sm font-medium text-textback classicpanda:text-whitetext sr-only">Search</label>
           <div class="relative">
               <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
