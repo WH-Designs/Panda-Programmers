@@ -190,7 +190,8 @@ function displaySearchResults(data) {
 
 function getSearchQuery() {
     const searchQuery = document.getElementById("spotify-search");
-    const searchForm = document.getElementById("search-form");
+    const searchForm = document.getElementById("search-form"); 
+    // get the checked items and put them in a list
     $("#search-query-display").append(`<p>Showing results for: ${searchQuery.value}</p>`);
     
     if (!searchForm.checkValidity()){

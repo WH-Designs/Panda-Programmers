@@ -24,6 +24,8 @@ namespace MusicCollaborationManager.Controllers
         public async Task<SearchResultsDTO> Search([Bind("SearchQuery")] SearchDTO searchDTO)
         {
             string query = searchDTO.SearchQuery;
+            
+            // send back a list of checked items in the filters and adjust what is sent back accordingly
 
             try {
                 SearchResponse search = await _spotifyService.GetSearchResultsAsync(query);
