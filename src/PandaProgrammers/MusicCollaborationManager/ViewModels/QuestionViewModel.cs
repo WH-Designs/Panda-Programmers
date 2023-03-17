@@ -35,6 +35,8 @@ namespace MusicCollaborationManager.ViewModels
         public double valence { get; set; }
         [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
         public string coverImageInput { get; set; }
+        [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
+        public string descriptionInput { get; set; }
 
         public QuestionViewModel SeedGenres(QuestionViewModel vm ,Task<RecommendationGenresResponse> recommendation)
         {

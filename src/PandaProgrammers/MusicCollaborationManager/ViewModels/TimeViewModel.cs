@@ -21,6 +21,7 @@ namespace MusicCollaborationManager.ViewModels
 
         [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
         public string coverImageInput { get; set; }
-
+        [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
+        public string descriptionInput { get; set; }
     }
 }
