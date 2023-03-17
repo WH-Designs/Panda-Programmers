@@ -30,15 +30,19 @@ $(function () {
             }
         }
         else if (spotifyOrMcm == "mcm") {
+            let mcmSearch = $("#spotify-search").val();
+
+
+            console.log("(MCM) You entered: " + mcmSearch);
+            console.log("entry type: " + typeof mcmSearch)
             //IF TIME, disable Spotify fileter input fields (and also add a mechanism for re-enabling them).
-            console.log("MCM SEARCH SUCCESSFUL")
+            console.log("MCM SEARCH selected, REALLY");
             $.ajax({
-                method: "POST",
-                url: "/api/spotifyauth/search",
+                method: "GET",
+                url: "/api/listenerinfo/basicuserinfo/" + mcmSearch,
                 dataType: "json",
                 contentType: "application/json; charset=UTF-8",
-                data: JSON.stringify(search),
-                success: displaySearchResults,
+                success: displayMCMSearchResults,
                 error: errorOnAjax
             });
         }
@@ -231,6 +235,8 @@ function getSearchQuery() {
     }
 }
 
+//MCM exclusive functions (below)-------------
+
 function checkIfMcmOrSpotifySearch() {
 
     if ($("#spotify-radio").is(":checked")) {
@@ -244,4 +250,11 @@ function checkIfMcmOrSpotifySearch() {
         return curMcmRadioVal;
     }
 
+}
+
+function displayMCMSearchResults(data) {
+    console.log("MCM search RESULT: " + data);
+    console.log(data["firstName"]);
+    console.log(data["lastName"]);
+    console.log(data["username"]);
 }
