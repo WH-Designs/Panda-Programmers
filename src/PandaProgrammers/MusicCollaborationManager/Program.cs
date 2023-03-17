@@ -26,6 +26,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using static SpotifyAPI.Web.Scopes;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using OpenAI.Net;
+
 /*using WebPWrecover.Services;*/
 
 namespace MCM;
@@ -41,6 +43,7 @@ public class Program
         string redirectUri = builder.Configuration["RedirectUri"];
         string deepAiKey = builder.Configuration["DeepAiKey"];
         string sendGridKey = builder.Configuration["SendGridKey"];
+        string openAiKey = builder.Configuration["OpenAiKey"];
 
         builder.Services.AddControllersWithViews();
         var MCMconnectionString = builder.Configuration.GetConnectionString("MCMConnection");
@@ -81,6 +84,13 @@ public class Program
 
         builder.Services.AddTransient<IEmailSender, EmailSender>();
         builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+
+        builder.Services.AddOpenAIServices(options =>
+        {
+            options.ApiKey = openAiKey;
+        });
+
+        builder.Services.AddScoped<IMCMOpenAiService,  MCMOpenAiService>();
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
