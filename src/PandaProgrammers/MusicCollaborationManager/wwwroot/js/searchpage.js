@@ -8,6 +8,9 @@ $(function () {
         $('#search-query-display').text("");
         $(`#search-headers`).text("");
 
+        $("#mcm-user-info").empty();
+        $("#mcm-user-info").remove();
+
 
         const spotifyOrMcm = checkIfMcmOrSpotifySearch();
         if (spotifyOrMcm == "spotify") {
@@ -30,21 +33,25 @@ $(function () {
             }
         }
         else if (spotifyOrMcm == "mcm") {
-            let mcmSearch = $("#spotify-search").val();
-
-
+            let mcmSearch = getSearchQueryMCM();
             console.log("(MCM) You entered: " + mcmSearch);
-            console.log("entry type: " + typeof mcmSearch)
             //IF TIME, disable Spotify fileter input fields (and also add a mechanism for re-enabling them).
-            console.log("MCM SEARCH selected, REALLY");
-            $.ajax({
-                method: "GET",
-                url: "/api/listenerinfo/basicuserinfo/" + mcmSearch,
-                dataType: "json",
-                contentType: "application/json; charset=UTF-8",
-                success: displayMCMSearchResults,
-                error: errorOnAjax
-            });
+            console.log("MCM SEARCH selected");
+            if (mcmSearch.status == true) {
+
+
+                $.ajax({
+                    method: "GET",
+                    url: "/api/listenerinfo/basicuserinfo/" + mcmSearch.SearchQuery,
+                    dataType: "json",
+                    contentType: "application/json; charset=UTF-8",
+                    success: displayMCMSearchResults,
+                    error: errorOnAjax
+                });
+            }
+            else {
+                console.log("INPUT IS REQUIRED (WAS EMPTY) [MCM search.]");
+            }
         }
     })
 });
@@ -252,9 +259,45 @@ function checkIfMcmOrSpotifySearch() {
 
 }
 
+function getSearchQueryMCM() {
+    const searchQuery = document.getElementById("spotify-search");
+    const searchForm = document.getElementById("search-form"); 
+    if (!searchForm.checkValidity()) {
+        return { status: false };
+    }
+    else {
+        return {
+            status: true,
+            SearchQuery: searchQuery.value
+        };
+    }
+}
+
+
 function displayMCMSearchResults(data) {
     console.log("MCM search RESULT: " + data);
     console.log(data["firstName"]);
     console.log(data["lastName"]);
     console.log(data["username"]);
+
+    let content = `<div id="mcm-user-info" class="bg-coreback text-textback">
+        <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">User Info</h3>
+
+
+         <div class="table-row-group">
+            <div class="table-row"> 
+                 <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Full name:</div>
+                <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${data["firstName"]} ${data["lastName"]}</div>
+            </div>
+
+            <div class="table-row">
+                <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Username:</div>
+                <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${data["username"]}</div>
+            </div>
+         </div>
+    </div>`;
+
+    $(content).appendTo("#search-query-display")
+
+
 }
