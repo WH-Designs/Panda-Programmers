@@ -7,21 +7,49 @@ $(function () {
         $('#search-row').text("");
         $('#search-query-display').text("");
         $(`#search-headers`).text("");
-        let search = getSearchQuery();
-        console.log("Search: " + JSON.stringify(search));
-        if (search.status) {
-            $.ajax({
-				method: "POST",
-				url: "/api/spotifyauth/search",
-				dataType: "json",					
-				contentType: "application/json; charset=UTF-8",
-				data: JSON.stringify(search),
-                success: displaySearchResults,
-				error: errorOnAjax
-			});
+
+        $("#mcm-user-info").empty();
+        $("#mcm-user-info").remove();
+
+
+        const spotifyOrMcm = checkIfMcmOrSpotifySearch();
+        if (spotifyOrMcm == "spotify") {
+
+            let search = getSearchQuery();
+            console.log("Search: " + JSON.stringify(search));
+            if (search.status) {
+                $.ajax({
+                    method: "POST",
+                    url: "/api/spotifyauth/search",
+                    dataType: "json",
+                    contentType: "application/json; charset=UTF-8",
+                    data: JSON.stringify(search),
+                    success: displaySearchResults,
+                    error: errorOnAjax
+                });
+            }
+            else {
+                console.log("Error on search status: " + search.status);
+            }
         }
-        else {
-            console.log("Error on search status: " + search.status);
+        else if (spotifyOrMcm == "mcm") {
+
+            let mcmSearch = getSearchQueryMCM();
+            console.log("(MCM search) You entered: " + mcmSearch);
+
+            if (mcmSearch.status == true) {
+                $.ajax({
+                    method: "GET",
+                    url: "/api/listenerinfo/basicuserinfo/" + mcmSearch.SearchQuery,
+                    dataType: "json",
+                    contentType: "application/json; charset=UTF-8",
+                    success: displayMCMSearchResults,
+                    error: errorOnAjax
+                });
+            }
+            else {
+                console.log("(MCM Search) INPUT IS REQUIRED!");
+            }
         }
     })
 });
@@ -196,6 +224,8 @@ function getSearchQuery() {
     const searchQuery = document.getElementById("spotify-search");
     const searchForm = document.getElementById("search-form"); 
     const checkedList = getCheckedFilters();
+
+
     $("#search-query-display").append(`<p>Showing results for: ${searchQuery.value}</p>`);
     
     if (!searchForm.checkValidity()){
@@ -208,4 +238,71 @@ function getSearchQuery() {
         SearchQuery: searchQuery.value,
         CheckedItems: checkedList
     }
+}
+
+//MCM exclusive functions (below)-------------
+
+function checkIfMcmOrSpotifySearch() {
+
+    if ($("#spotify-radio").is(":checked")) {
+        console.log("Spotify will be searched");
+        return $("#spotify-radio").val();
+    }
+    else if ($("#mcm-radio").is(":checked")) {
+        console.log("MCM will be searched");
+        return $("#mcm-radio").val();
+    }
+
+}
+
+function getSearchQueryMCM() {
+    const searchQuery = document.getElementById("spotify-search");
+    const searchForm = document.getElementById("search-form"); 
+    if (!searchForm.checkValidity()) {
+        return { status: false };
+    }
+    else {
+        return {
+            status: true,
+            SearchQuery: searchQuery.value
+        };
+    }
+}
+
+
+function displayMCMSearchResults(data) {
+    console.log("MCM search RESULT: " + data);
+    console.log(data["username"]);
+    console.log("confirming update")
+
+    if (data["username"] == null) {
+        let noUserFoundDisplay = `
+        <div id="mcm-user-info" class="bg-coreback text-textback pb-4">
+            <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">(No results)</h3>
+        </div>`;
+
+        $(noUserFoundDisplay).appendTo("#search-query-display");
+    }
+    else {
+        let userInfoDisplay = `
+        <div id="mcm-user-info" class="bg-coreback text-textback">
+            <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">User Info</h3>
+
+
+             <div class="table-row-group">
+                <div class="table-row"> 
+                     <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Full name:</div>
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${data["firstName"]} ${data["lastName"]}</div>
+                </div>
+
+                <div class="table-row">
+                    <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Username:</div>
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${data["username"]}</div>
+                </div>
+             </div>
+        </div>`;
+
+        $(userInfoDisplay).appendTo("#search-query-display")
+    }
+
 }
