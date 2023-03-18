@@ -3,15 +3,7 @@ $(function () {
         type: "GET",
         dataType: "json",
         url: "/api/spotifyauth/authuser",
-        success: getAuthUser,
-        error: errorOnAjax
-    });
-
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/api/spotifyauth/authtoptracks",
-        success: getAuthTopTracks,
+        success: GetAuthUserAsync,
         error: errorOnAjax
     });
 
@@ -19,25 +11,10 @@ $(function () {
         type: "GET",
         dataType: "json",
         url: "/api/spotifyauth/authtopartists",
-        success: getAuthTopArtists,
+        success: TopArtistDomManip,
         error: errorOnAjax
     });
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/api/SpotifyAuth/authplaylists",
-        success: getRecomPlaylists,
-        error: errorOnAjax
-    });
-
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/api/SpotifyAuth/authpersonalplaylists",
-        success: getPersonalPlaylists,
-        error: errorOnAjax
-    });
 });
 
 
@@ -45,31 +22,28 @@ function errorOnAjax() {
     console.log("ERROR in ajax request");
 }
 
-function getAuthUser(data)
+function GetAuthUserAsync(data)
 {
     // console.log(data);
     let htmlDisplayName = `<h1 class="flex flex-col items-center justify-center h-screen w-screen">${data["displayName"]}</h1> `
     $("#display-name-div").append(htmlDisplayName);
 }
 
-function getAuthTopTracks(data)
-{
-    // console.log(data);
 
-    $.each(data, function (index, item) {
-        let trackName = `<a href="${item["externalUrls"]["spotify"]}">${item["name"]}</a>`;
-        let artistName = `<p>${item["artists"][0]["name"]}</p>`;
-        let trackImage = `<img src="${item["album"]["images"][1]["url"]}">`;
-
-        $(trackImage).appendTo(`#user-track-${index}-container`);
-        $(trackName).appendTo(`#user-track-${index}-container`);
-        $(artistName).appendTo(`#user-track-${index}-container`);
-    });
+function TopArtistDomManip(data) {
+    var keys = GetAuthTopArtistsAsync(data);
+    
+    let count = 0;
+    for (let i = keys.length - 1; i >= 0; i--) {
+        let currentGenre = `<p>${keys[i]}</p>`;
+        $(currentGenre).appendTo(`#user-genre-${count}-container`);  
+        count = count + 1;  
+    } 
 }
 
-
-function getAuthTopArtists(data) 
+function GetAuthTopArtistsAsync(data) 
 {
+    console.log(data);
     let genreList = [];
     const genreDict = {};
 
@@ -83,36 +57,72 @@ function getAuthTopArtists(data)
     var keys = items.map((e) => { return e[0] });
 
     // sorting dictionary method^ found here: https://www.educative.io/answers/how-can-we-sort-a-dictionary-by-value-in-javascript
-
-    let count = 0;
-    for (let i = keys.length - 1; i >= 0; i--) {
-        let currentGenre = `<p>${keys[i]}</p>`;
-        $(currentGenre).appendTo(`#user-genre-${count}-container`);  
-        count = count + 1;  
-    }   
+    console.log(keys);
+    return keys;
 }
 
 
-function getRecomPlaylists(data) {
+//Managning extra items (below)---------------
 
-    $.each(data, function (index, item) {
+let extraRecomTracksVisible = false;
 
-        let playlistImage = `<img src="${item["playlistImageURL"]}">`;
-        $(playlistImage).appendTo(`#user-playlist-${index}-container`);
+$("#toggle-recom-tracks-btn").click(function () {
 
-        let playlistName = `<a href="${item["spotifyToPlaylist"]}">${item["playlistName"]}</a>`;
-        $(playlistName).appendTo(`#user-playlist-${index}-container`);
+    if (extraRecomTracksVisible) {
+        $(".extra-recom-tracks").removeClass("hidden");
+        $("#toggle-recom-tracks-btn").text("Show more");
+        extraRecomTracksVisible = false;
+        $("#link-to-spotify-recom-tracks").remove();
 
-    });
-}
+        $("#link-to-spotify-recom-tracks").removeClass("hidden");
+    }
+    else {
+        $("#toggle-recom-tracks-btn").text("Show less");
+        extraRecomTracksVisible = true;
+    }
 
-function getPersonalPlaylists(data) {
-    console.log(data);
-    $.each(data, function(index, item) {
-        let playlistImage = `<img src="${item["playlistImageURL"]}">`;
-        $(playlistImage).appendTo(`#user-personal-playlist-${index}-container`);
+    $("#link-to-spotify-recom-tracks").toggle();
+    $(".extra-recom-tracks").toggle();
+});
 
-        let playlistName = `<a href="${item["spotifyToPlaylist"]}">${item["playlistName"]}</a>`;
-        $(playlistName).appendTo(`#user-personal-playlist-${index}-container`);
-    });
-}
+let extraFeatPlaylistsVisible = false;
+
+$("#toggle-feat-playlists-btn").click(function () {
+    console.log("Feat playlist btn CLICKED")
+    if (extraFeatPlaylistsVisible) {
+        $(".extra-feat-playlists").removeClass("hidden");
+        $("#toggle-feat-playlists-btn").text("Show more");
+        extraFeatPlaylistsVisible = false;
+        $("#link-to-spotify-feat-playlists").removeClass("hidden");
+    }
+    else {
+        $("#toggle-feat-playlists-btn").text("Show less");
+        extraFeatPlaylistsVisible = true;
+    }
+
+    $("#link-to-spotify-feat-playlists").toggle();
+    $(".extra-feat-playlists").toggle();
+});
+
+
+let extraUserPlaylistsVisible = false;
+$("#toggle-user-playlists-btn").click(function () {
+
+    if (extraUserPlaylistsVisible) {
+        $(".extra-user-playlists").removeClass("hidden");
+        $("#toggle-user-playlists-btn").text("Show more");
+        extraUserPlaylistsVisible = false;
+
+        $("#link-to-spotify-user-playlists").removeClass("hidden");
+
+    }
+    else {
+        $("#toggle-user-playlists-btn").text("Show less");
+        extraUserPlaylistsVisible = true;
+    }
+
+    $("#link-to-spotify-user-playlists").toggle();
+    $(".extra-user-playlists").toggle();
+
+});
+
