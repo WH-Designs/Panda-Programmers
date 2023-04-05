@@ -22,24 +22,35 @@
                     @{int trackIndex = 0;
                         foreach(var track in Model.fullResult)
                     {
-                        <div class="w-fit overflow-hidden mt-4">
+                        <div class="w-fit overflow-hidden mt-4" id="song-preview-@trackIndex">
                             <img src="@track.Album.Images[0].Url" />
-                                <h2 class="text-textback classicpanda:text-whitetext">Track Name: @track.Name</h2>
-                                <h2 class="text-textback classicpanda:text-whitetext">Album Name: @track.Album.Name</h2>
+                                <h2 class="text-textback classicpanda:text-whitetext" id="entry-track-name-@trackIndex">Track Name: @track.Name</h2>
+                                <h2 class="text-textback classicpanda:text-whitetext" id="entry-album-name-@trackIndex">Album Name: @track.Album.Name</h2>
                             <div class="flex flex-row">
-                                    <i class="text-white playable-item fa-solid fa-circle-play" id="track-@trackIndex" data-spotify-id="@track.Uri"></i>
+                                <i class="text-white playable-item fa-solid fa-circle-play" id="track-@trackIndex" data-spotify-id="@track.Uri"></i>
                             </div>
+                            <button id="remove-@trackIndex-btn" class="remove-track-btn">Remove track</button>
                         </div>
                             trackIndex++;
                         }
                     }
+                </div>
+
+                <div class="table bg-secondaryback classicpanda:bg-coreback my-3 p-3 min-w-full">
+                    <div class="table-header-group">
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-2xl p-2">Track</div>
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-2xl p-2">Album</div>
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-2xl p-2"></div> <!--Column for "add" btn.-->
+                    </div>
+                    <div class="table-row-group" id="removed-tracks-table-body">
+                    </div>
                 </div>
                
                 <form class="bg-secondaryback classicpanda:bg-coreback flex flex-row gap-x-3.5" id="playlist-form">
                     @{
                         for (int i = 0; i < Model.fullResult.Count; i++)
                         {
-                            <input value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="newTrackUris[@i]"/>
+                            <input id="track-@i-input" value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="newTrackUris[@i]"/>
                         }
                     }
                     <button class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600" type="button" id="save-playlist-btn">Save playlist</button>
@@ -48,8 +59,29 @@
                 
             </div>
         </div>
+
+
+        
     </div>
+
+
 </div>
+
+
+@* <table class="table-auto">
+  <thead>
+    <tr>
+      <th>Track</th>
+      <th>Artist</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="removed-tracks-table-body">
+
+  </tbody>
+</table> *@
+
+
 <div class="-z-50" style="width: 0; height: 0; border: 0; border: none; position: absolute;">
     <div id="embed-iframe" style=""></div>
 </div>

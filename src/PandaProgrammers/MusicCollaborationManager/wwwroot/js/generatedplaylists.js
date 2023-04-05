@@ -11,12 +11,20 @@ function getFormData($form) {
     return indexed_array;
 }
 
+/*
+    <tr>
+      <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
+      <td>Malcolm Lockyer</td>
+      <td>1961</td>
+    </tr>
+ */
+
 
 $("#save-playlist-btn").click(function () {
 
     var $form = $("#playlist-form");
     var actualData = getFormData($form);
-/*    console.log(actualData)*/
+    console.log("'Actual data': " + actualData)
 
     console.log("LAST ENTRY: " + actualData["__RequestVerificationToken"]);
     delete actualData["__RequestVerificationToken"];
@@ -24,8 +32,9 @@ $("#save-playlist-btn").click(function () {
     let dataAsArray = [];
     $.each(actualData, function (index, item) {
         dataAsArray.push(item);
+        console.log(`Item ${index}, Item: ${item}`)
     });
-    console.log(dataAsArray);
+    console.log("Form input: " + dataAsArray);
 
     $.ajax({
         method: "POST",
@@ -36,6 +45,39 @@ $("#save-playlist-btn").click(function () {
         success: savePlaylist,
         error: errorOnAjax
     });
+
+});
+
+$(".remove-track-btn").click(function(){
+    //index 7 should contain the id number.
+    let removedTrack = $(this).attr('id')
+    console.log("ID of track removed: " + removedTrack)
+    console.log("Track removed (ID num only): " + removedTrack.substring(7,8))
+
+    //"track-@i-input"
+    let removedTrackIndex = removedTrack.substring(7,8);
+
+    let entryToRemoveTrackName = $(`#entry-track-name-${removedTrackIndex}`).text();
+    let entryToRemoveAlbumName = $(`#entry-album-name-${removedTrackIndex}`).text();
+    // let removedTrackEntry = `
+    // <tr>
+    //     <td>${entryToRemoveTrackName}</td>
+    //     <td>${entryToRemoveAlbumName}</td>
+    //     <td></td>
+    // </tr>   
+    // `;
+
+    let removedTrackEntry = `
+    <div class="table-row">
+        <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${entryToRemoveTrackName}</div>
+        <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${entryToRemoveAlbumName}</div>
+        <button class="text-textback classicpanda:text-whitetext text-1xl p-3" id="re-add-entry-${removedTrackIndex}">Add</button>
+    </div>
+    `
+
+    $("#removed-tracks-table-body").append(removedTrackEntry);
+    $(`#song-preview-${removedTrackIndex}`).hide();
+    $(`#track-${removedTrackIndex}-input`).remove();
 
 });
 
