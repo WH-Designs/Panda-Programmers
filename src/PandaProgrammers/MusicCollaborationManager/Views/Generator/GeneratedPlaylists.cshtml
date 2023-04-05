@@ -25,8 +25,8 @@
                         <div class="w-fit overflow-hidden mt-4" id="song-preview-@trackIndex">
                             <i id="remove-entry-icon-@trackIndex" class="fa-solid fa-x text-textback remove-track-btn"></i>
                             <img src="@track.Album.Images[0].Url" />
-                                <h2 class="text-textback classicpanda:text-whitetext" id="entry-track-name-@trackIndex">Track Name: @track.Name</h2>
-                                <h2 class="text-textback classicpanda:text-whitetext" id="entry-album-name-@trackIndex">Album Name: @track.Album.Name</h2>
+                                <h2 class="text-textback classicpanda:text-whitetext">Track Name: <span id="entry-track-name-@trackIndex">@track.Name</span></h2>
+                                <h2 class="text-textback classicpanda:text-whitetext">Album Name: <span id="entry-album-name-@trackIndex">@track.Album.Name</span></h2>
                             <div class="flex flex-row">
                                 <i class="text-white playable-item fa-solid fa-circle-play" id="track-@trackIndex" data-spotify-id="@track.Uri"></i>
                             </div>

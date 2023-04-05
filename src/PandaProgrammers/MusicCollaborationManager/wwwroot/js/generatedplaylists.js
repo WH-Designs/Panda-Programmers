@@ -49,20 +49,22 @@ $("#save-playlist-btn").click(function () {
 });
 
 $(".remove-track-btn").click(function(){
-    let removedTrack = $(this).attr('id')
-    console.log("ID of track removed: " + removedTrack)
+    let trackToRemoveId = $(this).attr('id')
+    console.log("ID of track removed: " + trackToRemoveId)
 
-    let removedTrackIndex = removedTrack.substring(18);
+    let removedTrackIndex = trackToRemoveId.substring(18);
     console.log("Track removed (ID num only): " + removedTrackIndex);
 
-    let entryToRemoveTrackName = $(`#entry-track-name-${removedTrackIndex}`).text().substring(18);
-    let entryToRemoveAlbumName = $(`#entry-album-name-${removedTrackIndex}`).text().substring(18);
+    let entryToRemoveTrackName = $(`#entry-track-name-${removedTrackIndex}`).text();
+    let entryToRemoveAlbumName = $(`#entry-album-name-${removedTrackIndex}`).text();
+
+    console.log(`Removed ENTRY \n Track: ${entryToRemoveTrackName} \n Album: ${entryToRemoveAlbumName}`)
 
     let removedTrackEntry = `
     <div class="table-row">
-        <div class="table-cell text-textback classicpanda:text-whitetext p-3">${entryToRemoveTrackName}</div>
-        <div class="table-cell text-textback classicpanda:text-whitetext p-3">${entryToRemoveAlbumName}</div>
-        <button class="cursor-pointer text-textback classicpanda:text-whitetext font-bold p-3" id="re-add-entry-${removedTrackIndex}">Add</button>
+        <div class="table-cell text-textback classicpanda:text-whitetext p-3 overflow-x-scroll">${entryToRemoveTrackName}</div>
+        <div class="table-cell text-textback classicpanda:text-whitetext p-3 overflow-x-scroll">${entryToRemoveAlbumName}</div>
+        <button class="cursor-pointer text-textback classicpanda:text-whitetext font-bold p-3 re-add-entry" id="re-add-entry-${removedTrackIndex}">Add</button>
     </div>
     `
 
@@ -70,6 +72,11 @@ $(".remove-track-btn").click(function(){
     $(`#song-preview-${removedTrackIndex}`).hide();
     $(`#track-${removedTrackIndex}-input`).remove();
 
+});
+
+$(".re-add-entry").click(function(){
+    let trackToAddId = $(this).attr('id');
+    
 });
 
 function redirectToGenIndex() {
