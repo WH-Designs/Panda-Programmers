@@ -3,41 +3,46 @@
 <div class="mt-36 grid ml-50 md:ml-0 md:grid-cols-5 md:w-screen gap-5">
     <div class="xl:col-span-1"></div> @*Div to help grid span page correctly using grids*@
     <div class="lg:col-span-1">
-        <div class="bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
-            <h1 class="font-bold text-4xl text-white p-1">Questionnaire Generator</h1>
-            <p class="text-white text-2x">With this generator you will be able to fill out a short questionnaire about songs and then get back a playlist of songs that fit your desired input.
-                If you like the playlist that is returned, then you will have the option to save it to your own Spotify account!
+        <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+            <h1 class="font-bold text-4xl text-textback classicpanda:text-whitetext p-1 luxury:text-yellow-500 autumn:text-white revolution:text-white">Questionnaire Generator</h1>
+            <p class="text-textback classicpanda:text-whitetext text-2x">With this generator you will be able to fill out a short questionnaire about songs and then get back a playlist of songs that fit your desired input.
+                If you like the playlist that is returned, then you will have the option to save it to your own Spotify account! 
             </p>
             <br />
             <a asp-controller="Generator" asp-action="Questionaire"
-               class="text-white font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600">Try it out</a>
+               class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600">Try it out</a>
             <br />
         </div>
     </div>
     <div class="lg:col-span-1">
-        <div class="bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
-            <h1 class="font-bold text-4xl text-white p-1">Mood Generator</h1>
-            <p class="text-white text-2x">With this generatro you will be able to select a mood and get a playlist of songs that fit that mood.
+        <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+            <h1 class="font-bold text-4xl text-textback classicpanda:text-whitetext p-1 luxury:text-yellow-500 autumn:text-white revolution:text-white">Mood Generator</h1>
+            <p class="text-textback classicpanda:text-whitetext text-2x">With this generator you will be able to select a mood and get a playlist of songs that fit that mood.
                 If you like the playlist that is returned, then you will have the option to save it to your own Spotify account!
             </p>
             <br />
             <a asp-controller="Generator" asp-action="Mood"
-               class="text-white font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600">Try it out</a>
+               class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600">Try it out</a>
             <br />
         </div>
     </div>
     <div class="lg:col-span-1">
-        <div class="bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
-            <h1 class="font-bold text-4xl text-white p-1">Time Generator</h1>
-            <p class="text-white text-2x">With this generator you will be able to get a playlist of songs based on the time of day and day of the week.
+        <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+            <h1 class="font-bold text-4xl text-textback classicpanda:text-whitetext p-1 luxury:text-yellow-500 autumn:text-white revolution:text-white">Time Generator</h1>
+            <p class="text-textback classicpanda:text-whitetext text-2x">With this generator you will be able to get a playlist of songs based on the time of day and day of the week.
                 If you like the playlist that is returned, then you will have the option to save it to your own Spotify account!
             </p>
             <br />
             <a asp-controller="Generator" asp-action="Time"
-               class="text-white font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600">Try it out</a>
+               class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600">Try it out</a>
             <br />
         </div>
     </div>
     <div class="xl:col-span-1"></div> @*Div to help grid span page correctly using grids*@
 </div>
+
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/colorchanger.js"></script>
+}
 

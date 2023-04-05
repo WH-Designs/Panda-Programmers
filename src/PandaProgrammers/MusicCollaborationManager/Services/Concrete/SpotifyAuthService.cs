@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authentication;
 using System.Diagnostics;
 using MusicCollaborationManager.Models.DTO;
 using MusicCollaborationManager.Models;
+using System;
+using MusicCollaborationManager.Utilities;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -28,7 +31,7 @@ namespace MusicCollaborationManager.Services.Concrete
             authUser = new AuthorizedUserDTO();
         }
 
-        public string GetUri(){
+        public string GetUriAsync(){
             var loginRequest = new LoginRequest(
             new Uri(Uri), ClientId, LoginRequest.ResponseType.Code)
             {
@@ -40,7 +43,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return uri.AbsoluteUri;
         }
 
-        public async Task<Listener> GetCallback(string code, Listener listener)
+        public async Task<Listener> GetCallbackAsync(string code, Listener listener)
         {
             Uri uri = new Uri(Uri);
             
@@ -79,37 +82,25 @@ namespace MusicCollaborationManager.Services.Concrete
             }
         }
 
-        public async Task<PrivateUser> GetAuthUser()
+        public async Task<PrivateUser> GetAuthUserAsync()
         {
             authUser.Me = await Spotify.UserProfile.Current();
             return authUser.Me;
         }
 
-        public async Task<List<FullTrack>> GetAuthUserTopTracks()
+        public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery) 
         {
-            var topTracks = await Spotify.Personalization.GetTopTracks();   
-            var topTracksList = topTracks.Items;
+            SearchRequest.Types types = SearchRequest.Types.All;
 
-            if (topTracksList.Count == 0) {
-                List<string> trackIDs = new List<string>();
+            SearchRequest request = new SearchRequest(types, searchQuery);
+            SearchResponse response = await Spotify.Search.Item(request);
 
-                trackIDs.Add("4cktbXiXOapiLBMprHFErI");
-                trackIDs.Add("6KBYk8OFtod7brGuZ3Y67q");
-                trackIDs.Add("2iuZJX9X9P0GKaE93xcPjk");
-                trackIDs.Add("5zFglKYiknIxks8geR8rcL");
-                trackIDs.Add("0tuyEYTaqLxE41yGHSsXjy");
-                
-                TracksRequest trackReq = new TracksRequest(trackIDs);
-
-                var topGenTracks = await Spotify.Tracks.GetSeveral(trackReq);
-                var returnTracks = topGenTracks.Tracks.ToList();
-                return returnTracks;
-            }
-
-            return topTracksList;
+            return response;
         }
 
-        public async Task<List<FullArtist>> GetAuthTopArtists()
+
+
+        public async Task<List<FullArtist>> GetAuthTopArtistsAsync()
         {
             var topArtists = await Spotify.Personalization.GetTopArtists();
             List<FullArtist> returnArtists = topArtists.Items;
@@ -132,105 +123,72 @@ namespace MusicCollaborationManager.Services.Concrete
             return returnArtists;
         }
 
-        public async Task<FeaturedPlaylistsResponse> GetAuthFeatPlaylists()
-        {
-            PrivateUser CurUser = await Spotify.UserProfile.Current();
-            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
-            {
-                Limit = 5,
-                Country = CurUser.Country,
-            };
-
-            if (CurUser.Country == "US")
-                RequestParameters.Limit = 10;
-
-            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
-            
-            if (CurUser.Country == "US") 
-                FeaturedPlaylists.Playlists.Items.Reverse();
-
-            return FeaturedPlaylists;
-        }
-
-        public async Task<List<SimplePlaylist>> GetAuthPersonalPlaylists()
-        {
-            List<SimplePlaylist> PersonalPlaylists = new List<SimplePlaylist>();
-
-            PlaylistCurrentUsersRequest RequestParameters = new PlaylistCurrentUsersRequest
-            {
-                Limit = 5
-            };
-
-            var currentUsersPlaylists = await Spotify.Playlists.CurrentUsers(RequestParameters);
-            PersonalPlaylists = currentUsersPlaylists.Items;
-        
-            return PersonalPlaylists;
-        }
-        public async Task<RecommendationGenresResponse> GetSeedGenres()
+        public async Task<RecommendationGenresResponse> GetSeedGenresAsync()
         {
             var currentGenres = await Spotify.Browse.GetRecommendationGenres();
             return currentGenres;
         }
 
-        public async Task<List<SimplePlaylist>> GetFeatPlaylists()
-        {
-            PrivateUser CurUser = new PrivateUser();
-            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
-            {
-                Limit = 5,
-            };
-            try
-            {
-                CurUser = await Spotify.UserProfile.Current();
-                RequestParameters.Country = CurUser.Country;
-            }
-            catch (NullReferenceException e) 
-            {
-                RequestParameters.Country = "NA";
-            }
 
 
-            if (RequestParameters.Country == "US")
-                RequestParameters.Limit = 10;
-
-            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
-            if (FeaturedPlaylists == null) 
-            {
-                return null;
-            }
-
-            if (CurUser.Country == "US")
-                FeaturedPlaylists.Playlists.Items.Reverse();
-
-            return FeaturedPlaylists.Playlists.Items;
-        }
-
-
-   
-
-        public async Task<RecommendationsResponse> GetRecommendations(RecommendDTO recommendDTO)
+        public async Task<RecommendationsResponse> GetRecommendationsAsync(RecommendDTO recommendDTO)
         {
             RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
             recommendationsRequest.Market = recommendDTO.market;
             recommendationsRequest.Limit = recommendDTO.limit;
-            recommendationsRequest.SeedGenres.Add(recommendDTO.genre);
 
-            recommendationsRequest.Target.Add("acousticness", recommendDTO.target_acousticness.ToString());
-            recommendationsRequest.Target.Add("danceability", recommendDTO.target_danceability.ToString());
-            recommendationsRequest.Target.Add("energy", recommendDTO.target_energy.ToString());
-            recommendationsRequest.Target.Add("instrumentalness", recommendDTO.target_instrumentalness.ToString());
-            recommendationsRequest.Target.Add("liveness", recommendDTO.target_liveness.ToString());
-            recommendationsRequest.Target.Add("popularity", recommendDTO.target_popularity.ToString());
-            recommendationsRequest.Target.Add("speechiness", recommendDTO.target_speechiness.ToString());
-            recommendationsRequest.Target.Add("temp", recommendDTO.target_tempo.ToString());
-            recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
+            foreach(var artist in recommendDTO.seed)
+            {
+                recommendationsRequest.SeedTracks.Add(artist);
+                if(recommendationsRequest.SeedTracks.Count >= 5) {break; }
+            }
+            //foreach (var genre in recommendDTO.genre)
+            //{
+            //    recommendationsRequest.SeedGenres.Add(genre);
+            //    if (recommendationsRequest.SeedGenres.Count >= 1) { break; }
+            //}
+            if (recommendDTO.target_valence != 0)
+            {
+                recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
+            }
+            if (recommendDTO.target_acousticness != 0){
+                recommendationsRequest.Target.Add("acousticness", recommendDTO.target_acousticness.ToString());
+            }
+            if (recommendDTO.target_danceability != 0)
+            {
+                recommendationsRequest.Target.Add("danceability", recommendDTO.target_danceability.ToString());
+            }
+            if (recommendDTO.target_energy != 0)
+            {
+                recommendationsRequest.Target.Add("energy", recommendDTO.target_energy.ToString());
+            }
+            if (recommendDTO.target_instrumentalness != 0)
+            {
+                recommendationsRequest.Target.Add("instrumentalness", recommendDTO.target_instrumentalness.ToString());
+            }
+            if (recommendDTO.target_liveness != 0)
+            {
+                recommendationsRequest.Target.Add("liveness", recommendDTO.target_liveness.ToString());
+            }
+            if (recommendDTO.target_popularity != 0)
+            {
+                recommendationsRequest.Target.Add("popularity", recommendDTO.target_popularity.ToString());
+            }
+            if (recommendDTO.target_speechiness != 0)
+            {
+                recommendationsRequest.Target.Add("speechiness", recommendDTO.target_speechiness.ToString());
+            }
+            if (recommendDTO.target_tempo != 0)
+            {
+                recommendationsRequest.Target.Add("tempo", recommendDTO.target_tempo.ToString());
+            }
 
             var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
-
             return recommendations;
+
         }
 
-        public async Task<List<FullTrack>> ConvertToFullTrack(List<SimpleTrack> tracks)
+        public async Task<List<FullTrack>> ConvertToFullTrackAsync(List<SimpleTrack> tracks)
         {
             List<string> trackIds = new List<string>();
             foreach (var track in tracks)
@@ -246,12 +204,34 @@ namespace MusicCollaborationManager.Services.Concrete
 
         }
 
-        public static IUserProfileClient GetUserProfileClient() 
+        public async Task<List<string>> SearchTopGenrePlaylistArtist(string genre)
+        {
+            GeneratorUtilities generatorUtilities = new GeneratorUtilities();
+            SearchRequest.Types types = SearchRequest.Types.Playlist;
+            List<string> trackIDs = new List<string>();
+
+            SearchRequest request = new SearchRequest(types, genre);
+            request.Limit = 10;
+            SearchResponse response = await Spotify.Search.Item(request);
+
+            for (int i=0; i < 5; i++)
+            {
+                string playlistID = response.Playlists.Items[generatorUtilities.rngValueInput(1, response.Playlists.Items.Count())].Id;
+                var playlist = await Spotify.Playlists.GetItems(playlistID);
+
+                FullTrack track = (FullTrack)playlist.Items[generatorUtilities.rngValueInput(1, playlist.Items.Count - 1)].Track;
+                trackIDs.Add(track.Id);
+            }                 
+
+            return trackIDs;
+        }
+
+        public static IUserProfileClient GetUserProfileClientAsync() 
         {
             return Spotify.UserProfile;
         }
 
-        public static IPlaylistsClient GetPlaylistsClient() 
+        public static IPlaylistsClient GetPlaylistsClientAsync() 
         {
             return Spotify.Playlists;
         }
@@ -267,5 +247,120 @@ namespace MusicCollaborationManager.Services.Concrete
             PrivateUser CurUser = await userProfileClient.Current();
             return await playlistsClient.Create(CurUser.Id, createRequest);
         }
+
+
+
+        public async Task<List<UserTrackDTO>> GetAuthTopTracksAsync()
+        {
+
+            PersonalizationTopRequest Request = new PersonalizationTopRequest();
+            Request.Limit = 20;
+            var topTracks = await Spotify.Personalization.GetTopTracks(Request);
+            var topTracksList = topTracks.Items;
+
+
+            List<UserTrackDTO> TracksToReturn = new List<UserTrackDTO>();
+            UserTrackDTO IndividualTrack = new UserTrackDTO();
+
+            foreach (FullTrack track in topTracksList)
+            {
+                IndividualTrack = new UserTrackDTO();
+                IndividualTrack.Title = track.Name;
+                IndividualTrack.LinkToTrack = track.ExternalUrls["spotify"];
+                IndividualTrack.Uri = track.Uri;
+                if (track.Album.Images.IsNullOrEmpty() == false)
+                {
+                    IndividualTrack.ImageURL = track.Album.Images[0].Url;
+                }
+                else
+                {
+                    IndividualTrack.ImageURL = null;
+                }
+                TracksToReturn.Add(IndividualTrack);
+            }
+
+            return TracksToReturn;
+        }
+
+        public async Task<List<UserPlaylistDTO>> GetAuthFeatPlaylistsAsync()
+        {
+            PrivateUser CurUser = new PrivateUser();
+            FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
+            {
+                Limit = 20,
+            };
+            CurUser = await Spotify.UserProfile.Current();
+            try
+            {
+                RequestParameters.Country = CurUser.Country;
+            }
+            catch (NullReferenceException e)
+            {
+                RequestParameters.Country = "NA";
+            }
+
+            List<UserPlaylistDTO> PlaylistsToReturn = new List<UserPlaylistDTO>();
+            UserPlaylistDTO IndividualPlaylist = new UserPlaylistDTO();
+
+            FeaturedPlaylistsResponse FeaturedPlaylists = await Spotify.Browse.GetFeaturedPlaylists(RequestParameters);
+            foreach (var playlist in FeaturedPlaylists.Playlists.Items)
+            {
+                IndividualPlaylist = new UserPlaylistDTO();
+                IndividualPlaylist.Name = playlist.Name;
+                IndividualPlaylist.LinkToPlaylist = playlist.ExternalUrls["spotify"];
+                IndividualPlaylist.Uri = playlist.Uri;
+
+                if (playlist.Images.IsNullOrEmpty() == false)
+                {
+                    IndividualPlaylist.ImageURL = playlist.Images.First().Url;
+                }
+                else
+                {
+                    IndividualPlaylist.ImageURL = null;
+                }
+                PlaylistsToReturn.Add(IndividualPlaylist);
+            }
+
+            return PlaylistsToReturn;
+
+        }
+
+
+        public async Task<List<UserPlaylistDTO>> GetAuthPersonalPlaylistsAsync()
+        {
+            List<SimplePlaylist> PersonalPlaylists = new List<SimplePlaylist>();
+
+            PlaylistCurrentUsersRequest RequestParameters = new PlaylistCurrentUsersRequest
+            {
+                Limit = 20
+            };
+
+            var currentUsersPlaylists = await Spotify.Playlists.CurrentUsers(RequestParameters);
+            PersonalPlaylists = currentUsersPlaylists.Items;
+
+            List<UserPlaylistDTO> UserPlaylists = new List<UserPlaylistDTO>();
+            UserPlaylistDTO Playlist = new UserPlaylistDTO();
+
+            foreach (var item in currentUsersPlaylists.Items)
+            {
+                Playlist = new UserPlaylistDTO();
+                Playlist.Name = item.Name;
+                Playlist.LinkToPlaylist = item.ExternalUrls["spotify"];
+                Playlist.Uri = item.Uri;
+                if (item.Images.IsNullOrEmpty() == false)
+                {
+                    Playlist.ImageURL = item.Images[0].Url;
+                }
+                else
+                {
+                    Playlist.ImageURL = null;
+                }
+                UserPlaylists.Add(Playlist);
+
+            }
+
+            return UserPlaylists;
+        }
+
     }
 }

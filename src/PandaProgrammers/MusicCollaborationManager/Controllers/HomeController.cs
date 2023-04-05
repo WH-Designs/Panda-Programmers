@@ -9,6 +9,8 @@ using SpotifyAPI.Web;
 using MusicCollaborationManager.Services.Concrete;
 using MusicCollaborationManager.DAL.Abstract;
 using Microsoft.AspNetCore.Authentication;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 
 namespace MusicCollaborationManager.Controllers;
@@ -27,10 +29,9 @@ public class HomeController : Controller
         _spotifyService = spotifyService;
         _listenerRepository = listenerRepository;
     }
-    
+
     public IActionResult Index()
     {
-        
         return View();
     }
 
@@ -41,7 +42,7 @@ public class HomeController : Controller
         listener = _listenerRepository.FindListenerByAspId(aspId);
 
         if (listener.AuthToken == null){
-            String uri = _spotifyService.GetUri();
+            String uri = _spotifyService.GetUriAsync();
             return Redirect(uri);  
         }
         
@@ -54,8 +55,8 @@ public class HomeController : Controller
         Listener listener = new Listener();
         listener = _listenerRepository.FindListenerByAspId(aspId);        
         
-        await _spotifyService.GetCallback(code, listener);
-        PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUser();
+        await _spotifyService.GetCallbackAsync(code, listener);
+        PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUserAsync();
         _listenerRepository.AddOrUpdate(listener);
 
         if (listener.SpotifyId == null) {
