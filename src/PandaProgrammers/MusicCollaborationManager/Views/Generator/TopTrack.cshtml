@@ -1,5 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model MusicCollaborationManager.ViewModels.TopTracksViewModel
+
+<form asp-controller="Generator" asp-action="TopTracksPost" method="post" id="songForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="flex flex-col">
+        <div class="flex flex-row ml-56 mt-36">
+            <div class="flex flex-col w-3/4 mx-5">
+                <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+                    <h1 class="font-bold text-5xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">Top Tracks Playlist Generator</h1>
+                    <div class="text-textback classicpanda:text-whitetext font-bold text-1xl p-2">Press button to have playlist generated based on your top tracks</div>
+                    <br />
+                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">Cover Image Input</div>
+                    <input asp-for="coverImageInput" type="text" />
+                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">Playlist Description Input</div>
+                    <input asp-for="descriptionInput" type="text" />
+                    <br />
+                    <button class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 mt-4" type="submit">Generate Playlist</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts
+    {
+    <script src="~/js/rSlider.js"></script>
+    <script type="text/javascript" src="~/js/colorchanger.js"></script>
 }
