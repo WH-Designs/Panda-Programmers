@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCollaborationManager",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{03D8DC20-8C94-40A6-AFB2-3823D1E83199}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollaborationManager_BDD_Tests", "MusicCollaborationManager_BDD_Tests\MusicCollaborationManager_BDD_Tests.csproj", "{61C73AF6-5E42-42BC-B606-6DF9F1D3C107}"
+EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "JestTests", "JestTests\JestTests.esproj", "{02EBAE69-2415-4FAD-9785-BBE168739B68}"
 EndProject
 Global
@@ -23,12 +25,6 @@ Global
 		{03D8DC20-8C94-40A6-AFB2-3823D1E83199}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03D8DC20-8C94-40A6-AFB2-3823D1E83199}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03D8DC20-8C94-40A6-AFB2-3823D1E83199}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02EBAE69-2415-4FAD-9785-BBE168739B68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02EBAE69-2415-4FAD-9785-BBE168739B68}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02EBAE69-2415-4FAD-9785-BBE168739B68}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{02EBAE69-2415-4FAD-9785-BBE168739B68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02EBAE69-2415-4FAD-9785-BBE168739B68}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02EBAE69-2415-4FAD-9785-BBE168739B68}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

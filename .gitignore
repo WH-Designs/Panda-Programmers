@@ -81,3 +81,5 @@ _[Ss]cripts
 *.testlog
 *.wsuo
 *.json
+/src/PandaProgrammers/.vs/PandaProgrammers/config/applicationhost.config
+/src/PandaProgrammers/.vs/PandaProgrammers/v17/.futdcache.v2
