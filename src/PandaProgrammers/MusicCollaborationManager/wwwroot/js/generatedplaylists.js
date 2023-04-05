@@ -61,22 +61,36 @@ $(".remove-track-btn").click(function(){
     console.log(`Removed ENTRY \n Track: ${entryToRemoveTrackName} \n Album: ${entryToRemoveAlbumName}`)
 
     let removedTrackEntry = `
-    <div class="table-row">
+    <div class="table-row" id="readdable-entry-${removedTrackIndex}">
         <div class="table-cell text-textback classicpanda:text-whitetext p-3 overflow-x-scroll">${entryToRemoveTrackName}</div>
         <div class="table-cell text-textback classicpanda:text-whitetext p-3 overflow-x-scroll">${entryToRemoveAlbumName}</div>
         <button class="cursor-pointer text-textback classicpanda:text-whitetext font-bold p-3 re-add-entry" id="re-add-entry-${removedTrackIndex}">Add</button>
     </div>
-    `
+    `;
+
+    let trackUri =  $(`#track-${removedTrackIndex}-input`).val();
+    $(document).on("click", `#re-add-entry-${removedTrackIndex}`, function(){
+        let trackToAddId = $(this).attr('id');
+        console.log(`Track to add ID: ${trackToAddId}`);
+    
+        let trackToAddIndex = trackToAddId.substring(13);
+        console.log(`Index of track to REadd: ${trackToAddIndex}`);
+        console.log(`RE-ADDING ENTRY. \n Track Uri: ${trackUri}`);
+        let entryToReadd = `
+            <input id="track-${removedTrackIndex}-input" value="${trackUri}" type="hidden" name="newTrackUris[${removedTrackIndex}]"/>
+        `
+
+        $("#playlist-form").append(entryToReadd);
+
+        $(`#song-preview-${removedTrackIndex}`).show();
+        $(`#readdable-entry-${removedTrackIndex}`).empty();
+        $(`#readdable-entry-${removedTrackIndex}`).remove();
+    });
 
     $("#removed-tracks-table-body").append(removedTrackEntry);
     $(`#song-preview-${removedTrackIndex}`).hide();
     $(`#track-${removedTrackIndex}-input`).remove();
 
-});
-
-$(".re-add-entry").click(function(){
-    let trackToAddId = $(this).attr('id');
-    
 });
 
 function redirectToGenIndex() {
