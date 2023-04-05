@@ -49,29 +49,20 @@ $("#save-playlist-btn").click(function () {
 });
 
 $(".remove-track-btn").click(function(){
-    //index 7 should contain the id number.
     let removedTrack = $(this).attr('id')
     console.log("ID of track removed: " + removedTrack)
-    console.log("Track removed (ID num only): " + removedTrack.substring(7,8))
 
-    //"track-@i-input"
-    let removedTrackIndex = removedTrack.substring(7,8);
+    let removedTrackIndex = removedTrack.substring(18);
+    console.log("Track removed (ID num only): " + removedTrackIndex);
 
-    let entryToRemoveTrackName = $(`#entry-track-name-${removedTrackIndex}`).text();
-    let entryToRemoveAlbumName = $(`#entry-album-name-${removedTrackIndex}`).text();
-    // let removedTrackEntry = `
-    // <tr>
-    //     <td>${entryToRemoveTrackName}</td>
-    //     <td>${entryToRemoveAlbumName}</td>
-    //     <td></td>
-    // </tr>   
-    // `;
+    let entryToRemoveTrackName = $(`#entry-track-name-${removedTrackIndex}`).text().substring(18);
+    let entryToRemoveAlbumName = $(`#entry-album-name-${removedTrackIndex}`).text().substring(18);
 
     let removedTrackEntry = `
     <div class="table-row">
-        <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${entryToRemoveTrackName}</div>
-        <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${entryToRemoveAlbumName}</div>
-        <button class="text-textback classicpanda:text-whitetext text-1xl p-3" id="re-add-entry-${removedTrackIndex}">Add</button>
+        <div class="table-cell text-textback classicpanda:text-whitetext p-3">${entryToRemoveTrackName}</div>
+        <div class="table-cell text-textback classicpanda:text-whitetext p-3">${entryToRemoveAlbumName}</div>
+        <button class="cursor-pointer text-textback classicpanda:text-whitetext font-bold p-3" id="re-add-entry-${removedTrackIndex}">Add</button>
     </div>
     `
 
