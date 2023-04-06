@@ -23,7 +23,7 @@
                         foreach(var track in Model.fullResult)
                     {
                         <div class="w-fit overflow-hidden mt-4" id="song-preview-@trackIndex">
-                            <i id="remove-entry-icon-@trackIndex" class="cursor-pointer fa-solid fa-x text-textback classicpanda:text-whitetext remove-track-btn"></i>
+                            <i id="remove-entry-icon-@trackIndex" class="cursor-pointer fa-solid fa-x text-textback classicpanda:text-whitetext hover:text-textback/50 re-add-entry classicpanda:hover:text-gray-400 remove-track-btn"></i>
                             <img src="@track.Album.Images[0].Url" />
                                 <h2 class="text-textback classicpanda:text-whitetext">Track Name: <span id="entry-track-name-@trackIndex">@track.Name</span></h2>
                                 <h2 class="text-textback classicpanda:text-whitetext">Album Name: <span id="entry-album-name-@trackIndex">@track.Album.Name</span></h2>

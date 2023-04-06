@@ -462,7 +462,6 @@ video {
   --colors-secondaryback: 0, 0, 0;
   --colors-primback: 192, 192, 192;
   --colors-textback: 255, 255, 255;
-  --boxShadow-buttonglow: 0 0 100px 100px rgba(255, 255, 255, 0.3);
 }
 
 *, ::before, ::after {
