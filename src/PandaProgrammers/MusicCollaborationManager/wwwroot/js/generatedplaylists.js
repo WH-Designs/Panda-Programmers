@@ -18,7 +18,7 @@ $("#save-playlist-btn").click(function () {
     var actualData = getFormData($form);
     console.log("'Actual data': " + actualData)
 
-    console.log("LAST ENTRY: " + actualData["__RequestVerificationToken"]);
+    // console.log("LAST ENTRY: " + actualData["__RequestVerificationToken"]);
     delete actualData["__RequestVerificationToken"];
 
     let dataAsArray = [];
@@ -26,7 +26,7 @@ $("#save-playlist-btn").click(function () {
         dataAsArray.push(item);
         console.log(`Item ${index}, Item: ${item}`)
     });
-    console.log("Form input: " + dataAsArray);
+    // console.log("Form input: " + dataAsArray);
 
     $.ajax({
         method: "POST",
@@ -178,7 +178,7 @@ function savePlaylist(data) {
     let popUpMsg = `
     <div class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback lg-rounded fixed">
             
-            <p class=text-textback 
+            <p class="text-textback 
                 revolution:text-white 
                 autumn:text-white 
                 classicpanda:text-textback">${text}. You will be redirected shortly...
