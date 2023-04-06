@@ -11,14 +11,6 @@ function getFormData($form) {
     return indexed_array;
 }
 
-/*
-    <tr>
-      <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-      <td>Malcolm Lockyer</td>
-      <td>1961</td>
-    </tr>
- */
-
 
 $("#save-playlist-btn").click(function () {
 
@@ -60,6 +52,37 @@ function checkIfAnyTrackInPlaylist(){
    console.log(`Track left: ${tracksLeft}`)
 };
 
+function clearTrackRemovalNotification(){
+    $("#track-removal-notification").remove()
+}
+
+let myTimeout = null;
+
+
+function displayRecentRemovedTrack(trackName){
+
+    //https://stackoverflow.com/questions/75932984/reset-countdown-timer-when-button-is-pressed -- Roman Marusyk's answer for checking a timer.
+    if(myTimeout !== null){
+        clearTimeout(myTimeout);
+        $("#track-removal-notification").remove();
+        console.log("Timer has been cleared.");
+    }
+
+    let recentlyRemovedEntryDisplay = `
+    <div id="track-removal-notification" class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback rounded-2xl fixed">
+        <p class="text-textback 
+            revolution:text-white 
+            autumn:text-white 
+            classicpanda:text-textback">"${trackName}" has been removed from the playlist.
+        </p>
+    </div>    
+    `;
+
+    $("#explanation-title").append(recentlyRemovedEntryDisplay);
+    myTimeout = setTimeout(clearTrackRemovalNotification, 3000);
+    console.log("Timer SHOULD HAVE started.")
+}
+
 $(".remove-track-btn").click(function(){
     let trackToRemoveId = $(this).attr('id')
     console.log("ID of track removed: " + trackToRemoveId)
@@ -70,13 +93,15 @@ $(".remove-track-btn").click(function(){
     let entryToRemoveTrackName = $(`#entry-track-name-${removedTrackIndex}`).text();
     let entryToRemoveAlbumName = $(`#entry-album-name-${removedTrackIndex}`).text();
 
+    displayRecentRemovedTrack(entryToRemoveTrackName);
+
     console.log(`Removed ENTRY \n Track: ${entryToRemoveTrackName} \n Album: ${entryToRemoveAlbumName}`)
 
     let removedTrackEntry = `
     <div class="table-row" id="readdable-entry-${removedTrackIndex}">
         <div class="table-cell text-textback classicpanda:text-whitetext p-3 overflow-x-scroll">${entryToRemoveTrackName}</div>
         <div class="table-cell text-textback classicpanda:text-whitetext p-3 overflow-x-scroll">${entryToRemoveAlbumName}</div>
-        <button class="cursor-pointer text-textback classicpanda:text-whitetext font-bold p-3 re-add-entry" id="re-add-entry-${removedTrackIndex}">Add</button>
+        <button class="cursor-pointer text-textback classicpanda:text-whitetext font-bold p-3 hover:text-textback/50 re-add-entry classicpanda:hover:text-gray-400" id="re-add-entry-${removedTrackIndex}">Add</button>
     </div>
     `;
 
@@ -130,7 +155,7 @@ function savePlaylist(data) {
     
 
     let popUpMsg = `
-    <div class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback rounded fixed">
+    <div class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback lg-rounded fixed">
             
             <p class=text-textback 
                 revolution:text-white 
