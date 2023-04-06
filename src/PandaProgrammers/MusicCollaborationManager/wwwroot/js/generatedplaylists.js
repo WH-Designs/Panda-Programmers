@@ -48,6 +48,18 @@ $("#save-playlist-btn").click(function () {
 
 });
 
+function checkIfAnyTrackInPlaylist(){
+
+    let tracksLeft = $('#playlist-form').children().length - 2; //The "-2" is because of the "save" & "discard" button within the form.
+    if (tracksLeft > 0) {
+        $("#save-playlist-btn").prop("disabled",false);
+   }
+   else{
+        $("#save-playlist-btn").prop("disabled",true);
+   }
+   console.log(`Track left: ${tracksLeft}`)
+};
+
 $(".remove-track-btn").click(function(){
     let trackToRemoveId = $(this).attr('id')
     console.log("ID of track removed: " + trackToRemoveId)
@@ -85,11 +97,19 @@ $(".remove-track-btn").click(function(){
         $(`#song-preview-${removedTrackIndex}`).show();
         $(`#readdable-entry-${removedTrackIndex}`).empty();
         $(`#readdable-entry-${removedTrackIndex}`).remove();
+
+        checkIfAnyTrackInPlaylist();
     });
+
+    
 
     $("#removed-tracks-table-body").append(removedTrackEntry);
     $(`#song-preview-${removedTrackIndex}`).hide();
     $(`#track-${removedTrackIndex}-input`).remove();
+
+    checkIfAnyTrackInPlaylist();
+
+    
 
 });
 
