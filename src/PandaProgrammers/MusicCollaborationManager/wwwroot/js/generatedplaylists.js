@@ -52,24 +52,23 @@ function checkIfAnyTrackInPlaylist(){
    console.log(`Track left: ${tracksLeft}`)
 };
 
-function clearTrackRemovalNotification(){
-    $("#track-removal-notification").remove()
+function clearPlaylistChangeNotification(){
+    $(".playlist-change-notification").remove()
 }
 
-let myTimeout = null;
-
+let recentlyChangedPlaylistTimer = null;
 
 function displayRecentRemovedTrack(trackName){
 
     //https://stackoverflow.com/questions/75932984/reset-countdown-timer-when-button-is-pressed -- Roman Marusyk's answer for checking a timer.
-    if(myTimeout !== null){
-        clearTimeout(myTimeout);
-        $("#track-removal-notification").remove();
-        console.log("Timer has been cleared.");
+    if(recentlyChangedPlaylistTimer !== null){
+        clearTimeout(recentlyChangedPlaylistTimer);
+        $(".playlist-change-notification").remove();
+        console.log("Timer has been cleared. (Removal ver.)");
     }
 
     let recentlyRemovedEntryDisplay = `
-    <div id="track-removal-notification" class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback rounded-2xl fixed">
+    <div id="track-removal-notification" class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback rounded-2xl fixed playlist-change-notification">
         <p class="text-textback 
             revolution:text-white 
             autumn:text-white 
@@ -79,8 +78,29 @@ function displayRecentRemovedTrack(trackName){
     `;
 
     $("#explanation-title").append(recentlyRemovedEntryDisplay);
-    myTimeout = setTimeout(clearTrackRemovalNotification, 3000);
-    console.log("Timer SHOULD HAVE started.")
+    recentlyChangedPlaylistTimer = setTimeout(clearPlaylistChangeNotification, 3000);
+    console.log("Timer SHOULD HAVE started. (Removal ver.)")
+}
+
+function displayRecentlyReAddedTrack(trackName){
+    if(recentlyChangedPlaylistTimer !== null){
+        clearTimeout(recentlyChangedPlaylistTimer);
+        $(".playlist-change-notification").remove();
+        console.log("Timer has been cleared. (ReAdded ver.)");
+    }
+
+    let recentlyReAddedEntryDisplay = `
+    <div id="track-removal-notification" class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback rounded-2xl fixed playlist-change-notification">
+        <p class="text-textback 
+            revolution:text-white 
+            autumn:text-white 
+            classicpanda:text-textback">"${trackName}" has been added to the playlist.
+        </p>
+    </div>    
+    `;
+    $("#explanation-title").append(recentlyReAddedEntryDisplay);
+    recentlyChangedPlaylistTimer = setTimeout(clearPlaylistChangeNotification, 3000);
+    console.log("Timer SHOULD HAVE started. (ReAdded ver.)");
 }
 
 $(".remove-track-btn").click(function(){
@@ -124,6 +144,7 @@ $(".remove-track-btn").click(function(){
         $(`#readdable-entry-${removedTrackIndex}`).remove();
 
         checkIfAnyTrackInPlaylist();
+        displayRecentlyReAddedTrack(entryToRemoveTrackName);
     });
 
     
