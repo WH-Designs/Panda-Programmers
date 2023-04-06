@@ -49,7 +49,7 @@ function checkIfAnyTrackInPlaylist(){
    else{
         $("#save-playlist-btn").prop("disabled",true);
    }
-   console.log(`Track left: ${tracksLeft}`)
+//    console.log(`Tracks left in playlist: ${tracksLeft}`);
 };
 
 function clearPlaylistChangeNotification(){
@@ -64,7 +64,7 @@ function displayRecentRemovedTrack(trackName){
     if(recentlyChangedPlaylistTimer !== null){
         clearTimeout(recentlyChangedPlaylistTimer);
         $(".playlist-change-notification").remove();
-        console.log("Timer has been cleared. (Removal ver.)");
+        // console.log("Timer has been cleared. (Removal ver.)");
     }
 
     let recentlyRemovedEntryDisplay = `
@@ -79,14 +79,14 @@ function displayRecentRemovedTrack(trackName){
 
     $("#explanation-title").append(recentlyRemovedEntryDisplay);
     recentlyChangedPlaylistTimer = setTimeout(clearPlaylistChangeNotification, 3000);
-    console.log("Timer SHOULD HAVE started. (Removal ver.)")
+    // console.log("Timer SHOULD HAVE started. (Removal ver.)");
 }
 
 function displayRecentlyReAddedTrack(trackName){
     if(recentlyChangedPlaylistTimer !== null){
         clearTimeout(recentlyChangedPlaylistTimer);
         $(".playlist-change-notification").remove();
-        console.log("Timer has been cleared. (ReAdded ver.)");
+        // console.log("Timer has been cleared. (ReAdded ver.)");
     }
 
     let recentlyReAddedEntryDisplay = `
@@ -100,22 +100,22 @@ function displayRecentlyReAddedTrack(trackName){
     `;
     $("#explanation-title").append(recentlyReAddedEntryDisplay);
     recentlyChangedPlaylistTimer = setTimeout(clearPlaylistChangeNotification, 3000);
-    console.log("Timer SHOULD HAVE started. (ReAdded ver.)");
+    // console.log("Timer SHOULD HAVE started. (ReAdded ver.)");
 }
 
 $(".remove-track-btn").click(function(){
     let trackToRemoveId = $(this).attr('id')
-    console.log("ID of track removed: " + trackToRemoveId)
+    // console.log("ID of track removed: " + trackToRemoveId);
 
     let removedTrackIndex = trackToRemoveId.substring(18);
-    console.log("Track removed (ID num only): " + removedTrackIndex);
+    // console.log("Track removed (ID num only): " + removedTrackIndex);
 
     let entryToRemoveTrackName = $(`#entry-track-name-${removedTrackIndex}`).text();
     let entryToRemoveAlbumName = $(`#entry-album-name-${removedTrackIndex}`).text();
 
     displayRecentRemovedTrack(entryToRemoveTrackName);
 
-    console.log(`Removed ENTRY \n Track: ${entryToRemoveTrackName} \n Album: ${entryToRemoveAlbumName}`)
+    // console.log(`Removed ENTRY \n Track: ${entryToRemoveTrackName} \n Album: ${entryToRemoveAlbumName}`)
 
     let removedTrackEntry = `
     <div class="table-row" id="readdable-entry-${removedTrackIndex}">
@@ -128,11 +128,11 @@ $(".remove-track-btn").click(function(){
     let trackUri =  $(`#track-${removedTrackIndex}-input`).val();
     $(document).on("click", `#re-add-entry-${removedTrackIndex}`, function(){
         let trackToAddId = $(this).attr('id');
-        console.log(`Track to add ID: ${trackToAddId}`);
+        // console.log(`Track to add ID: ${trackToAddId}`);
     
         let trackToAddIndex = trackToAddId.substring(13);
-        console.log(`Index of track to REadd: ${trackToAddIndex}`);
-        console.log(`RE-ADDING ENTRY. \n Track Uri: ${trackUri}`);
+        // console.log(`Index of track to REadd: ${trackToAddIndex}`);
+        // console.log(`RE-ADDING ENTRY. \n Track Uri: ${trackUri}`);
         let entryToReadd = `
             <input id="track-${removedTrackIndex}-input" value="${trackUri}" type="hidden" name="newTrackUris[${removedTrackIndex}]"/>
         `
