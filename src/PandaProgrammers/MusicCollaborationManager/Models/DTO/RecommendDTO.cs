@@ -3,6 +3,7 @@
 using Microsoft.IdentityModel.Tokens;
 using MusicCollaborationManager.Utilities;
 using MusicCollaborationManager.ViewModels;
+using SpotifyAPI.Web;
 using System.Drawing;
 
 namespace MusicCollaborationManager.Models.DTO

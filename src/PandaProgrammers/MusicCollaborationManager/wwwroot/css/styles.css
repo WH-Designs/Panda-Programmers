@@ -932,6 +932,10 @@ video {
   flex-shrink: 0;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .resize {
   resize: both;
 }
@@ -993,6 +997,10 @@ video {
   row-gap: 0.875rem;
 }
 
+.gap-y-8 {
+  row-gap: 2rem;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -1003,6 +1011,10 @@ video {
 
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.overflow-x-scroll {
+  overflow-x: scroll;
 }
 
 .truncate {
@@ -1017,6 +1029,10 @@ video {
 
 .rounded {
   border-radius: 0.25rem;
+}
+
+.rounded-2xl {
+  border-radius: 1rem;
 }
 
 .rounded-lg {
@@ -1195,6 +1211,10 @@ video {
 
 .pb-3 {
   padding-bottom: 0.75rem;
+}
+
+.pb-4 {
+  padding-bottom: 1rem;
 }
 
 .pb-8 {
@@ -1424,6 +1444,10 @@ video {
   color: rgba(var(--colors-textback), var(--tw-text-opacity));
 }
 
+.hover\:text-textback\/50:hover {
+  color: rgba(var(--colors-textback), 0.5);
+}
+
 .focus\:border-gray-500:focus {
   --tw-border-opacity: 1;
   border-color: rgb(107 114 128 / var(--tw-border-opacity));
@@ -1478,6 +1502,11 @@ video {
 .classicpanda .classicpanda\:text-whitetext {
   --tw-text-opacity: 1;
   color: rgba(var(--colors-whitetext), var(--tw-text-opacity));
+}
+
+.classicpanda .classicpanda\:hover\:text-gray-400:hover {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
 }
 
 .autumn .autumn\:text-sky-500 {

@@ -231,5 +231,45 @@ namespace UnitTests
 
             Assert.That(result, Is.EqualTo(expected));
         }
+
+        [Test]
+        public void TestShuffleTracksShouldShuffleLessThanFiveTracks()
+        {
+            List<string> tracks = new List<string> { "1", "2", "3", "4"};
+
+            List<string> result = _generatorUtilities.shuffleTracks(tracks);
+
+            Assert.That(result.Count, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void TestShuffleTracksShouldShuffleMoreThanFiveTracksLessThanTwenty()
+        {
+            List<string> tracks = new List<string> { "1", "2", "3", "4", "5", "6" };
+
+            List<string> result = _generatorUtilities.shuffleTracks(tracks);
+
+            Assert.That(result.Count, Is.EqualTo(5));
+        }
+
+        [Test]
+        public void TestShuffleTracksShouldShuffleMoreThanTwenty()
+        {
+            List<string> tracks = new List<string> { "1", "2", "3", "4", "5", "1", "2", "3", "4", "5", "1", "2", "3", "4", "5", "1", "2", "3", "4", "5", "1", "2", "3", "4", "5", };
+
+            List<string> result = _generatorUtilities.shuffleTracks(tracks);
+
+            Assert.That(result.Count, Is.EqualTo(5));
+        }
+
+        [Test]
+        public void TestShuffleTracksShouldShuffleZeroTracks()
+        {
+            List<string> tracks = new List<string> ();
+
+            List<string> result = _generatorUtilities.shuffleTracks(tracks);
+
+            Assert.That(result.Count, Is.EqualTo(0));
+        }
     }
 }

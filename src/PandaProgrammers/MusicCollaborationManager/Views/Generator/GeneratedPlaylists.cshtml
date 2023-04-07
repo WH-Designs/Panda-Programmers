@@ -22,29 +22,43 @@
                     <h1 class="text-textback classicpanda:text-whitetext">Tracks</h1>
                 </div>
                 <div class="columns-5 mb-5 h-full max-h-max">
-                    @{
-                        int trackIndex = 0;
-                        foreach (var track in Model.fullResult)
-                        {
-                            <div class="w-fit overflow-hidden mt-4">
-                                <img src="@track.Album.Images[0].Url" />
-                                <h2 class="text-textback classicpanda:text-whitetext">Track Name: @track.Name</h2>
-                                <h2 class="text-textback classicpanda:text-whitetext">Album Name: @track.Album.Name</h2>
-                                <div class="flex flex-row">
-                                    <i class="text-white playable-item fa-solid fa-circle-play" id="track-@trackIndex"
-                                        data-spotify-id="@track.Uri"></i>
-                                </div>
+                    @{int trackIndex = 0;
+                        foreach(var track in Model.fullResult)
+                    {
+                        <div class="w-fit overflow-hidden mt-4" id="song-preview-@trackIndex">
+                            <i id="remove-entry-icon-@trackIndex" class="cursor-pointer fa-solid fa-x text-textback classicpanda:text-whitetext hover:text-textback/50 re-add-entry classicpanda:hover:text-gray-400 remove-track-btn"></i>
+                            <img src="@track.Album.Images[0].Url" />
+                                <h2 class="text-textback classicpanda:text-whitetext">Track Name: <span id="entry-track-name-@trackIndex">@track.Name</span></h2>
+                                <h2 class="text-textback classicpanda:text-whitetext">Album Name: <span id="entry-album-name-@trackIndex">@track.Album.Name</span></h2>
+                            <div class="flex flex-row">
+                                <i class="text-white playable-item fa-solid fa-circle-play" id="track-@trackIndex" data-spotify-id="@track.Uri"></i>
                             </div>
+                        </div>
                             trackIndex++;
                         }
                     }
                 </div>
 
+
+                <div class="flex flex-col gap-y-8 bg-secondaryback classicpanda:bg-coreback my-3 p-3 min-w-full rounded-lg">
+                    <h2 class="text-center text-textback classicpanda:text-whitetext text-2xl">Removed tracks</h2>
+                    <div class="table">
+                        <div class="table-header-group">
+                            <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2">Track</div>
+                            <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2">Album</div>
+                            <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2"></div> <!--Column for "add" btn. (Which is NOT meant to be visible.)-->
+                        </div>
+                        <div class="table-row-group" id="removed-tracks-table-body">
+                        </div>
+                    </div>
+                </div>
+                
+               
                 <form class="bg-secondaryback classicpanda:bg-coreback flex flex-row gap-x-3.5" id="playlist-form">
                     @{
                         for (int i = 0; i < Model.fullResult.Count; i++)
                         {
-                            <input value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="newTrackUris[@i]" />
+                            <input id="track-@i-input" value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="newTrackUris[@i]"/>
                         }
                     }
                     <button
@@ -59,6 +73,8 @@
         </div>
     </div>
 </div>
+
+
 <div class="-z-50" style="width: 0; height: 0; border: 0; border: none; position: absolute;">
     <div id="embed-iframe" style=""></div>
 </div>
