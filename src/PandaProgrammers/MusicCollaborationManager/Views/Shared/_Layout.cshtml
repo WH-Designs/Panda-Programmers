@@ -14,14 +14,14 @@
 </head>
 
 <body class="bg-primback font-[Montserrat]">
-    <div class="fixed flex w-screen flex-row text-white shadow-lg bg-coreback h-28 justify-center items-center">
-        <img src="~/img/Panda_Logo.png" class="w-24 h-24 mr-4 bg-white" alt="Logo">
-        <h1 class="text-white mr-4 text-2xl luxury:text-yellow-500">Music Collaboration Manager</h1>
+    <div class="fixed flex w-screen flex-row text-white shadow-lg bg-coreback h-28 items-center">
+        <button class="ml-4 bg-gray-700 hover:bg-gray-500 max-w-fit px-4 py-1 rounded-md" id="navbar-toggle-button">
+            <i class="fa-solid fa-bars fa-lg text-white text-2xl luxury:text-yellow-500"></i>
+        </button>
+        <img src="~/img/Panda_Logo.png" class="ml-4 w-24 h-24 mr-4 bg-white" alt="Logo">
+        <h1 class="text-white ml-2 mr-4 text-2xl luxury:text-yellow-500">Music Collaboration Manager</h1>
     </div>
-    <button class="fixed right-2 mt-32 bg-coreback w-fit px-4 py-1 rounded-md md:hidden" id="navbar-toggle-button">
-        <i class="fa-solid fa-bars text-white text-2xl luxury:text-yellow-500"></i>
-    </button>
-    <nav class="hidden fixed mt-28 left-0 h-screen w-52 md:flex flex-col text-white shadow-lg bg-coreback
+    <nav class="hidden fixed mt-28 left-0 h-screen w-52 flex flex-col text-white shadow-lg bg-coreback
     luxury:border-r-8
     luxury:border-r-yellow-500" id="navbar">
         <ul class="px-3 text-start text-xl">
@@ -61,7 +61,7 @@
     </nav>
 
     <div class="flex">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 flex md:ml-52 mt-36">
             @RenderBody()
         </main>
     </div>
