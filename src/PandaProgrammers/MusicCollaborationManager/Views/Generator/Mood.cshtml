@@ -3,11 +3,15 @@
 <form asp-controller="Generator" asp-action="MoodPost" method="post" id="songForm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="flex flex-col">
-        <div class="flex flex-row ml-56 mt-36">
-            <div class="flex flex-col w-3/4 mx-5">
-                <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
-                    <h1 class="font-bold text-5xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">Mood Playlist Generator</h1>
-                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">What mood would you like your playlist to have?</div>
+        <div class="flex flex-row">
+            <div class="flex flex-col w-3/4 ml-5">
+                <div
+                    class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+                    <h1
+                        class="font-bold text-5xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">
+                        Mood Playlist Generator</h1>
+                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">What mood would you like your
+                        playlist to have?</div>
                     <br />
                     <div class="slidecontainer">
                         @*Pass in number values that correlate to moods*@
@@ -20,10 +24,13 @@
                     <br />
                     <div class="text-textback classicpanda:text-whitetext font-bold p-2">Cover Image Input</div>
                     <input asp-for="coverImageInput" type="text" />
-                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">Playlist Description Input</div>
+                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">Playlist Description Input
+                    </div>
                     <input asp-for="descriptionInput" type="text" />
                     <br />
-                    <button class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 mt-4" type="submit">Generate Playlist</button>
+                    <button
+                        class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 mt-4"
+                        type="submit">Generate Playlist</button>
                 </div>
             </div>
         </div>
