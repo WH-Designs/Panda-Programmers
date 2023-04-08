@@ -135,7 +135,3 @@ module.exports = {
           })
   ]
 }
-
-//  //TEMPLATE (do NOT overwrite!)
-//  'header': ['','cursive', 'system-ui'],
-//  'child': ['', 'Helvetica', 'Arial', 'sans-serif']

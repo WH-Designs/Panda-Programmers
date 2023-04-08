@@ -445,10 +445,10 @@ video {
   --colors-primback: 209, 213, 219;
   --colors-textback: 0, 0, 0;
   --colors-whitetext: 255, 255, 255;
-  --fontFamily-header-0: Montserrat;
+  --fontFamily-header-0: Vidaloka;
   --fontFamily-header-1: cursive;
   --fontFamily-header-2: system-ui;
-  --fontFamily-child-0: Vidaloka;
+  --fontFamily-child-0: Montserrat;
   --fontFamily-child-1: Helvetica;
   --fontFamily-child-2: Arial;
   --fontFamily-child-3: sans-serif;
