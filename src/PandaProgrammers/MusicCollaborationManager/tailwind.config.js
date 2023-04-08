@@ -60,11 +60,9 @@ module.exports = {
                             whitetext: '#ffffff'
                         },
                         fontFamily:{
-                            'header': ['Montserrat','cursive', 'system-ui'],
-                            'child': ['Vidaloka', 'Helvetica', 'Arial', 'sans-serif']
+                            'header': ['Vidaloka','cursive', 'system-ui'],
+                            'child': ['Montserrat', 'Helvetica', 'Arial', 'sans-serif']
                         }
-                        //Vidaloka
-
                     }
 
                 },
@@ -103,8 +101,11 @@ module.exports = {
                             secondaryback: '#1f2937',
                             primback: '#0f172a',
                             textback: '#ffffff'
+                        },
+                        fontFamily:{
+                            'header': ['Vidaloka','cursive', 'system-ui'],
+                            'child': ['Montserrat', 'Helvetica', 'Arial', 'sans-serif']
                         }
-
                     }
 
                 },
