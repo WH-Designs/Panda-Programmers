@@ -35,6 +35,10 @@ module.exports = {
                             secondaryback: '#6F6F6F',
                             primback: '#d1d5db',
                             textback: '#000000'
+                        },
+                        fontFamily:{
+                            'header': ['Bangers','cursive', 'system-ui'],
+                            'child': ['"Carter One"', 'Helvetica', 'Arial', 'sans-serif']
                         }
 
                     }
@@ -54,7 +58,12 @@ module.exports = {
                             primback: '#d1d5db',
                             textback: '#000000',
                             whitetext: '#ffffff'
+                        },
+                        fontFamily:{
+                            'header': ['Montserrat','cursive', 'system-ui'],
+                            'child': ['Vidaloka', 'Helvetica', 'Arial', 'sans-serif']
                         }
+                        //Vidaloka
 
                     }
 
@@ -72,6 +81,10 @@ module.exports = {
                             secondaryback: '#A9A9A9',
                             primback: '#d1d5db',
                             textback: '#000000'
+                        },
+                        fontFamily:{
+                            'header': ['Gelasio','cursive', 'system-ui'],
+                            'child': ['Abel', 'Helvetica', 'Arial', 'sans-serif']
                         }
 
                     }
@@ -108,6 +121,10 @@ module.exports = {
                             secondaryback: '#000000',//Container
                             primback: '#C0C0C0', //HTML Background
                             textback: '#ffffff'
+                        },
+                        fontFamily:{
+                            'header': ['"roboto condensed"','cursive', 'system-ui'],
+                            'child': ['Nunito', 'Helvetica', 'Arial', 'sans-serif']
                         }
 
                     }
@@ -117,3 +134,7 @@ module.exports = {
           })
   ]
 }
+
+//  //TEMPLATE (do NOT overwrite!)
+//  'header': ['','cursive', 'system-ui'],
+//  'child': ['', 'Helvetica', 'Arial', 'sans-serif']

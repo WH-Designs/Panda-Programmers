@@ -8,15 +8,23 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MusicCollaborationManager.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    @* <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'> *@
     <script src="https://kit.fontawesome.com/c88114ae42.js" crossorigin="anonymous"></script>
     @* <script src="https://cdn.tailwindcss.com"></script> *@
+
+    <!--All theme fonts (below)----->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Bangers&family=Carter+One&family=Gelasio&family=Montserrat&family=Nunito&family=Roboto+Condensed&family=Vidaloka&display=swap" rel="stylesheet">
+
+
+
 </head>
 
-<body class="bg-primback font-[Montserrat]">
+<body class="bg-primback font-child">
     <div class="fixed flex w-screen flex-row text-white shadow-lg bg-coreback h-28 justify-center items-center">
         <img src="~/img/Panda_Logo.png" class="w-24 h-24 mr-4 bg-white" alt="Logo">
-        <h1 class="text-white mr-4 text-2xl luxury:text-yellow-500">Music Collaboration Manager</h1>
+        <h1 class="font-header text-white mr-4 text-2xl luxury:text-yellow-500">Music Collaboration Manager</h1>
     </div>
     <nav class="fixed mt-28 left-0 h-screen w-52 flex flex-col text-white shadow-lg bg-coreback
     luxury:border-r-8
