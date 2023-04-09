@@ -5,7 +5,7 @@
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
 
 @* <div class="flex flex-col ml-52 mt-36"> *@
-<div class="flex flex-col w-3/4 mx-5">
+<div class="flex flex-col w-[88%] ml-4 md:w-3/4">
     <div>
         <p class="mb-4 font-semibold text-2xl text-textback">
             Welcome to Music Collaboration Manager. Here you can interact with your Spotify account to enhance
@@ -71,8 +71,8 @@
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
         let element = document.getElementById('embed-iframe');
         let options = {
-            width: '80%',
-            height: '400',
+            width: '100%',
+            height: '200',
             uri: 'spotify:album:0SU0IO8l8gC0lgMSPxiWyO', //Escape - Kx5
 
         };
