@@ -10,13 +10,13 @@
     <div class="flex flex-row ml-48 mt-36">
         <div class="flex flex-col w-3/4 mx-5">
             <div>
-                <h1 class="font-bold text-2xl text-textback luxury:text-black">@Model.fullName</h1>
-                <h2 class="text-textback luxury:text-black">@Model.aspUser.Identity.Name</h2>
-                <h2 class="text-textback"><!-- Spotify Info --></h2>
+                <h1 class="font-header font-bold text-2xl text-textback luxury:text-black">@Model.fullName</h1>
+                <h2 class="font-header text-textback luxury:text-black">@Model.aspUser.Identity.Name</h2>
+                <h2 class="font-header text-textback"><!-- Spotify Info --></h2>
             </div>
             <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
                 <div class="flex flex-row gap-x-3 mt-5" id="recommended-songs-header-container">
-                    <h2 class="font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Recommended Tracks</h2>
+                    <h2 class="font-header font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Recommended Tracks</h2>
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
                     @{
                         if (Model.TopTracks.Count > 5)
@@ -97,7 +97,7 @@
             <!--RECOMM TRACKS (above)----->
             <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-1 p-3 rounded-lg shadow-2xl">
                 <div class="flex flex-row gap-x-3 mt-5">
-                    <h2 class="font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Featured Playlists</h2>
+                    <h2 class="font-header font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Featured Playlists</h2>
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
                     @{
                         if (Model.FeatPlaylists.Count > 5)
@@ -174,7 +174,7 @@
             <!---FEAT PLAYLISTS (above)-->
             <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-1 p-3 rounded-lg shadow-2xl">
                 <div class="flex flex-row gap-x-3 mt-5">
-                    <h2 class="font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">My Playlists</h2>
+                    <h2 class="font-header font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">My Playlists</h2>
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
                     @{
                         if (Model.UserPlaylists.Count > 5)
@@ -253,7 +253,7 @@
         </div>
         <div class="flex flex-col w-52 mx-5 text-textback">
             <div class="w-full my-1 p-3 bg-secondaryback classicpanda:bg-coreback rounded-lg text-center">
-                <h4 class="font-bold mb-6 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Your Top Genres</h4>
+                <h4 class="font-header font-bold mb-6 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Your Top Genres</h4>
                 <img src="~/img/Spotify_Logo_Black.png" class="ml-7 bg-white w-32 h-10" />
                 <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="user-genre-0-container"></div>
                 <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="user-genre-1-container"></div>

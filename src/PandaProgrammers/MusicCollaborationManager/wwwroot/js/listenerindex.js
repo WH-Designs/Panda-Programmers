@@ -25,7 +25,7 @@ function errorOnAjax() {
 function GetAuthUserAsync(data)
 {
     // console.log(data);
-    let htmlDisplayName = `<h1 class="flex flex-col items-center justify-center h-screen w-screen">${data["displayName"]}</h1> `
+    let htmlDisplayName = `<h1 class="font-header flex flex-col items-center justify-center h-screen w-screen">${data["displayName"]}</h1> `
     $("#display-name-div").append(htmlDisplayName);
 }
 
