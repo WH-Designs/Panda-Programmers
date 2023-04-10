@@ -6,11 +6,8 @@
         <div class="flex flex-row">
             <div class="flex flex-col w-3/4 ml-5">
                 <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
-                    <h1
-                        class="font-bold text-5xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">
-                        Questionnaire Playlist Generator</h1>
-                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">What genre would you like your
-                        playlist to be centered on?</div>
+                    <h1 class="font-header font-bold text-5xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">Questionnaire Playlist Generator</h1>
+                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">What genre would you like your playlist to be centered on?</div>
                     <select id="genre" asp-for="genre" asp-items="@Model.genresSelect" required>
                     </select>
                     <br />

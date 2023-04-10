@@ -1,30 +1,26 @@
-﻿
-//It's impossible (bases on quick search/attempts) to undo this & give control back to tailwind background properties.
+﻿//It's impossible (bases on quick search/attempts) to undo this & give control back to tailwind background properties.
 //These function are only to applied to maintain illusion of reverting colors from the user's perspective.)
 
 
 $(function () {
-    console.log("Getting selected theme:\n")
-    var classList = $('#main-primary-color-control').attr('class').split(/\s+/);
+    // console.log("Getting selected theme:\n")
     var themeName = localStorage.theme;
-
-    $.each(classList, function (index, item) {
-        $('#main-primary-color-control').removeClass(item);
-
-    });
-    $('#main-primary-color-control').addClass(themeName);
-
+    if(themeName === null || themeName == undefined){
+        // console.log("No theme has been selected. Defaulting to 'classicpanda'");
+        $('#main-primary-color-control').addClass("classicpanda");
+    }
+    else{
+        // console.log(`A theme was found. The theme ${themeName} will be applied.`)
+        $('#main-primary-color-control').addClass(themeName);
+    }
 });
 
 
 function getSelectedTheme(themeName) {
     console.log("Getting selected theme:\n")
-    var classList = $('#main-primary-color-control').attr('class').split(/\s+/);
+    let activeThemes = document.getElementById("main-primary-color-control")
+    activeThemes.removeAttribute("class");
 
-    $.each(classList, function (index, item) {
-        $('#main-primary-color-control').removeClass(item);
-       
-    });
     $('#main-primary-color-control').addClass(themeName);
     console.log("Selected theme: " + themeName);
     localStorage.theme = themeName;

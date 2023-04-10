@@ -21,12 +21,8 @@ module.exports = {
                 }
             },
             themes: [
-                {
-                    // name your theme anything that could be a valid css selector
-                    // remember what you named your theme because you will use it as a class to enable the theme
+              {
                     name: 'revolution',
-                    // put any overrides your theme has here
-                    // just as if you were to extend tailwind's theme like normal https://tailwindcss.com/docs/theme#extending-the-default-theme
                     extend: {
                         'colors': {
                             coreback: '#840B07',
@@ -34,17 +30,15 @@ module.exports = {
                             secondaryback: '#6F6F6F',
                             primback: '#d1d5db',
                             textback: '#000000'
+                        },
+                        fontFamily:{
+                            'header': ['Bangers','cursive', 'Arial', 'sans-serif'],
+                            'child': ['"Carter One"', 'system-ui','Helvetica', 'sans-serif']
                         }
-
                     }
-
                 },
                 {
-                    // name your theme anything that could be a valid css selector
-                    // remember what you named your theme because you will use it as a class to enable the theme
-                    name: 'classicpanda',
-                    // put any overrides your theme has here
-                    // just as if you were to extend tailwind's theme like normal https://tailwindcss.com/docs/theme#extending-the-default-theme
+                    name: 'classicpanda',  //classicpanda (default theme)
                     extend: {
                         'colors': {
                             coreback: '#1F2937',
@@ -53,17 +47,15 @@ module.exports = {
                             primback: '#d1d5db',
                             textback: '#000000',
                             whitetext: '#ffffff'
+                        },
+                        fontFamily:{
+                            'header': ['Vidaloka','cursive', 'sans-serif'],
+                            'child': ['Montserrat', 'Helvetica', 'Arial', 'sans-serif']
                         }
-
                     }
-
                 },
                 {
-                    // name your theme anything that could be a valid css selector
-                    // remember what you named your theme because you will use it as a class to enable the theme
-                    name: 'autumn',
-                    // put any overrides your theme has here
-                    // just as if you were to extend tailwind's theme like normal https://tailwindcss.com/docs/theme#extending-the-default-theme
+                    name: 'autumn', //Purple
                     extend: {
                         'colors': {
                             coreback: '#800080',
@@ -71,17 +63,15 @@ module.exports = {
                             secondaryback: '#A9A9A9',
                             primback: '#d1d5db',
                             textback: '#000000'
+                        },
+                        fontFamily:{
+                            'header': ['Gelasio','cursive', 'system-ui', 'sans-serif'],
+                            'child': ['Abel', 'Helvetica', 'Arial', 'sans-serif']
                         }
-
                     }
-
                 },
                 {
-                    // name your theme anything that could be a valid css selector
-                    // remember what you named your theme because you will use it as a class to enable the theme
-                    name: 'moon',
-                    // put any overrides your theme has here
-                    // just as if you were to extend tailwind's theme like normal https://tailwindcss.com/docs/theme#extending-the-default-theme
+                    name: 'moon', //Dark
                     extend: {
                         'colors': {
                             coreback: '#1f2937',
@@ -89,17 +79,15 @@ module.exports = {
                             secondaryback: '#1f2937',
                             primback: '#0f172a',
                             textback: '#ffffff'
+                        },
+                        fontFamily:{
+                            'header': ['Vidaloka','cursive', 'sans-serif'],
+                            'child': ['Montserrat', 'Helvetica', 'Arial', 'sans-serif']
                         }
-
                     }
-
                 },
                 {
-                    // name your theme anything that could be a valid css selector
-                    // remember what you named your theme because you will use it as a class to enable the theme
-                    name: 'luxury',
-                    // put any overrides your theme has here
-                    // just as if you were to extend tailwind's theme like normal https://tailwindcss.com/docs/theme#extending-the-default-theme
+                    name: 'luxury', //Gold
                     extend: {
                         'colors': {
                             coreback: '#000000',//Navbar
@@ -107,12 +95,16 @@ module.exports = {
                             secondaryback: '#000000',//Container
                             primback: '#C0C0C0', //HTML Background
                             textback: '#ffffff'
+                        },
+                        fontFamily:{
+                            'header': ['"roboto condensed"','Arial', 'system-ui', 'sans-serif'],
+                            'child': ['Nunito', 'Helvetica', 'sans-serif']
                         }
 
                     }
 
                 }
             ]
-        })
-    ]
+          })
+  ]
 }
