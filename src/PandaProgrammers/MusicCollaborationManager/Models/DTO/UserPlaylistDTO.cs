@@ -6,6 +6,7 @@
         public string Name { get; set; }
         public string? ImageURL { get; set; } = null;
         public string Uri { get; set; }
+        public string ID { get; set; }
 
     }
 }

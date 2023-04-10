@@ -347,6 +347,7 @@ namespace MusicCollaborationManager.Services.Concrete
                 Playlist.Name = item.Name;
                 Playlist.LinkToPlaylist = item.ExternalUrls["spotify"];
                 Playlist.Uri = item.Uri;
+                Playlist.ID = item.Id;
                 if (item.Images.IsNullOrEmpty() == false)
                 {
                     Playlist.ImageURL = item.Images[0].Url;
@@ -371,6 +372,12 @@ namespace MusicCollaborationManager.Services.Concrete
             var topTracksList = topTracks.Items;          
 
             return topTracksList;
+        }
+
+        public async Task<FullPlaylist> GetPlaylistFromIDAsync(string playlistID) {
+            FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
+
+            return wantedPlaylist;
         }
 
     }

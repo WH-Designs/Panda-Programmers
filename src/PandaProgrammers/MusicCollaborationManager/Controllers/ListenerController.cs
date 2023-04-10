@@ -180,5 +180,11 @@ namespace MusicCollaborationManager.Controllers
                 return View("Settings");
             }
         }
+
+        [Authorize]
+        public async Task<IActionResult> Playlist(string ID) {
+            FullPlaylist returnPlaylist = await _spotifyService.GetPlaylistFromIDAsync(ID);
+            return View("Playlist", returnPlaylist);
+        }
     }
 }

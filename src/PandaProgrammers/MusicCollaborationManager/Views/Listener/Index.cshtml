@@ -201,7 +201,9 @@
                                             @{
                                                 if (Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL != null)
                                                 {
-                                                    <img src="@Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL">
+                                                    <form>                                                    
+                                                        <button asp-controller="Listener" asp-action="Playlist" asp-for='ID' class="" aria-current="page" value="@Model.UserPlaylists.ElementAt(UserPlayIndex).ID"><img src="@Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL"></button>
+                                                    </form>
                                                 }
                                             }
                                             <a href="@Model.UserPlaylists.ElementAt(UserPlayIndex).LinkToPlaylist">@Model.UserPlaylists.ElementAt(UserPlayIndex).Name</a>
