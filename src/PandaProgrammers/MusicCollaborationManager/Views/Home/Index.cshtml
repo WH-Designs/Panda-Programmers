@@ -12,7 +12,46 @@
                     unique features including custom site themes, a playlidst generator, and more.
                 </p>
             </div>
-            <div class="w-auto max-h-max bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+
+            <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-md rounded px-5 pt-6 pb-8 mb-4 overflow-hidden">
+                <div>
+                    <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+                    <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Top songs</h2>
+                </div>
+                <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg" id="track-0-container">
+                    </div>
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg" id="track-1-container">
+                    </div>
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg" id="track-2-container">
+                    </div>
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg" id="track-3-container">
+                    </div>
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg" id="track-4-container">
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-md rounded px-5 pt-6 pb-8 mb-4 overflow-hidden">
+                <div>
+                    <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+                    <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Top playlists</h2>
+                </div>
+                <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg" id="playlist-0-container">
+                    </div>
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg" id="playlist-1-container">
+                    </div>
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg" id="playlist-2-container">
+                    </div>
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg" id="playlist-3-container">
+                    </div>
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg" id="playlist-4-container">
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="w-auto max-h-max bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
                 <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
                     <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
                     <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Top songs</h2>
@@ -48,7 +87,7 @@
                     <div class="w-fit bg-primback text-textback" id="playlist-4-container">
                     </div>
                 </div>
-            </div>
+            </div>*@
             <div id="my-thing" class="-z-50">
                 <div id="embed-iframe"></div>
             </div>
