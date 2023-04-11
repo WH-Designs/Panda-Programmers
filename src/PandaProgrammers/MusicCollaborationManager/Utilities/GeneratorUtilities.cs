@@ -118,7 +118,7 @@ namespace MusicCollaborationManager.Utilities
                 indexCount = tracks.Count;
                 rngCount = tracks.Count;
             }
-            else if (tracks.Count > 5 && tracks.Count > 20)
+            else if (tracks.Count > 20)
             {
                 indexCount = 5;
                 rngCount = 20;
