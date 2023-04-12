@@ -1,5 +1,5 @@
-﻿@Wyatt
-Feature: User Logins
+﻿@Blake
+Feature: Generator Index
 **As a registered user I would like to be able to login so I may be able to have a customized experience.**
 
 This feature ensures that users who have previously registered can successfully login and see a personalized message

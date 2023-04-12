@@ -15,7 +15,8 @@
         <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
             <form class="" asp-area="Identity" asp-page="/Account/Logout"
             asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class=""><i class="fa-solid fa-right-from-bracket 
+                <button type="submit" class="" id="logout-button">
+                    <i class="fa-solid fa-right-from-bracket
                 luxury:text-yellow-500
                 autumn:text-sky-500" id="logout-button"></i> Logout
                 </button>
