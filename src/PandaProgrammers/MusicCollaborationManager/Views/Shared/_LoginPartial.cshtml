@@ -17,7 +17,8 @@
             asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class=""><i class="fa-solid fa-right-from-bracket 
                 luxury:text-yellow-500
-                autumn:text-sky-500"></i> Logout</button>
+                autumn:text-sky-500" id="logout-button"></i> Logout
+                </button>
             </form>
         </li>
         <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
@@ -31,13 +32,13 @@
 else
 {
     <li class="p-4 bottom-20 fixed bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
-        <a class="" asp-area="Identity" asp-page="/Account/Login"><i class="fa-solid fa-right-to-bracket 
+        <a class="" asp-area="Identity" asp-page="/Account/Login" id="login-link"><i class="fa-solid fa-right-to-bracket 
         luxury:text-yellow-500
         autumn:text-sky-500"></i> Login
         </a>
     </li>
     <li class="p-4 bottom-3 fixed bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
-        <a class="" asp-area="Identity" asp-page="/Account/Register"><i class="fa-solid fa-pen-to-square 
+        <a class="" asp-area="Identity" asp-page="/Account/Register" id="register-link"><i class="fa-solid fa-pen-to-square 
         luxury:text-yellow-500
         autumn:text-sky-500"></i> Register</a>
     </li>

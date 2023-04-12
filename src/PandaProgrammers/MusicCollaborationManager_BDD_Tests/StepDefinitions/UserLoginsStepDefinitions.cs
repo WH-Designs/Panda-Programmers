@@ -45,7 +45,14 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         [When(@"I login")]
         public void WhenILogin()
         {
-            throw new PendingStepException();
+            // Go to the login page
+            _loginPage.GoTo();
+            //Thread.Sleep(3000);
+            // Now (attempt to) log them in.  Assumes previous steps defined the user
+            TestUser u = (TestUser)_scenarioContext["CurrentUser"];
+            _loginPage.EnterEmail(u.Email);
+            _loginPage.EnterPassword(u.Password);
+            _loginPage.Login();
         }
 
         [Then(@"I am redirected to the '([^']*)' page")]
