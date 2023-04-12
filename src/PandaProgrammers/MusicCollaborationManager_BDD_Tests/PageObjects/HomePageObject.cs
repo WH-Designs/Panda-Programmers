@@ -14,6 +14,7 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         }
 
         public IWebElement RegisterButton => _webDriver.FindElement(By.Id("register-link"));
+        public IWebElement DashboardAnchor => _webDriver.FindElement(By.Id("dashboard-anchor"));
 
         public void Logout()
         {

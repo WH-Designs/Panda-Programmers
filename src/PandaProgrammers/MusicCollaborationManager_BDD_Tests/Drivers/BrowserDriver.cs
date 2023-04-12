@@ -39,7 +39,7 @@ namespace MusicCollaborationManager_BDD_Tests.Drivers
             //ChromeOptions chromeOptions = new ChromeOptions();
             //ChromeDriver driver = new ChromeDriver(chromeDriverService, chromeOptions);
 
-            // Firefox (never trusts the self-signed cert when running locally, so must bypass)
+            // Firefox (never trusts the self-signed cert when running locally, so must bypass)            
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.AcceptInsecureCertificates = true;
             FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
