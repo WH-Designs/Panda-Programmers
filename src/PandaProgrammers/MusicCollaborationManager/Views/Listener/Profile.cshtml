@@ -1,7 +1,7 @@
 ﻿@model MusicCollaborationManager.ViewModels.UserProfileViewModel
 
 <div class="flex flex-col ml-4 xl:ml-96 2xl:ml-[40rem]">
-    <div class="flex flex-col place-items-start md:place-items-center bg-secondaryback classicpanda:bg-coreback p-3 rounded-lg shadow-2xl shadow-gray-950">
+    <div class="flex flex-col place-items-start bg-secondaryback classicpanda:bg-coreback p-3 rounded-lg shadow-2xl shadow-gray-950">
         <div class="flex">
             <img src="@Model.profilePic" class="h-40 w-40 md:h-60 md:w-60 rounded-[128px]" />
             <h2 class="font-header text-textback classicpanda:text-whitetext text-[40pt] mt-7 md:mt-16 ml-5 p-1">@Model.fullName</h2>
@@ -20,7 +20,21 @@
             <h2 class="font-header text-textback classicpanda:text-whitetext text-xl p-1">&nbsp;&nbsp;&nbsp;<strong>Followers:</strong> @Model.followerCount</h2>
         </div>
         <div class="mt-4">
-            <h1 class="font-header font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">Current Services</h1>
+            <h1 class="mb-4 font-header font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">Current Services</h1>
+            <div class="table">
+                <div class="table-header-group">
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-2xl p-2"><strong>Service</strong></div>
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-2xl p-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Username</strong></div>
+                </div>
+                <div class="table-row-group">
+                    <div class="table-row">
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-3">&nbsp;Spotify</div>
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-3">
+                            &nbsp;&nbsp;@Model.spotifyName
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         @*
         <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl shadow-gray-950">
