@@ -21,6 +21,8 @@ namespace MusicCollaborationManager_BDD_Tests.Shared
         {
             { "Home" , "/" },
             { "Login", "/Identity/Account/Login" },
+            {"GeneratorIndex", "/Generator" },
+            {"QGenerator", "/Generator/Mood" },
         };
 
         public static string PathFor(string pathName) => Paths[pathName];
