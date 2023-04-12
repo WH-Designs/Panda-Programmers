@@ -182,9 +182,19 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Playlist(string ID) {
-            FullPlaylist returnPlaylist = await _spotifyService.GetPlaylistFromIDAsync(ID);
-            return View("Playlist", returnPlaylist);
+        public async Task<IActionResult> Playlist(UserDashboardViewModel vm) {
+            try {
+
+                FullPlaylist returnPlaylist = await _spotifyService.GetPlaylistFromIDAsync(vm.ID);
+                return View("Playlist", returnPlaylist);
+
+            } catch(ArgumentException) {
+                FullPlaylist returnPlaylist = await _spotifyService.GetPlaylistFromIDAsync("0wbYwQItyK648wmeNcqP5z");
+
+                List<PlaylistTrack<IPlayableItem>> songs = returnPlaylist.Tracks.Items;
+                
+                return View("Playlist", returnPlaylist);
+            }
         }
     }
 }

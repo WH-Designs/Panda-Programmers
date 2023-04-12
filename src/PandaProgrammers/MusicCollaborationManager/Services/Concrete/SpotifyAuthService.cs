@@ -294,7 +294,7 @@ namespace MusicCollaborationManager.Services.Concrete
             {
                 RequestParameters.Country = CurUser.Country;
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 RequestParameters.Country = "NA";
             }
@@ -376,9 +376,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
         public async Task<FullPlaylist> GetPlaylistFromIDAsync(string playlistID) {
             FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
-
             return wantedPlaylist;
         }
-
     }
 }
