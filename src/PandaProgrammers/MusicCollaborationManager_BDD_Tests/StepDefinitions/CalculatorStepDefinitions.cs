@@ -1,4 +1,6 @@
+using FluentAssertions;
 using MusicCollaborationManager_BDD_Tests.Utilities;
+using TechTalk.SpecFlow;
 
 namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
 {
