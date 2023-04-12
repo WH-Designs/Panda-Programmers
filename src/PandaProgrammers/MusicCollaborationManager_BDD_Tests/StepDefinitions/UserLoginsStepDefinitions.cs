@@ -61,7 +61,7 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         }
 
         [Given(@"I am a user with first name '([^']*)'")]
-        public void GivenIAmAUserWithFirstName(string andre)
+        public void GivenIAmAUserWithFirstName1(string andre)
         {
             throw new PendingStepException();
         }
@@ -73,7 +73,7 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         }
 
         [Given(@"I am a user with first name '([^']*)'")]
-        public void GivenIAmAUserWithFirstName(string talia)
+        public void GivenIAmAUserWithFirstName2(string talia)
         {
             throw new PendingStepException();
         }

@@ -1,10 +1,12 @@
 ﻿using BoDi;
 using MusicCollaborationManager_BDD_Tests.Drivers;
 using System;
+using TechTalk.SpecFlow;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentAssertions;
 
 namespace MusicCollaborationManager_BDD_Tests.Hooks
 {
