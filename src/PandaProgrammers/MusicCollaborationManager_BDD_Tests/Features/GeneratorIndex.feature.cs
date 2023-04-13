@@ -98,6 +98,24 @@ of this there is a short description for each of the generators. This page can b
 #line 9
  testRunner.Given("the following users exist generator", ((string)(null)), table1, "Given ");
 #line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Title",
+                        "titleKey"});
+            table2.AddRow(new string[] {
+                        "Questionnaire Generator",
+                        "Q"});
+#line 12
+ testRunner.And("the following generator titles exist", ((string)(null)), table2, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "descriptionKey",
+                        "Description"});
+            table3.AddRow(new string[] {
+                        "Q",
+                        @"With this generator you will be able to fill out a short questionnaire about songs and then get back a playlist of songs that fit your desired input. If you like the playlist that is returned, then you will have the option to save it to your own Spotify account!"});
+#line 15
+ testRunner.And("the following generartor descriptions exist", ((string)(null)), table3, "And ");
+#line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
@@ -110,7 +128,7 @@ of this there is a short description for each of the generators. This page can b
             argumentsOfScenario.Add("FirstName", firstName);
             argumentsOfScenario.Add("Page", page);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can navigate to generator landing page", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 14
+#line 20
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -133,13 +151,13 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
 this.FeatureBackground();
 #line hidden
-#line 15
+#line 21
  testRunner.Given(string.Format("I am a logged in user with first name \'{0}\'", firstName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 16
+#line 22
  testRunner.When("I click the generator button in the navbar", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 17
+#line 23
  testRunner.Then(string.Format("I should be redirected to the \'{0}\' page", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -148,15 +166,16 @@ this.FeatureBackground();
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Logged in user can see a description of a generator")]
-        [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", null)]
-        public virtual void LoggedInUserCanSeeADescriptionOfAGenerator(string firstName, string page, string[] exampleTags)
+        [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", "Q", null)]
+        public virtual void LoggedInUserCanSeeADescriptionOfAGenerator(string firstName, string page, string descriptionKey, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("FirstName", firstName);
             argumentsOfScenario.Add("Page", page);
+            argumentsOfScenario.Add("descriptionKey", descriptionKey);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can see a description of a generator", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 22
+#line 28
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -179,14 +198,14 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
 this.FeatureBackground();
 #line hidden
-#line 23
+#line 29
  testRunner.Given(string.Format("I am a logged in user with first name \'{0}\'", firstName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 24
+#line 30
  testRunner.When(string.Format("I am on the \'{0}\' page", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 25
- testRunner.Then("I should see a description of a generator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 31
+ testRunner.Then(string.Format("I should see a \'{0}\' description of a generator", descriptionKey), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -203,7 +222,7 @@ this.FeatureBackground();
             argumentsOfScenario.Add("Page", page);
             argumentsOfScenario.Add("GeneratorPage", generatorPage);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can navigate to a generator using one of buttons", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 30
+#line 36
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -226,16 +245,16 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
 this.FeatureBackground();
 #line hidden
-#line 31
+#line 37
  testRunner.Given(string.Format("I am a logged in user with first name \'{0}\'", firstName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 32
+#line 38
   testRunner.And(string.Format("I am on the \'{0}\' page", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 33
+#line 39
  testRunner.When("I click on one of the generator buttons", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 34
+#line 40
  testRunner.Then(string.Format("I should be navigated to that generators \'{0}\' page", generatorPage), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -243,16 +262,17 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user can a header that contains the title of a playlist generator")]
-        [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", null)]
-        public virtual void LoggedInUserCanAHeaderThatContainsTheTitleOfAPlaylistGenerator(string firstName, string page, string[] exampleTags)
+        [NUnit.Framework.DescriptionAttribute("Logged in user can see a header that contains the title of a playlist generator")]
+        [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", "Q", null)]
+        public virtual void LoggedInUserCanSeeAHeaderThatContainsTheTitleOfAPlaylistGenerator(string firstName, string page, string titleKey, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("FirstName", firstName);
             argumentsOfScenario.Add("Page", page);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can a header that contains the title of a playlist generator", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 39
+            argumentsOfScenario.Add("titleKey", titleKey);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can see a header that contains the title of a playlist generator", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 45
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -275,14 +295,14 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
 this.FeatureBackground();
 #line hidden
-#line 40
+#line 46
  testRunner.Given(string.Format("I am a logged in user with first name \'{0}\'", firstName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 41
+#line 47
  testRunner.When(string.Format("I am on the \'{0}\' page", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 42
- testRunner.Then("I should see a title of a generator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 48
+ testRunner.Then(string.Format("I should see a \'{0}\' title of a generator", titleKey), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

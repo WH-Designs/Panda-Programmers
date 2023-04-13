@@ -9,6 +9,12 @@ Background:
 	Given the following users exist generator
 	  | UserName			 | Email                 | FirstName | LastName | Password     |
 	  | chadb@gmail.com	     | chadb@gmail.com       | Chad      | Bass     | Pass321!     |
+	And the following generator titles exist
+	  | Title                   | titleKey |
+	  | Questionnaire Generator | Q   |
+	And the following generartor descriptions exist
+	  | descriptionKey | Description                                                                                                                                                                                                                                                            |
+	  | Q   | With this generator you will be able to fill out a short questionnaire about songs and then get back a playlist of songs that fit your desired input. If you like the playlist that is returned, then you will have the option to save it to your own Spotify account! |
 
 
 Scenario Outline: Logged in user can navigate to generator landing page
@@ -22,10 +28,10 @@ Scenario Outline: Logged in user can navigate to generator landing page
 Scenario Outline: Logged in user can see a description of a generator
 	Given I am a logged in user with first name '<FirstName>'
 	When I am on the '<Page>' page
-	Then I should see a description of a generator
+	Then I should see a '<descriptionKey>' description of a generator
 	Examples:
-	| FirstName | Page |
-	| Chad      | GeneratorIndex |
+	| FirstName | Page           | descriptionKey |
+	| Chad      | GeneratorIndex | Q   |
 
 Scenario Outline: Logged in user can navigate to a generator using one of buttons
 	Given I am a logged in user with first name '<FirstName>'
@@ -36,13 +42,13 @@ Scenario Outline: Logged in user can navigate to a generator using one of button
 	| FirstName | Page           | GeneratorPage |
 	| Chad      | GeneratorIndex | QGenerator    |
 
-Scenario Outline: Logged in user can a header that contains the title of a playlist generator
+Scenario Outline: Logged in user can see a header that contains the title of a playlist generator
 	Given I am a logged in user with first name '<FirstName>'
 	When I am on the '<Page>' page
-	Then I should see a title of a generator
+	Then I should see a '<titleKey>' title of a generator
 	Examples:
-	| FirstName | Page |
-	| Chad      | GeneratorIndex |
+	| FirstName | Page           | titleKey |
+	| Chad      | GeneratorIndex | Q   |
 
 
 
