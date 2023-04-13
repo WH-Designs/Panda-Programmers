@@ -243,15 +243,15 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user can a header that contains the title of a playlist generator")]
+        [NUnit.Framework.DescriptionAttribute("Logged in user can see a header that contains the title of a playlist generator")]
         [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", null)]
-        public virtual void LoggedInUserCanAHeaderThatContainsTheTitleOfAPlaylistGenerator(string firstName, string page, string[] exampleTags)
+        public virtual void LoggedInUserCanSeeAHeaderThatContainsTheTitleOfAPlaylistGenerator(string firstName, string page, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("FirstName", firstName);
             argumentsOfScenario.Add("Page", page);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can a header that contains the title of a playlist generator", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can see a header that contains the title of a playlist generator", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 39
 this.ScenarioInitialize(scenarioInfo);
 #line hidden

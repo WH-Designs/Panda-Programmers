@@ -36,7 +36,7 @@ Scenario Outline: Logged in user can navigate to a generator using one of button
 	| FirstName | Page           | GeneratorPage |
 	| Chad      | GeneratorIndex | QGenerator    |
 
-Scenario Outline: Logged in user can a header that contains the title of a playlist generator
+Scenario Outline: Logged in user can see a header that contains the title of a playlist generator
 	Given I am a logged in user with first name '<FirstName>'
 	When I am on the '<Page>' page
 	Then I should see a title of a generator

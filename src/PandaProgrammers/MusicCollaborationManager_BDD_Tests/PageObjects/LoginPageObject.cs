@@ -19,6 +19,7 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public IWebElement PasswordInput => _webDriver.FindElement(By.Id("Input_Password"));
         public IWebElement RememberMeCheck => _webDriver.FindElement(By.Id("Input_RememberMe"));
         public IWebElement SubmitButton => _webDriver.FindElement(By.Id("login-submit"));
+        public IWebElement ResendEmailLink => _webDriver.FindElement(By.Id("resend-confirmation"));
 
         public void EnterEmail(string email)
         {
@@ -59,6 +60,11 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         {
            ReadOnlyCollection<IWebElement> elements = _webDriver.FindElements(By.CssSelector(".validation-summary-errors"));
            return elements.Count() > 0;
+        }
+
+        public bool EmailLinkHasText(string text)
+        {
+            return ResendEmailLink.Text.Contains(text);
         }
     }
 }
