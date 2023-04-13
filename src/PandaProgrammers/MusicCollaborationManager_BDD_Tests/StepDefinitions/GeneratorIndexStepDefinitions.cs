@@ -7,6 +7,7 @@ using TechTalk.SpecFlow.Assist;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using FluentAssertions;
 
 namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
 {

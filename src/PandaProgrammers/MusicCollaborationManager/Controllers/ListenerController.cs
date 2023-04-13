@@ -185,14 +185,14 @@ namespace MusicCollaborationManager.Controllers
         public async Task<IActionResult> Playlist(UserDashboardViewModel vm) {
             try {
 
-                var returnPlaylist = await _spotifyService.GetPlaylistFromIDAsync("0wbYwQItyK648wmeNcqP5z");
+                FullPlaylist returnPlaylist = await _spotifyService.GetPlaylistFromIDAsync(vm.ID);
                 return View("Playlist", returnPlaylist);
 
             } catch(ArgumentException) {
-                var returnPlaylist = await _spotifyService.GetPlaylistFromIDAsync("0wbYwQItyK648wmeNcqP5z");
+                FullPlaylist returnPlaylist = await _spotifyService.GetPlaylistFromIDAsync("0wbYwQItyK648wmeNcqP5z");
 
-                List<PlaylistTrack<IPlayableItem>> songs = returnPlaylist.Tracks.Items;
-                
+                var songs = returnPlaylist.Tracks;
+
                 return View("Playlist", returnPlaylist);
             }
         }
