@@ -12,29 +12,46 @@
 }
 else
 {
-    <div class="ml-16">
-    <div class="flex flex-col items-center justify-center bg-secondaryback classicpanda:bg-coreback">
-        <h1 class="font-header text-4xl pb-3 text-textback classicpanda:text-whitetext luxury:text-yellow-500">@ViewData["Title"]</h1>
-        <h2 class="font-header text-3xl pb-3 text-textback classicpanda:text-whitetext">Current Information:</h2>
-        <div class="flex flex-col justify-center text-center">
-            <p class="text-2xl text-textback classicpanda:text-whitetext">First Name: @Model.FirstName</p>
-            <p class="text-2xl text-textback classicpanda:text-whitetext">Last Name: @Model.LastName</p>
+    <div class="ml-32 md:ml-16 xl:ml-80">
+        <div class="flex flex-col justify-center items-center w-[300px] md:w-auto">
+        
+        <div class="bg-secondaryback classicpanda:bg-coreback shadow-2xl shadow-black rounded-xl p-3 text-center w-full md:w-[400px]">
+            <h1 class="font-header text-[30pt] pb-3 text-textback classicpanda:text-whitetext luxury:text-yellow-500">@ViewData["Title"]</h1>
         </div>
-        <form asp-action="EditListenerInformation" class="max-w-2xl bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="flex flex-col w-[300px] md:w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 mt-5 md:w-fit">
+                <h4 class="font-header font-bold mb-6 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500 text-2xl">Available Themes</h4>
+                <div class="overflow-x-auto p-2">
+                    <div class="flex flex-col md:flex-row md:gap-x-16 gap-y-4 text-center">
+                        <button id="classicpanda-btn" class="md:w-[80px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Original</button>
+                        <button id="revolution-btn" class="md:w-[80px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Red</button>
+                        <button id="autumn-btn" class="md:w-[80px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Purple</button>
+                        <button id="moon-btn" class="md:w-[80px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Dark</button>
+                        <button id="mansion-btn" class="md:w-[80px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Gold</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center bg-secondaryback classicpanda:bg-coreback mt-5 p-4 rounded-xl shadow-black shadow-2xl md:w-[400px]">
+            <h2 class="font-header text-3xl pb-3 text-textback classicpanda:text-whitetext">Current Information:</h2>
+            <div class="flex flex-col">
+                <p class="text-2xl text-textback classicpanda:text-whitetext">First Name: @Model.FirstName</p>
+                <p class="text-2xl text-textback classicpanda:text-whitetext">Last Name: @Model.LastName</p>
+            </div>
+        </div>
+        <form asp-action="EditListenerInformation" class="max-w-xl bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-5 md:w-[400px]">
             <h2 class="font-header text-center text-2xl pb-3">Change your information.</h2>
             <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm" role="alert"></div>
             <div class="w-full px-3">
                 <label asp-for="FirstName"
-                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                       class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
                 <input asp-for="FirstName"
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" />
+                       class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" required />
                 <span asp-validation-for="FirstName" class="text-red-500 text-sm"></span>
             </div>
             <div class="w-full px-3">
                 <label asp-for="LastName"
-                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
+                       class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"></label>
                 <input asp-for="LastName"
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" />
+                       class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" required />
                 <span asp-validation-for="LastName" class="text-red-500 text-sm"></span>
             </div>
             <input type="hidden" asp-for="FriendId" />
@@ -43,22 +60,14 @@ else
             <input type="hidden" asp-for="Id" />
             <div>
                 <button id="login-submit" type="submit"
-                    class="w-full flex-shrink-0 bg-gray-800 hover:bg-gray-600 text-textback font-bold py-2 px-4 border-b-4 border-gray-900 hover:border-gray-700 rounded 
-                    classicpanda:text-whitetext 
-                    autumn:text-white
-                    revolution:text-white">
+                        class="w-full flex-shrink-0 bg-gray-800 hover:bg-gray-600 text-textback font-bold py-2 px-4 border-b-4 border-gray-900 hover:border-gray-700 rounded
+                            classicpanda:text-whitetext
+                            autumn:text-white
+                            revolution:text-white">
                     Save
                 </button>
-            </div>            
+            </div>
         </form>
-        <div>
-            <h1 class="font-header text-center text-2xl pb-3 text-textback classicpanda:text-whitetext">Available Themes:</h1>
-            <button id="classicpanda-btn" class="text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 classicpanda:text-whitetext">Original</button>
-            <button id="revolution-btn" class="text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 classicpanda:text-whitetext">Red</button>
-            <button id="autumn-btn" class="text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 classicpanda:text-whitetext">Purple</button>
-            <button id="moon-btn" class="text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 classicpanda:text-whitetext">Dark</button>
-            <button id="mansion-btn" class="text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 classicpanda:text-whitetext">Gold</button>
-        </div>
         </div>
     </div>
 }
