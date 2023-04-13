@@ -42,6 +42,14 @@ Scenario Outline: Non-user cannot login
 	| FirstName |
 	| Andre     |
 
+Scenario Outline: Login page contains a link
+	Given I am a visitor
+	When I am on '<Page>' page
+	Then I can see a link that contains '<Text>'
+	Examples: 
+	| Text                      |
+	| Resend email confirmation |
+
 # Need to do this one after logging in to have any cookies
 #@support
 #Scenario: We can save cookies
