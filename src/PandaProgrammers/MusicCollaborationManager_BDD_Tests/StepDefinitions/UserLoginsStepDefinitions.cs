@@ -94,6 +94,27 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _loginPage.HasLoginErrors().Should().BeTrue();
         }
 
+        [Given(@"I am a visitor")]
+        public void GivenIAmAVisitor()
+        {
+            //
+        }
+
+        [Then(@"I can see a link that contains '([^']*)'")]
+        public void ThenICanSeeALinkThatContains(string text)
+        {
+            _loginPage.ResendEmailLink.Should().NotBeNull();
+            _loginPage.ResendEmailLink.Displayed.Should().BeTrue();
+            _loginPage.EmailLinkHasText(text).Should().BeTrue();
+        }
+
+        [When(@"I am on '([^']*)' page")]
+        public void WhenIAmOnPage(string page)
+        {
+            _loginPage.GoTo();
+        }
+
+
         //[Then(@"I can save cookies")]
         //public void ThenICanSaveCookies()
         //{
