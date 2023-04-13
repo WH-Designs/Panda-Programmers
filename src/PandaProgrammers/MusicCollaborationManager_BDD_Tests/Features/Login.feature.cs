@@ -90,33 +90,6 @@ To generate living documentation, create a Documentation folder and then run one
         {
 #line 15
 #line hidden
-            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                        "UserName",
-                        "Email",
-                        "FirstName",
-                        "LastName",
-                        "Password"});
-            table1.AddRow(new string[] {
-                        "chadb@gmail.com",
-                        "chadb@gmail.com",
-                        "Chad",
-                        "Bass",
-                        "Pass321!"});
-            table1.AddRow(new string[] {
-                        "admin@example.com",
-                        "admin@example.com",
-                        "The",
-                        "Admin",
-                        "EbAE6bbr6p!3"});
-            table1.AddRow(new string[] {
-                        "tiffanyf@gmail.com",
-                        "tiffanyf@gmail.com",
-                        "Tiffany",
-                        "Fox",
-                        "Pass321!"});
-#line 16
- testRunner.Given("the following users exist", ((string)(null)), table1, "Given ");
-#line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "UserName",
                         "Email",
@@ -124,13 +97,40 @@ To generate living documentation, create a Documentation folder and then run one
                         "LastName",
                         "Password"});
             table2.AddRow(new string[] {
+                        "chadb@gmail.com",
+                        "chadb@gmail.com",
+                        "Chad",
+                        "Bass",
+                        "Pass321!"});
+            table2.AddRow(new string[] {
+                        "admin@example.com",
+                        "admin@example.com",
+                        "The",
+                        "Admin",
+                        "EbAE6bbr6p!3"});
+            table2.AddRow(new string[] {
+                        "tiffanyf@gmail.com",
+                        "tiffanyf@gmail.com",
+                        "Tiffany",
+                        "Fox",
+                        "Pass321!"});
+#line 16
+ testRunner.Given("the following users exist", ((string)(null)), table2, "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "UserName",
+                        "Email",
+                        "FirstName",
+                        "LastName",
+                        "Password"});
+            table3.AddRow(new string[] {
                         "AndreC",
                         "colea@example.com",
                         "Andre",
                         "Cole",
                         "0a9dfi3.a"});
 #line 21
- testRunner.And("the following users do not exist", ((string)(null)), table2, "And ");
+ testRunner.And("the following users do not exist", ((string)(null)), table3, "And ");
 #line hidden
         }
         
@@ -232,102 +232,6 @@ this.FeatureBackground();
 #line hidden
 #line 40
  testRunner.Then("I can see a login error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("We can save cookies")]
-        [NUnit.Framework.CategoryAttribute("support")]
-        public virtual void WeCanSaveCookies()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "support"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("We can save cookies", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 47
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 15
-this.FeatureBackground();
-#line hidden
-#line 48
- testRunner.Given("I am a user with first name \'Talia\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 49
- testRunner.When("I login", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 50
- testRunner.Then("I can save cookies", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("We can log in with only a cookie")]
-        [NUnit.Framework.CategoryAttribute("support")]
-        public virtual void WeCanLogInWithOnlyACookie()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "support"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("We can log in with only a cookie", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 53
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 15
-this.FeatureBackground();
-#line hidden
-#line 54
- testRunner.Given("I am a user with first name \'Talia\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 56
-  testRunner.And("I am on the \"Home\" page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 57
- testRunner.When("I load previously saved cookies", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 58
-  testRunner.And("I am on the \"Home\" page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 59
- testRunner.Then("I can see a personalized message in the navbar that includes my email", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

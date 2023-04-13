@@ -17,8 +17,8 @@ namespace MusicCollaborationManager_BDD_Tests.Hooks
         public static void AfterScenario(BrowserDriver browserDriver)
         {
             // if every page has the navbar then we could put this in the base PageObject class and make it not abstract
-            //HomePageObject homePage = new HomePageObject(browserDriver.Current);
-            //homePage.Logout();
+            HomePageObject homePage = new HomePageObject(browserDriver.Current);
+            homePage.Logout();
         }
 
     }

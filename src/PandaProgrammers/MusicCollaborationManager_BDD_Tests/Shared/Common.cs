@@ -9,7 +9,7 @@ namespace MusicCollaborationManager_BDD_Tests.Shared
     // Sitewide definitions and useful methods
     public class Common
     {
-        public const string BaseUrl = "https://localhost:5000";     // copied from launchSettings.json
+        public const string BaseUrl = "http://127.0.0.1:5000";     // copied from launchSettings.json
         
 
         // File to store browser cookies in
@@ -21,6 +21,8 @@ namespace MusicCollaborationManager_BDD_Tests.Shared
         {
             { "Home" , "/" },
             { "Login", "/Identity/Account/Login" },
+            {"GeneratorIndex", "/Generator" },
+            {"QGenerator", "/Generator/Mood" },
         };
 
         public static string PathFor(string pathName) => Paths[pathName];

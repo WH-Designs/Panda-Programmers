@@ -4,8 +4,8 @@
     <div class="xl:col-span-1"></div> @*Div to help grid span page correctly using grids*@
     <div class="lg:col-span-1">
         <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
-            <h1 class="font-header font-bold text-4xl text-textback classicpanda:text-whitetext p-1 luxury:text-yellow-500 autumn:text-white revolution:text-white">Questionnaire Generator</h1>
-            <p class="text-textback classicpanda:text-whitetext text-2x">With this generator you will be able to fill out a short questionnaire about songs and then get back a playlist of songs that fit your desired input.
+            <h1 class="font-header font-bold text-4xl text-textback classicpanda:text-whitetext p-1 luxury:text-yellow-500 autumn:text-white revolution:text-white" id="question-header">Questionnaire Generator</h1>
+            <p class="text-textback classicpanda:text-whitetext text-2x" id="question-descr">With this generator you will be able to fill out a short questionnaire about songs and then get back a playlist of songs that fit your desired input.
                 If you like the playlist that is returned, then you will have the option to save it to your own Spotify account! 
             </p>
             <br />
@@ -22,7 +22,7 @@
             </p>
             <br />
             <a asp-controller="Generator" asp-action="Mood"
-               class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600">Try it out</a>
+               class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600" id="mood-anchor">Try it out</a>
             <br />
         </div>
     </div>
