@@ -6,252 +6,247 @@
 
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
-<div class="flex flex-col">
-    <div class="flex flex-row">
-        <div class="flex flex-col w-3/4 mx-5">
-            <div>
-                <h1 class="font-header font-bold text-2xl text-textback luxury:text-black">@Model.fullName</h1>
-                <h2 class="font-header text-textback luxury:text-black">@Model.aspUser.Identity.Name</h2>
-                <h2 class="font-header text-textback"><!-- Spotify Info --></h2>
-            </div>
-            <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
-                <div class="flex flex-row gap-x-3 mt-5" id="recommended-songs-header-container">
-                    <h2 class="font-header font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Recommended Tracks</h2>
-                    <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
-                    @{
-                        if (Model.TopTracks.Count > 5)
-                        {
-                            <button class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="toggle-recom-tracks-btn">Show more</button>
-                        }
-                    }
-                </div>
-
-                <div class="flex flex-col gap-y-3.5" id="recom-tracks-container">
-                    @{
-                        int UserTracksIndex = 0;
-                        if (Model.TopTracks.Count <= 0)
-                        {
-                            <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center luxury:text-yellow-500">(No items to display)</p>
-                        }
-                        else
-                        {
-                            <div class="columns-5 mb-5 h-full max-h-max">
-                                @{
-                                    for (int UTOneIndex = 0; UTOneIndex < Model.TopTracks.Count; UTOneIndex++)
-                                    {
-                                        <div class="w-fit overflow-hidden bg-gray-300">
-                                            @{
-                                                if (Model.TopTracks.ElementAt(UserTracksIndex).ImageURL != null)
-                                                {
-                                                    <img src="@Model.TopTracks.ElementAt(UserTracksIndex).ImageURL">
-                                                }
-                                                <a href="@Model.TopTracks.ElementAt(UserTracksIndex).LinkToTrack">@Model.TopTracks.ElementAt(UserTracksIndex).Title</a>
-                                                <p>@Model.TopTracks.ElementAt(UserTracksIndex).Artist</p>
-                                            <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.TopTracks.ElementAt(UserTracksIndex).Uri">Play</button>
-                                            }
-                                        </div>
-                                        UserTracksIndex++;
-                                        if (UserTracksIndex > 4)
-                                        { break; }
-                                    }
-                                }
-                            </div>
-
-                            while (UserTracksIndex < Model.TopTracks.Count)
+<div class="flex flex-col w-[88%] ml-4 md:w-3/4">
+    <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Recommended Tracks</h2>
+        </div>
+        <div class="flex flex-col gap-x-3 text-center text-lg">
+            @{
+                int UserTracksIndex = 0;
+                if (Model.TopTracks.Count <= 0)
+                {
+                    <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center luxury:text-yellow-500">(No items to display)</p>
+                }
+                else
+                {
+                    <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                        @{
+                            for (int UTOneIndex = 0; UTOneIndex < Model.TopTracks.Count; UTOneIndex++)
                             {
-                                <div class="columns-5 mb-5 h-full max-h-max hidden extra-recom-tracks">
+                                <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
                                     @{
-                                        for (int UTTwoIndex = 0; UTTwoIndex < 4; UTTwoIndex++)
+                                        if (Model.TopTracks.ElementAt(UserTracksIndex).ImageURL != null)
                                         {
-                                            <div class="w-fit overflow-hidden bg-gray-300">
-                                                @{
-                                                    if (Model.TopTracks.ElementAt(UserTracksIndex).ImageURL != null)
-                                                    {
-                                                        <img src="@Model.TopTracks.ElementAt(UserTracksIndex).ImageURL">
-                                                    }
-                                                    <a href="@Model.TopTracks.ElementAt(UserTracksIndex).LinkToTrack">@Model.TopTracks.ElementAt(UserTracksIndex).Title</a>
-                                                    <p>@Model.TopTracks.ElementAt(UserTracksIndex).Artist</p>
-                                                    <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.TopTracks.ElementAt(UserTracksIndex).Uri">Play</button>
-                                                }
-                                            </div>
-                                            UserTracksIndex++;
-                                            if (UserTracksIndex >= Model.TopTracks.Count)
-                                            { break; }
+                                            <img src="@Model.TopTracks.ElementAt(UserTracksIndex).ImageURL">
                                         }
+                                        <a href="@Model.TopTracks.ElementAt(UserTracksIndex).LinkToTrack">@Model.TopTracks.ElementAt(UserTracksIndex).Title</a>
+                                        <p>@Model.TopTracks.ElementAt(UserTracksIndex).Artist</p>
+                                        <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.TopTracks.ElementAt(UserTracksIndex).Uri">Play</button>
                                     }
                                 </div>
+                                UserTracksIndex++;
+                                if (UserTracksIndex > 4)
+                                { break; }
                             }
                         }
-                        if (20 <= Model.TopTracks.Count)
-                        {
-                            <a role="button" href="https://open.spotify.com" id="link-to-spotify-recom-tracks" class="hidden text-center rounded bg-green-300">View more in Spotify</a>
-                        }
+                    </div>
+                    <div class="hidden extra-recom-tracks mt-4">
+                        <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                            @while (UserTracksIndex < Model.TopTracks.Count)
+                            {
+                                for (int UTTwoIndex = 0; UTTwoIndex < 4; UTTwoIndex++)
+                                {
+                                    <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                                        @{
+                                            if (Model.TopTracks.ElementAt(UserTracksIndex).ImageURL != null)
+                                            {
+                                                <img src="@Model.TopTracks.ElementAt(UserTracksIndex).ImageURL">
+                                            }
+                                            <a href="@Model.TopTracks.ElementAt(UserTracksIndex).LinkToTrack">@Model.TopTracks.ElementAt(UserTracksIndex).Title</a>
+                                            <p>@Model.TopTracks.ElementAt(UserTracksIndex).Artist</p>
+                                            <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.TopTracks.ElementAt(UserTracksIndex).Uri">Play</button>
+                                        }
+                                    </div>
+                                    UserTracksIndex++;
+                                    if (UserTracksIndex >= Model.TopTracks.Count)
+                                    { break; }
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                if (20 <= Model.TopTracks.Count)
+                {
+                    <a role="button" href="https://open.spotify.com" id="link-to-spotify-recom-tracks" class="hidden text-center rounded bg-green-300">View more in Spotify</a>
+                }
 
-                    }
+            }
+            @{
+                if (Model.TopTracks.Count > 5)
+                {
+                    <button class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="toggle-recom-tracks-btn">Show more</button>
+                }
+            }
+        </div>
+    </div>
 
-
-
-                </div>
-
-            </div>
-            <!--RECOMM TRACKS (above)----->
-            <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-1 p-3 rounded-lg shadow-2xl">
-                <div class="flex flex-row gap-x-3 mt-5">
-                    <h2 class="font-header font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Featured Playlists</h2>
-                    <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
-                    @{
-                        if (Model.FeatPlaylists.Count > 5)
-                        {
-                            <button class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="toggle-feat-playlists-btn">Show more</button>
-                        }
-                    }
-                </div>
-                <div class="flex flex-col gap-y-3" id="feat-playlists-container">
-                    @{
-                        if (Model.FeatPlaylists.Count <= 0)
-                        {
-                            <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center luxury:text-yellow-500">(No items to display)</p>
-                        }
-                        else
-                        {
+    <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Featured Playlists</h2>
+        </div>
+        <div class="flex flex-col gap-x-3 text-center text-lg">
+            @{
+                if (Model.FeatPlaylists.Count <= 0)
+                {
+                    <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center luxury:text-yellow-500">(No items to display)</p>
+                }
+                else
+                {
+                    <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                        @{
                             int FeatPlayIndex = 0;
                             if (Model.FeatPlaylists.Count > 0)
                             {
 
-                                <div class="columns-5 mb-5 h-full max-h-max">
-                                    @{
-                                        for (int FpIOne = 0; FpIOne < Model.FeatPlaylists.Count; FpIOne++) //The first 5 playlists (which are always visible to the user)
-                                        {
-                                            <div class="w-fit overflow-hidden bg-gray-300">
-                                                @{
-                                                    if (Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL != null)
-                                                    {
-                                                        <img src="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).ImageURL">
-                                                    }
-                                                }
-                                                <a href="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).LinkToPlaylist">@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Name</a>
-                                                            <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Uri">Play</button>
-                                            </div>
-                                            FeatPlayIndex++;
-                                            if (FeatPlayIndex > 4) { break; }
-                                        }
-                                    }
-                                </div>
-                            }
-                            while (FeatPlayIndex < Model.FeatPlaylists.Count) //The extra 15 playlists (which the user can hide)
-                            {
-                                <div class="columns-5 mb-5 h-full max-h-max hidden extra-feat-playlists">
-                                    @{
-                                        for (int FpITwo = 0; FpITwo < 5; FpITwo++)
-                                        {
-                                            <div class="w-fit overflow-hidden bg-gray-300">
-                                                @{
-                                                    if (Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL != null)
-                                                    {
-                                                        <img src="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).ImageURL">
-                                                    }
-                                                    <a href="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).LinkToPlaylist">@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Name</a>
-                                                                    <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Uri">Play</button>
-                                                }
-                                            </div>
-                                            FeatPlayIndex++;
-                                            if (FeatPlayIndex >= Model.FeatPlaylists.Count)
-                                            { break; }
-                                        }
-                                    }
-                                </div>
-                            }
-                        }
-                        if (20 <= Model.FeatPlaylists.Count)
-                        {
-                            <a role="button" href="https://open.spotify.com" id="link-to-spotify-feat-playlists" class="hidden text-center rounded bg-green-300">View more in Spotify</a>
-                        }
-                    }
-
-                </div>
-            </div>
-
-            <!---FEAT PLAYLISTS (above)-->
-            <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-1 p-3 rounded-lg shadow-2xl">
-                <div class="flex flex-row gap-x-3 mt-5">
-                    <h2 class="font-header font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">My Playlists</h2>
-                    <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
-                    @{
-                        if (Model.UserPlaylists.Count > 5)
-                        {
-                            <button class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="toggle-user-playlists-btn">Show more</button>
-                        }
-                    }
-                </div>
-                <div class="flex flex-col gap-y-3" id="user-playlists-container">
-                    @{
-                        int UserPlayIndex = 0;
-                        if (Model.UserPlaylists.Count <= 0)
-                        {
-                            <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center luxury:text-yellow-500">(No items to display)</p>
-                        }
-                        else
-                        {
-                            <div class="columns-5 mb-5 h-full max-h-max">
-                                @{
-                                    for (int UpIOne = 0; UpIOne < Model.UserPlaylists.Count; UpIOne++) //The first 5 playlists (which are always visible to the user)
-                                    {
-                                        <div class="w-fit overflow-hidden bg-gray-300">
-
-                                            @{
-                                                if (Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL != null)
-                                                {
-                                                    <img src="@Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL">
-                                                }
+                                for (int FpIOne = 0; FpIOne < Model.FeatPlaylists.Count; FpIOne++) //The first 5 playlists (which are always visible to the user)
+                                {
+                                    <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                                        @{
+                                            if (Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL != null)
+                                            {
+                                                <img src="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).ImageURL">
                                             }
-                                            <a href="@Model.UserPlaylists.ElementAt(UserPlayIndex).LinkToPlaylist">@Model.UserPlaylists.ElementAt(UserPlayIndex).Name</a>
-                                            <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.UserPlaylists.ElementAt(UserPlayIndex).Uri">Play</button>
-
-                                        </div>
-
-                                        UserPlayIndex++;
-                                        if (UserPlayIndex > 4)
-                                        { break; }
-                                    }
-                                }
-                            </div>
-
-                            while (UserPlayIndex < Model.UserPlaylists.Count) //The extra 15 playlists (which the user can hide)
-                            {
-                                <div class="columns-5 mb-5 h-full max-h-max hidden extra-user-playlists">
-                                    @{
-                                        for (int UpITwo = 0; UpITwo < 5; UpITwo++)
-                                        {
-                                            <div class="w-fit overflow-hidden bg-gray-300">
-                                                @{
-                                                    if (Model.UserPlaylists.ElementAt(UserPlayIndex).ImageURL != null)
-                                                    {
-                                                        <img src="@Model.UserPlaylists.ElementAt(UserPlayIndex).ImageURL">
-                                                    }
-                                                }
-                                                <a href="@Model.UserPlaylists.ElementAt(UserPlayIndex).LinkToPlaylist">@Model.UserPlaylists.ElementAt(UserPlayIndex).Name</a>
-                                                 <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.UserPlaylists.ElementAt(UserPlayIndex).Uri">Play</button>
-
-                                            </div>
-                                            UserPlayIndex++;
-                                            if (UserPlayIndex >= Model.UserPlaylists.Count)
-                                            { break; }
                                         }
-                                    }
-                                </div>
+                                        <a href="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).LinkToPlaylist">@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Name</a>
+                                        <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Uri">Play</button>
+                                    </div>
+                                    FeatPlayIndex++;
+                                    if (FeatPlayIndex > 4) { break; }
+                                }
                             }
                         }
-                        if (20 <= Model.UserPlaylists.Count)
-                        {
-                            <a role="button" href="https://open.spotify.com" id="link-to-spotify-user-playlists" class="hidden text-center rounded bg-green-300">View more in Spotify</a>
-                        }
-                    }
-                </div>
-                <!--------USER playlists (above)-------------------------->
-            </div>
-            <div id="embed-iframe"></div>
+                    </div>
+                    <div class="hidden extra-feat-playlists mt-4">
+                        <div class="flex gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                            @while (FeatPlayIndex < Model.FeatPlaylists.Count) //The extra 15 playlists (which the user can hide)
+                            {
+                                for (int FpITwo = 0; FpITwo < 5; FpITwo++)
+                                {
+                                    <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                                        @{
+                                            if (Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL != null)
+                                            {
+                                                <img src="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).ImageURL">
+                                            }
+                                            <a href="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).LinkToPlaylist">@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Name</a>
+                                            <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Uri">Play</button>
+                                        }
+                                    </div>
+                                    FeatPlayIndex++;
+                                    if (FeatPlayIndex >= Model.FeatPlaylists.Count)
+                                    { break; }
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                if (20 <= Model.FeatPlaylists.Count)
+                {
+                    <a role="button" href="https://open.spotify.com" id="link-to-spotify-feat-playlists" class="hidden text-center rounded bg-green-300">View more in Spotify</a>
+                }
+            }
+            @{
+                if (Model.FeatPlaylists.Count > 5)
+                {
+                    <button class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="toggle-feat-playlists-btn">Show more</button>
+                }
+            }
         </div>
-        <div class="flex flex-col w-52 mx-5 text-textback">
+    </div>
+
+    <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">My Playlists</h2>
+        </div>
+        <div class="flex flex-col gap-x-3 text-center text-lg">
+            
+        </div>
+    </div>
+    @*
+    <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-1 p-3 rounded-lg shadow-2xl">
+    <div class="flex flex-row gap-x-3 mt-5">
+    <h2 class="font-header font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">My Playlists</h2>
+    <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
+    @{
+    if (Model.UserPlaylists.Count > 5)
+    {
+    <button class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="toggle-user-playlists-btn">Show more</button>
+    }
+    }
+    </div>
+    <div class="flex flex-col gap-y-3" id="user-playlists-container">
+    @{
+    int UserPlayIndex = 0;
+    if (Model.UserPlaylists.Count <= 0)
+    {
+    <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center luxury:text-yellow-500">(No items to display)</p>
+    }
+    else
+    {
+    <div class="columns-5 mb-5 h-full max-h-max">
+    @{
+    for (int UpIOne = 0; UpIOne < Model.UserPlaylists.Count; UpIOne++) //The first 5 playlists (which are always visible to the user)
+    {
+    <div class="w-fit overflow-hidden bg-gray-300">
+
+    @{
+    if (Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL != null)
+    {
+    <img src="@Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL">
+    }
+    }
+    <a href="@Model.UserPlaylists.ElementAt(UserPlayIndex).LinkToPlaylist">@Model.UserPlaylists.ElementAt(UserPlayIndex).Name</a>
+    <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.UserPlaylists.ElementAt(UserPlayIndex).Uri">Play</button>
+
+    </div>
+
+    UserPlayIndex++;
+    if (UserPlayIndex > 4)
+    { break; }
+    }
+    }
+    </div>
+
+    while (UserPlayIndex < Model.UserPlaylists.Count) //The extra 15 playlists (which the user can hide)
+    {
+    <div class="columns-5 mb-5 h-full max-h-max hidden extra-user-playlists">
+    @{
+    for (int UpITwo = 0; UpITwo < 5; UpITwo++)
+    {
+    <div class="w-fit overflow-hidden bg-gray-300">
+    @{
+    if (Model.UserPlaylists.ElementAt(UserPlayIndex).ImageURL != null)
+    {
+    <img src="@Model.UserPlaylists.ElementAt(UserPlayIndex).ImageURL">
+    }
+    }
+    <a href="@Model.UserPlaylists.ElementAt(UserPlayIndex).LinkToPlaylist">@Model.UserPlaylists.ElementAt(UserPlayIndex).Name</a>
+    <button class="playable-item hover:bg-gray-800 hover:text-textback classicpanda:text-whitetext" data-spotify-id="@Model.UserPlaylists.ElementAt(UserPlayIndex).Uri">Play</button>
+
+    </div>
+    UserPlayIndex++;
+    if (UserPlayIndex >= Model.UserPlaylists.Count)
+    { break; }
+    }
+    }
+    </div>
+    }
+    }
+    if (20 <= Model.UserPlaylists.Count)
+    {
+    <a role="button" href="https://open.spotify.com" id="link-to-spotify-user-playlists" class="hidden text-center rounded bg-green-300">View more in Spotify</a>
+    }
+    }
+    </div>
+    <!--------USER playlists (above)-------------------------->
+    </div>*@
+    <div id="embed-iframe"></div>
+</div>
+@*<div class="flex flex-col w-52 mx-5 text-textback">
             <div class="w-full my-1 p-3 bg-secondaryback classicpanda:bg-coreback rounded-lg text-center">
                 <h4 class="font-header font-bold mb-6 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Your Top Genres</h4>
                 <img src="~/img/Spotify_Logo_Black.png" class="ml-7 bg-white w-32 h-10" />
@@ -261,9 +256,7 @@
                 <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="user-genre-3-container"></div>
                 <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="user-genre-4-container"></div>
             </div>
-        </div>
-    </div>
-</div>
+        </div>*@
 
 <script>
 
