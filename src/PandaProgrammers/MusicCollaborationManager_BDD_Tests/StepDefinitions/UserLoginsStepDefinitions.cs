@@ -115,34 +115,36 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         }
 
 
-        //[Then(@"I can save cookies")]
-        //public void ThenICanSaveCookies()
-        //{
-        //    throw new PendingStepException();
-        //}
+        [Then(@"I can save cookies")]
+        public void ThenICanSaveCookies()
+        {
+            _homePage.SaveAllCookies().Should().BeTrue();
+        }
 
-        //[Given(@"I am on the ""([^""]*)"" page")]
-        //public void GivenIAmOnThePage(string home)
-        //{
-        //    throw new PendingStepException();
-        //}
+        [Given(@"I am on the ""([^""]*)"" page")]
+        public void GivenIAmOnThePage(string home)
+        {
+            _homePage.GoTo(home);
+        }
 
-        //[When(@"I load previously saved cookies")]
-        //public void WhenILoadPreviouslySavedCookies()
-        //{
-        //    throw new PendingStepException();
-        //}
+        [When(@"I load previously saved cookies")]
+        public void WhenILoadPreviouslySavedCookies()
+        {
+            _homePage.LoadAllCookies().Should().BeTrue();
+        }
 
-        //[When(@"I am on the ""([^""]*)"" page")]
-        //public void WhenIAmOnThePage(string home)
-        //{
-        //    throw new PendingStepException();
-        //}
+        [When(@"I am on the ""([^""]*)"" page")]
+        public void WhenIAmOnThePage(string home)
+        {
+            _homePage.GoTo(home);
+        }
 
-        //[Then(@"I can see a personalized message in the navbar that includes my email")]
-        //public void ThenICanSeeAPersonalizedMessageInTheNavbarThatIncludesMyEmail()
-        //{
-        //    throw new PendingStepException();
-        //}
+        [Then(@"I can see a '([^']*)' button on the navbar")]
+        public void ThenICanSeeAButtonOnTheNavbar(string button)
+        {
+            _homePage.SpotifyLoginButton.Should().NotBeNull();
+            _homePage.SpotifyLoginButton.Displayed.Should().BeTrue();
+        }
+
     }
 }

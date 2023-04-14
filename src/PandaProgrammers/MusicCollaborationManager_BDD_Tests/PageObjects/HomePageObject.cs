@@ -17,6 +17,7 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public IWebElement DashboardAnchor => _webDriver.FindElement(By.Id("dashboard-anchor"));
         public IWebElement navbarLogoutButton => _webDriver.FindElement(By.Id("logout-button"));
         public IWebElement SettingsAnchor => _webDriver.FindElement(By.Id("settings-link"));
+        public IWebElement SpotifyLoginButton => _webDriver.FindElement(By.Id("spotify-button"));
        
 
         public void GoToSettings() 
