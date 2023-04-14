@@ -9,55 +9,56 @@
 <div class="flex flex-col ml-4 w-[440px] md:w-full">
     <div class="flex justify-center items-center">
         <form id='search-form' class="ml-5">
-        <div class="flex h-14 w-full px-12">
-            @* Search Box *@
-            <input type="search" id="spotify-search" class="rounded-lg focus:outline-none hover:cursor-pointer" placeholder="Elton John" required>
-            <button type="submit" id='search-button' class="ml-3 w-fit flex-shrink-0 bg-gray-800 hover:bg-gray-600 text-textback font-bold py-2 px-4 border-b-4 border-gray-900 hover:border-gray-700 rounded-lg
+            <div class="flex h-14 w-full px-12">
+                @* Search Box *@
+                <input type="search" id="spotify-search" class="rounded-lg focus:outline-none hover:cursor-pointer" placeholder="Elton John" required>
+                <button type="submit" id='search-button' class="ml-3 w-fit flex-shrink-0 bg-gray-800 hover:bg-gray-600 text-textback font-bold py-2 px-4 border-b-4 border-gray-900 hover:border-gray-700 rounded-lg
                                 classicpanda:text-whitetext
                                 autumn:text-white
                                 revolution:text-white">
-                Search
-            </button>
-        </div>
+                    Search
+                </button>
+            </div>
 
-        <div class="flex"> @* Search Filters *@
-            <div class="flex items-center p-2 rounded hover:bg-gray-100">
-                <input id="checkbox-item-1" type="checkbox"
-                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ">
-                <label for="checkbox-item-1" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">All</label>
+            <div class="flex">
+                @* Search Filters *@
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="checkbox-item-1" type="checkbox"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ">
+                    <label for="checkbox-item-1" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">All</label>
+                </div>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input checked id="checkbox-item-2" type="checkbox"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="checkbox-item-2" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Artists</label>
+                </div>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="checkbox-item-3" type="checkbox"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="checkbox-item-3" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Playlists</label>
+                </div>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="checkbox-item-4" type="checkbox"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="checkbox-item-4" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Tracks</label>
+                </div>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="checkbox-item-5" type="checkbox"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="checkbox-item-5" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Albums</label>
+                </div>
             </div>
-            <div class="flex items-center p-2 rounded hover:bg-gray-100">
-                <input checked id="checkbox-item-2" type="checkbox"
-                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                <label for="checkbox-item-2" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Artists</label>
+            <div class="flex justify-center items-center">
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="spotify-radio" type="radio" name="mcm-or-spotify-scope" value="spotify" checked />
+                    <label for="spotify-radio">Spotify</label>
+                </div>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="mcm-radio" type="radio" name="mcm-or-spotify-scope" value="mcm" />
+                    <label for="mcm-radio">MCM</label>
+                </div>
             </div>
-            <div class="flex items-center p-2 rounded hover:bg-gray-100">
-                <input id="checkbox-item-3" type="checkbox"
-                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                <label for="checkbox-item-3" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Playlists</label>
-            </div>
-            <div class="flex items-center p-2 rounded hover:bg-gray-100">
-                <input id="checkbox-item-4" type="checkbox"
-                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                <label for="checkbox-item-4" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Tracks</label>
-            </div>
-            <div class="flex items-center p-2 rounded hover:bg-gray-100">
-                <input id="checkbox-item-5" type="checkbox"
-                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                <label for="checkbox-item-5" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Albums</label>
-            </div>
-        </div>
-        <div class="flex justify-center items-center">
-            <div class="flex items-center p-2 rounded hover:bg-gray-100">
-                <input id="spotify-radio" type="radio" name="mcm-or-spotify-scope" value="spotify" checked />
-                <label for="spotify-radio">Spotify</label>
-            </div>
-            <div class="flex items-center p-2 rounded hover:bg-gray-100">
-                <input id="mcm-radio" type="radio" name="mcm-or-spotify-scope" value="mcm" />
-                <label for="mcm-radio">MCM</label>
-            </div>
-        </div>
-    </form>
+        </form>
     </div>
 
     <div class="flex flex-col mr-3"> @* Search Results *@
