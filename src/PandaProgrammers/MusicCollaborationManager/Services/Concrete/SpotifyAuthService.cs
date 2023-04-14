@@ -294,7 +294,7 @@ namespace MusicCollaborationManager.Services.Concrete
             {
                 RequestParameters.Country = CurUser.Country;
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 RequestParameters.Country = "NA";
             }
@@ -309,6 +309,7 @@ namespace MusicCollaborationManager.Services.Concrete
                 IndividualPlaylist.Name = playlist.Name;
                 IndividualPlaylist.LinkToPlaylist = playlist.ExternalUrls["spotify"];
                 IndividualPlaylist.Uri = playlist.Uri;
+                IndividualPlaylist.ID = playlist.Id;
 
                 if (playlist.Images.IsNullOrEmpty() == false)
                 {
@@ -347,6 +348,7 @@ namespace MusicCollaborationManager.Services.Concrete
                 Playlist.Name = item.Name;
                 Playlist.LinkToPlaylist = item.ExternalUrls["spotify"];
                 Playlist.Uri = item.Uri;
+                Playlist.ID = item.Id;
                 if (item.Images.IsNullOrEmpty() == false)
                 {
                     Playlist.ImageURL = item.Images[0].Url;
@@ -373,5 +375,9 @@ namespace MusicCollaborationManager.Services.Concrete
             return topTracksList;
         }
 
+        public async Task<FullPlaylist> GetPlaylistFromIDAsync(string playlistID) {
+            FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
+            return wantedPlaylist;
+        }
     }
 }
