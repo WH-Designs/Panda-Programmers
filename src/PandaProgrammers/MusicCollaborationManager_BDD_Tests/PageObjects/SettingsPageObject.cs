@@ -25,6 +25,9 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         private IWebElement GoldThemeBtn => _webDriver.FindElement(By.Id("mansion-btn"));
         private IWebElement ActiveTheme => _webDriver.FindElement(By.Id("main-primary-color-control"));
 
+        private IWebElement FirstNameInput => _webDriver.FindElement(By.Id("FirstName"));
+        private IWebElement LastNameInput => _webDriver.FindElement(By.Id("LastName"));
+
         public bool ChangeThemeSectionIsVisible() 
         {
 
@@ -81,10 +84,22 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
                 
         }
 
+        public bool IsFirstAndLastNameVisible(string firstName, string lastName) 
+        {
+           if(FirstNameInput.HasValue(firstName) == true
+                && LastNameInput.HasValue(lastName) == true) 
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
+
         public bool IsCurrentTheme(string tailwindNameOfTheme)
         {
-
-            return true;
+            return ActiveTheme.HasClass(tailwindNameOfTheme);
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
 {
-    public class TestUserSettings
+    public class SettingsUser
     {
         public string UserName { get; set; }
         public string Email { get; set; }
@@ -45,7 +45,7 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         [Given(@"the following users exist settings")]
         public void GivenTheFollowingUsersExistSettings(Table table)
         {
-            IEnumerable<TestUserSettings> users = table.CreateSet<TestUserSettings>();
+            IEnumerable<SettingsUser> users = table.CreateSet<SettingsUser>();
             _scenarioContext["Users"] = users;
         }
 
@@ -118,6 +118,30 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         {
             _settingsPage.IsCurrentTheme(CurrentTheme);
         }
+
+        //---Scenario Outline (below)---
+
+        [Given(@"I am a logged in user with first name '([^']*)' and last name '([^']*)'")]
+        public void GivenIAmALoggedInUserWithFirstNameAndLastName(string firstName, string lastName)
+        {
+            IEnumerable<SettingsUser> users = (IEnumerable<SettingsUser>)_scenarioContext["Users"];
+            SettingsUser u = users.Where(u => (u.FirstName == firstName)
+                && (u.LastName == lastName)).FirstOrDefault();
+            _scenarioContext["CurrentUser"] = u;
+
+            _loginPage.GoTo();
+            _loginPage.EnterEmail(u.Email);
+            _loginPage.EnterPassword(u.Password);
+            _loginPage.Login();
+        }
+
+
+        [Then(@"I should see my first name '([^']*)' and last name `'([^']*)'")]
+        public void ThenIShouldSeeMyFirstNameAndLastName(string firstName, string lastName)
+        {
+            _settingsPage.IsFirstAndLastNameVisible(firstName, lastName).Should().Be(true);
+        }
+
 
 
     }
