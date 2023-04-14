@@ -1,0 +1,78 @@
+@model MusicCollaborationManager.Models.DTO.FullPlaylistDTO
+
+
+<script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
+<div class="flex flex-col">
+    <div class="flex flex-row ml-48 mt-36">
+        <div class="flex flex-col w-3/4 mx-5" id="explanation-title">
+            <div>
+                <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
+                <h1 class="font-header font-bold text-4xl text-textback luxury:text-black autumn:text-white revolution:text-white">@Model.Name</h1>
+            </div>
+            <div class="w-full h-max max-h-max my-3 p-3 rounded-lg shadow-2xl bg-secondaryback classicpanda:bg-coreback">
+                <img src="@Model.ImageURL" alt="Playlist Image" class="text-textback classicpanda:text-whitetext" width=300 height=300/>
+                <p class="text-textback classicpanda:text-whitetext">@Model.Desc</p>
+                <p class="text-textback classicpanda:text-whitetext">@Model.Owner</p>
+                <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
+                    <h1 class="text-textback classicpanda:text-whitetext">Tracks</h1>
+                </div>
+                <div class="columns-5 mb-5 h-full max-h-max">
+                    @{int trackIndex = 0;
+                        foreach(var track in Model.Tracks)
+                    {
+                        <div class="w-fit overflow-hidden mt-4" id="song-preview-@trackIndex">
+                            <img src="@track.ImageURL" />
+                                <h2 class="text-textback classicpanda:text-whitetext">Track Name: <span id="entry-track-name-@trackIndex">@track.Title</span></h2>
+                                <h2 class="text-textback classicpanda:text-whitetext">Artist Name: <span id="entry-album-name-@trackIndex">@track.Artist</span></h2>
+                            <div class="flex flex-row">
+                                <i class="text-white playable-item fa-solid fa-circle-play" id="track-@trackIndex" data-spotify-id="@track.Uri"></i>
+                            </div>
+                        </div>
+                        <br>
+                            trackIndex++;
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="-z-50" style="width: 0; height: 0; border: 0; border: none; position: absolute;">
+    <div id="embed-iframe" style=""></div>
+</div>
+
+<script>
+
+    window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        let element = document.getElementById('embed-iframe');
+        let options = {
+            width: '80%',
+            height: '400',
+            uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
+            
+        };
+        let callback = (EmbedController) => {
+            document.querySelectorAll('.playable-item').forEach(
+                episode => {
+                    episode.addEventListener('click', () => {
+                        EmbedController.loadUri(episode.dataset.spotifyId)
+                        EmbedController.play();
+                    });
+                })
+        };
+        IFrameAPI.createController(element, options, callback);
+        
+    };
+    console.log("Spotify player should be loaded")
+</script>
+
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/generatedplaylists.js"></script>
+    <script type="text/javascript" src="~/js/colorchanger.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}

@@ -107,7 +107,9 @@
                                         @{
                                             if (Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL != null)
                                             {
-                                                <img src="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).ImageURL">
+                                                <form asp-controller="Listener" asp-action="Playlist">                                                    
+                                                            <button name='playlistID' class="" aria-current="page" value="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).ID"><img src="@Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL"></button>
+                                                        </form>
                                             }
                                         }
                                         <a href="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).LinkToPlaylist">@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Name</a>
@@ -129,7 +131,9 @@
                                         @{
                                             if (Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL != null)
                                             {
-                                                <img src="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).ImageURL">
+                                                <form asp-controller="Listener" asp-action="Playlist">                                                    
+                                                            <button name='playlistID' class="" aria-current="page" value="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).ID"><img src="@Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL"></button>
+                                                        </form>
                                             }
                                             <a href="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).LinkToPlaylist">@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Name</a>
                                             <button class="playable-item hover:text-textback classicpanda:text-blacktext" data-spotify-id="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Uri"><i class="fa-solid fa-play fa-xl"></i></button>
@@ -180,7 +184,9 @@
                                     @{
                                         if (Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL != null)
                                         {
-                                            <img src="@Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL">
+                                            <form asp-controller="Listener" asp-action="Playlist">                                                    
+                                                        <button name='playlistID' class="" aria-current="page" value="@Model.UserPlaylists.ElementAt(UserPlayIndex).ID"><img src="@Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL"></button>
+                                                    </form>
                                         }
                                     }
                                     <a href="@Model.UserPlaylists.ElementAt(UserPlayIndex).LinkToPlaylist">@Model.UserPlaylists.ElementAt(UserPlayIndex).Name</a>
