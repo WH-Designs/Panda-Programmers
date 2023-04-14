@@ -50,18 +50,19 @@ Scenario Outline: Login page contains a link
 	| Text                      |
 	| Resend email confirmation |
 
-# Need to do this one after logging in to have any cookies
-#@support
-#Scenario: We can save cookies
-#	Given I am a user with first name 'Talia'
-#	When I login
-#	Then I can save cookies
-#
-#@support
-#Scenario: We can log in with only a cookie
-#	Given I am a user with first name 'Talia'
-#		# we need to start on a page that has the same domain as the one we originally set the cookie on, so go there first
-#		And I am on the "Home" page
-#	When I load previously saved cookies
-#		And I am on the "Home" page
-#	Then I can see a personalized message in the navbar that includes my email
+
+#Need to do this one after logging in to have any cookies
+@support
+Scenario: We can save cookies
+	Given I am a user with first name 'Chad'
+	When I login
+	Then I can save cookies
+
+@support
+Scenario: We can log in with only a cookie
+	Given I am a user with first name 'Chad'
+		# we need to start on a page that has the same domain as the one we originally set the cookie on, so go there first
+		And I am on the "Home" page
+	When I load previously saved cookies
+		And I am on the "Home" page
+	Then I can see a '<Button>' button on the navbar
