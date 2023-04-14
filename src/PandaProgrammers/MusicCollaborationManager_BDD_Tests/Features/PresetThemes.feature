@@ -23,7 +23,7 @@ Scenario: Logged in user can see section of page to change site theme
 	When I am on my profile page
 	Then I can see the section with options to change my theme to different pre-made themes
 
-Scenario:
+Scenario: Listener can toggle different themes
 	Given I am a listener on my profile page
 	When I click on one of the different pre-made theme buttons
 	Then the website responds accordingly and adjusts my theme without a page reload

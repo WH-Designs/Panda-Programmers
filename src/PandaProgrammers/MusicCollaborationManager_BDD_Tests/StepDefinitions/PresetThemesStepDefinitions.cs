@@ -89,7 +89,7 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         [Then(@"I can see the section with options to change my theme to different pre-made themes")]
         public void ThenICanSeeTheSectionWithOptionsToChangeMyThemeToDifferentPre_MadeThemes()
         {
-            _settingsPage.ChangeThemeSectionIsVisible();
+            _settingsPage.ChangeThemeSectionIsVisible().Should().BeTrue();
         }
 
         //------------
