@@ -94,34 +94,57 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _loginPage.HasLoginErrors().Should().BeTrue();
         }
 
-        //[Then(@"I can save cookies")]
-        //public void ThenICanSaveCookies()
-        //{
-        //    throw new PendingStepException();
-        //}
+        [Given(@"I am a visitor")]
+        public void GivenIAmAVisitor()
+        {
+            //
+        }
 
-        //[Given(@"I am on the ""([^""]*)"" page")]
-        //public void GivenIAmOnThePage(string home)
-        //{
-        //    throw new PendingStepException();
-        //}
+        [Then(@"I can see a link that contains '([^']*)'")]
+        public void ThenICanSeeALinkThatContains(string text)
+        {
+            _loginPage.ResendEmailLink.Should().NotBeNull();
+            _loginPage.ResendEmailLink.Displayed.Should().BeTrue();
+            _loginPage.EmailLinkHasText(text).Should().BeTrue();
+        }
 
-        //[When(@"I load previously saved cookies")]
-        //public void WhenILoadPreviouslySavedCookies()
-        //{
-        //    throw new PendingStepException();
-        //}
+        [When(@"I am on '([^']*)' page")]
+        public void WhenIAmOnPage(string page)
+        {
+            _loginPage.GoTo();
+        }
 
-        //[When(@"I am on the ""([^""]*)"" page")]
-        //public void WhenIAmOnThePage(string home)
-        //{
-        //    throw new PendingStepException();
-        //}
 
-        //[Then(@"I can see a personalized message in the navbar that includes my email")]
-        //public void ThenICanSeeAPersonalizedMessageInTheNavbarThatIncludesMyEmail()
-        //{
-        //    throw new PendingStepException();
-        //}
+        [Then(@"I can save cookies")]
+        public void ThenICanSaveCookies()
+        {
+            _homePage.SaveAllCookies().Should().BeTrue();
+        }
+
+        [Given(@"I am on the ""([^""]*)"" page")]
+        public void GivenIAmOnThePage(string home)
+        {
+            _homePage.GoTo(home);
+        }
+
+        [When(@"I load previously saved cookies")]
+        public void WhenILoadPreviouslySavedCookies()
+        {
+            _homePage.LoadAllCookies().Should().BeTrue();
+        }
+
+        [When(@"I am on the ""([^""]*)"" page")]
+        public void WhenIAmOnThePage(string home)
+        {
+            _homePage.GoTo(home);
+        }
+
+        [Then(@"I can see a '([^']*)' button on the navbar")]
+        public void ThenICanSeeAButtonOnTheNavbar(string button)
+        {
+            _homePage.SpotifyLoginButton.Should().NotBeNull();
+            _homePage.SpotifyLoginButton.Displayed.Should().BeTrue();
+        }
+
     }
 }

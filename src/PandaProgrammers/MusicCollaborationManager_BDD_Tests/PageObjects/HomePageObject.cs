@@ -15,10 +15,11 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
 
         public IWebElement RegisterButton => _webDriver.FindElement(By.Id("register-link"));
         public IWebElement DashboardAnchor => _webDriver.FindElement(By.Id("dashboard-anchor"));
+        public IWebElement navbarLogoutButton => _webDriver.FindElement(By.Id("logout-button"));
+        public IWebElement SpotifyLoginButton => _webDriver.FindElement(By.Id("spotify-button"));
 
         public void Logout()
         {
-            IWebElement navbarLogoutButton = _webDriver.FindElement(By.Id("logout-button"));
             navbarLogoutButton.Click();
         }
     }
