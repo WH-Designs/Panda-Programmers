@@ -18,6 +18,10 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
+        public string descriptionKey { get; set; }
+        public string titleKey { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
     }
 
     [Binding]
@@ -46,6 +50,20 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         {
             IEnumerable<TestUserGenerator> users = table.CreateSet<TestUserGenerator>();
             _scenarioContext["Users"] = users;
+        }
+
+        [Given(@"the following generator titles exist")]
+        public void GivenTheFollowingGeneratorTitlesExist(Table table)
+        {
+            IEnumerable<TestUserGenerator> titles = table.CreateSet<TestUserGenerator>();
+            _scenarioContext["Titles"] = titles;
+        }
+
+        [Given(@"the following generartor descriptions exist")]
+        public void GivenTheFollowingGenerartorDescriptionsExist(Table table)
+        {
+            IEnumerable<TestUserGenerator> descr = table.CreateSet<TestUserGenerator>();
+            _scenarioContext["Description"] = descr;
         }
 
         [Given(@"I am a logged in user with first name '([^']*)'")]
@@ -80,15 +98,6 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _generatorPage.GoTo();
         }
 
-        [Then(@"I should see a description of a generator")]
-        public void ThenIShouldSeeADescriptionOfAGenerator()
-        {
-            _generatorPage.Description.Should().NotBeNull();
-            _generatorPage.Description.Displayed.Should().BeTrue();
-            _generatorPage.DescriptionHasText("With this generator you will be able to fill out a short questionnaire about songs and then get back a playlist of songs that fit your desired input. If you like the playlist that is returned, then you will have the option to save it to your own Spotify account!")
-                .Should().BeTrue();
-        }
-
         [Given(@"I am on the '([^']*)' page")]
         public void GivenIAmOnThePage(string page)
         {
@@ -116,5 +125,30 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _generatorPage.HeaderHasText("Questionnaire Generator")
                 .Should().BeTrue();
         }
+
+        [Then(@"I should see a '([^']*)' description of a generator")]
+        public void ThenIShouldSeeADescriptionOfAGenerator(string descriptionKey)
+        {
+            IEnumerable<TestUserGenerator> desc = (IEnumerable<TestUserGenerator>)_scenarioContext["Description"];
+            TestUserGenerator u = desc.Where(u => u.descriptionKey == descriptionKey).FirstOrDefault();
+
+            _generatorPage.Description.Should().NotBeNull();
+            _generatorPage.Description.Displayed.Should().BeTrue();
+            _generatorPage.DescriptionHasText(u.Description)
+                .Should().BeTrue();
+        }
+
+        [Then(@"I should see a '([^']*)' title of a generator")]
+        public void ThenIShouldSeeATitleOfAGenerator(string titleKey)
+        {
+            IEnumerable<TestUserGenerator> title = (IEnumerable<TestUserGenerator>)_scenarioContext["Titles"];
+            TestUserGenerator u = title.Where(u => u.titleKey == titleKey).FirstOrDefault();
+
+            _generatorPage.Header.Should().NotBeNull();
+            _generatorPage.Header.Displayed.Should().BeTrue();
+            _generatorPage.HeaderHasText(u.Title)
+                .Should().BeTrue();
+        }
+
     }
 }
