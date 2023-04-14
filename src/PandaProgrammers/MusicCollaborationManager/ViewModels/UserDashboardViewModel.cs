@@ -16,6 +16,5 @@ namespace MusicCollaborationManager.ViewModels
         public List<UserTrackDTO> TopTracks { get; set; } = new List<UserTrackDTO>();
         public List<UserPlaylistDTO> FeatPlaylists { get; set; } = new List<UserPlaylistDTO>();
         public List<UserPlaylistDTO> UserPlaylists { get; set; } = new List<UserPlaylistDTO>();
-        public string ID { get; set; }
     }
 }

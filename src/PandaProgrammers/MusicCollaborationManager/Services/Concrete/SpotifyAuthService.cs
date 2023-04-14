@@ -309,6 +309,7 @@ namespace MusicCollaborationManager.Services.Concrete
                 IndividualPlaylist.Name = playlist.Name;
                 IndividualPlaylist.LinkToPlaylist = playlist.ExternalUrls["spotify"];
                 IndividualPlaylist.Uri = playlist.Uri;
+                IndividualPlaylist.ID = playlist.Id;
 
                 if (playlist.Images.IsNullOrEmpty() == false)
                 {

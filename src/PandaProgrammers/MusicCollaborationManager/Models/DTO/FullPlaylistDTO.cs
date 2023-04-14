@@ -4,8 +4,10 @@ namespace MusicCollaborationManager.Models.DTO
     {
         public string LinkToPlaylist { get; set; }
         public string Name { get; set; }
+        public string Owner { get; set; }
         public string? ImageURL { get; set; } = null;
         public string Uri { get; set; }
+        public string Desc { get; set; }
         public List<UserTrackDTO> Tracks { get; set; }
 
     }
