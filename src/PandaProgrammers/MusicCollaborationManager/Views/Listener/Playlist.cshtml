@@ -1,4 +1,4 @@
-@model SpotifyAPI.Web.FullPlaylist
+@model MusicCollaborationManager.Models.DTO.FullPlaylistDTO
 
 <div class="flex flex-col">
     <div class="flex flex-row ml-48 mt-36">
@@ -7,9 +7,9 @@
                 <div class="flex flex-row gap-x-3 mt-5" id="recommended-songs-header-container">
                     <h2 class="font-header font-bold mb-5 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">@Model.Name</h2>
                     <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
-                    @foreach (var song in @Model.Tracks.Items) {
+                    @foreach (var song in @Model.Tracks) {
                         <div>
-                            <p>@song.Track</p>
+                            <p>@song.Title</p>
                         </div>
                     }
                 </div>

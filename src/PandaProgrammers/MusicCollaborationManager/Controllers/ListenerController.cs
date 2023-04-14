@@ -185,13 +185,55 @@ namespace MusicCollaborationManager.Controllers
         public async Task<IActionResult> Playlist(UserDashboardViewModel vm) {
             try {
 
-                FullPlaylist returnPlaylist = await _spotifyService.GetPlaylistFromIDAsync(vm.ID);
+                FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
+                UserTrackDTO currentTrack = new UserTrackDTO();
+                FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync(vm.ID);
+                
+                returnPlaylist.LinkToPlaylist = convertPlaylist.Href;
+                returnPlaylist.Name = convertPlaylist.Name;
+                returnPlaylist.ImageURL = convertPlaylist.Images[0].Url;
+                returnPlaylist.Uri = convertPlaylist.Uri;
+
+                foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
+                    if (item.Track is FullTrack track) {
+                        currentTrack.LinkToTrack = track.Href;
+                        currentTrack.Title = track.Name;
+                        currentTrack.Artist = track.Artists[0].Name;
+                        currentTrack.ImageURL = track.Album.Images[0].Url;
+                        currentTrack.Uri = track.Uri;
+                        returnPlaylist.Tracks.Add(currentTrack);
+                    }
+                    if (item.Track is FullEpisode episode) {
+                        continue;
+                    }
+                }
+
                 return View("Playlist", returnPlaylist);
 
             } catch(ArgumentException) {
-                FullPlaylist returnPlaylist = await _spotifyService.GetPlaylistFromIDAsync("0wbYwQItyK648wmeNcqP5z");
+                
+                FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
+                UserTrackDTO currentTrack = new UserTrackDTO();
+                FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync("0wbYwQItyK648wmeNcqP5z");
+                
+                returnPlaylist.LinkToPlaylist = convertPlaylist.Href;
+                returnPlaylist.Name = convertPlaylist.Name;
+                returnPlaylist.ImageURL = convertPlaylist.Images[0].Url;
+                returnPlaylist.Uri = convertPlaylist.Uri;
 
-                var songs = returnPlaylist.Tracks;
+                foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
+                    if (item.Track is FullTrack track) {
+                        currentTrack.LinkToTrack = track.Href;
+                        currentTrack.Title = track.Name;
+                        currentTrack.Artist = track.Artists[0].Name;
+                        currentTrack.ImageURL = track.Album.Images[0].Url;
+                        currentTrack.Uri = track.Uri;
+                        returnPlaylist.Tracks.Add(currentTrack);
+                    }
+                    if (item.Track is FullEpisode episode) {
+                        continue;
+                    }
+                }
 
                 return View("Playlist", returnPlaylist);
             }
