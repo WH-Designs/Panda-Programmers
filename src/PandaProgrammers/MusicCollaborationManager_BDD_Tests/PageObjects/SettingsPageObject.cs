@@ -13,5 +13,10 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         {
             _pageName = "Settings";
         }
+
+        public bool ChangeThemeSectionIsVisible() 
+        {
+            return false;
+        }
     }
 }

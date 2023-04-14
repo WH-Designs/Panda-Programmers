@@ -46,29 +46,72 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _scenarioContext["Users"] = users;
         }
 
-        [Given(@"I am a user logged in with the username '([^']*)'")]
-        public void GivenIAmAUserLoggedInWithTheUsername(string firstName)
+        [Given(@"I am a logged in user")]
+        public void GivenIAmALoggedInUser()
         {
-            IEnumerable<TestUserSettings> users = (IEnumerable<TestUserSettings>)_scenarioContext["Users"];
-            TestUserSettings u = users.Where(u => u.FirstName == firstName).FirstOrDefault();
-            _scenarioContext["CurrentUser"] = u;
-
             _loginPage.GoTo();
-            _loginPage.EnterEmail(u.Email);
-            _loginPage.EnterPassword(u.Password);
+            _loginPage.EnterEmail("chadb@gmail.com");
+            _loginPage.EnterPassword("Pass321!");
             _loginPage.Login();
         }
 
         [When(@"I click on the settings button in the navbar")]
         public void WhenIClickOnTheSettingsButtonInTheNavbar()
         {
-            _homePage.GoToSettings();
+            _settingsPage.GoTo();
         }
 
-        [Then(@"I should be taken to the '([^']*)' page")]
-        public void ThenIShouldBeTakenToThePage(string pageName)
+        [Then(@"I should be taken to the settings page")]
+        public void ThenIShouldBeTakenToTheSettingsPage()
         {
-            _settingsPage.GetURL().Should().Be(Common.UrlFor(pageName));
+            _settingsPage.GetURL().Should().Be(Common.UrlFor("Settings"));
         }
+
+        //----Feature test starts (below)------------
+
+        //-------------
+
+        [Given(@"I am a listener")]
+        public void GivenIAmAListener()
+        {
+            _loginPage.GoTo();
+            _loginPage.EnterEmail("chadb@gmail.com");
+            _loginPage.EnterPassword("Pass321!");
+            _loginPage.Login();
+        }
+
+        [When(@"I am on my profile page")]
+        public void WhenIAmOnMyProfilePage()
+        {
+            _settingsPage.GoTo();
+        }
+
+        [Then(@"I can see the section with options to change my theme to different pre-made themes")]
+        public void ThenICanSeeTheSectionWithOptionsToChangeMyThemeToDifferentPre_MadeThemes()
+        {
+            _settingsPage.ChangeThemeSectionIsVisible();
+        }
+
+        //------------
+
+        //[Given(@"I am a listener on my profile page")]
+        //public void GivenIAmAListenerOnMyProfilePage()
+        //{
+        //    throw new PendingStepException();
+        //}
+
+        //[When(@"I click on one of the different pre-made theme buttons")]
+        //public void WhenIClickOnOneOfTheDifferentPre_MadeThemeButtons()
+        //{
+        //    throw new PendingStepException();
+        //}
+
+        //[Then(@"the website responds accordingly and adjusts my theme without a page reload")]
+        //public void ThenTheWebsiteRespondsAccordinglyAndAdjustsMyThemeWithoutAPageReload()
+        //{
+        //    throw new PendingStepException();
+        //}
+
+
     }
 }

@@ -12,10 +12,18 @@ Background:
 	  | UserName			 | Email                 | FirstName | LastName | Password     |
 	  | chadb@gmail.com	     | chadb@gmail.com       | Chad      | Bass     | Pass321!     |
 
-Scenario Outline: Logged in user can reach settings page
-	Given I am a user logged in with the username '<FirstName>'
+Scenario: Logged in user can reach settings page
+	Given I am a logged in user
 	When I click on the settings button in the navbar
-	Then I should be taken to the '<Page>' page
-	Examples:
-	| FirstName			| Page	|
-	| Chad				| Settings |
+	Then I should be taken to the settings page
+
+
+Scenario: Logged in user can see section of page to change site theme
+	Given I am a listener
+	When I am on my profile page
+	Then I can see the section with options to change my theme to different pre-made themes
+
+Scenario:
+	Given I am a listener on my profile page
+	When I click on one of the different pre-made theme buttons
+	Then the website responds accordingly and adjusts my theme without a page reload
