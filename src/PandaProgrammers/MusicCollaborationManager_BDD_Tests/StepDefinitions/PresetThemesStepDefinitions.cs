@@ -70,10 +70,6 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _settingsPage.GetURL().Should().Be(Common.UrlFor("Settings"));
         }
 
-        //----Feature test starts (below)------------
-
-        //-------------
-
         [Given(@"I am a listener")]
         public void GivenIAmAListener()
         {
@@ -94,8 +90,6 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         {
             _settingsPage.ChangeThemeSectionIsVisible().Should().BeTrue();
         }
-
-        //------------
 
         [Given(@"I am a listener on my settings page")]
         public void GivenIAmAListenerOnMySettingsPage()
@@ -119,7 +113,6 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _settingsPage.IsCurrentTheme(CurrentTheme);
         }
 
-        //---Scenario Outline (below)---
 
         [Given(@"I am a logged in user with first name '([^']*)' and last name '([^']*)'")]
         public void GivenIAmALoggedInUserWithFirstNameAndLastName(string firstName, string lastName)

@@ -86,12 +86,12 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
 
         public bool IsFirstAndLastNameVisible(string firstName, string lastName) 
         {
-           if(FirstNameInput.HasValue(firstName) == true
-                && LastNameInput.HasValue(lastName) == true) 
+            if (FirstNameInput.HasValue(firstName) == true
+                 && LastNameInput.HasValue(lastName) == true)
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
