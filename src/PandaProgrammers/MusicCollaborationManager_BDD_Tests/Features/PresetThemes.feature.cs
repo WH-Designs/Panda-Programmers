@@ -217,7 +217,7 @@ this.ScenarioInitialize(scenarioInfo);
 this.FeatureBackground();
 #line hidden
 #line 27
- testRunner.Given("I am a listener on my profile page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I am a listener on my settings page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 28
  testRunner.When("I click on one of the different pre-made theme buttons", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

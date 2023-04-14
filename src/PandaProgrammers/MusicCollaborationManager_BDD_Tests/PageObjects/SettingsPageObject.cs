@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using SpecFlow.Actions.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,7 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         private IWebElement PurpleThemeBtn => _webDriver.FindElement(By.Id("autumn-btn"));
         private IWebElement DarkThemeBtn => _webDriver.FindElement(By.Id("moon-btn"));
         private IWebElement GoldThemeBtn => _webDriver.FindElement(By.Id("mansion-btn"));
-
-        //private IWebElement ThemesHeader => _webDriver.FindElement(By.);
+        private IWebElement ActiveTheme => _webDriver.FindElement(By.Id("main-primary-color-control"));
 
         public bool ChangeThemeSectionIsVisible() 
         {
@@ -41,6 +41,50 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
             {
                 return false;
             }
+        }
+
+        public string ChangeSiteTheme() 
+        {
+            Random RandNum = new Random();
+            int ThemeNum =  RandNum.Next(5);
+
+            if (ThemeNum == 0) 
+            {
+                DefaultThemeBtn.Click();
+                return "classicpanda";
+            }
+               
+            else if(ThemeNum == 1) 
+            {
+                RedThemeBtn.Click();
+                return "revolution";
+            }
+
+               
+            else if (ThemeNum == 2) 
+            {
+                PurpleThemeBtn.Click();
+                return "autumn";
+            }
+                
+            else if (ThemeNum == 3) 
+            {
+                DarkThemeBtn.Click();
+                return "moon";
+            }
+            else if (ThemeNum == 4) 
+            {
+                GoldThemeBtn.Click();
+                return "luxury";
+            }
+            return "NO_THEME";
+                
+        }
+
+        public bool IsCurrentTheme(string tailwindNameOfTheme)
+        {
+
+            return true;
         }
     }
 }

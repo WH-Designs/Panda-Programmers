@@ -26,6 +26,9 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         private readonly HomePageObject _homePage;
         private readonly SettingsPageObject _settingsPage;
 
+
+        private string CurrentTheme;
+
         private IConfiguration Configuration { get; }
 
         public PresetThemesStepDefinitions(ScenarioContext scenarioContext, BrowserDriver browserDriver)
@@ -94,23 +97,27 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
 
         //------------
 
-        //[Given(@"I am a listener on my profile page")]
-        //public void GivenIAmAListenerOnMyProfilePage()
-        //{
-        //    throw new PendingStepException();
-        //}
+        [Given(@"I am a listener on my settings page")]
+        public void GivenIAmAListenerOnMySettingsPage()
+        {
+            _loginPage.GoTo();
+            _loginPage.EnterEmail("chadb@gmail.com");
+            _loginPage.EnterPassword("Pass321!");
+            _loginPage.Login();
+        }
 
-        //[When(@"I click on one of the different pre-made theme buttons")]
-        //public void WhenIClickOnOneOfTheDifferentPre_MadeThemeButtons()
-        //{
-        //    throw new PendingStepException();
-        //}
+        [When(@"I click on one of the different pre-made theme buttons")]
+        public void WhenIClickOnOneOfTheDifferentPre_MadeThemeButtons()
+        {
+            _settingsPage.GoTo();
+            CurrentTheme = _settingsPage.ChangeSiteTheme();
+    }
 
-        //[Then(@"the website responds accordingly and adjusts my theme without a page reload")]
-        //public void ThenTheWebsiteRespondsAccordinglyAndAdjustsMyThemeWithoutAPageReload()
-        //{
-        //    throw new PendingStepException();
-        //}
+        [Then(@"the website responds accordingly and adjusts my theme without a page reload")]
+        public void ThenTheWebsiteRespondsAccordinglyAndAdjustsMyThemeWithoutAPageReload()
+        {
+            _settingsPage.IsCurrentTheme(CurrentTheme);
+        }
 
 
     }
