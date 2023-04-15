@@ -1,22 +1,36 @@
 ﻿//It's impossible (bases on quick search/attempts) to undo this & give control back to tailwind background properties.
 //These function are only to applied to maintain illusion of reverting colors from the user's perspective.)
 
+var savedTheme = "";
 
 $(function () {
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/api/ListenerInfo/basicuserinfo/me",
+        success: getSavedTheme,
+        error: errorOnAjax
+    });
+
     // console.log("Getting selected theme:\n")
     var themeName = localStorage.theme;
     if(themeName === null || themeName == undefined){
-        // console.log("No theme has been selected. Defaulting to 'classicpanda'");
         $('#main-primary-color-control').addClass("classicpanda");
     }
     else{
-        // console.log(`A theme was found. The theme ${themeName} will be applied.`)
         $('#main-primary-color-control').addClass(themeName);
     }
+
 });
 
 
+function errorOnAjax() {
+    console.log("ERROR in ajax request");
+}
+
 function getSelectedTheme(themeName) {
+
     console.log("Getting selected theme:\n")
     let activeThemes = document.getElementById("main-primary-color-control")
     activeThemes.removeAttribute("class");
@@ -27,28 +41,94 @@ function getSelectedTheme(themeName) {
 }
 
 
+function getSavedTheme(data) {
+    currentTheme = data["theme"];
+    localStorage.theme = currentTheme;
+}
+
 //-------All current themes (below)------------
 
 $("#classicpanda-btn").click(function () {
-    getSelectedTheme('classicpanda');
+    
+    savedTheme = 'classicpanda';
+
+    $.ajax({
+        method: "POST",
+        url: "/api/Theme/themeAdd/" + savedTheme,
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        data: savedTheme,
+        success: console.log("success for classicpanda"),
+        error: errorOnAjax
+    });
+
+    getSelectedTheme(savedTheme);
 });
 
 $("#autumn-btn").click(function () {
-    console.log('autumn');
-    getSelectedTheme('autumn');
+    
+    savedTheme = 'autumn';
+    
+    $.ajax({
+        method: "POST",
+        url: "/api/Theme/themeAdd/" + savedTheme,
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        data: savedTheme,
+        success: console.log("success for autumn"),
+        error: errorOnAjax
+    });
+
+    getSelectedTheme(savedTheme);
 });
 
 $("#mansion-btn").click(function () {
-    console.log('luxury');
-    getSelectedTheme('luxury');
+    
+    savedTheme = 'luxury';
+
+    $.ajax({
+        method: "POST",
+        url: "/api/Theme/themeAdd/" + savedTheme,
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        data: JSON.stringify(savedTheme),
+        success: console.log("success for luxury"),
+        error: errorOnAjax
+    });
+
+    getSelectedTheme(savedTheme);
 });
 
 $("#revolution-btn").click(function () {
-    console.log("revolution")
-    getSelectedTheme('revolution');
+    
+    savedTheme = 'revolution';
+
+    $.ajax({
+        method: "POST",
+        url: "/api/Theme/themeAdd/" + savedTheme,
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        data: savedTheme,
+        success: console.log("success for revolution"),
+        error: errorOnAjax
+    });
+
+    getSelectedTheme(savedTheme);
 });
 
 $("#moon-btn").click(function () {
-    console.log("The moon")
-    getSelectedTheme('moon');
+    
+    savedTheme = 'moon';
+    
+    $.ajax({
+        method: "POST",
+        url: "/api/Theme/themeAdd/" + savedTheme,
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        data: savedTheme,
+        success: console.log("the moon is beautiful"),
+        error: errorOnAjax
+    });
+
+    getSelectedTheme(savedTheme);
 });
