@@ -2,26 +2,32 @@
 
 <form asp-controller="Generator" asp-action="TimePost" method="post" id="songForm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="flex flex-col">
-        <div class="flex flex-row">
-            <div class="flex flex-col w-3/4 ml-5">
-                <div class="w-full h-max max-h-max bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
-                    <h1 class="font-header font-bold text-5xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">Time Playlist Generator</h1>
-                    <div class="text-textback classicpanda:text-whitetext font-bold text-1xl p-2">Press button to have playlist generated based on your time and day in a standard work week</div>
-                    <br />
-                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">Cover Image Input</div>
-                    <input asp-for="coverImageInput" type="text" />
-                    <div class="text-textback classicpanda:text-whitetext font-bold p-2">Playlist Description Input
-                    </div>
-                    <input asp-for="descriptionInput" type="text" />
-                    <br />
-                    <button
-                        class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600 mt-4"
-                        type="submit">Generate Playlist</button>
+
+    <div class="flex flex-col ml-5 mr-5 md:ml-8 lg:ml-32 xl:ml-[400px]">
+        <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
+            <h1 class="font-header font-bold text-5xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">Time Playlist Generator</h1>
+            <div class="text-textback classicpanda:text-whitetext font-bold text-1xl p-2">Press button to have playlist generated based on your time and day in a standard work week</div>
+            <br />
+            <div class="classicpanda:text-blacktext flex flex-col bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
+                <div class="text-textback classicpanda:text-blacktext font-bold p-2">Cover Image Input</div>
+                <textarea asp-for="coverImageInput" placeholder="A playlist cover image for a happy playlist that is a dancing playlist" class="bg-gray-450 border border-gray-800 classicpanda:text-blacktext text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"> </textarea>
+                <div class="text-textback classicpanda:text-blacktext font-bold p-2">
+                    Playlist Description Input
                 </div>
+                <textarea asp-for="descriptionInput" placeholder="A happy playlist that has a dancing vibe" class="bg-gray-450 border border-gray-800 classicpanda:text-blacktext text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></textarea>
+                <br />
             </div>
+            <br />
+            <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+                                classicpanda:text-whitetext
+                                autumn:text-white
+                                revolution:text-white"
+                    type="submit">
+                Generate Playlist
+            </button>
         </div>
     </div>
+
 </form>
 
 
