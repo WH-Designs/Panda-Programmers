@@ -18,6 +18,7 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public IWebElement navbarLogoutButton => _webDriver.FindElement(By.Id("logout-button"));
         public IWebElement SettingsAnchor => _webDriver.FindElement(By.CssSelector("a[href=\"/Listener/Settings\"]"));
         public IWebElement SpotifyLoginButton => _webDriver.FindElement(By.Id("spotify-button"));
+        public IWebElement NavbarToggleButton => _webDriver.FindElement(By.Id("navbar-toggle-button"));
        
 
         public void GoToSettings() 
@@ -27,6 +28,11 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public void Logout()
         {
             navbarLogoutButton.Click();
+        }
+
+        public void ShowNavbar()
+        {
+            NavbarToggleButton.Click();
         }
     }
 }
