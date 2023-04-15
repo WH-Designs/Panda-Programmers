@@ -17,7 +17,6 @@ $(function () {
 
 });
 
-
 function errorOnAjax() {
     console.log("ERROR in ajax request");
 }

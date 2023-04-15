@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using MusicCollaborationManager.Models;
 using MusicCollaborationManager.DAL.Abstract;
 
@@ -14,45 +15,38 @@ namespace MusicCollaborationManager.Controllers
     [ApiController]
     public class ThemeController : ControllerBase
     {
-        //private readonly IThemeController _choreRepository;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IListenerRepository _listenerRepository;
 
-        public ThemeController()
+        public ThemeController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager)
         {
-            //_choreRepository = choreRepository;
-        }
-
-        // GET: api/Chore
-        [HttpGet("chores")]
-        public IActionResult GetChores(int personId)
-        {
-            // DateOnly today = DateOnly.FromDateTime(DateTime.Now);
-            // int days = 7;
-            // List<TaskTodo> tasks = _choreRepository.GetAllTasksTodoWithinTimeWindow(today, days);
-            // List<TaskTodo> finalTasks = new List<TaskTodo>();
-            // foreach (TaskTodo task in tasks)
-            // {
-            //     if (task.personId == personId)
-            //     {                    
-            //         finalTasks.Add(task);
-            //     }
-            // }
-            // return Ok(finalTasks);
-            return Ok();
+            _listenerRepository = listenerRepository;
+            _userManager = userManager;
         }
 
         // POST: api/Chore
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("themeAdd")]
-        public async Task<ActionResult> themeAdd(string Description, string date, int interval, int itemId)
+        public ActionResult themeAdd(string theme)
         {
-            // Chore chore = new Chore();
-            // chore.Description = Description;
-            // chore.Interval = interval;
-            // chore.ItemId = itemId;
-            // chore.InitialDate = DateTime.Parse(date);
 
-            // return Ok(_choreRepository.AddOrUpdate(chore));
-            return Ok();
+            if (theme == null || theme.Length == 0) {
+                Console.WriteLine("THEME IS NULL");
+            };
+
+            string aspId = _userManager.GetUserId(User);
+            Listener listener = new Listener();
+            listener = _listenerRepository.FindListenerByAspId(aspId);
+
+            if (listener == null) {
+                Console.WriteLine("LISTENER IS NULL");
+            };
+
+            listener.Theme = theme;
+
+            Console.WriteLine("Listener Theme Currently: " + listener.Theme + " and theme: " + theme);
+
+            return Ok(_listenerRepository.AddOrUpdate(listener));
         }
 
     }
