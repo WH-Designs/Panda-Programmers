@@ -4,16 +4,16 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="bottom-0 fixed">
-        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
+    <div class="mt-1">
+        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-[160px]">
             <form asp-controller='home' asp-action='callforward'>
                 <button type='submit' class="" id="spotify-button">
                     <i class="fa-brands fa-spotify
                 luxury:text-yellow-500
-                autumn:text-sky-500"></i> Spotify</button>
+                autumn:text-sky-500"></i> Spotify <br>&nbsp;&nbsp;&nbsp;Login</button>
             </form>
         </li>
-        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
+        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-[160px]">
             <form class="" asp-area="Identity" asp-page="/Account/Logout"
             asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="" id="logout-button">
@@ -23,9 +23,8 @@
                 </button>
             </form>
         </li>
-        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
-            <a asp-controller="Listener" asp-action="Settings" class="" aria-current="page"><i
-                    class="fa-solid fa-wrench 
+        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-[160px]">
+            <a asp-controller="Listener" asp-action="Settings" class="" aria-current="page"><i class="fa-solid fa-wrench 
                     luxury:text-yellow-500
                     autumn:text-sky-500"></i> Settings</a>
         </li>
@@ -33,15 +32,17 @@
 }
 else
 {
-    <li class="p-4 bottom-20 fixed bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
-        <a class="" asp-area="Identity" asp-page="/Account/Login" id="login-link"><i class="fa-solid fa-right-to-bracket 
+    <div class="mt-1">
+        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-[160px]">
+            <a class="" asp-area="Identity" asp-page="/Account/Login" id="login-link"><i class="fa-solid fa-right-to-bracket 
         luxury:text-yellow-500
         autumn:text-sky-500"></i> Login
-        </a>
-    </li>
-    <li class="p-4 bottom-3 fixed bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-40">
-        <a class="" asp-area="Identity" asp-page="/Account/Register" id="register-link"><i class="fa-solid fa-pen-to-square 
+            </a>
+        </li>
+        <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2 w-[160px]">
+            <a class="" asp-area="Identity" asp-page="/Account/Register" id="register-link"><i class="fa-solid fa-pen-to-square 
         luxury:text-yellow-500
         autumn:text-sky-500"></i> Register</a>
-    </li>
+        </li>
+    </div>
 }
