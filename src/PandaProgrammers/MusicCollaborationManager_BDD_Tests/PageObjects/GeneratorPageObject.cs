@@ -23,6 +23,7 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public IWebElement Header => _webDriver.FindElement(By.Id("question-header"));
         public IWebElement Description => _webDriver.FindElement(By.Id("question-descr"));
         public IWebElement GeneratorButton => _webDriver.FindElement(By.Id("mood-anchor"));
+        public IWebElement NavbarToggle => _webDriver.FindElement(By.Id("navbar-toggle-button"));
 
         public void EnterEmail(string email)
         {
@@ -43,6 +44,7 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
 
         public void GoToGeneratorIndex()
         {
+            NavbarToggle.Click();
             NavButton.Click();
         }
 
