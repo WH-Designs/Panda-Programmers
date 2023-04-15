@@ -7,19 +7,18 @@ module.exports = {
         './wwwroot/**/*.js'
     ],
     theme: {
-        extend: {},
     },
     plugins: [
         require('tailwindcss-themer')({
             defaultTheme: {
-              // put the default values of any config you want themed
-              // just as if you were to extend tailwind's theme like normal https://tailwindcss.com/docs/theme#extending-the-default-theme
-              extend: {
-                // colors is used here for demonstration purposes
-                colors: {
-                  primary: 'red'
+                // put the default values of any config you want themed
+                // just as if you were to extend tailwind's theme like normal https://tailwindcss.com/docs/theme#extending-the-default-theme
+                extend: {
+                    // colors is used here for demonstration purposes
+                    colors: {
+                        primary: 'red'
+                    }
                 }
-              }
             },
             themes: [
               {
@@ -59,7 +58,7 @@ module.exports = {
                     name: 'autumn', //Purple
                     extend: {
                         'colors': {
-                             coreback: '#800080',
+                            coreback: '#800080',
                             'primary': 'purple',
                             secondaryback: '#A9A9A9',
                             primback: '#d1d5db',

@@ -10,12 +10,12 @@ public partial class Listener
 
     [StringLength(64)]
     [RegularExpression("[a-zA-Z]+", ErrorMessage = "Characters are not allowed.")]
-    [Required]
+    //[Required]
     public string FirstName { get; set; }
 
     [StringLength(64)]
     [RegularExpression("[a-zA-Z]+", ErrorMessage = "Characters are not allowed.")]
-    [Required]
+    //[Required]
     public string LastName { get; set; }
 
     public int FriendId { get; set; }

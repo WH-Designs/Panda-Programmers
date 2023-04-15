@@ -1,23 +1,26 @@
 ﻿@model MusicCollaborationManager.ViewModels.UserProfileViewModel
 
-<div class="flex flex-col lg:ml-24 ml-56 mt-36 lg:w-screen">
-    <div class="flex flex-col justify-center items-center">
-        <div>
-            <img src="@Model.profilePic" class="object-contain h-48 w-90" />
+<div class="flex flex-col ml-4 xl:ml-96 2xl:ml-[40rem]">
+    <div class="flex flex-col place-items-start bg-secondaryback classicpanda:bg-coreback p-3 rounded-lg shadow-2xl shadow-gray-950">
+        <div class="flex">
+            <img src="@Model.profilePic" class="h-40 w-40 md:h-60 md:w-60 rounded-[128px]" />
+            <h2 class="font-header text-textback classicpanda:text-whitetext text-[40pt] mt-7 md:mt-16 ml-5 p-1">@Model.fullName</h2>
         </div>
-        <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
-            <h1 class="font-header font-bold text-5xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">Personal Information</h1>
-            <h2 class="font-header text-textback classicpanda:text-whitetext text-2xl p-1">@Model.fullName</h2>
-            <h2 class="font-header text-textback classicpanda:text-whitetext text-2xl p-1">@Model.aspUser.Identity.Name</h2>
+        <div class="mt-10 w-full">
+            <h1 class="mb-4 font-header font-bold text-3xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white text-center">Personal Information</h1>
+            @*<hr class="w-[100%] mt-2"/>*@
+            <h2 class="font-header text-textback classicpanda:text-whitetext text-xl p-1">&nbsp;&nbsp;&nbsp;<strong>Full Name:</strong> @Model.fullName</h2>
+            <h2 class="font-header text-textback classicpanda:text-whitetext text-xl p-1">&nbsp;&nbsp;&nbsp;<strong>Email:</strong> @Model.aspUser.Identity.Name</h2>
         </div>
-        <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
-            <h1 class="font-header font-bold text-5xl text-textback classicpanda:text-whitetext p-1 luxury:text-yellow-500 revolution:text-white autumn:text-white">Spotify Information</h1>
-            <h2 class="font-header text-textback classicpanda:text-whitetext text-2xl p-1">Username: @Model.spotifyName</h2>
-            <h2 class="font-header text-textback classicpanda:text-whitetext text-2xl p-1">Subscription Type: @Model.accountType</h2>
-            <h2 class="font-header text-textback classicpanda:text-whitetext text-2xl p-1">Country: @Model.country</h2>
-            <h2 class="font-header text-textback classicpanda:text-whitetext text-2xl p-1">Number of Followers: @Model.followerCount</h2>
+        <div class="mt-4 w-full">
+            <h1 class="mb-4 font-header font-bold text-3xl text-textback classicpanda:text-whitetext p-1 luxury:text-yellow-500 revolution:text-white autumn:text-white text-center">Spotify Information</h1>
+            <h2 class="font-header text-textback classicpanda:text-whitetext text-xl p-1">&nbsp;&nbsp;&nbsp;<strong>Username:</strong> @Model.spotifyName</h2>
+            <h2 class="font-header text-textback classicpanda:text-whitetext text-xl p-1">&nbsp;&nbsp;&nbsp;<strong>Subscription:</strong> @Model.accountType</h2>
+            <h2 class="font-header text-textback classicpanda:text-whitetext text-xl p-1">&nbsp;&nbsp;&nbsp;<strong>Country:</strong> @Model.country</h2>
+            <h2 class="font-header text-textback classicpanda:text-whitetext text-xl p-1">&nbsp;&nbsp;&nbsp;<strong>Followers:</strong> @Model.followerCount</h2>
         </div>
-        <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl">
+        @*
+        <div class="bg-secondaryback classicpanda:bg-coreback my-3 p-3 rounded-lg shadow-2xl shadow-gray-950">
             <h1 class="font-header font-bold text-5xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">Current Services</h1>
             <div class="table">
                 <div class="table-header-group">
@@ -27,7 +30,27 @@
                 <div class="table-row-group">
                     <div class="table-row">
                         <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Spotify</div>
-                        <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">@Model.spotifyName</div>
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">
+                            @Model.spotifyName</div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    </div>
+    <div class="flex flex-col place-items-start bg-secondaryback classicpanda:bg-coreback p-3 rounded-lg shadow-2xl shadow-gray-950 mt-10">
+        <div class="mt-4 w-full">
+            <h1 class="mb-4 font-header font-bold text-3xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white text-center">Current Services</h1>
+            <div class="table ml-20 md:ml-[110px]">
+                <div class="table-header-group">
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-2xl p-2"><strong>Service</strong></div>
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-2xl p-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Username</strong></div>
+                </div>
+                <div class="table-row-group">
+                    <div class="table-row">
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-3">&nbsp;Spotify</div>
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-3">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.spotifyName
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,7 +60,7 @@
 
 @section Scripts
     {
-        <script type="text/javascript" src="~/js/colorchanger.js"></script>
+    <script type="text/javascript" src="~/js/colorchanger.js"></script>
 }
 
 
