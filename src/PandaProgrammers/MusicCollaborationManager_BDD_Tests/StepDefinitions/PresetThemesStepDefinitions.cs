@@ -4,6 +4,7 @@ using MusicCollaborationManager_BDD_Tests.Shared;
 using System;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
+using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.RazorPages;
