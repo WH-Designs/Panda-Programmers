@@ -30,10 +30,6 @@ function errorOnAjax() {
 }
 
 function getSelectedTheme(themeName) {
-    
-    if (savedTheme != null) {
-        themeName = savedTheme;
-    }
 
     console.log("Getting selected theme:\n")
     let activeThemes = document.getElementById("main-primary-color-control")
@@ -47,7 +43,7 @@ function getSelectedTheme(themeName) {
 
 function getSavedTheme(data) {
     currentTheme = data["theme"];
-    savedTheme = currentTheme;
+    localStorage.theme = currentTheme;
 }
 
 //-------All current themes (below)------------
@@ -58,17 +54,15 @@ $("#classicpanda-btn").click(function () {
 
     $.ajax({
         method: "POST",
-        url: "/api/Theme/themeAdd",
+        url: "/api/Theme/themeAdd/" + savedTheme,
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         data: savedTheme,
         success: console.log("success for classicpanda"),
         error: errorOnAjax
     });
-    
-    console.log(savedTheme);
 
-    getSelectedTheme('classicpanda');
+    getSelectedTheme(savedTheme);
 });
 
 $("#autumn-btn").click(function () {
@@ -77,7 +71,7 @@ $("#autumn-btn").click(function () {
     
     $.ajax({
         method: "POST",
-        url: "/api/Theme/themeAdd",
+        url: "/api/Theme/themeAdd/" + savedTheme,
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         data: savedTheme,
@@ -85,9 +79,7 @@ $("#autumn-btn").click(function () {
         error: errorOnAjax
     });
 
-    console.log(savedTheme);
-
-    getSelectedTheme('autumn');
+    getSelectedTheme(savedTheme);
 });
 
 $("#mansion-btn").click(function () {
@@ -96,17 +88,15 @@ $("#mansion-btn").click(function () {
 
     $.ajax({
         method: "POST",
-        url: "/api/Theme/themeAdd",
+        url: "/api/Theme/themeAdd/" + savedTheme,
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
-        data: savedTheme,
+        data: JSON.stringify(savedTheme),
         success: console.log("success for luxury"),
         error: errorOnAjax
     });
 
-    console.log(savedTheme);
-
-    getSelectedTheme('luxury');
+    getSelectedTheme(savedTheme);
 });
 
 $("#revolution-btn").click(function () {
@@ -115,17 +105,15 @@ $("#revolution-btn").click(function () {
 
     $.ajax({
         method: "POST",
-        url: "/api/Theme/themeAdd",
+        url: "/api/Theme/themeAdd/" + savedTheme,
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         data: savedTheme,
         success: console.log("success for revolution"),
         error: errorOnAjax
     });
-    
-    console.log(savedTheme);
 
-    getSelectedTheme('revolution');
+    getSelectedTheme(savedTheme);
 });
 
 $("#moon-btn").click(function () {
@@ -134,7 +122,7 @@ $("#moon-btn").click(function () {
     
     $.ajax({
         method: "POST",
-        url: "/api/Theme/themeAdd",
+        url: "/api/Theme/themeAdd/" + savedTheme,
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         data: savedTheme,
@@ -142,7 +130,5 @@ $("#moon-btn").click(function () {
         error: errorOnAjax
     });
 
-    console.log(savedTheme);
-    
-    getSelectedTheme('moon');
+    getSelectedTheme(savedTheme);
 });

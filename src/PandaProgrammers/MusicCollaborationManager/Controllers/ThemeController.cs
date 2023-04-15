@@ -26,28 +26,22 @@ namespace MusicCollaborationManager.Controllers
 
         // POST: api/Chore
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("themeAdd")]
+        [HttpPost("themeAdd/{theme}")]
         public ActionResult themeAdd(string theme)
         {
+            try{
+                string aspId = _userManager.GetUserId(User);
+                Listener listener = new Listener();
+                listener = _listenerRepository.FindListenerByAspId(aspId);
 
-            if (theme == null || theme.Length == 0) {
-                Console.WriteLine("THEME IS NULL");
-            };
+                listener.Theme = theme;
 
-            string aspId = _userManager.GetUserId(User);
-            Listener listener = new Listener();
-            listener = _listenerRepository.FindListenerByAspId(aspId);
+                return Ok(_listenerRepository.AddOrUpdate(listener));
 
-            if (listener == null) {
-                Console.WriteLine("LISTENER IS NULL");
-            };
-
-            listener.Theme = theme;
-
-            Console.WriteLine("Listener Theme Currently: " + listener.Theme + " and theme: " + theme);
-
-            return Ok(_listenerRepository.AddOrUpdate(listener));
+            } catch(NullReferenceException) {
+                
+                return Ok();
+            }
         }
-
     }
 }
