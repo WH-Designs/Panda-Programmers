@@ -27,6 +27,8 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
 
         private IWebElement FirstNameInput => _webDriver.FindElement(By.Id("FirstName"));
         private IWebElement LastNameInput => _webDriver.FindElement(By.Id("LastName"));
+        private IWebElement FirstNameText => _webDriver.FindElement(By.XPath("//div//p[1]"));
+        private IWebElement LastNameText => _webDriver.FindElement(By.XPath("//div//p[2]"));
 
         public bool ChangeThemeSectionIsVisible() 
         {
@@ -86,8 +88,16 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
 
         public bool IsFirstAndLastNameVisible(string firstName, string lastName) 
         {
-            if (FirstNameInput.HasValue(firstName) == true
-                 && LastNameInput.HasValue(lastName) == true)
+            //string j = "First Name: " + firstName;
+            ////return FirstNameText.Text.Contains(j);
+
+            //string k = "Last Name: " + lastName;
+            //return LastNameText.Text.Contains(k);
+
+            if (FirstNameInput.HasValue(firstName)
+                 && LastNameInput.HasValue(lastName)
+                 && FirstNameText.Text.Contains(firstName)
+                 && LastNameText.Text.Contains(lastName))
             {
                 return true;
             }
