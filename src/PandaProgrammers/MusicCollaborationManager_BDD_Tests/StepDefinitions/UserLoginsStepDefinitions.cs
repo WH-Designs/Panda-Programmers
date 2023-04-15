@@ -85,6 +85,7 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         [Then(@"I can see the '([^']*)' Button")]
         public void ThenICanSeeTheButton(string button)
         {
+            _homePage.ShowNavbar();
             _homePage.DashboardAnchor.Should().NotBeNull();
             _homePage.DashboardAnchor.Displayed.Should().BeTrue();
         }
@@ -131,6 +132,7 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         [When(@"I load previously saved cookies")]
         public void WhenILoadPreviouslySavedCookies()
         {
+            _homePage.ShowNavbar();
             _homePage.LoadAllCookies().Should().BeTrue();
         }
 
@@ -143,6 +145,7 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         [Then(@"I can see a '([^']*)' button on the navbar")]
         public void ThenICanSeeAButtonOnTheNavbar(string button)
         {
+            _homePage.ShowNavbar();
             _homePage.SpotifyLoginButton.Should().NotBeNull();
             _homePage.SpotifyLoginButton.Displayed.Should().BeTrue();
         }
