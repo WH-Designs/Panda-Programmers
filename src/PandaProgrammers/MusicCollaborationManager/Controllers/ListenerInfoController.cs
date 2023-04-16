@@ -42,5 +42,33 @@ namespace MusicCollaborationManager.Controllers
 
             return InfoToReturn;
         }
+
+        [HttpGet("basicuserinfo/me")]
+        public ListenerInfoDTO GetListenerInfoForTheme()
+        {
+            try {
+                string aspId = _userManager.GetUserId(User);
+                Listener listener = new Listener();
+                listener = _listenerRepository.FindListenerByAspId(aspId);
+                
+                ListenerInfoDTO InfoToReturn = new ListenerInfoDTO();
+
+                InfoToReturn.Theme = listener.Theme;
+                InfoToReturn.FirstName = listener.FirstName;
+                InfoToReturn.LastName = listener.LastName;
+                InfoToReturn.Username = "";
+                
+                if (listener.Theme == null) {
+                    InfoToReturn.Theme = "classicpanda";
+                }
+
+                return InfoToReturn;
+
+            } catch(NullReferenceException) {
+                ListenerInfoDTO InfoToReturn = new ListenerInfoDTO();
+                InfoToReturn.Theme = "classicpanda";
+                return InfoToReturn;
+            }
+        }
     }
 }

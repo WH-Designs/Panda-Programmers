@@ -180,5 +180,72 @@ namespace MusicCollaborationManager.Controllers
                 return View("Settings");
             }
         }
+
+        [Authorize]
+        public async Task<IActionResult> Playlist(string playlistID) {
+            try {
+
+                FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
+                List<UserTrackDTO> tracks = new List<UserTrackDTO>();
+                FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistID);
+                
+                returnPlaylist.LinkToPlaylist = convertPlaylist.Href;
+                returnPlaylist.Name = convertPlaylist.Name;
+                returnPlaylist.ImageURL = convertPlaylist.Images[0].Url;
+                returnPlaylist.Uri = convertPlaylist.Uri;
+                returnPlaylist.Owner = convertPlaylist.Owner.DisplayName;
+                returnPlaylist.Desc = convertPlaylist.Description;
+
+                foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
+                    UserTrackDTO currentTrack = new UserTrackDTO();
+                    if (item.Track is FullTrack track) {
+                        currentTrack.LinkToTrack = track.Href;
+                        currentTrack.Title = track.Name;
+                        currentTrack.Artist = track.Artists[0].Name;
+                        currentTrack.ImageURL = track.Album.Images[0].Url;
+                        currentTrack.Uri = track.Uri;
+                        tracks.Add(currentTrack);
+                    }
+                    if (item.Track is FullEpisode episode) {
+                        continue;
+                    }
+                }
+                
+                returnPlaylist.Tracks = tracks;
+                return View("Playlist", returnPlaylist);
+
+            } catch(ArgumentException e) {
+                Console.WriteLine(e.Message);
+
+                FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
+                List<UserTrackDTO> tracks = new List<UserTrackDTO>();
+                FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync("0wbYwQItyK648wmeNcqP5z");
+                
+                returnPlaylist.LinkToPlaylist = convertPlaylist.Href;
+                returnPlaylist.Name = convertPlaylist.Name;
+                returnPlaylist.ImageURL = convertPlaylist.Images[0].Url;
+                returnPlaylist.Uri = convertPlaylist.Uri;
+                returnPlaylist.Owner = convertPlaylist.Owner.DisplayName;
+                returnPlaylist.Desc = convertPlaylist.Description;
+
+                foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
+                    UserTrackDTO currentTrack = new UserTrackDTO();
+                    if (item.Track is FullTrack track) {
+                        currentTrack.LinkToTrack = track.Href;
+                        currentTrack.Title = track.Name;
+                        currentTrack.Artist = track.Artists[0].Name;
+                        currentTrack.ImageURL = track.Album.Images[0].Url;
+                        currentTrack.Uri = track.Uri;
+                        tracks.Add(currentTrack);
+                    }
+                    if (item.Track is FullEpisode episode) {
+                        continue;
+                    }
+                }
+                
+                returnPlaylist.Tracks = tracks;
+                return View("Playlist", returnPlaylist);
+            }
+        }
     }
 }

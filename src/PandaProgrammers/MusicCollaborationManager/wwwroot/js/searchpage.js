@@ -68,8 +68,8 @@ function displaySearchResults(data) {
 
         let count = 0;
 
-        let searchColNames = `<th scope="col" class=" px-6 py-4">Image</th>
-                              <th scope="col" class=" px-6 py-4">Information</th>`;
+        let searchColNames = `<th scope="col" class=" px-6 py-3">Image</th>
+                              <th scope="col" class=" px-6 py-3">Information</th>`;
 
         $(searchColNames).appendTo(`#search-headers`);
 
@@ -101,9 +101,9 @@ function displaySearchResults(data) {
                     }
 
                     let searchItem = 
-                    `<tr id='search-row' class="border-b border-gray-800">
-                        <td class="whitespace-nowrap  px-6 py-4"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
-                        <td class="whitespace-nowrap  px-6 py-4">
+                    `<tr id='search-row' class="g-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="whitespace-nowrap"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
+                        <td class="whitespace-nowrap">
                             <a class='text-blue-500' href='${itemUrl}'>${itemName}</a>
                             <p>${itemType}</p>
                             <p>${ownerDisplayName}</p>
@@ -129,9 +129,9 @@ function displaySearchResults(data) {
                         }
 
                         let searchItem = 
-                        `<tr id='search-row' class="border-b border-gray-800">
-                            <td class="whitespace-nowrap  px-6 py-4"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
-                            <td class="whitespace-nowrap  px-6 py-4">
+                        `<tr id='search-row' class="g-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="whitespace-nowrap"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
+                            <td class="whitespace-nowrap">
                                 <a class='text-blue-500' href='${itemUrl}'>${itemName}</a>
                                 <p>${itemType}</p>
                                 <p>${ownerDisplayName}</p>
@@ -157,9 +157,9 @@ function displaySearchResults(data) {
                             }
 
                             let searchItem = 
-                            `<tr id='search-row' class="border-b border-gray-800">
-                                <td class="whitespace-nowrap  px-6 py-4"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
-                                <td class="whitespace-nowrap  px-6 py-4">
+                            `<tr id='search-row' class="g-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="whitespace-nowrap"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
+                                <td class="whitespace-nowrap">
                                     <a class='text-blue-500' href='${itemUrl}'>${itemName}</a>
                                     <p>${itemType}</p>
                                     <p>${ownerDisplayName}</p>
@@ -184,9 +184,9 @@ function displaySearchResults(data) {
                             }
 
                             let searchItem = 
-                            `<tr id='search-row' class="border-b border-gray-800">
-                                <td class="whitespace-nowrap  px-6 py-4"><img src='${imageUrl}' width=0 height=0></td>
-                                <td class="whitespace-nowrap  px-6 py-4">
+                            `<tr id='search-row' class="g-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="whitespace-nowrap"><img src='${imageUrl}' width=0 height=0></td>
+                                <td class="whitespace-nowra">
                                     <a class='text-blue-500' href='${itemUrl}'>${itemName}</a>
                                     <p>${itemType}</p>
                                     <p>${ownerDisplayName}</p>
@@ -202,7 +202,7 @@ function displaySearchResults(data) {
 
     } catch (error) {
         console.log("error: " + error.status + ', ' + error.message);
-        let searchItem = `<tr id='search-row' class="border-b border-neutral-500">
+        let searchItem = `<tr id='search-row-no-results' class="border-b border-neutral-500">
                             <td class="whitespace-nowrap  px-6 py-4">No results</td>
                             </tr>`
 
@@ -226,7 +226,7 @@ function getSearchQuery() {
     const checkedList = getCheckedFilters();
 
 
-    $("#search-query-display").append(`<p>Showing results for: ${searchQuery.value}</p>`);
+    $("#search-query-display").append(`<p id='query-display'>Showing results for: ${searchQuery.value}</p>`);
     
     if (!searchForm.checkValidity()){
         console.log("Invalid form validation in getSearchQuery");

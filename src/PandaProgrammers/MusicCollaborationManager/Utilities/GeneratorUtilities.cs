@@ -1,4 +1,6 @@
-﻿namespace MusicCollaborationManager.Utilities
+﻿using SpotifyAPI.Web;
+
+namespace MusicCollaborationManager.Utilities
 {
     public class GeneratorUtilities
     {
@@ -105,6 +107,42 @@
             }
 
             return timeCategory;
+        }
+
+        public List<string> shuffleTracks(List<string> tracks)
+        {
+            int indexCount;
+            int rngCount;
+            if (tracks.Count <= 5)
+            {
+                indexCount = tracks.Count;
+                rngCount = tracks.Count;
+            }
+            else if (tracks.Count > 20)
+            {
+                indexCount = 5;
+                rngCount = 20;
+            }
+            else
+            {
+                indexCount = 5;
+                rngCount = tracks.Count;
+            }
+
+            List<string> result = new List<string>();
+            for (int i = 0; i < indexCount; i++)
+            {
+                string trackHolder = tracks[rngValueInput(0, rngCount)];
+                if (!result.Contains(trackHolder))
+                {
+                    result.Add(trackHolder);
+                }
+                else
+                {
+                    i--;
+                }
+            }
+            return result;
         }
     }
 }
