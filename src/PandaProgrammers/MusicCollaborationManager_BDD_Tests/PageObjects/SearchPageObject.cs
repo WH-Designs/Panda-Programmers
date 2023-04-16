@@ -45,5 +45,9 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         {
             AllRadioButton.Click();
         }
+        public bool SearchHeaderHasText(string text)
+        {
+            return !SearchResultsPointer.Text.Contains(text);
+        }
     }
 }
