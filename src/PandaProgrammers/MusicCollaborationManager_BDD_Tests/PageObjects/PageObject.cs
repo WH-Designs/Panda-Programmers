@@ -63,7 +63,7 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
             {
                 cookies = FileUtils.DeserializeCookiesFromFile(Common.CookieFile);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return false;
             }

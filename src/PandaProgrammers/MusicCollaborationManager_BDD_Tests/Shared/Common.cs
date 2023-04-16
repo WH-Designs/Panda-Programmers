@@ -20,11 +20,12 @@ namespace MusicCollaborationManager_BDD_Tests.Shared
         // A handy way to look these up
         public static readonly Dictionary<string, string> Paths = new()
         {
-            { "Home" , "/" },
-            { "Login", "/Identity/Account/Login" },
+            {"Home" , "/"},
+            {"Login", "/Identity/Account/Login"},
             {"GeneratorIndex", "/Generator" },
             {"QGenerator", "/Generator/Mood" },
-            {"Settings", "/Listener/Settings"}
+            {"Settings", "/Listener/Settings"},
+            {"Search", "/Search/Search"}
         };
 
         public static string PathFor(string pathName) => Paths[pathName];

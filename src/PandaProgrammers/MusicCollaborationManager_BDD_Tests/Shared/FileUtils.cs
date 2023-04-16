@@ -27,7 +27,7 @@ namespace MusicCollaborationManager_BDD_Tests.Shared
             {
                 File.WriteAllLines(filePath, vals);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return false;
             }

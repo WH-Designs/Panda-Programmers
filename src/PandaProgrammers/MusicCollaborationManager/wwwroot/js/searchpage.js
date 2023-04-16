@@ -202,7 +202,7 @@ function displaySearchResults(data) {
 
     } catch (error) {
         console.log("error: " + error.status + ', ' + error.message);
-        let searchItem = `<tr id='search-row' class="border-b border-neutral-500">
+        let searchItem = `<tr id='search-row-no-results' class="border-b border-neutral-500">
                             <td class="whitespace-nowrap  px-6 py-4">No results</td>
                             </tr>`
 
@@ -226,7 +226,7 @@ function getSearchQuery() {
     const checkedList = getCheckedFilters();
 
 
-    $("#search-query-display").append(`<p>Showing results for: ${searchQuery.value}</p>`);
+    $("#search-query-display").append(`<p id='query-display'>Showing results for: ${searchQuery.value}</p>`);
     
     if (!searchForm.checkValidity()){
         console.log("Invalid form validation in getSearchQuery");
