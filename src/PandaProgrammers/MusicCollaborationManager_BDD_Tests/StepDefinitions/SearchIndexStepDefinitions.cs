@@ -110,5 +110,6 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         {
              _searchPage.SearchRowNoResults.Displayed.Should().BeTrue();
         }
+
     }
 }
