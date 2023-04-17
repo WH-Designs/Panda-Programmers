@@ -25,32 +25,46 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
     {
         private readonly ScenarioContext _scenarioContext;
         private readonly SearchPageObject _searchPage;
+        private readonly LoginPageObject _loginPage;
         private IConfiguration Configuration { get; }
 
         public SearchStepDefinitions(ScenarioContext context, BrowserDriver browserDriver)
         {
             _scenarioContext = context;
             _searchPage = new SearchPageObject(browserDriver.Current);
-            
+            _loginPage = new LoginPageObject(browserDriver.Current);
+
             IConfigurationBuilder builder = new ConfigurationBuilder().AddUserSecrets<SearchStepDefinitions>();
             Configuration = builder.Build();
         }
 
-        [Given(@"the following users exist")]
-        public void GivenTheFollowingUsersExist(Table table)
+        [Given(@"the following users exist search")]
+        public void GivenTheFollowingUsersExistSearch(Table table)
         {
             IEnumerable<SearchTestUser> users = table.CreateSet<SearchTestUser>();
             _scenarioContext["Users"] = users;
         }
-        
+
+        [Given(@"I am a listener on the search page")]
+        public void GivenIAmAListenerOnTheSearchPage()
+        {
+            _loginPage.GoTo();
+            _loginPage.EnterEmail("chadb@gmail.com");
+            _loginPage.EnterPassword("Pass321!");
+            _loginPage.Login();
+
+            _searchPage.GoToSearchIndex();
+        }
+
         [When(@"I click the search button in the navbar")]
         public void WhenIClickTheSearchButtonInTheNavbar()
         {
             _searchPage.GoToSearchIndex();
         }
 
-        [When(@"I type a query into the search bar")]
-        public void WhenItypeasearchqueryintothesearchbar()
+
+        [Given(@"I type a query into the search bar")]
+        public void GivenITypeAQueryIntoTheSearchBar()
         {
             _searchPage.InputSearch("Doja Cat");
         }
@@ -74,18 +88,21 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         public void WhenItypeanemptyqueryintothesearchbar()
         {
             _searchPage.InputSearch("");
+            _searchPage.SendSearch();
         }
-        
-        [Then(@"I should see a message that indicates I need to input a query")]
-        public void ThenIshouldseeamessagethatindicatesIneedtoinputaquery()
+
+        [Then(@"I should not see any search results")]
+        public void ThenIShouldNotSeeAnySearchResults()
         {
-            _searchPage.SearchResultsPointer.Displayed.Should().BeFalse();
+            _searchPage.SearchHeaderHasText("Showing results for: ");
         }
+
 
         [When(@"I submit a query that has no results")]
         public void WhenIsubmitaquerythathasnoresults()
         {
             _searchPage.InputSearch("NDUISAHLgdsauiofhilcasFUDISALHFIASPDJFHIVfdsaghdgdfsNPIASJIOK");
+            _searchPage.SendSearch();
         }
 
         [Then(@"I should see a message indicating that there are no results")]
@@ -93,5 +110,6 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         {
              _searchPage.SearchRowNoResults.Displayed.Should().BeTrue();
         }
+
     }
 }

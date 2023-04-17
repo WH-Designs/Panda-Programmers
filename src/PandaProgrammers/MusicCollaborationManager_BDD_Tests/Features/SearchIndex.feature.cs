@@ -79,47 +79,16 @@ feature will be accessable from the nav bar.", ProgrammingLanguage.CSharp, new s
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void FeatureBackground()
-        {
-#line 8
-#line hidden
-            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
-                        "UserName",
-                        "Email",
-                        "FirstName",
-                        "LastName",
-                        "Password"});
-            table7.AddRow(new string[] {
-                        "chadb@gmail.com",
-                        "chadb@gmail.com",
-                        "Chad",
-                        "Bass",
-                        "Pass321!"});
-            table7.AddRow(new string[] {
-                        "tiffanyf@gmail.com",
-                        "tiffanyf@gmail.com",
-                        "Tiffany",
-                        "Fox",
-                        "Pass321!"});
-            table7.AddRow(new string[] {
-                        "dwightm@gmail.com",
-                        "dwightm@gmail.com",
-                        "Dwight",
-                        "Morse",
-                        "Pass321!"});
-#line 9
- testRunner.Given("the following users exist settings", ((string)(null)), table7, "Given ");
-#line hidden
-        }
-        
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Logged in user can reach search page")]
-        public virtual void LoggedInUserCanReachSearchPage()
+        [NUnit.Framework.TestCaseAttribute("Search", null)]
+        public virtual void LoggedInUserCanReachSearchPage(string page, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Page", page);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can reach search page", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 15
+#line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -139,30 +108,27 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 8
-this.FeatureBackground();
-#line hidden
-#line 16
+#line 9
  testRunner.Given("I am a logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 17
+#line 10
  testRunner.When("I click the search button in the navbar", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 18
- testRunner.Then("I should be redirected to the \'<Search>\' page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
+ testRunner.Then(string.Format("I am redirected to the \'{0}\' page", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user can search for something on the search page")]
-        public virtual void LoggedInUserCanSearchForSomethingOnTheSearchPage()
+        [NUnit.Framework.DescriptionAttribute("Logged in user can search for something successfully on the search page")]
+        public virtual void LoggedInUserCanSearchForSomethingSuccessfullyOnTheSearchPage()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can search for something on the search page", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 20
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can search for something successfully on the search page", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 16
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -182,19 +148,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 8
-this.FeatureBackground();
-#line hidden
-#line 21
+#line 17
     testRunner.Given("I am a listener on the search page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 22
-    testRunner.And("I type a query into the search bar", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 18
+        testRunner.And("I type a query into the search bar", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 23
+#line 19
     testRunner.When("I click the search button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 24
+#line 20
     testRunner.Then("I can see the search results", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -202,13 +165,15 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user doesn\'t input anything into the search bar and recieves an error")]
-        public virtual void LoggedInUserDoesntInputAnythingIntoTheSearchBarAndRecievesAnError()
+        [NUnit.Framework.DescriptionAttribute("Logged in user doesn\'t input anything into the search bar and recieves no results" +
+            "")]
+        public virtual void LoggedInUserDoesntInputAnythingIntoTheSearchBarAndRecievesNoResults()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user doesn\'t input anything into the search bar and recieves an error", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 26
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user doesn\'t input anything into the search bar and recieves no results" +
+                    "", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 22
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -228,30 +193,29 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 8
-this.FeatureBackground();
-#line hidden
-#line 27
+#line 23
     testRunner.Given("I am a listener on the search page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 28
+#line 24
     testRunner.When("I type an empty query into the search bar", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 29
-    testRunner.Then("I should see a message that indicates I need to input a query", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 25
+    testRunner.Then("I should not see any search results", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user Searches for something and recieves no results")]
-        public virtual void LoggedInUserSearchesForSomethingAndRecievesNoResults()
+        [NUnit.Framework.DescriptionAttribute("Logged in user searches for something and recieves a message indicating that the " +
+            "search yielded no results")]
+        public virtual void LoggedInUserSearchesForSomethingAndRecievesAMessageIndicatingThatTheSearchYieldedNoResults()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user Searches for something and recieves no results", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 31
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user searches for something and recieves a message indicating that the " +
+                    "search yielded no results", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 27
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -271,16 +235,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 8
-this.FeatureBackground();
-#line hidden
-#line 32
+#line 28
     testRunner.Given("I am a listener on the search page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 33
+#line 29
     testRunner.When("I submit a query that has no results", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 34
+#line 30
     testRunner.Then("I should see a message indicating that there are no results", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
