@@ -19,12 +19,12 @@ Scenario: Logged in user can search for something successfully on the search pag
     When I click the search button
     Then I can see the search results
 
-Scenario: Logged in user doesn't input anything into the search bar and recieves an error
+Scenario: Logged in user doesn't input anything into the search bar and recieves no results
     Given I am a listener on the search page
     When I type an empty query into the search bar
     Then I should not see any search results
 
-Scenario: Logged in user searches for something and recieves no results
+Scenario: Logged in user searches for something and recieves a message indicating that the search yielded no results
     Given I am a listener on the search page
     When I submit a query that has no results
     Then I should see a message indicating that there are no results
