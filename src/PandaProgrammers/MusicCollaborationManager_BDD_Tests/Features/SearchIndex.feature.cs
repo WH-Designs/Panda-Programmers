@@ -165,12 +165,14 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user doesn\'t input anything into the search bar and recieves an error")]
-        public virtual void LoggedInUserDoesntInputAnythingIntoTheSearchBarAndRecievesAnError()
+        [NUnit.Framework.DescriptionAttribute("Logged in user doesn\'t input anything into the search bar and recieves no results" +
+            "")]
+        public virtual void LoggedInUserDoesntInputAnythingIntoTheSearchBarAndRecievesNoResults()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user doesn\'t input anything into the search bar and recieves an error", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user doesn\'t input anything into the search bar and recieves no results" +
+                    "", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 22
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -205,12 +207,14 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user searches for something and recieves no results")]
-        public virtual void LoggedInUserSearchesForSomethingAndRecievesNoResults()
+        [NUnit.Framework.DescriptionAttribute("Logged in user searches for something and recieves a message indicating that the " +
+            "search yielded no results")]
+        public virtual void LoggedInUserSearchesForSomethingAndRecievesAMessageIndicatingThatTheSearchYieldedNoResults()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user searches for something and recieves no results", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user searches for something and recieves a message indicating that the " +
+                    "search yielded no results", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 27
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
