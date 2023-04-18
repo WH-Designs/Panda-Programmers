@@ -17,8 +17,7 @@ public class Listener_Tests
             SpotifyId = "0",
             AuthToken = "0",
             AuthRefreshToken = "0",
-            Comments = {},
-            Themes = {}
+            Comments = {}
         };
 
         return listener;

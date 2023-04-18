@@ -429,6 +429,14 @@ video {
   --colors-secondaryback: 111, 111, 111;
   --colors-primback: 209, 213, 219;
   --colors-textback: 0, 0, 0;
+  --fontFamily-header-0: Bangers;
+  --fontFamily-header-1: cursive;
+  --fontFamily-header-2: Arial;
+  --fontFamily-header-3: sans-serif;
+  --fontFamily-child-0: "Carter One";
+  --fontFamily-child-1: system-ui;
+  --fontFamily-child-2: Helvetica;
+  --fontFamily-child-3: sans-serif;
 }
 
 .classicpanda {
@@ -438,6 +446,13 @@ video {
   --colors-primback: 209, 213, 219;
   --colors-textback: 0, 0, 0;
   --colors-whitetext: 255, 255, 255;
+  --fontFamily-header-0: Vidaloka;
+  --fontFamily-header-1: cursive;
+  --fontFamily-header-2: sans-serif;
+  --fontFamily-child-0: Montserrat;
+  --fontFamily-child-1: Helvetica;
+  --fontFamily-child-2: Arial;
+  --fontFamily-child-3: sans-serif;
 }
 
 .autumn {
@@ -446,6 +461,14 @@ video {
   --colors-secondaryback: 169, 169, 169;
   --colors-primback: 209, 213, 219;
   --colors-textback: 0, 0, 0;
+  --fontFamily-header-0: Gelasio;
+  --fontFamily-header-1: cursive;
+  --fontFamily-header-2: system-ui;
+  --fontFamily-header-3: sans-serif;
+  --fontFamily-child-0: Abel;
+  --fontFamily-child-1: Helvetica;
+  --fontFamily-child-2: Arial;
+  --fontFamily-child-3: sans-serif;
 }
 
 .moon {
@@ -454,6 +477,13 @@ video {
   --colors-secondaryback: 31, 41, 55;
   --colors-primback: 15, 23, 42;
   --colors-textback: 255, 255, 255;
+  --fontFamily-header-0: Vidaloka;
+  --fontFamily-header-1: cursive;
+  --fontFamily-header-2: sans-serif;
+  --fontFamily-child-0: Montserrat;
+  --fontFamily-child-1: Helvetica;
+  --fontFamily-child-2: Arial;
+  --fontFamily-child-3: sans-serif;
 }
 
 .luxury {
@@ -462,6 +492,13 @@ video {
   --colors-secondaryback: 0, 0, 0;
   --colors-primback: 192, 192, 192;
   --colors-textback: 255, 255, 255;
+  --fontFamily-header-0: "roboto condensed";
+  --fontFamily-header-1: Arial;
+  --fontFamily-header-2: system-ui;
+  --fontFamily-header-3: sans-serif;
+  --fontFamily-child-0: Nunito;
+  --fontFamily-child-1: Helvetica;
+  --fontFamily-child-2: sans-serif;
 }
 
 *, ::before, ::after {
@@ -1241,8 +1278,12 @@ video {
   text-align: start;
 }
 
-.font-\[Montserrat\] {
-  font-family: Montserrat;
+.font-child {
+  font-family: var(--fontFamily-child-0), var(--fontFamily-child-1), var(--fontFamily-child-2), var(--fontFamily-child-3);
+}
+
+.font-header {
+  font-family: var(--fontFamily-header-0), var(--fontFamily-header-1), var(--fontFamily-header-2), var(--fontFamily-header-3);
 }
 
 .text-2xl {
