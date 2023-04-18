@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" id="main-primary-color-control" class="classicpanda">
+<html lang="en" id="main-primary-color-control">
 
 <head>
     <meta charset="utf-8" />
@@ -8,61 +8,64 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MusicCollaborationManager.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/c88114ae42.js" crossorigin="anonymous"></script>
-    @* <script src="https://cdn.tailwindcss.com"></script> *@
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Bangers&family=Carter+One&family=Gelasio&family=Montserrat&family=Nunito&family=Roboto+Condensed&family=Vidaloka&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-primback font-[Montserrat]">
-    <div class="fixed flex w-screen flex-row text-white shadow-lg bg-coreback h-28 justify-center items-center">
-        <img src="~/img/Panda_Logo.png" class="w-24 h-24 mr-4 bg-white" alt="Logo">
-        <h1 class="text-white mr-4 text-2xl luxury:text-yellow-500">Music Collaboration Manager</h1>
+<body class="bg-primback font-child">
+    <div class="fixed flex w-screen flex-row text-white shadow-lg bg-coreback h-28 items-center">
+        <button class="ml-4 bg-gray-700 hover:bg-gray-500 max-w-fit px-4 py-1 rounded-md" id="navbar-toggle-button">
+            <i class="fa-solid fa-bars fa-lg text-white text-2xl luxury:text-yellow-500"></i>
+        </button>
+        <img src="~/img/Panda_Logo.png" class="ml-4 w-24 h-24 mr-4 bg-white" alt="Logo">
+        <h1 class="font-header text-white ml-2 mr-4 text-2xl luxury:text-yellow-500">Music Collaboration Manager</h1>
     </div>
-    <nav class="fixed mt-28 left-0 h-screen w-52 flex flex-col text-white shadow-lg bg-coreback
+    <nav class="hidden fixed mt-28 left-0 h-screen w-52 flex flex-col text-white shadow-lg bg-coreback
     luxury:border-r-8
-    luxury:border-r-yellow-500">
+    luxury:border-r-yellow-500" id="navbar">
         <ul class="px-3 text-start text-xl">
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
-                <a asp-controller="Home" asp-action="Index" class="" aria-current="page"><i
-                        class="fa-solid fa-house luxury:text-yellow-500
+                <a asp-controller="Home" asp-action="Index" class="" aria-current="page"><i class="fa-solid fa-house luxury:text-yellow-500
                         autumn:text-sky-500"></i> Home
                 </a>
             </li>
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
-                <a asp-controller="Listener" asp-action="Index" class="" aria-current="page"><i
+                <a asp-controller="Listener" asp-action="Index" class="" aria-current="page" id="dashboard-anchor"><i
                         class="fa-solid fa-house-user luxury:text-yellow-500
                         autumn:text-sky-500"></i> Dashboard
                 </a>
             </li>
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
-                <a asp-controller="Search" asp-action="Search" class="" aria-current="page"><i
-                        class="fa-solid fa-search luxury:text-yellow-500
+                <a asp-controller="Search" asp-action="Search" class="" aria-current="page" id='search-anchor'><i class="fa-solid fa-search luxury:text-yellow-500
                         autumn:text-sky-500"></i> Search
                 </a>
             </li>
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
-                <a asp-controller="Listener" asp-action="Profile" class="" aria-current="page"><i
-                        class="fa-solid fa-user luxury:text-yellow-500
+                <a asp-controller="Listener" asp-action="Profile" class="" aria-current="page"><i class="fa-solid fa-user luxury:text-yellow-500
                         autumn:text-sky-500"></i> Profile
                 </a>
             </li>
             <li class="p-4 bg-gray-700 hover:bg-gray-500 rounded-md my-2">
-                <a asp-controller="Generator" asp-action="Index" class="" aria-current="page"><i
+                <a asp-controller="Generator" asp-action="Index" class="" aria-current="page" id="generator-anchor"><i
                         class="fa-solid fa-wand-magic-sparkles 
                         luxury:text-yellow-500
                         autumn:text-sky-500"></i> Generators
                 </a>
             </li>
-            <span class="block mb-4"></span>
-            <hr class="fixed w-44 bg-gray-400">
+            <hr class=" w-44 bg-gray-400">
+            @* <span class="block mb-4"></span> *@
+            @* <hr class="fixed w-44 bg-gray-400">
 
-            <hr class="bottom-[192px] fixed w-44 bg-gray-400">
+            <hr class="bottom-[192px] fixed w-44 bg-gray-400"> *@
             <partial name="_LoginPartial" />
         </ul>
     </nav>
 
     <div class="flex">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 flex md:ml-52 lg:justify-center lg:items-center mt-36">
             @RenderBody()
         </main>
     </div>

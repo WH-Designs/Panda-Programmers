@@ -1,4 +1,4 @@
-﻿as@using Microsoft.IdentityModel.Tokens
+﻿@using Microsoft.IdentityModel.Tokens
 @model MusicCollaborationManager.ViewModels.GeneratorsViewModel
 
 @{
@@ -6,70 +6,94 @@
 }
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
-<div class="flex flex-col">
-    <div class="flex flex-row ml-48 mt-36">
-        <div class="flex flex-col w-3/4 mx-5" id="explanation-title">
-            <div>
-                <h1 class="font-bold text-4xl text-textback luxury:text-black autumn:text-white revolution:text-white">Generated Playlist</h1>
-            </div>
-            <div class="w-full h-max max-h-max my-3 p-3 rounded-lg shadow-2xl bg-secondaryback classicpanda:bg-coreback">
-                <img src="@Model.PlaylistCoverImageUrl" alt="Playlist Image" class="text-textback classicpanda:text-whitetext" />
-                <p class="text-textback classicpanda:text-whitetext">@Model.PlaylistDescription</p>
-                <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
-                    <h1 class="text-textback classicpanda:text-whitetext">Tracks</h1>
+<div class="flex flex-col w-fit">
+    <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 md:w-[35%] bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Generated Playlist</h2>
+        </div>
+
+        <div class="classicpanda:text-blacktext flex bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 gap-x-4">
+            @if(Model.PlaylistCoverImageUrl is null)
+            {
+                <img src="@Model.PlaylistCoverImageUrl" alt="Playlist Image"
+                class="text-textback classicpanda:text-blacktext hidden" />
+                <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center">
+                    <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistDescription</p>
                 </div>
-                <div class="columns-5 mb-5 h-full max-h-max">
-                    @{int trackIndex = 0;
-                        foreach(var track in Model.fullResult)
+            }
+            else
+            {
+                <img src="@Model.PlaylistCoverImageUrl" alt="Playlist Image"
+                     class="text-textback classicpanda:text-blacktext" />
+                <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center mt-11">
+                    <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistDescription</p>
+                </div>
+            }
+        </div>
+
+        <div class="flex flex-col">
+            <h1 class="text-textback classicpanda:text-whitetext">Tracks</h1>
+            <div class="flex gap-x-3 md:max-h-auto3 w-[360px] md:w-auto overflow-x-auto mr-6 md:mr-0 text-center text-lg">
+                @{
+                    int trackIndex = 0;
+                    foreach (var track in Model.fullResult)
                     {
-                        <div class="w-fit overflow-hidden mt-4" id="song-preview-@trackIndex">
-                            <i id="remove-entry-icon-@trackIndex" class="cursor-pointer fa-solid fa-x text-textback classicpanda:text-whitetext hover:text-textback/50 re-add-entry classicpanda:hover:text-gray-400 remove-track-btn"></i>
+                        <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg gap-y-3" id="song-preview-@trackIndex">
+                            <i id="remove-entry-icon-@trackIndex" class="cursor-pointer fa-solid fa-x text-textback classicpanda:text-blacktext hover:text-textback/50 re-add-entry classicpanda:hover:text-gray-400 remove-track-btn"></i>
                             <img src="@track.Album.Images[0].Url" />
-                                <h2 class="text-textback classicpanda:text-whitetext">Track Name: <span id="entry-track-name-@trackIndex">@track.Name</span></h2>
-                                <h2 class="text-textback classicpanda:text-whitetext">Album Name: <span id="entry-album-name-@trackIndex">@track.Album.Name</span></h2>
-                            <div class="flex flex-row">
-                                <i class="text-white playable-item fa-solid fa-circle-play" id="track-@trackIndex" data-spotify-id="@track.Uri"></i>
-                            </div>
+                            <h2 class="text-textback classicpanda:text-blacktext">Track Name: <span id="entry-track-name-@trackIndex">@track.Name</span></h2>
+                            <h2 class="text-textback classicpanda:text-blacktext">Album Name: <span id="entry-album-name-@trackIndex">@track.Album.Name</span></h2>
+                            <button class="playable-item hover:text-textback classicpanda:text-blacktext" id="track-@trackIndex" data-spotify-id="@track.Uri"><i class="fa-solid fa-play fa-xl"></i></button>
                         </div>
-                            trackIndex++;
-                        }
+                        trackIndex++;
                     }
-                </div>
-
-
-                <div class="flex flex-col gap-y-8 bg-secondaryback classicpanda:bg-coreback my-3 p-3 min-w-full rounded-lg">
-                    <h2 class="text-center text-textback classicpanda:text-whitetext text-2xl">Removed tracks</h2>
-                    <div class="table">
-                        <div class="table-header-group">
-                            <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2">Track</div>
-                            <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2">Album</div>
-                            <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2"></div> <!--Column for "add" btn. (Which is NOT meant to be visible.)-->
-                        </div>
-                        <div class="table-row-group" id="removed-tracks-table-body">
-                        </div>
-                    </div>
-                </div>
-                
-               
-                <form class="bg-secondaryback classicpanda:bg-coreback flex flex-row gap-x-3.5" id="playlist-form">
-                    @{
-                        for (int i = 0; i < Model.fullResult.Count; i++)
-                        {
-                            <input id="track-@i-input" value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="newTrackUris[@i]"/>
-                        }
-                    }
-                    <button class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600" type="button" id="save-playlist-btn">Save playlist</button>
-                    <button class="text-textback classicpanda:text-whitetext font-bold p-2 rounded-md text-2x hover:bg-gray-700 px-1 border-b-2 border-gray-600" type="button" id="discard-playlist-btn">Discard playlist</button>
-                </form>
-                
+                }
             </div>
         </div>
+
+        <div class="flex flex-col mt-5">
+                <h2 class="font-header text-center text-textback classicpanda:text-whitetext text-2xl">Removed tracks</h2>
+                <div class="table">
+                    <div class="table-header-group">
+                        <div class="font-header table-cell text-textback classicpanda:text-whitetext text-xl p-2">Track</div>
+                        <div class="font-header table-cell text-textback classicpanda:text-whitetext text-xl p-2">Album</div>
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2"></div> <!--Column for "add" btn. (Which is NOT meant to be visible.)-->
+                    </div>
+                    <div class="table-row-group" id="removed-tracks-table-body">
+                    </div>
+                </div>
+            
+        </div>
+
+        <form class="bg-secondaryback classicpanda:bg-coreback flex flex-col gap-x-3.5 gap-y-4 mt-6" id="playlist-form">
+            @{
+                for (int i = 0; i < Model.fullResult.Count; i++)
+                {
+                    <input id="track-@i-input" value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="newTrackUris[@i]" />
+                }
+            }
+            
+                <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+                                classicpanda:text-whitetext
+                                autumn:text-white
+                                revolution:text-white"
+                        type="button" id="save-playlist-btn">
+                    Save playlist
+                </button>
+                <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+                                classicpanda:text-whitetext
+                                autumn:text-white
+                                revolution:text-white"
+                        type="button" id="discard-playlist-btn">
+                    Discard playlist
+                </button>
+            
+        </form>
     </div>
-</div>
-
-
-<div class="-z-50" style="width: 0; height: 0; border: 0; border: none; position: absolute;">
-    <div id="embed-iframe" style=""></div>
+    <div class="-z-50" style="width: 0; height: 0; border: 0; border: none; position: absolute;">
+        <div id="embed-iframe" style=""></div>
+    </div>
 </div>
 
 <script>
@@ -80,7 +104,7 @@
             width: '80%',
             height: '400',
             uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
-            
+
         };
         let callback = (EmbedController) => {
             document.querySelectorAll('.playable-item').forEach(
@@ -92,7 +116,7 @@
                 })
         };
         IFrameAPI.createController(element, options, callback);
-        
+
     };
     console.log("Spotify player should be loaded")
 </script>
@@ -100,7 +124,7 @@
 
 
 @section Scripts
-{
+    {
     <script type="text/javascript" src="~/js/generatedplaylists.js"></script>
     <script type="text/javascript" src="~/js/colorchanger.js"></script>
 }
