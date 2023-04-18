@@ -137,9 +137,9 @@ namespace MusicCollaborationManager.Services.Concrete
             recommendationsRequest.Market = recommendDTO.market;
             recommendationsRequest.Limit = recommendDTO.limit;
 
-            foreach(var artist in recommendDTO.seed)
+            foreach(var track in recommendDTO.seed)
             {
-                recommendationsRequest.SeedTracks.Add(artist);
+                recommendationsRequest.SeedTracks.Add(track);
                 if(recommendationsRequest.SeedTracks.Count >= 5) {break; }
             }
             //foreach (var genre in recommendDTO.genre)
@@ -204,7 +204,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
         }
 
-        public async Task<List<string>> SearchTopGenrePlaylistArtist(string genre)
+        public async Task<List<string>> SearchTopGenrePlaylistTrack(string genre)
         {
             GeneratorUtilities generatorUtilities = new GeneratorUtilities();
             SearchRequest.Types types = SearchRequest.Types.Playlist;
@@ -294,7 +294,7 @@ namespace MusicCollaborationManager.Services.Concrete
             {
                 RequestParameters.Country = CurUser.Country;
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 RequestParameters.Country = "NA";
             }
@@ -309,6 +309,7 @@ namespace MusicCollaborationManager.Services.Concrete
                 IndividualPlaylist.Name = playlist.Name;
                 IndividualPlaylist.LinkToPlaylist = playlist.ExternalUrls["spotify"];
                 IndividualPlaylist.Uri = playlist.Uri;
+                IndividualPlaylist.ID = playlist.Id;
 
                 if (playlist.Images.IsNullOrEmpty() == false)
                 {
@@ -347,6 +348,7 @@ namespace MusicCollaborationManager.Services.Concrete
                 Playlist.Name = item.Name;
                 Playlist.LinkToPlaylist = item.ExternalUrls["spotify"];
                 Playlist.Uri = item.Uri;
+                Playlist.ID = item.Id;
                 if (item.Images.IsNullOrEmpty() == false)
                 {
                     Playlist.ImageURL = item.Images[0].Url;
@@ -362,5 +364,20 @@ namespace MusicCollaborationManager.Services.Concrete
             return UserPlaylists;
         }
 
+        public async Task<List<FullTrack>> GetTopTracksAsync()
+        {
+
+            PersonalizationTopRequest Request = new PersonalizationTopRequest();
+            Request.Limit = 20;
+            var topTracks = await Spotify.Personalization.GetTopTracks(Request);
+            var topTracksList = topTracks.Items;          
+
+            return topTracksList;
+        }
+
+        public async Task<FullPlaylist> GetPlaylistFromIDAsync(string playlistID) {
+            FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
+            return wantedPlaylist;
+        }
     }
 }
