@@ -21,8 +21,7 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public IWebElement SpotifyLoginButton => _webDriver.FindElement(By.Id("spotify-button"));
         public IWebElement NavbarToggleButton => _webDriver.FindElement(By.Id("navbar-toggle-button"));
         private IWebElement YouTubeTopMusicVideosHeader => _webDriver.FindElement(By.XPath("/html/body/div[2]/main/div/div[4]/div//h2"));
-
-
+        private IWebElement YouTubeIcon => _webDriver.FindElement(By.XPath("/html/body/div[2]/main/div/div[4]/div//img"));
 
         public void GoToSettings() 
         {
@@ -38,9 +37,9 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
             NavbarToggleButton.Click();
         }
 
-        public bool YouTubeMusicVideosSectionExists() 
+        public bool YouTubeMusicVideosSectionExists()
         {
-            if (YouTubeTopMusicVideosHeader.Text.Contains("Top music videos"))
+            if (YouTubeTopMusicVideosHeader.Text.Contains("Top music videos") && (YouTubeIcon.GetAttribute("alt") == "YouTube Icon"))
             {
                 return true;
             }

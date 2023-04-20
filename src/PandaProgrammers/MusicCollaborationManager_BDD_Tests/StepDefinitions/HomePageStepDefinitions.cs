@@ -21,9 +21,5 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         {
            _homePage.YouTubeMusicVideosSectionExists().Should().BeTrue();
         }
-
-
-
-
     }
 }
