@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 using MusicCollaborationManager_BDD_Tests.Shared;
 using System.Collections.ObjectModel;
+using SpecFlow.Actions.Selenium;
 
 namespace MusicCollaborationManager_BDD_Tests.PageObjects
 {
@@ -19,7 +20,9 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public IWebElement SettingsAnchor => _webDriver.FindElement(By.CssSelector("a[href=\"/Listener/Settings\"]"));
         public IWebElement SpotifyLoginButton => _webDriver.FindElement(By.Id("spotify-button"));
         public IWebElement NavbarToggleButton => _webDriver.FindElement(By.Id("navbar-toggle-button"));
-       
+        private IWebElement YouTubeTopMusicVideosHeader => _webDriver.FindElement(By.XPath("/html/body/div[2]/main/div/div[4]/div//h2"));
+
+
 
         public void GoToSettings() 
         {
@@ -33,6 +36,15 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public void ShowNavbar()
         {
             NavbarToggleButton.Click();
+        }
+
+        public bool YouTubeMusicVideosSectionExists() 
+        {
+            if (YouTubeTopMusicVideosHeader.Text.Contains("Top music videos"))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
