@@ -2,39 +2,57 @@
 
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
-<div class="flex flex-col">
-    <div class="flex flex-row ml-48 mt-36">
-        <div class="flex flex-col w-3/4 mx-5" id="explanation-title">
-            <div>
-                <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
-                <h1 class="font-header font-bold text-4xl text-textback luxury:text-black autumn:text-white revolution:text-white">@Model.Name</h1>
-            </div>
-            <div class="w-full h-max max-h-max my-3 p-3 rounded-lg shadow-2xl bg-secondaryback classicpanda:bg-coreback">
-                <img src="@Model.ImageURL" alt="Playlist Image" class="text-textback classicpanda:text-whitetext" width=300 height=300/>
-                <p class="text-textback classicpanda:text-whitetext">@Model.Desc</p>
-                <p class="text-textback classicpanda:text-whitetext">@Model.Owner</p>
-                <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
-                    <h1 class="text-textback classicpanda:text-whitetext">Tracks</h1>
+<div class="flex flex-col w-fit">
+    <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <h2 class="font-bold mb-5 mt-1 text-textback text-2xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.Name</h2>
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.Owner</h2>
+        </div>
+        <div class="classicpanda:text-blacktext flex flex-col md:flex-row bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 gap-x-4">
+            @if (Model.ImageURL is null)
+            {
+                <img src="@Model.ImageURL" alt="Playlist Image"
+                     class="text-textback classicpanda:text-blacktext hidden" />
+                <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center">
+                    <p class="text-textback classicpanda:text-blacktext">@Model.Desc</p>
                 </div>
-                <div class="columns-5 mb-5 h-full max-h-max">
-                    @{int trackIndex = 0;
-                        foreach(var track in Model.Tracks)
-                    {
-                        <div class="w-fit overflow-hidden mt-4" id="song-preview-@trackIndex">
-                            <img src="@track.ImageURL" />
-                                <h2 class="text-textback classicpanda:text-whitetext">Track Name: <span id="entry-track-name-@trackIndex">@track.Title</span></h2>
-                                <h2 class="text-textback classicpanda:text-whitetext">Artist Name: <span id="entry-album-name-@trackIndex">@track.Artist</span></h2>
-                            <div class="flex flex-row">
-                                <i class="text-white playable-item fa-solid fa-circle-play" id="track-@trackIndex" data-spotify-id="@track.Uri"></i>
-                            </div>
-                        </div>
-                        <br>
+            }
+            else
+            {
+                <img src="@Model.ImageURL" alt="Playlist Image"
+                     class="text-textback classicpanda:text-blacktext w-[300px] h-[300px]" />
+                <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center mt-11">
+                    <p class="text-textback classicpanda:text-blacktext">@Model.Desc</p>
+                </div>
+            }
+        </div>
+        <div class="flex flex-col">
+            <h1 class="text-textback classicpanda:text-whitetext">Tracks</h1>
+            <div class="classicpanda:text-blacktext flex bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 h-[500px] overflow-y-auto">
+                <table class="">
+                    <tr>
+                        <th>#</th>
+                        <th>Track Image</th>
+                        <th>Title</th>
+                        <th>Artist</th>
+                    </tr>
+                    @{
+                        int trackIndex = 0;
+                        foreach (var track in Model.Tracks)
+                        {
+                            <tr>
+                                <td>@(trackIndex + 1)</td>
+                                <td><a href="@track.LinkToTrack"><img src="@track.ImageURL" alt="" class="text-textback classicpanda:text-blacktext md:w-[300px] md:h-[300px]"></img></a></td>
+                                <td>@track.Title</td>
+                                <td>@track.Artist</td>
+                            </tr>
                             trackIndex++;
                         }
                     }
-                </div>
+                </table>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -51,7 +69,7 @@
             width: '80%',
             height: '400',
             uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
-            
+
         };
         let callback = (EmbedController) => {
             document.querySelectorAll('.playable-item').forEach(
@@ -63,7 +81,7 @@
                 })
         };
         IFrameAPI.createController(element, options, callback);
-        
+
     };
     console.log("Spotify player should be loaded")
 </script>
