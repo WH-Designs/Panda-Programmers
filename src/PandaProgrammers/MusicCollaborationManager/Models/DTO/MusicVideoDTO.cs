@@ -19,7 +19,30 @@ namespace MusicCollaborationManager.Models.DTO
 
         public static IEnumerable<MusicVideoDTO> FromJSON(object? obj)
         {
-            throw new NotImplementedException();
+            JObject? jObject = null;
+            try
+            {
+                jObject = JObject.Parse((string)obj);
+            }
+            catch (JsonReaderException)
+            {
+                Debug.WriteLine("Error parsing JSON. (MusicVideoDTO)");
+            }
+            if (jObject != null)
+            {
+                IEnumerable<MusicVideoDTO> VideoList = jObject["items"].Select(mv => new MusicVideoDTO()
+                {
+                    VideoID = (string)mv["id"],
+                    VideoTitle = (string)mv["snippet"]["title"],
+                    YouTubeChannelName = (string)mv["snippet"]["channelTitle"],
+                    ThumbnailURL = (string)mv["snippet"]["thumbnails"]["default"]["url"],
+                    ThumbnailWidth = (string)mv["snippet"]["thumbnails"]["default"]["width"],
+                    ThumbnailHeight = (string)mv["snippet"]["thumbnails"]["default"]["height"]
+                });
+                return VideoList;
+            }
+
+            return Enumerable.Empty<MusicVideoDTO>();
         }
     }
 }

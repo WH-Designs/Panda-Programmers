@@ -11,7 +11,8 @@ using MusicCollaborationManager.DAL.Abstract;
 using Microsoft.AspNetCore.Authentication;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-
+using MusicCollaborationManager.Models.DTO;
+using MusicCollaborationManager.ViewModels;
 
 namespace MusicCollaborationManager.Controllers;
 
@@ -21,18 +22,45 @@ public class HomeController : Controller
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IListenerRepository _listenerRepository;
     private readonly SpotifyAuthService _spotifyService;
+    private readonly IYouTubeService _youTubeService;
 
-    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SpotifyAuthService spotifyService, IListenerRepository listenerRepository)
+    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SpotifyAuthService spotifyService, IListenerRepository listenerRepository
+, IYouTubeService youTubeService)
     {
         _logger = logger;
         _userManager = userManager;
         _spotifyService = spotifyService;
         _listenerRepository = listenerRepository;
+        _youTubeService = youTubeService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
+        VisitorDashboard visitorDash = new VisitorDashboard();
+
+        Console.WriteLine("---------Printing all YouTube video details-------------");
+
+        int i = 1;
+        foreach (MusicVideoDTO video in j)
+        {
+            //ThumbnailURL = (string)mv["snippet"]["default"]["url"],
+            //ThumbnailWidth = (string)mv["snippet"]["default"]["width"],
+            //ThumbnailHeight = (string)mv["snippet"]["default"]["height"],
+            //YouTubeChannelName = (string)mv["snippet"]["channelTitle"]
+
+            Console.WriteLine($"---------Video {i}-------------");
+            Console.WriteLine($"Title: {video.VideoTitle}");
+            Console.WriteLine($"YouTube Channel : {video.YouTubeChannelName}");
+            Console.WriteLine($"Thumbnail URL : {video.ThumbnailURL}");
+            Console.WriteLine($"Thumbnail height : {video.ThumbnailHeight}");
+            Console.WriteLine($"Thumbnail width : {video.ThumbnailWidth}");
+            i++;
+
+            visitorDash.YouTubeMVs.Add(video);
+        }
+
+        return View(visitorDash);
     }
 
     public IActionResult callforward()
@@ -41,11 +69,12 @@ public class HomeController : Controller
         Listener listener = new Listener();
         listener = _listenerRepository.FindListenerByAspId(aspId);
 
-        if (listener.AuthToken == null){
+        if (listener.AuthToken == null)
+        {
             String uri = _spotifyService.GetUriAsync();
-            return Redirect(uri);  
+            return Redirect(uri);
         }
-        
+
         return RedirectToAction("callback", "Home", "");
     }
 
@@ -53,16 +82,17 @@ public class HomeController : Controller
     {
         string aspId = _userManager.GetUserId(User);
         Listener listener = new Listener();
-        listener = _listenerRepository.FindListenerByAspId(aspId);        
-        
+        listener = _listenerRepository.FindListenerByAspId(aspId);
+
         await _spotifyService.GetCallbackAsync(code, listener);
         PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUserAsync();
         _listenerRepository.AddOrUpdate(listener);
 
-        if (listener.SpotifyId == null) {
+        if (listener.SpotifyId == null)
+        {
             listener.SpotifyId = currentSpotifyUser.Id;
             _listenerRepository.AddOrUpdate(listener);
-        } 
+        }
 
         return RedirectToAction("Index", "Listener");
     }

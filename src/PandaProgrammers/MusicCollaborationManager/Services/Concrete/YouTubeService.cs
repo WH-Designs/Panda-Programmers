@@ -7,6 +7,8 @@ namespace MusicCollaborationManager.Services.Concrete
     public class YouTubeService : IYouTubeService
     {
         private readonly string _YTKey;
+
+
         public static readonly HttpClient _httpClient = new HttpClient();
 
         public YouTubeService(string yTKey)
@@ -16,13 +18,37 @@ namespace MusicCollaborationManager.Services.Concrete
 
         public async Task<string> GetJsonStringFromEndpoint(string uri)
         {
-            throw new NotImplementedException();
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri)
+            {
+                Headers =
+                    {
+                        { HeaderNames.Accept, "application/json" }
+                    }
+            };
+            HttpResponseMessage response = _httpClient.Send(httpRequestMessage);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseText = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                return responseText;
+            }
+            else
+            {
+                // What to do if failure? 401? Should throw and catch specific exceptions that explain what happened.
+                return null;
+            }
+
         }
 
 
         public async Task<IEnumerable<MusicVideoDTO>> GetPopularMusicVideosAsync()
         {
-            throw new NotImplementedException();
+            string source = "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2Cstatistics&chart=mostPopular&regionCode=US&videoCategoryId=10&key=" + _YTKey;
+            string response = await GetJsonStringFromEndpoint(source);
+
+            IEnumerable<MusicVideoDTO> MusicVideos = MusicVideoDTO.FromJSON(response);
+
+
+            return MusicVideos;
         }
     }
 }
