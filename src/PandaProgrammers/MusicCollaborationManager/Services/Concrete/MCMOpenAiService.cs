@@ -67,4 +67,33 @@ class MCMOpenAiService : IMCMOpenAiService
             return null;
         }
     }
+
+    public async Task<string> GetTextResponseFromOpenAiFromUserInputAuto(string UserInput)
+    {
+        if (UserInput == null)
+        {
+            return null;
+        }
+        else
+        {
+            string inputOnly = $"Using these words {UserInput}, give a general description of the type of music that could be found in a playlist of similar songs and don't mention any specific artists and don't describe specific songs in the playlist.";
+
+            response = await _openAIService.TextCompletion.Get(inputOnly, o =>
+            {
+                o.N = 1;
+                o.MaxTokens = 500;
+            });
+        }
+
+        if (response.IsSuccess)
+        {
+            string result = String.Join(" ", response.Result.Choices.Select(i => i.Text).ToList());
+
+            return result;
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
