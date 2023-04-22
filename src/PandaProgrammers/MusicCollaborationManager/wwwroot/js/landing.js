@@ -45,13 +45,31 @@ function getVisitorTracks(data)
     });
 }
 
+var ytPlayerIsViewable = false;
+
+$(".yt-thumbnail").click(function () {
+    let ytVideoClickedID = $(this).attr('id');
+
+    let ytVideoIndex = ytVideoClickedID.substr(ytVideoClickedID.length - 1);
+    console.log("ID of ytVideoIndex: " + ytVideoClickedID);
+    console.log("Index: " + ytVideoIndex);
+    console.log("thumbnail clicked");
+    $("#yt-player-container").removeClass("hidden");
+
+    if (ytPlayerIsViewable == false) {
+        ytPlayerIsViewable = true;
+        let ytPlayerContainter = document.getElementById("yt-player-container");
+        ytPlayerContainter.scrollIntoView();
+    }
+
+    changeVideoById(ytVideoClickedID);
+});
 
 
-// 1 YouTube iframe player (below)------------------
+// YouTube iframe player (below)------------------
 
-
+//Code for removing script tag from HTML taken from here: https://www.youtube.com/watch?v=SVSf8fNp_kg&ab_channel=AlgosExplained
 var tag = document.createElement('script');
-
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -61,8 +79,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        height: '200',
-        width: '250',
+        height: '500',
+        width: '100%',
         videoId: 'Kf4GkHsRB2w',
         playerVars: {
             'playsinline': 1

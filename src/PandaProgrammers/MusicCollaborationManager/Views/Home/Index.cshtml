@@ -64,18 +64,22 @@
         </div>
         <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
             @{
+                int i = 0;
                 foreach (var mv in Model.YouTubeMVs)
                 {
 
-                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg hover:underline cursor-pointer yt-thumbnail" id="@mv.VideoID">
                         <img src="@mv.ThumbnailURL">
                         <p>@mv.VideoTitle</p>
                     </div>
                 }
-            }
+             }
+            
         </div>
     </div>
-    <div id="player">
+    <div id="yt-player-container" class="hidden">
+        <div id="player">
+    <div>
     </div>
             
             
@@ -91,8 +95,6 @@
 
 
 <script>
-    
-
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
         let element = document.getElementById('embed-iframe');
         let options = {
@@ -104,7 +106,6 @@
         let callback = (EmbedController) => { };
         IFrameAPI.createController(element, options, callback);
     };
-    $("#my-thing").css("opactiy", "0.6");
 </script>
 
 @section Scripts{

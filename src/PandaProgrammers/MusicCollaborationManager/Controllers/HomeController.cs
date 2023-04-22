@@ -36,25 +36,12 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        //IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
+        IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
         VisitorDashboard visitorDash = new VisitorDashboard();
-
-        Console.WriteLine("---------Printing all YouTube video details-------------");
-
-        int i = 1;
-        //foreach (MusicVideoDTO video in j)
-        //{
-        //    Console.WriteLine($"---------Video {i}-------------");
-        //    Console.WriteLine($"Title: {video.VideoTitle}");
-        //    Console.WriteLine($"YouTube Channel : {video.YouTubeChannelName}");
-        //    Console.WriteLine($"Thumbnail URL : {video.ThumbnailURL}");
-        //    Console.WriteLine($"Thumbnail height : {video.ThumbnailHeight}");
-        //    Console.WriteLine($"Thumbnail width : {video.ThumbnailWidth}");
-        //    Console.WriteLine($"Channel ID: {video.VideoID}");
-        //    i++;
-
-        //    visitorDash.YouTubeMVs.Add(video);
-        //}
+        foreach (MusicVideoDTO video in j)
+        {
+            visitorDash.YouTubeMVs.Add(video);
+        }
 
         return View(visitorDash);
     }
