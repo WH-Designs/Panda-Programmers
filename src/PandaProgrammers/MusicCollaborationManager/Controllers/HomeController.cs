@@ -36,29 +36,25 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
+        //IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
         VisitorDashboard visitorDash = new VisitorDashboard();
 
         Console.WriteLine("---------Printing all YouTube video details-------------");
 
         int i = 1;
-        foreach (MusicVideoDTO video in j)
-        {
-            //ThumbnailURL = (string)mv["snippet"]["default"]["url"],
-            //ThumbnailWidth = (string)mv["snippet"]["default"]["width"],
-            //ThumbnailHeight = (string)mv["snippet"]["default"]["height"],
-            //YouTubeChannelName = (string)mv["snippet"]["channelTitle"]
+        //foreach (MusicVideoDTO video in j)
+        //{
+        //    Console.WriteLine($"---------Video {i}-------------");
+        //    Console.WriteLine($"Title: {video.VideoTitle}");
+        //    Console.WriteLine($"YouTube Channel : {video.YouTubeChannelName}");
+        //    Console.WriteLine($"Thumbnail URL : {video.ThumbnailURL}");
+        //    Console.WriteLine($"Thumbnail height : {video.ThumbnailHeight}");
+        //    Console.WriteLine($"Thumbnail width : {video.ThumbnailWidth}");
+        //    Console.WriteLine($"Channel ID: {video.VideoID}");
+        //    i++;
 
-            Console.WriteLine($"---------Video {i}-------------");
-            Console.WriteLine($"Title: {video.VideoTitle}");
-            Console.WriteLine($"YouTube Channel : {video.YouTubeChannelName}");
-            Console.WriteLine($"Thumbnail URL : {video.ThumbnailURL}");
-            Console.WriteLine($"Thumbnail height : {video.ThumbnailHeight}");
-            Console.WriteLine($"Thumbnail width : {video.ThumbnailWidth}");
-            i++;
-
-            visitorDash.YouTubeMVs.Add(video);
-        }
+        //    visitorDash.YouTubeMVs.Add(video);
+        //}
 
         return View(visitorDash);
     }
