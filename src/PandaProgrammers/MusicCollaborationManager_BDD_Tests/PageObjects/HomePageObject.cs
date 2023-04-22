@@ -20,8 +20,8 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public IWebElement SettingsAnchor => _webDriver.FindElement(By.CssSelector("a[href=\"/Listener/Settings\"]"));
         public IWebElement SpotifyLoginButton => _webDriver.FindElement(By.Id("spotify-button"));
         public IWebElement NavbarToggleButton => _webDriver.FindElement(By.Id("navbar-toggle-button"));
-        private IWebElement YouTubeTopMusicVideosHeader => _webDriver.FindElement(By.XPath("/html/body/div[2]/main/div/div[4]/div//h2"));
-        private IWebElement YouTubeIcon => _webDriver.FindElement(By.XPath("/html/body/div[2]/main/div/div[4]/div//img"));
+        private IWebElement YouTubeTopMusicVideosHeader => _webDriver.FindElement(By.XPath("/html/body/div[2]/main/div/div[5]/div//h2"));
+        private IWebElement YouTubeIcon => _webDriver.FindElement(By.XPath("/html/body/div[2]/main/div/div[5]/div//img"));
 
         public void GoToSettings() 
         {
