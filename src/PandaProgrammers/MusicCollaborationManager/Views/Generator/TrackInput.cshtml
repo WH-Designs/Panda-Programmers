@@ -1,0 +1,38 @@
+﻿@using SpotifyAPI.Web;
+@model MusicCollaborationManager.ViewModels.TrackInputViewModel
+
+
+<div class="flex flex-col w-fit">
+    <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 md:w-[35%] lg:w-[65%] bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <h1 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Select a Track</h1>
+        </div>
+        <br>
+        <div class="flex flex-col gap-x-3 text-center text-lg">
+            <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                @{
+                    foreach (FullTrack track in Model.seedTracks)
+                    {
+                        <form asp-controller="Generator" asp-action="TrackInputPost">
+                            <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                                <input asp-for="trackID" class="hidden" value="@track.Id">
+                                <input asp-for="trackName" class="hidden" value="@track.Name">
+                                <input asp-for="artistName" class="hidden" value="@track.Artists[0].Name">
+                                @{                                    
+                                    <button type="submit" aria-current="page"><img src="@track.Album.Images[0].Url"></button>
+                                }                                
+                                <p>@track.Name</p>
+                            </div>
+                        </form>
+                    }
+                }             
+            </div>                  
+        </div>           
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    <script type="text/javascript" src="~/js/colorchanger.js"></script>
+}
