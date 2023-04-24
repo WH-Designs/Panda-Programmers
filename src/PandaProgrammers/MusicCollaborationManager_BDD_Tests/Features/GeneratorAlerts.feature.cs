@@ -102,14 +102,13 @@ have been sent to the dashboard without being notified. An alert allows the user
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Logged in user generating a playlist that fails returns to the dashboard")]
-        [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", "Submit", "Dashboard", null)]
-        public virtual void LoggedInUserGeneratingAPlaylistThatFailsReturnsToTheDashboard(string firstName, string page, string button, string redirectPage, string[] exampleTags)
+        [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", "Dashboard", null)]
+        public virtual void LoggedInUserGeneratingAPlaylistThatFailsReturnsToTheDashboard(string firstName, string page, string redirectPage, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("FirstName", firstName);
             argumentsOfScenario.Add("Page", page);
-            argumentsOfScenario.Add("Button", button);
             argumentsOfScenario.Add("RedirectPage", redirectPage);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user generating a playlist that fails returns to the dashboard", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 14
@@ -142,7 +141,7 @@ this.FeatureBackground();
      testRunner.And(string.Format("I am on the \'{0}\' page", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 17
-    testRunner.When(string.Format("I click on the \'{0}\' button", button), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+    testRunner.When("I click on the generate playlist button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 18
  testRunner.Then(string.Format("I am redirected to the \'{0}\' page", redirectPage), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
