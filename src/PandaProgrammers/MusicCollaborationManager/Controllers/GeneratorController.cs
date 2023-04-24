@@ -53,7 +53,9 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = e.Message;
+                ViewBag.ErrorMessage = "Error Occured";
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -91,7 +93,10 @@ namespace MusicCollaborationManager.Controllers
             catch (Exception e) 
             {
                 //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                // return RedirectToAction("callforward", "Home");
+                ViewBag.Error = e.Message;
+                ViewBag.ErrorMessage = "Error Occured";
+                return RedirectToAction("Index", "Home");
             }
 
         }
@@ -105,7 +110,11 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                return RedirectToAction("callforward", "Home");
+                // return RedirectToAction("callforward", "Home");
+
+                ViewBag.Error = e.Message;
+                ViewBag.ErrorMessage = "Error Occured";
+                return RedirectToAction("Index", "Home");
             }
 
         }
@@ -147,7 +156,11 @@ namespace MusicCollaborationManager.Controllers
             catch (Exception e)
             {
                 //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                // return RedirectToAction("callforward", "Home");
+
+                ViewBag.Error = e.Message;
+                ViewBag.ErrorMessage = "Error Occured";
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -160,7 +173,10 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                return RedirectToAction("callforward", "Home");
+                // return RedirectToAction("callforward", "Home");
+                ViewBag.Error = e.Message;
+                ViewBag.ErrorMessage = "Error Occured";
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -205,7 +221,11 @@ namespace MusicCollaborationManager.Controllers
             catch (Exception e)
             {
                 //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                // return RedirectToAction("callforward", "Home");
+
+                ViewBag.Error = e.Message;
+                ViewBag.ErrorMessage = "Error Occured";
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -258,7 +278,10 @@ namespace MusicCollaborationManager.Controllers
             catch (Exception e)
             {
                 //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                // return RedirectToAction("callforward", "Home");
+                ViewBag.Error = e.Message;
+                ViewBag.ErrorMessage = "Error Occured";
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -275,7 +298,10 @@ namespace MusicCollaborationManager.Controllers
             catch (Exception e)
             {
                 //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                // return RedirectToAction("callforward", "Home");
+                ViewBag.Error = e.Message;
+                ViewBag["ErrorMessage"] = "Error Occured";
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -304,8 +330,12 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
+                ViewBag.Error = e.Message;
+                ViewBag.ErrorMessage = "Error Occured";
+                return RedirectToAction("Index", "Home");
+                
                 //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                // return RedirectToAction("callforward", "Home");
             }
         }
 
