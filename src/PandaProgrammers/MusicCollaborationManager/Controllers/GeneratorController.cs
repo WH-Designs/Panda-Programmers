@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCollaborationManager.Services.Abstract;
 using MusicCollaborationManager.Utilities;
 using Humanizer.Localisation;
+using OpenAI.Net.Models.Responses;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -50,9 +51,10 @@ namespace MusicCollaborationManager.Controllers
 
                 return View("Questionaire", seededVM);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
@@ -87,10 +89,10 @@ namespace MusicCollaborationManager.Controllers
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
-            catch (Exception e) 
+            catch (Exception) 
             {
-                //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
 
         }
@@ -102,9 +104,10 @@ namespace MusicCollaborationManager.Controllers
             {
                 return View("Mood", vm);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
 
         }
@@ -143,10 +146,10 @@ namespace MusicCollaborationManager.Controllers
                 return View("GeneratedPlaylists", generatorsViewModel);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
@@ -157,9 +160,10 @@ namespace MusicCollaborationManager.Controllers
             {
                 return View("Time", vm);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
@@ -201,10 +205,10 @@ namespace MusicCollaborationManager.Controllers
                 return View("GeneratedPlaylists", generatorsViewModel);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
@@ -254,10 +258,57 @@ namespace MusicCollaborationManager.Controllers
                 return View("GeneratedPlaylists", generatorsViewModel);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
+            }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> TrackInputAsync()
+        {
+            try
+            {
+                TrackInputViewModel viewModel = new TrackInputViewModel();
+                viewModel.seedTracks = await _spotifyService.GetTopTracksAsync();
+
+                return View("TrackInput", viewModel);
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "Error Occured";
+                return View("Index");
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> TrackInputPostAsync(TrackInputViewModel vm)
+        {
+            try
+            {
+                GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+                string UserInputCoverImage = $"the song titled {vm.trackName} by {vm.artistName}";
+                string UserInputDescription = $"the song titled {vm.trackName} by {vm.artistName}";
+                RecommendDTO recommendDTO = new RecommendDTO();
+
+                recommendDTO.seed.Add(vm.trackID);
+                recommendDTO.limit = 20;
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO);
+                List<SimpleTrack> result = new List<SimpleTrack>();
+                result = response.Tracks;
+
+                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
+                generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
+                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInputAuto(UserInputDescription);
+
+                return View("GeneratedPlaylists", generatorsViewModel);
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
