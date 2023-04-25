@@ -62,6 +62,25 @@
             <div>
                 <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500">Comments</h2>
             </div>
+            <div class="classicpanda:text-blacktext flex bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl mb-8 h-[400px] overflow-y-auto">
+                <div class="flex flex-col" id="comments-container">
+
+                </div>
+            </div>
+            <div class="classicpanda:text-blacktext flex flex-col bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8">
+                <form id="comment-form">
+                    <div class="w-full px-3">
+                        <label for="CommentMessage" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Comment</label>
+                        <input id="comment-message-input" name="CommentMessage" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" type="text" required />
+                    </div>
+                    <input id="playlistId" type="hidden" value="@Model.PlaylistId"/>
+                    <input id="listenerId" type="hidden" value="@Model.ListenerId"/>
+                </form>
+                <button id="comment-submit-button" type="button" value="Post" class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+                                classicpanda:text-whitetext
+                                autumn:text-white
+                                revolution:text-white">Post</button>
+            </div>
         </div>
         <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-2 mb-4 overflow-hidden">
             <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500">Poll</h2>
@@ -99,6 +118,7 @@
 @section Scripts{
     <script type="text/javascript" src="~/js/generatedplaylists.js"></script>
     <script type="text/javascript" src="~/js/colorchanger.js"></script>
+    <script type="text/javascript" src="~/js/comment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 }

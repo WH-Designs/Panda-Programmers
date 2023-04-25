@@ -185,6 +185,10 @@ namespace MusicCollaborationManager.Controllers
         public async Task<IActionResult> Playlist(string playlistID) {
             try {
 
+                string aspId = _userManager.GetUserId(User);
+                Listener listener;
+                listener = _listenerRepository.FindListenerByAspId(aspId);
+
                 FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
                 List<UserTrackDTO> tracks = new List<UserTrackDTO>();
                 FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistID);
@@ -195,6 +199,8 @@ namespace MusicCollaborationManager.Controllers
                 returnPlaylist.Uri = convertPlaylist.Uri;
                 returnPlaylist.Owner = convertPlaylist.Owner.DisplayName;
                 returnPlaylist.Desc = convertPlaylist.Description;
+                returnPlaylist.PlaylistId = playlistID;
+                returnPlaylist.ListenerId = listener.Id;
 
                 foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
                     UserTrackDTO currentTrack = new UserTrackDTO();
@@ -227,6 +233,7 @@ namespace MusicCollaborationManager.Controllers
                 returnPlaylist.Uri = convertPlaylist.Uri;
                 returnPlaylist.Owner = convertPlaylist.Owner.DisplayName;
                 returnPlaylist.Desc = convertPlaylist.Description;
+                returnPlaylist.PlaylistId = "0wbYwQItyK648wmeNcqP5z";
 
                 foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
                     UserTrackDTO currentTrack = new UserTrackDTO();
