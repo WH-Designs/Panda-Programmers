@@ -1,4 +1,6 @@
-﻿@{
+﻿@model MusicCollaborationManager.ViewModels.VisitorDashboard
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -9,7 +11,7 @@
                 <p class="mb-4 font-semibold text-2xl text-textback">
                     Welcome to Music Collaboration Manager. Here you can interact with your Spotify account to enhance
                     your listening experience. We provide our own
-                    unique features including custom site themes, a playlidst generator, and more.
+                    unique features including custom site themes, a playlist generator, and more.
                 </p>
             </div>
 
@@ -50,8 +52,35 @@
                     </div>
                 </div>
             </div>
+            <div class="-z-50 contrast-50">
+                <div class="mt-5" id="embed-iframe"></div> <!--Spotify player (not meant to be playable to the user.)-->
+            </div>
+
+
+    <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <img src="~/img/yt_logo_dark.svg" class="w-32 h-10" alt="YouTube Icon" />
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Top music videos</h2>
+        </div>
+        <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+            @{
+                int i = 0;
+                foreach (var mv in Model.YouTubeMVs)
+                {
+
+                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg hover:underline cursor-pointer yt-thumbnail" id="@mv.VideoID">
+                        <img src="@mv.ThumbnailURL">
+                        <p>@mv.VideoTitle</p>
+                    </div>
+                }
+             }
             
-            <div class="mt-5" id="embed-iframe"></div>
+        </div>
+    </div>
+    <div id="yt-player-container" class="hidden">
+        <div id="player">
+    <div>
+    </div>
             
             
         </div>
@@ -64,8 +93,8 @@
     </div>
 </div>
 
-<script>
 
+<script>
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
         let element = document.getElementById('embed-iframe');
         let options = {
@@ -77,7 +106,6 @@
         let callback = (EmbedController) => { };
         IFrameAPI.createController(element, options, callback);
     };
-    $("#my-thing").css("opactiy", "0.6");
 </script>
 
 @section Scripts{

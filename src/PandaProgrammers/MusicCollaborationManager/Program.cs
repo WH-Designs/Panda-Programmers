@@ -39,6 +39,7 @@ public class Program
         string deepAiKey = builder.Configuration["DeepAiKey"];
         string sendGridKey = builder.Configuration["SendGridKey"];
         string openAiKey = builder.Configuration["OpenAiKey"];
+        string youTubeKey = builder.Configuration["YT_ApiKey"];
 
         builder.Services.AddControllersWithViews();
         var MCMconnectionString = builder.Configuration.GetConnectionString("MCMConnection");
@@ -94,6 +95,7 @@ public class Program
         builder.Services.AddScoped<IDeepAiService, DeepAiService>(
             d => new DeepAiService(deepAiKey)
         );
+        builder.Services.AddScoped<IYouTubeService, YouTubeService>(s => new YouTubeService(youTubeKey));
 
         builder.Services.AddSwaggerGen();
         var app = builder.Build();

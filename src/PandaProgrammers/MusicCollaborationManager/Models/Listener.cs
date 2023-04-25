@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace MusicCollaborationManager.Models;
 
@@ -8,14 +7,8 @@ public partial class Listener
 {
     public int Id { get; set; }
 
-    [StringLength(64)]
-    [RegularExpression("[a-zA-Z]+", ErrorMessage = "Characters are not allowed.")]
-    //[Required]
     public string FirstName { get; set; }
 
-    [StringLength(64)]
-    [RegularExpression("[a-zA-Z]+", ErrorMessage = "Characters are not allowed.")]
-    //[Required]
     public string LastName { get; set; }
 
     public int FriendId { get; set; }

@@ -20,27 +20,25 @@ namespace MusicCollaborationManager_BDD_Tests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Preset Themes")]
-    [NUnit.Framework.CategoryAttribute("Michael")]
-    public partial class PresetThemesFeature
+    [NUnit.Framework.DescriptionAttribute("Playlist Commenting")]
+    [NUnit.Framework.CategoryAttribute("Wyatt")]
+    public partial class PlaylistCommentingFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = new string[] {
-                "Michael"};
+                "Wyatt"};
         
-#line 1 "PresetThemes.feature"
+#line 1 "PlaylistCommenting.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Preset Themes", "**As a listener I want to be able to see pre-made themes so I can customize the w" +
-                    "ebsite to my preferences**\r\n\r\nThis story is about being able to use pre-made the" +
-                    "mes. We want this to be editable and displayable \r\nwithout page loads.", ProgrammingLanguage.CSharp, new string[] {
-                        "Michael"});
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Playlist Commenting", null, ProgrammingLanguage.CSharp, new string[] {
+                        "Wyatt"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -80,45 +78,45 @@ namespace MusicCollaborationManager_BDD_Tests.Features
         
         public virtual void FeatureBackground()
         {
-#line 10
+#line 4
 #line hidden
-            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                         "UserName",
                         "Email",
                         "FirstName",
                         "LastName",
                         "Password"});
-            table7.AddRow(new string[] {
+            table6.AddRow(new string[] {
                         "chadb@gmail.com",
                         "chadb@gmail.com",
                         "Chad",
                         "Bass",
                         "Pass321!"});
-            table7.AddRow(new string[] {
+            table6.AddRow(new string[] {
+                        "admin@example.com",
+                        "admin@example.com",
+                        "The",
+                        "Admin",
+                        "EbAE6bbr6p!3"});
+            table6.AddRow(new string[] {
                         "tiffanyf@gmail.com",
                         "tiffanyf@gmail.com",
                         "Tiffany",
                         "Fox",
                         "Pass321!"});
-            table7.AddRow(new string[] {
-                        "dwightm@gmail.com",
-                        "dwightm@gmail.com",
-                        "Dwight",
-                        "Morse",
-                        "Pass321!"});
-#line 11
- testRunner.Given("the following users exist settings", ((string)(null)), table7, "Given ");
+#line 5
+ testRunner.Given("the following users exist", ((string)(null)), table6, "Given ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user can reach settings page")]
-        public virtual void LoggedInUserCanReachSettingsPage()
+        [NUnit.Framework.DescriptionAttribute("A User can see the commenting form on the playlist page")]
+        public virtual void AUserCanSeeTheCommentingFormOnThePlaylistPage()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can reach settings page", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 17
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A User can see the commenting form on the playlist page", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 11
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -138,35 +136,39 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 10
+#line 4
 this.FeatureBackground();
 #line hidden
-#line 18
- testRunner.Given("I am a logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 12
+ testRunner.Given("I am a user with first name \'Chad\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 19
- testRunner.When("I click on the settings button in the navbar", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
+  testRunner.And("I am on the \'home\' page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 20
- testRunner.Then("I should be taken to the settings page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.When("I load previously saved cookies", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 15
+  testRunner.And("I am on the playlist page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 16
+ testRunner.Then("I can see the comment form on the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user can see first and last name")]
-        [NUnit.Framework.TestCaseAttribute("Chad", "Bass", null)]
-        [NUnit.Framework.TestCaseAttribute("Tiffany", "Fox", null)]
-        [NUnit.Framework.TestCaseAttribute("Dwight", "Morse", null)]
-        public virtual void LoggedInUserCanSeeFirstAndLastName(string firstName, string lastName, string[] exampleTags)
+        [NUnit.Framework.DescriptionAttribute("A User can input text into the form")]
+        [NUnit.Framework.TestCaseAttribute("Hello World", null)]
+        [NUnit.Framework.TestCaseAttribute("My name is Chad", null)]
+        public virtual void AUserCanInputTextIntoTheForm(string text, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("FirstName", firstName);
-            argumentsOfScenario.Add("LastName", lastName);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can see first and last name", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 22
+            argumentsOfScenario.Add("text", text);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A User can input text into the form", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 18
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -186,33 +188,38 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 10
+#line 4
 this.FeatureBackground();
+#line hidden
+#line 19
+ testRunner.Given("I am a user with first name \'Chad\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 20
+ testRunner.When("I load previously saved cookies", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 21
+  testRunner.And(string.Format("I input \'{0}\' into the form", text), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 22
+  testRunner.And("I click the submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 23
- testRunner.Given(string.Format("I am a logged in user with first name \'{0}\' and last name \'{1}\'", firstName, lastName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 24
- testRunner.When("I click on the settings button in the navbar", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 25
- testRunner.Then("I should be taken to the settings page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 26
- testRunner.And(string.Format("I should see my first name \'{0}\' and last name `\'{1}\'", firstName, lastName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then(string.Format("I should see \'{0}\' on the page", text), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user can see section of page to change site theme")]
-        public virtual void LoggedInUserCanSeeSectionOfPageToChangeSiteTheme()
+        [NUnit.Framework.DescriptionAttribute("A User can see an error message when clicking the submit button without inputing " +
+            "any text")]
+        public virtual void AUserCanSeeAnErrorMessageWhenClickingTheSubmitButtonWithoutInputingAnyText()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can see section of page to change site theme", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 34
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A User can see an error message when clicking the submit button without inputing " +
+                    "any text", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 29
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -232,61 +239,20 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 10
+#line 4
 this.FeatureBackground();
 #line hidden
-#line 35
- testRunner.Given("I am a listener", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 30
+ testRunner.Given("I am a user with first name \'Chad\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 36
- testRunner.When("I am on my profile page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 31
+ testRunner.When("I load previously saved cookies", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 37
- testRunner.Then("I can see the section with options to change my theme to different pre-made theme" +
-                        "s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 32
+  testRunner.And("I click the submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Listener can toggle different themes")]
-        public virtual void ListenerCanToggleDifferentThemes()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Listener can toggle different themes", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 39
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 10
-this.FeatureBackground();
-#line hidden
-#line 40
- testRunner.Given("I am a listener on my settings page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 41
- testRunner.When("I click on one of the different pre-made theme buttons", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 42
- testRunner.Then("the website responds accordingly and adjusts my theme without a page reload", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 33
+ testRunner.Then("I should see submit error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
