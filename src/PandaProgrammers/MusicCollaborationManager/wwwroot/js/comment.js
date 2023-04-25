@@ -1,17 +1,19 @@
 let playlistId;
 let listenerId;
 
+console.log("Hello from comment.js");
+
 // Get the data from the page Function
 function GetCommentValues() {
-    playlistId = $("#playlistId").value;
-    listenerId = $("#listenerId").value;
-    if (!$("#comment-form").checkValidity()) {
+    playlistId = $("#playlistId").val();
+    listenerId = $("#listenerId").val();
+    if (!$("#comment-form")[0].checkValidity()) {
         console.log("One or more form values are invalid");
         return { status: false }
     }
     return {
         status: true,
-        Message: $("#comment-message-input").value,
+        Message: $("#comment-message-input").val(),
         Likes: Number(0),
         SpotifyId: playlistId,
         ListenerId: listenerId
@@ -29,6 +31,7 @@ function DisplayComments(data) {
                 </div>`
             );
         }
+    );
 }
 
 // After the form submission Add the Comment Function
@@ -56,7 +59,7 @@ $(function () {
 
     $("#comment-submit-button").click(function () {
         const data = GetCommentValues();
-        console.log(values);
+        console.log(data);
         if (data.status) {
             $.ajax({
                 method: "POST",
@@ -69,4 +72,4 @@ $(function () {
             });
         }
     });
-}
+});
