@@ -64,28 +64,31 @@ namespace MusicCollaborationManager.Controllers
             try
             {
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
-                string UserInputCoverImage = vm.coverImageInput;
-                string UserInputDescription = vm.descriptionInput;
                 string UserGenre = vm.genre;
                 GeneratorUtilities utilities = new GeneratorUtilities();
-
                 RecommendDTO recommendDTO = new RecommendDTO();
-                //Calls questionairre dto method
                 recommendDTO = recommendDTO.convertToQuestionDTO(vm);
-                //Get seed artist
-                List<string> artistResult = await _spotifyService.SearchTopGenrePlaylistTrack(recommendDTO.genre[0]);
-                recommendDTO.seed.Add(artistResult[0]);
-
-                RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO);
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsGenreBased(recommendDTO);
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
+                if (response.Tracks.Count == 0)
+                {
+                    //Calls questionairre dto method
+                    recommendDTO = recommendDTO.convertToQuestionDTO(vm);
+                    //Get seed artist
+                    List<string> artistResult = await _spotifyService.SearchTopGenrePlaylistTrack(recommendDTO.genre[0]);
+                    recommendDTO.seed.Add(artistResult[0]);
+
+                    response = await _spotifyService.GetRecommendationsAsync(recommendDTO);
+                    result = new List<SimpleTrack>();
+                    result = response.Tracks;
+                }
+                string UserInputCoverImage = vm.coverImageInput;
+                string UserInputDescription = vm.descriptionInput;
 
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
-
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre);
-
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
             catch (Exception e) 
