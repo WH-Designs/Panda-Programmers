@@ -51,9 +51,10 @@ namespace MusicCollaborationManager.Controllers
 
                 return View("Questionaire", seededVM);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
@@ -91,10 +92,10 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre);
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
-            catch (Exception e) 
+            catch (Exception) 
             {
-                //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
 
         }
@@ -106,9 +107,10 @@ namespace MusicCollaborationManager.Controllers
             {
                 return View("Mood", vm);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
 
         }
@@ -147,10 +149,10 @@ namespace MusicCollaborationManager.Controllers
                 return View("GeneratedPlaylists", generatorsViewModel);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
@@ -161,9 +163,10 @@ namespace MusicCollaborationManager.Controllers
             {
                 return View("Time", vm);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
@@ -205,10 +208,10 @@ namespace MusicCollaborationManager.Controllers
                 return View("GeneratedPlaylists", generatorsViewModel);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
@@ -258,10 +261,10 @@ namespace MusicCollaborationManager.Controllers
                 return View("GeneratedPlaylists", generatorsViewModel);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
@@ -275,10 +278,10 @@ namespace MusicCollaborationManager.Controllers
 
                 return View("TrackInput", viewModel);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
@@ -305,10 +308,10 @@ namespace MusicCollaborationManager.Controllers
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //Error occurs when not logged into spotify
-                return RedirectToAction("callforward", "Home");
+                ViewBag.Error = "Error Occured";
+                return View("Index");
             }
         }
 
