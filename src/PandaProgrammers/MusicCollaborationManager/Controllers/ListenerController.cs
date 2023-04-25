@@ -13,10 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MusicCollaborationManager.Models;
 using System.Text.RegularExpressions;
 
 namespace MusicCollaborationManager.Controllers
@@ -52,7 +49,7 @@ namespace MusicCollaborationManager.Controllers
 
             if (listener.SpotifyId != null)
             {
-                await _spotifyService.GetCallback("", listener);
+                await _spotifyService.GetCallbackAsync("", listener);
                 _listenerRepository.AddOrUpdate(listener);
             }
 
@@ -64,9 +61,9 @@ namespace MusicCollaborationManager.Controllers
 
             try
             {
-                vm.TopTracks = await _spotifyService.GetAuthUserTopTracks();
-                vm.FeatPlaylists = await _spotifyService.GetFeatPlaylists();
-                vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylists();
+                vm.TopTracks = await _spotifyService.GetAuthTopTracksAsync();
+                vm.FeatPlaylists = await _spotifyService.GetAuthFeatPlaylistsAsync();
+                vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylistsAsync();
             }
             catch (Exception e)
             {
@@ -89,7 +86,7 @@ namespace MusicCollaborationManager.Controllers
 
             try
             {
-                var holder = _spotifyService.GetAuthUser();
+                var holder = _spotifyService.GetAuthUserAsync();
 
                 vm.spotifyName = holder.Result.DisplayName;
                 vm.accountType = holder.Result.Product;
@@ -105,7 +102,7 @@ namespace MusicCollaborationManager.Controllers
                         "https://t4america.org/wp-content/uploads/2016/10/Blank-User.jpg";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 vm.spotifyName = "Log in to see";
                 vm.accountType = "Log in to see";
@@ -162,13 +159,13 @@ namespace MusicCollaborationManager.Controllers
                         _listenerRepository.AddOrUpdate(listener);
                     }
                 }
-                catch (DbUpdateConcurrencyException exception)
+                catch (DbUpdateConcurrencyException)
                 {
                     ViewBag.Message =
                         "A concurrency error occurred while trying to create the item.  Please try again.";
                     return View("Settings");
                 }
-                catch (DbUpdateException exception)
+                catch (DbUpdateException)
                 {
                     ViewBag.Message =
                         "An unknown database error occurred while trying to create the item.  Please try again.";
@@ -181,6 +178,73 @@ namespace MusicCollaborationManager.Controllers
             {
                 ViewBag.Message = "Model state is invalid";
                 return View("Settings");
+            }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Playlist(string playlistID) {
+            try {
+
+                FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
+                List<UserTrackDTO> tracks = new List<UserTrackDTO>();
+                FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistID);
+                
+                returnPlaylist.LinkToPlaylist = convertPlaylist.Href;
+                returnPlaylist.Name = convertPlaylist.Name;
+                returnPlaylist.ImageURL = convertPlaylist.Images[0].Url;
+                returnPlaylist.Uri = convertPlaylist.Uri;
+                returnPlaylist.Owner = convertPlaylist.Owner.DisplayName;
+                returnPlaylist.Desc = convertPlaylist.Description;
+
+                foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
+                    UserTrackDTO currentTrack = new UserTrackDTO();
+                    if (item.Track is FullTrack track) {
+                        currentTrack.LinkToTrack = track.Href;
+                        currentTrack.Title = track.Name;
+                        currentTrack.Artist = track.Artists[0].Name;
+                        currentTrack.ImageURL = track.Album.Images[0].Url;
+                        currentTrack.Uri = track.Uri;
+                        tracks.Add(currentTrack);
+                    }
+                    if (item.Track is FullEpisode episode) {
+                        continue;
+                    }
+                }
+                
+                returnPlaylist.Tracks = tracks;
+                return View("Playlist", returnPlaylist);
+
+            } catch(ArgumentException e) {
+                Console.WriteLine(e.Message);
+
+                FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
+                List<UserTrackDTO> tracks = new List<UserTrackDTO>();
+                FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync("0wbYwQItyK648wmeNcqP5z");
+                
+                returnPlaylist.LinkToPlaylist = convertPlaylist.Href;
+                returnPlaylist.Name = convertPlaylist.Name;
+                returnPlaylist.ImageURL = convertPlaylist.Images[0].Url;
+                returnPlaylist.Uri = convertPlaylist.Uri;
+                returnPlaylist.Owner = convertPlaylist.Owner.DisplayName;
+                returnPlaylist.Desc = convertPlaylist.Description;
+
+                foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
+                    UserTrackDTO currentTrack = new UserTrackDTO();
+                    if (item.Track is FullTrack track) {
+                        currentTrack.LinkToTrack = track.Href;
+                        currentTrack.Title = track.Name;
+                        currentTrack.Artist = track.Artists[0].Name;
+                        currentTrack.ImageURL = track.Album.Images[0].Url;
+                        currentTrack.Uri = track.Uri;
+                        tracks.Add(currentTrack);
+                    }
+                    if (item.Track is FullEpisode episode) {
+                        continue;
+                    }
+                }
+                
+                returnPlaylist.Tracks = tracks;
+                return View("Playlist", returnPlaylist);
             }
         }
     }

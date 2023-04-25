@@ -1,4 +1,4 @@
-﻿@model MusicCollaborationManager.ViewModels.UserDashboardViewModel 
+﻿@model MusicCollaborationManager.ViewModels.UserDashboardViewModel
 
 @{
 
@@ -6,130 +6,335 @@
 
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
-<div class="flex flex-col">
-    <div class="flex flex-row ml-48 mt-36">
-        <div class="flex flex-col w-3/4 mx-5">
-            <div>
-                <h1 class="font-bold text-2xl">@Model.fullName</h1>
-                <h2>@Model.aspUser.Identity.Name</h2>
-                <h2><!-- Spotify Info --></h2>
-            </div>
-            <div class="w-full h-max max-h-max bg-gray-800 my-3 p-3 rounded-lg shadow-2xl">
-                <div class="flex flex-row gap-x-3 mt-5" id="recommended-songs-header-container">
-                    <h2 class="font-bold mb-5 mt-2 text-white">Recommended Tracks</h2>
-                    <img src="~/img/Spotify_Logo_Black.png" class="w-32 h-10 bg-white" />
-                </div>
-                <div class="columns-5 mb-5 h-full max-h-max">
-                    @{
-                        foreach (var song in Model.TopTracks)
-                        {
-                            <div class="w-fit overflow-hidden bg-gray-300">
-                                @{
-                                    if (song.Album.Images[1]?.Url != null)
-                                    {
-                                        <img src="@song.Album.Images[1].Url">
-                                    }
-                                    <a href="@song.ExternalUrls["spotify"]">@song.Name</a>
-                                    <p>@song.Artists.ElementAt(0).Name</p>
-                                    <button class="playable-item hover:bg-gray-800 hover:text-white" data-spotify-id="@song.Uri">Play</button>
-                                }
-                            </div>
-                        }
-                    }
-                </div>
-            </div>
-
-            <div class="w-full h-max max-h-max bg-gray-800 my-1 p-3 rounded-lg shadow-2xl">
-                <div class="flex flex-row gap-x-3 mt-5">
-                    <h2 class="font-bold mb-5 mt-2 text-white">Featured Playlists</h2>
-                    <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
-                </div>
-                <div class="columns-5 mb-5 h-full max-h-max">
-                    @{
-                        int FeatIndex = 0;
-                        foreach(var playlist in Model.FeatPlaylists)
-                        {
-                            <div class="w-fit bg-gray-300 mb-5">
-                                @{
-                                    if (playlist.Images[0]?.Url != null)
-                                    {
-                                        <img src="@playlist.Images[0].Url">
-                                    }
-                                    <a href="@playlist.ExternalUrls["spotify"]">@playlist.Name</a>
-                                    <button class="playable-item hover:bg-gray-800 hover:text-white block" data-spotify-id="@playlist.Uri">Play</button>
-                                    
-                                }
-                            </div>
-                            if (FeatIndex > 3) //Containers were NOT made in mind with more than 5 songs.
-                            { break; }
-                            FeatIndex++;
-                        }  
-                    }
-                </div>
-            </div>
-            <div class="w-full h-max max-h-max bg-gray-800 my-1 p-3 rounded-lg shadow-2xl">
-                <div class="flex flex-row gap-x-3 mt-5">
-                    <h2 class="font-bold mb-5 mt-2 text-white">My Playlists</h2>
-                    <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
-                </div>
-                <div class="columns-5 mb-5 h-full max-h-max">
-                    @{
-                        foreach (var playlist in Model.UserPlaylists)
-                        {
-                            <div class="w-fit overflow-hidden bg-gray-300">
-                                @{
-                                    if (playlist.Images[0]?.Url != null)
-                                    {
-                                        <img src="@playlist.Images[0].Url">
-                                    }
-                                    <a href="@playlist.ExternalUrls["spotify"]">@playlist.Name</a>
-                                    <button class="playable-item hover:bg-gray-800 hover:text-white block" data-spotify-id="@playlist.Uri">Play</button>
-                                }
-                            </div>
-                        }
-                    }
-                </div>
-            </div>
-            <div id="embed-iframe"></div>
+<div class="flex flex-col w-[88%] ml-10 md:w-3/4">
+    <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Recommended Tracks</h2>
         </div>
-        <div class="flex flex-col w-52 mx-5 text-white">
-            <div class="w-full bg-gray-800 my-1 p-3 rounded-lg text-center">
-                <h4 class="font-bold mb-6 mt-2">Your Top Genres</h4>
-                <img src="~/img/Spotify_Logo_Black.png" class="ml-7 bg-white w-32 h-10"/>
-                <div class="bg-gray-800 text-center" id="user-genre-0-container"></div>
-                <div class="bg-gray-800 text-center" id="user-genre-1-container"></div>
-                <div class="bg-gray-800 text-center" id="user-genre-2-container"></div>
-                <div class="bg-gray-800 text-center" id="user-genre-3-container"></div>
-                <div class="bg-gray-800 text-center" id="user-genre-4-container"></div>
+        <div class="flex flex-col gap-x-3 text-center text-lg">
+            @{
+                int UserTracksIndex = 0;
+                if (Model.TopTracks.Count <= 0)
+                {
+                    <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center luxury:text-yellow-500">(No items to display)</p>
+                }
+                else
+                {
+                    <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                        @{
+                            for (int UTOneIndex = 0; UTOneIndex < Model.TopTracks.Count; UTOneIndex++)
+                            {
+                                <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                                    @{
+                                        if (Model.TopTracks.ElementAt(UserTracksIndex).ImageURL != null)
+                                        {
+                                            <img src="@Model.TopTracks.ElementAt(UserTracksIndex).ImageURL">
+                                        }
+                                        <a href="@Model.TopTracks.ElementAt(UserTracksIndex).LinkToTrack">@Model.TopTracks.ElementAt(UserTracksIndex).Title</a>
+                                        <p>@Model.TopTracks.ElementAt(UserTracksIndex).Artist</p>
+                                        <button class="playable-item hover:text-textback classicpanda:text-blacktext" data-spotify-id="@Model.TopTracks.ElementAt(UserTracksIndex).Uri"><i class="fa-solid fa-play fa-xl"></i></button>
+                                    }
+                                </div>
+                                UserTracksIndex++;
+                                if (UserTracksIndex > 4)
+                                { break; }
+                            }
+                        }
+                    </div>
+                    <div class="hidden extra-recom-tracks mt-4">
+                        <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                            @while (UserTracksIndex < Model.TopTracks.Count)
+                            {
+                                for (int UTTwoIndex = 0; UTTwoIndex < 4; UTTwoIndex++)
+                                {
+                                    <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                                        @{
+                                            if (Model.TopTracks.ElementAt(UserTracksIndex).ImageURL != null)
+                                            {
+                                                <img src="@Model.TopTracks.ElementAt(UserTracksIndex).ImageURL">
+                                            }
+                                            <a href="@Model.TopTracks.ElementAt(UserTracksIndex).LinkToTrack">@Model.TopTracks.ElementAt(UserTracksIndex).Title</a>
+                                            <p>@Model.TopTracks.ElementAt(UserTracksIndex).Artist</p>
+                                            <button class="playable-item hover:text-textback classicpanda:text-blacktext" data-spotify-id="@Model.TopTracks.ElementAt(UserTracksIndex).Uri"><i class="fa-solid fa-play fa-xl"></i></button>
+                                        }
+                                    </div>
+                                    UserTracksIndex++;
+                                    if (UserTracksIndex >= Model.TopTracks.Count)
+                                    { break; }
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                if (20 <= Model.TopTracks.Count)
+                {
+                    <a role="button" href="https://open.spotify.com" id="link-to-spotify-recom-tracks" class="hidden text-center rounded bg-green-300">View more in Spotify</a>
+                }
+
+            }
+            @{
+                if (Model.TopTracks.Count > 5)
+                {
+                    <button class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="toggle-recom-tracks-btn">Show more</button>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Featured Playlists</h2>
+        </div>
+        <div class="flex flex-col gap-x-3 text-center text-lg">
+            @{
+                if (Model.FeatPlaylists.Count <= 0)
+                {
+                    <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center luxury:text-yellow-500">(No items to display)</p>
+                }
+                else
+                {
+                    <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                        @{
+                            int FeatPlayIndex = 0;
+                            if (Model.FeatPlaylists.Count > 0)
+                            {
+
+                                for (int FpIOne = 0; FpIOne < Model.FeatPlaylists.Count; FpIOne++) //The first 5 playlists (which are always visible to the user)
+                                {
+                                    <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                                        @{
+                                            if (Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL != null)
+                                            {
+                                                <form asp-controller="Listener" asp-action="Playlist">
+                                                    <button name='playlistID' class="" aria-current="page" value="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).ID"><img src="@Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL"></button>
+                                                </form>
+                                            }
+                                        }
+                                        <a href="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).LinkToPlaylist">@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Name</a>
+                                        <button class="playable-item hover:text-textback classicpanda:text-blacktext" data-spotify-id="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Uri"><i class="fa-solid fa-play fa-xl"></i></button>
+                                    </div>
+                                    FeatPlayIndex++;
+                                    if (FeatPlayIndex > 4) { break; }
+                                }
+                            }
+                        }
+                    </div>
+                    <div class="hidden extra-feat-playlists mt-4">
+                        <div class="flex gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                            @while (FeatPlayIndex < Model.FeatPlaylists.Count) //The extra 15 playlists (which the user can hide)
+                            {
+                                for (int FpITwo = 0; FpITwo < 5; FpITwo++)
+                                {
+                                    <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                                        @{
+                                            if (Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL != null)
+                                            {
+                                                <form asp-controller="Listener" asp-action="Playlist">
+                                                    <button name='playlistID' class="" aria-current="page" value="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).ID"><img src="@Model.FeatPlaylists.ElementAtOrDefault(FeatPlayIndex).ImageURL"></button>
+                                                </form>
+                                            }
+                                            <a href="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).LinkToPlaylist">@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Name</a>
+                                            <button class="playable-item hover:text-textback classicpanda:text-blacktext" data-spotify-id="@Model.FeatPlaylists.ElementAt(FeatPlayIndex).Uri"><i class="fa-solid fa-play fa-xl"></i></button>
+                                        }
+                                    </div>
+                                    FeatPlayIndex++;
+                                    if (FeatPlayIndex >= Model.FeatPlaylists.Count)
+                                    { break; }
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                if (20 <= Model.FeatPlaylists.Count)
+                {
+                    <a role="button" href="https://open.spotify.com" id="link-to-spotify-feat-playlists" class="hidden text-center rounded bg-green-300">View more in Spotify</a>
+                }
+            }
+            @{
+                if (Model.FeatPlaylists.Count > 5)
+                {
+                    <button class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="toggle-feat-playlists-btn">Show more</button>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">My Playlists</h2>
+        </div>
+        <div class="flex flex-col gap-x-3 text-center text-lg">
+            @{
+                int UserPlayIndex = 0;
+                if (Model.UserPlaylists.Count <= 0)
+                {
+                    <p class="mt-6 text-2xl text-textback classicpanda:text-whitetext text-center luxury:text-yellow-500">(No items to display)</p>
+                }
+                else
+                {
+                    <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                        @{
+                            for (int UpIOne = 0; UpIOne < Model.UserPlaylists.Count; UpIOne++) //The first 5 playlists (which are always visible to the user)
+                            {
+                                <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+
+                                    @{
+                                        if (Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL != null)
+                                        {
+                                            <form asp-controller="Listener" asp-action="Playlist">
+                                                <button name='playlistID' class="" aria-current="page" value="@Model.UserPlaylists.ElementAt(UserPlayIndex).ID"><img src="@Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL"></button>
+                                            </form>
+                                        }
+                                    }
+                                    <a href="@Model.UserPlaylists.ElementAt(UserPlayIndex).LinkToPlaylist">@Model.UserPlaylists.ElementAt(UserPlayIndex).Name</a>
+                                    <button class="playable-item hover:text-textback classicpanda:text-blacktext" data-spotify-id="@Model.UserPlaylists.ElementAt(UserPlayIndex).Uri"><i class="fa-solid fa-play fa-xl"></i></button>
+
+                                </div>
+
+                                UserPlayIndex++;
+                                if (UserPlayIndex > 4)
+                                { break; }
+                            }
+                        }
+                    </div>
+                    <div class="hidden extra-user-playlists mt-4">
+                        <div class="flex gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                            @while (UserPlayIndex < Model.UserPlaylists.Count) //The extra 15 playlists (which the user can hide)
+                            {
+                                for (int UpITwo = 0; UpITwo < 5; UpITwo++)
+                                {
+                                    <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                                        @{
+                                            if (Model.UserPlaylists.ElementAt(UserPlayIndex).ImageURL != null)
+                                            {
+                                                <form asp-controller="Listener" asp-action="Playlist">
+                                                    <button name='playlistID' class="" aria-current="page" value="@Model.UserPlaylists.ElementAt(UserPlayIndex).ID"><img src="@Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL"></button>
+                                                </form>
+                                            }
+                                        }
+                                        <a href="@Model.UserPlaylists.ElementAt(UserPlayIndex).LinkToPlaylist">@Model.UserPlaylists.ElementAt(UserPlayIndex).Name</a>
+                                        <button class="playable-item hover:text-textback classicpanda:text-blacktext" data-spotify-id="@Model.UserPlaylists.ElementAt(UserPlayIndex).Uri"><i class="fa-solid fa-play fa-xl"></i></button>
+                                    </div>
+                                    UserPlayIndex++;
+                                    if (UserPlayIndex >= Model.UserPlaylists.Count)
+                                    { break; }
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                if (20 <= Model.UserPlaylists.Count)
+                {
+                    <a role="button" href="https://open.spotify.com" id="link-to-spotify-user-playlists" class="hidden text-center rounded bg-green-300">View more in Spotify</a>
+                }
+            }
+            @{
+                if (Model.UserPlaylists.Count > 5)
+                {
+                    <button class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="toggle-user-playlists-btn">Show more</button>
+                }
+            }
+        </div>
+    </div>
+    <div class="mt-5" id="embed-iframe"></div>
+
+    <div class="flex flex-col w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
+        <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+        <h4 class="font-header font-bold mb-6 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Your Top Genres</h4>
+        <div class="overflow-x-auto p-2">
+            <div class="flex flex-col md:flex-row md:gap-x-28 gap-y-4 text-center">
+                <div class="flex items-center justify-center md:h-[135px] md:w-[135px] text-xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-0-container"></div>
+                <div class="flex items-center justify-center md:h-[135px] md:w-[135px] text-xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-1-container"></div>
+                <div class="flex items-center justify-center md:h-[135px] md:w-[135px] text-xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-2-container"></div>
+                <div class="flex items-center justify-center md:h-[135px] md:w-[135px] text-xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-3-container"></div>
+                <div class="flex items-center justify-center md:h-[135px] md:w-[135px] text-xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-4-container"></div>
             </div>
-        </div>        
+        </div>
     </div>
 </div>
 
-<script>
+    <script>
+
+        window.onSpotifyIframeApiReady = (IFrameAPI) => {
+            let element = document.getElementById('embed-iframe');
+            let options = {
+                width: '100%',
+                height: '200',
+                uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
+
+            };
+            let callback = (EmbedController) => {
+                document.querySelectorAll('.playable-item').forEach(
+                    episode => {
+                        episode.addEventListener('click', () => {
+                            EmbedController.loadUri(episode.dataset.spotifyId)
+                            EmbedController.play();
+                        });
+                    })
+            };
+            IFrameAPI.createController(element, options, callback);
+
+        };
+    </script>
+
+
+    @section Scripts
+        {
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script type="module" src="~/js/listenerindex.js"></script>
+        <script type="text/javascript" src="~/js/colorchanger.js"></script>
+    }
+    @*
+    <!--------USER playlists (above)-------------------------->
+    </div>
+    <div id="embed-iframe"></div>
+    </div>
+    <div class="flex flex-col w-52 mx-5 text-textback">
+    <div class="w-full my-1 p-3 bg-secondaryback classicpanda:bg-coreback rounded-lg text-center">
+    <h4 class="font-header font-bold mb-6 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Your Top Genres</h4>
+    <img src="~/img/Spotify_Logo_Black.png" class="ml-7 bg-white w-32 h-10" />
+    <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="user-genre-0-container"></div>
+    <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="user-genre-1-container"></div>
+    <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="user-genre-2-container"></div>
+    <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="user-genre-3-container"></div>
+    <div class="bg-secondaryback classicpanda:bg-coreback text-center text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="user-genre-4-container"></div>
+    </div>
+    </div>
+
+    <script>
 
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
-        let element = document.getElementById('embed-iframe');
-        let options = {
-            width: '80%',
-            height: '400',
-            uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
-            
-        };
-        let callback = (EmbedController) => {
-            document.querySelectorAll('.playable-item').forEach(
-                episode => {
-                    episode.addEventListener('click', () => {
-                        EmbedController.loadUri(episode.dataset.spotifyId)
-                        EmbedController.play();
-                    });
-                })
-        };
-        IFrameAPI.createController(element, options, callback);
-        
-    };
-</script>
+    let element = document.getElementById('embed-iframe');
+    let options = {
+    width: '100%',
+    height: '200',
+    uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-<script type="text/javascript" src="~/js/listenerindex.js"></script>
+    };
+    let callback = (EmbedController) => {
+    document.querySelectorAll('.playable-item').forEach(
+    episode => {
+    episode.addEventListener('click', () => {
+    EmbedController.loadUri(episode.dataset.spotifyId)
+    EmbedController.play();
+    });
+    })
+    };
+    IFrameAPI.createController(element, options, callback);
+
+    };
+    </script>
+
+
+    @section Scripts
+    {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="module" src="~/js/listenerindex.js"></script>
+    <script type="text/javascript" src="~/js/colorchanger.js"></script>
+    }
+
+
+    *@

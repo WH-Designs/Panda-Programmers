@@ -21,21 +21,14 @@ public partial class MCMDbContext : DbContext
 
     public virtual DbSet<Playlist> Playlists { get; set; }
 
-    public virtual DbSet<Theme> Themes { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer("Name=MCMConnection");
-        }
-    }
+        => optionsBuilder.UseSqlServer("Name=MCMConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27AACB14BA");
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27F13831CF");
 
             entity.ToTable("Comment");
 
@@ -59,7 +52,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Listener>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC2758C249BD");
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC277A2FEE58");
 
             entity.ToTable("Listener");
 
@@ -80,40 +73,17 @@ public partial class MCMDbContext : DbContext
             entity.Property(e => e.SpotifyId)
                 .HasMaxLength(128)
                 .HasColumnName("SpotifyID");
+            entity.Property(e => e.Theme).HasMaxLength(255);
         });
 
         modelBuilder.Entity<Playlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27A414087D");
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27837AD924");
 
             entity.ToTable("Playlist");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
-        });
-
-        modelBuilder.Entity<Theme>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Theme__3214EC27010E484E");
-
-            entity.ToTable("Theme");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Font)
-                .IsRequired()
-                .HasMaxLength(32);
-            entity.Property(e => e.ListenerId).HasColumnName("ListenerID");
-            entity.Property(e => e.PrimaryColor)
-                .IsRequired()
-                .HasMaxLength(6);
-            entity.Property(e => e.SecondaryColor)
-                .IsRequired()
-                .HasMaxLength(6);
-
-            entity.HasOne(d => d.Listener).WithMany(p => p.Themes)
-                .HasForeignKey(d => d.ListenerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Fk_Theme_Listener_ID");
         });
 
         OnModelCreatingPartial(modelBuilder);

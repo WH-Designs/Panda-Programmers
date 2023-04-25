@@ -6,14 +6,8 @@ using MusicCollaborationManager.Data;
 using MusicCollaborationManager.Services.Concrete;
 using MusicCollaborationManager.Services.Abstract;
 using SpotifyAPI.Web;
-namespace MCM;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using MusicCollaborationManager.Data;
 using MusicCollaborationManager.Models;
 using MusicCollaborationManager.Utilities;
-using MusicCollaborationManager.DAL.Abstract;
-using MusicCollaborationManager.DAL.Concrete;
 using System.Runtime.Serialization;
 using System;
 using System.Collections.Generic;
@@ -26,29 +20,41 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using static SpotifyAPI.Web.Scopes;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using OpenAI.Net;
+
+/*using WebPWrecover.Services;*/
+
+namespace MCM;
 
 public class Program
 {
-
     public static void Main(string[] args)
     {
-
         var builder = WebApplication.CreateBuilder(args);
 
         string clientID = builder.Configuration["SpotifyClientID"];
         string clientSecret = builder.Configuration["SpotifySecret"];
         string redirectUri = builder.Configuration["RedirectUri"];
         string deepAiKey = builder.Configuration["DeepAiKey"];
+        string sendGridKey = builder.Configuration["SendGridKey"];
+        string openAiKey = builder.Configuration["OpenAiKey"];
+        string youTubeKey = builder.Configuration["YT_ApiKey"];
 
         builder.Services.AddControllersWithViews();
         var MCMconnectionString = builder.Configuration.GetConnectionString("MCMConnection");
-        builder.Services.AddDbContext<MCMDbContext>(options => options
-                                    .UseLazyLoadingProxies()
-                                    .UseSqlServer(MCMconnectionString));
+        builder.Services.AddDbContext<MCMDbContext>(
+            options => options.UseLazyLoadingProxies().UseSqlServer(MCMconnectionString)
+        );
 
-        var connectionString = builder.Configuration.GetConnectionString("AuthenticationConnection") ?? throw new InvalidOperationException("Connection string 'AuthenticationConnection' not found.");
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(connectionString));
+        var connectionString =
+            builder.Configuration.GetConnectionString("AuthenticationConnection")
+            ?? throw new InvalidOperationException(
+                "Connection string 'AuthenticationConnection' not found."
+            );
+        builder.Services.AddDbContext<ApplicationDbContext>(
+            options => options.UseSqlServer(connectionString)
+        );
 
         builder.Services.AddScoped<DbContext, MCMDbContext>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -56,18 +62,40 @@ public class Program
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddRoles<IdentityRole>()                           //enables roles, ie admin
+        builder.Services
+            .AddDefaultIdentity<IdentityUser>(
+                options => options.SignIn.RequireConfirmedAccount = true
+            )
+            .AddRoles<IdentityRole>() //enables roles, ie admin
             .AddEntityFrameworkStores<ApplicationDbContext>();
         builder.Services.AddControllersWithViews();
-        builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(s => new SpotifyVisitorService(clientID, clientSecret));
-        builder.Services.AddScoped<SpotifyAuthService>(s => new SpotifyAuthService(clientID, clientSecret, redirectUri));
+        builder.Services.AddScoped<ISpotifyVisitorService, SpotifyVisitorService>(
+            s => new SpotifyVisitorService(clientID, clientSecret)
+        );
+        builder.Services.AddScoped<SpotifyAuthService>(
+            s => new SpotifyAuthService(clientID, clientSecret, redirectUri)
+        );
+
+        builder.Services.AddScoped<AuthMessageSenderOptions>();
+
+        builder.Services.AddTransient<IEmailSender, EmailSender>();
+        builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+
+        builder.Services.AddOpenAIServices(options =>
+        {
+            options.ApiKey = openAiKey;
+        });
+
+        builder.Services.AddScoped<IMCMOpenAiService,  MCMOpenAiService>();
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton(SpotifyClientConfig.CreateDefault());
         builder.Services.AddScoped<SpotifyClientBuilder>();
 
-        builder.Services.AddScoped<IDeepAiService, DeepAiService>(d => new DeepAiService(deepAiKey));
+        builder.Services.AddScoped<IDeepAiService, DeepAiService>(
+            d => new DeepAiService(deepAiKey)
+        );
+        builder.Services.AddScoped<IYouTubeService, YouTubeService>(s => new YouTubeService(youTubeKey));
 
         builder.Services.AddSwaggerGen();
         var app = builder.Build();
@@ -83,7 +111,17 @@ public class Program
                 var adminPw = config["SeedAdminPw"];
 
                 SeedUsers.Initialize(services, SeedData.UserSeedData, testUserPw).Wait();
-                SeedUsers.InitializeAdmin(services, "admin@example.com", "admin", adminPw, "The", "Admin", 4).Wait();
+                SeedUsers
+                    .InitializeAdmin(
+                        services,
+                        "admin@example.com",
+                        "admin",
+                        adminPw,
+                        "The",
+                        "Admin",
+                        4
+                    )
+                    .Wait();
             }
             catch (Exception ex)
             {
@@ -115,13 +153,9 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
-        
+        app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+
         app.MapRazorPages();
         app.Run();
-
     }
 }
-
