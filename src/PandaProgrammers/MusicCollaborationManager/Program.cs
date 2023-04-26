@@ -60,6 +60,7 @@ public class Program
         builder.Services.AddScoped<DbContext, MCMDbContext>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         builder.Services.AddScoped<IListenerRepository, ListenerRepository>();
+        builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

@@ -21,8 +21,6 @@ public partial class MCMDbContext : DbContext
 
     public virtual DbSet<Playlist> Playlists { get; set; }
 
-    public virtual DbSet<Poll> Polls { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=MCMConnection");
 
@@ -30,7 +28,7 @@ public partial class MCMDbContext : DbContext
     {
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC271D2A97BB");
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27A625368A");
 
             entity.ToTable("Comment");
 
@@ -39,22 +37,20 @@ public partial class MCMDbContext : DbContext
             entity.Property(e => e.Message)
                 .IsRequired()
                 .HasMaxLength(300);
-            entity.Property(e => e.PlaylistId).HasColumnName("PlaylistID");
+            entity.Property(e => e.SpotifyId)
+                .IsRequired()
+                .HasMaxLength(128)
+                .HasColumnName("SpotifyID");
 
             entity.HasOne(d => d.Listener).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.ListenerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Fk_Comment_Listener_ID");
-
-            entity.HasOne(d => d.Playlist).WithMany(p => p.Comments)
-                .HasForeignKey(d => d.PlaylistId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Fk_Comment_Playlist_ID");
         });
 
         modelBuilder.Entity<Listener>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC2748AB4597");
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC27F2D418F0");
 
             entity.ToTable("Listener");
 
@@ -80,30 +76,12 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Playlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27CAB684A9");
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27E5295A7F");
 
             entity.ToTable("Playlist");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
-        });
-
-        modelBuilder.Entity<Poll>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Polls__3214EC27DADB874E");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.PollId)
-                .IsRequired()
-                .HasMaxLength(64)
-                .HasColumnName("PollID");
-            entity.Property(e => e.SpotifyPlaylistId)
-                .IsRequired()
-                .HasMaxLength(64)
-                .HasColumnName("SpotifyPlaylistID");
-            entity.Property(e => e.SpotifyTrackUri)
-                .IsRequired()
-                .HasMaxLength(64);
         });
 
         OnModelCreatingPartial(modelBuilder);
