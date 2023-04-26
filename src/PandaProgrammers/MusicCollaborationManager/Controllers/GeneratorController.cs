@@ -316,6 +316,58 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
+        public IActionResult TopArtist()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> TopArtistPostAsync(TopArtistViewModel vm)
+        {
+            try
+            {
+                GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+                string UserInputCoverImage = vm.coverImageInput;
+                string UserInputDescription = vm.descriptionInput;
+                RecommendDTO recommendDTO = new RecommendDTO();
+                GeneratorUtilities generatorUtilities = new GeneratorUtilities();
+                List<string> seedIds = new List<string>();
+
+                List<FullTrack> seedTracks = await _spotifyService.GetTopTracksAsync();
+                if (seedTracks.Count <= 0)
+                {
+                    return RedirectToAction("callforward", "Home");
+                }
+                foreach (FullTrack track in seedTracks)
+                {
+                    seedIds.Add(track.Artists[0].Id);
+                }
+                List<string> shuffledArtists = generatorUtilities.shuffleTracks(seedIds);
+                foreach (string artist in shuffledArtists)
+                {
+                    recommendDTO.artistSeed.Add(artist);
+                }
+
+                recommendDTO.limit = 20;
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsArtistBasedAsync(recommendDTO);
+                List<SimpleTrack> result = new List<SimpleTrack>();
+                result = response.Tracks;
+
+                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
+                generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
+                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null);
+
+                return View("GeneratedPlaylists", generatorsViewModel);
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "Error Occured";
+                return View("Index");
+            }
+        }
+
+        [Authorize]
         public IActionResult GeneratedPlaylists()
         {
             return View();

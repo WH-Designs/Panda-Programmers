@@ -183,6 +183,23 @@ namespace MusicCollaborationManager.Services.Concrete
 
         }
 
+        public async Task<RecommendationsResponse> GetRecommendationsArtistBasedAsync(RecommendDTO recommendDTO)
+        {
+            RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
+            recommendationsRequest.Market = recommendDTO.market;
+            recommendationsRequest.Limit = recommendDTO.limit;
+
+            foreach (var artist in recommendDTO.artistSeed)
+            {
+                recommendationsRequest.SeedArtists.Add(artist);
+                if (recommendationsRequest.SeedArtists.Count >= 5) { break; }
+            }
+
+            var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
+            return recommendations;
+
+        }
+
         public async Task<RecommendationsResponse> GetRecommendationsGenreBased(RecommendDTO recommendDTO)
         {
             RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
