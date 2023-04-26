@@ -183,6 +183,12 @@ namespace MusicCollaborationManager.Controllers
 
         [Authorize]
         public async Task<IActionResult> Playlist(string playlistID) {
+
+            /*Needs ViewModel with:
+                - username (of current MCM user)
+                - Number of follower for this playlist (on spotify)
+             */
+
             try {
 
                 FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
@@ -195,6 +201,7 @@ namespace MusicCollaborationManager.Controllers
                 returnPlaylist.Uri = convertPlaylist.Uri;
                 returnPlaylist.Owner = convertPlaylist.Owner.DisplayName;
                 returnPlaylist.Desc = convertPlaylist.Description;
+
 
                 foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
                     UserTrackDTO currentTrack = new UserTrackDTO();

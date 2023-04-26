@@ -1,4 +1,8 @@
-﻿$(function () {
+﻿$(function () { 
+    //Include an automatic ajax request when the page is loaded. The values to submit should be:
+    //-username of current user
+    //-the spotify playlist ID of the current playlist
+
     $("#search-form").submit(function (event) {
         event.preventDefault();
     })
