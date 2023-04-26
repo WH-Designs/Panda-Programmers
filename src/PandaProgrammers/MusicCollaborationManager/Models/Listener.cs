@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MusicCollaborationManager.Models;
 
@@ -23,5 +24,6 @@ public partial class Listener
 
     public string AuthRefreshToken { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Comment> Comments { get; } = new List<Comment>();
 }

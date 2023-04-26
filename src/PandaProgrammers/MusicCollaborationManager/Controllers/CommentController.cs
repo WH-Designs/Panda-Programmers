@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using MusicCollaborationManager.DAL.Abstract;
 using MusicCollaborationManager.Models;
+using MusicCollaborationManager.Models.DTO;
 
 namespace MusicCollaborationManager.Controllers
 {
-    [Route("api")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CommentController : ControllerBase
     {
@@ -15,7 +17,7 @@ namespace MusicCollaborationManager.Controllers
             _commentRepository = commentRepository;
         }
 
-        [HttpGet("comments")]
+        [HttpGet("{SpotifyId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult GetComments(string SpotifyId)
@@ -24,24 +26,33 @@ namespace MusicCollaborationManager.Controllers
 
             comments = _commentRepository.GetAllOfCommentsForPlaylist(SpotifyId);
 
-            if (comments is null)
+            List<CommentDTO> commentDTOList = new List<CommentDTO>();
+
+            if (comments.IsNullOrEmpty())
             {
                 return NotFound();
             }
-            else if (!comments.Any())
+
+            foreach(Comment comment in comments)
             {
-                return Ok();
+                CommentDTO commentDTO = new CommentDTO(comment);
+                commentDTOList.Add(commentDTO);
             }
 
-            return Ok(comments);
+            return Ok(commentDTOList);
         }
 
-        [HttpPost("comment")]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Task> PostTask([Bind("Message,Likes,ListenerId,SpotifyId")] Comment comment)
+        public ActionResult<Comment> PostComment([Bind("Message,Likes,ListenerId,SpotifyId")] Comment comment)
         {
-            comment.Id = 0;
+            //comment.Id = 0;
+
+            Console.WriteLine(comment.Likes);
+            Console.WriteLine(comment.Message);
+            Console.WriteLine(comment.ListenerId);
+            Console.WriteLine(comment.SpotifyId);
 
             Comment c = _commentRepository.AddOrUpdate(comment);
             return CreatedAtAction("GetComments", "Comment", c);

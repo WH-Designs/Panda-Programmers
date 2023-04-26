@@ -22,12 +22,13 @@ function GetCommentValues() {
 
 // Display List of comments Function
 function DisplayComments(data) {
+    console.log(data);
     $.each(data,
         function (index, comment) {
             $("#comments-container").append(
-                `<div>
-                    <h3>${comment.Listener.FirstName}</h3>
-                    <p>${comment.Message}</p>
+                `<div class="flex flex-col h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 mb-4">
+                    <h3 class="text-xl text-sky-700">${comment.listenerName}</h3>
+                    <p class="text-lg">&nbsp;&nbsp;${comment.message}</p>
                 </div>`
             );
         }
@@ -36,7 +37,7 @@ function DisplayComments(data) {
 
 // After the form submission Add the Comment Function
 function afterAddComment(data) {
-    console.log("Successfully added task: " + data.status);
+    console.log("Successfully added comment: " + data.status);
 }
 
 // Ajax Error Fuction
@@ -45,10 +46,11 @@ function errorOnAjax(data) {
 };
 
 $(function () {
+    playlistId = $("#playlistId").val();
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/api/comments",
+        url: "/api/comment/" + playlistId,
         success: DisplayComments,
         error: errorOnAjax
     });
@@ -72,4 +74,5 @@ $(function () {
             });
         }
     });
+
 });

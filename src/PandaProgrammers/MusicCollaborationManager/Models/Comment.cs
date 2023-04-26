@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MusicCollaborationManager.Models;
 
@@ -15,5 +16,6 @@ public partial class Comment
 
     public string SpotifyId { get; set; }
 
+    [JsonIgnore]
     public virtual Listener Listener { get; set; }
 }
