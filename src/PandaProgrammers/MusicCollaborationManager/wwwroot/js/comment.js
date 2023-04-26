@@ -23,6 +23,7 @@ function GetCommentValues() {
 // Display List of comments Function
 function DisplayComments(data) {
     console.log(data);
+    $("#comments-container").empty();
     $.each(data,
         function (index, comment) {
             $("#comments-container").append(
@@ -47,13 +48,16 @@ function errorOnAjax(data) {
 
 $(function () {
     playlistId = $("#playlistId").val();
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/api/comment/" + playlistId,
-        success: DisplayComments,
-        error: errorOnAjax
-    });
+
+    setInterval(function () {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/api/comment/" + playlistId,
+            success: DisplayComments,
+            error: errorOnAjax
+        });
+    }, 1000);
 
     $("#comment-form").submit(function (event) {
         event.preventDefault();
