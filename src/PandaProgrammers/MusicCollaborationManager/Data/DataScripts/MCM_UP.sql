@@ -17,7 +17,7 @@ CREATE TABLE [Comment] (
     [Likes]             int             NOT NULL,
     [Message]           nvarchar(300)   NOT NULL,
     [ListenerID]        int             NOT NULL,
-    [PlaylistID]        int             NOT NULL
+    [SpotifyID]         nvarchar(128)   NOT NULL
 );
 
 CREATE TABLE [Playlist] (
@@ -27,9 +27,6 @@ CREATE TABLE [Playlist] (
 
 ALTER TABLE [Comment] ADD CONSTRAINT [Fk_Comment_Listener_ID]
     FOREIGN KEY ([ListenerID]) REFERENCES [Listener] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE [Comment] ADD CONSTRAINT [Fk_Comment_Playlist_ID]
-    FOREIGN KEY ([PlaylistID]) REFERENCES [Playlist] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
 
