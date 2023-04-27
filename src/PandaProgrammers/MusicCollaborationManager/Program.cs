@@ -61,6 +61,7 @@ public class Program
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         builder.Services.AddScoped<IListenerRepository, ListenerRepository>();
         builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+        builder.Services.AddScoped<IPlaylistPollRepository, PlaylistPollRepository>();
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.RegularExpressions;
+using MusicCollaborationManager.Services.Abstract;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -24,18 +25,25 @@ namespace MusicCollaborationManager.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SpotifyAuthService _spotifyService;
+        private readonly IPollsService _pollsService;
+        private readonly IPlaylistPollRepository _playlistPollRepository;
+
 
         public ListenerController(
             IListenerRepository listenerRepository,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            SpotifyAuthService spotifyService
+            SpotifyAuthService spotifyService,
+            IPollsService pollsService,
+            IPlaylistPollRepository playlistPollRepository
         )
         {
             _listenerRepository = listenerRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _spotifyService = spotifyService;
+            _pollsService = pollsService;
+            _playlistPollRepository = playlistPollRepository;
         }
 
         [Authorize]
@@ -185,9 +193,11 @@ namespace MusicCollaborationManager.Controllers
         public async Task<IActionResult> Playlist(string playlistID) {
 
             /*Needs ViewModel with:
-                - username (of current MCM user)
+                - username (of current MCM user) | Maybe the ID will work instead?
                 - Number of follower for this playlist (on spotify)
              */
+            
+            
 
             try {
 
@@ -223,10 +233,56 @@ namespace MusicCollaborationManager.Controllers
                         continue;
                     }
                 }
-                
-                returnPlaylist.Tracks = tracks;
-                return View("Playlist", returnPlaylist);
 
+                //Polls stuff (below)------------
+                PlaylistViewModel PlaylistView = new PlaylistViewModel();
+                PlaylistView.NumPlaylistFollowers = convertPlaylist.Followers.Total;
+
+                //If "_playlistPollService" does not have the current spotify playlist id in it, ignore the lines below.
+                Poll? PlaylistPollInfo = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(returnPlaylist.PlaylistId);
+
+                //Not 'null' indicates a poll is in progress.
+                if(PlaylistPollInfo != null)
+                {
+                    PlaylistView.TrackVotedOn = new VotingTrack();
+                    FullTrack TrackDetails = await _spotifyService.GetSpotifyTrackByID(PlaylistPollInfo.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+                    PlaylistView.TrackVotedOn.Artist = TrackDetails.Artists[0].Name;
+                    PlaylistView.TrackVotedOn.Name = TrackDetails.Name;
+                    PlaylistView.TrackVotedOn.Duration = TrackDetails.DurationMs.ToString();
+
+                    //Just needed this to know the option_id of "yes" & "no" for that specific poll, in order to the user what they voted for.
+                    IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollByID(PlaylistPollInfo.PollId);
+                    if(PollOptions != null)
+                    {
+                        PlaylistView.PlaylistVoteOptions = PollOptions;
+                    }
+                    
+                    string userEmail = _userManager.Users.Single(x => x.Id == aspId).Email;
+                    VoteIdentifierInfoDTO CurUserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(PlaylistPollInfo.PollId, userEmail);
+                    
+                    if(CurUserVote != null)
+                    {
+                        foreach(OptionInfoDTO voteOption in PollOptions) 
+                        {
+                          if(CurUserVote.OptionID == voteOption.OptionID) 
+                            {
+                                PlaylistView.CurUserVoteOption = voteOption.OptionText;
+                                break;
+                            }
+                        }
+                    }
+
+                }
+
+                //Polls stuff only (above)---------
+
+
+                returnPlaylist.Tracks = tracks;
+                PlaylistView.PlaylistToDisplay.Tracks = new List<UserTrackDTO>();
+                PlaylistView.PlaylistToDisplay = returnPlaylist;
+                return View("Playlist", PlaylistView);
+
+                //This needs to incorporate the ViewModel (to do later).
             } catch(ArgumentException e) {
                 Console.WriteLine(e.Message);
 

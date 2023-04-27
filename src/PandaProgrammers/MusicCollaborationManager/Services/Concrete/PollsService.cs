@@ -74,7 +74,7 @@ namespace MusicCollaborationManager.Services.Concrete
             }
             else
             {
-                throw new HttpRequestException();
+                return null;
             }
         }
 
@@ -119,8 +119,13 @@ namespace MusicCollaborationManager.Services.Concrete
             //https://api.pollsapi.com/v1/get/votes-with-identifier/truechad@gmail.com?offset=0&limit=100
 
             string source = BaseSource + "/get/votes-with-identifier/" + username + "?offset=0&limit=100";
-            string response = await GetJsonStringFromEndpointGet(ApiKey, source);
+            string? response = await GetJsonStringFromEndpointGet(ApiKey, source);
 
+            if(response == null) 
+            {
+                return null;
+            }
+      
             return VoteIdentifierInfoDTO.FromJson(response, pollID);
         }
 

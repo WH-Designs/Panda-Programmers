@@ -9,6 +9,7 @@ namespace MusicCollaborationManager.Models.DTO
         public string VoteID { get; set; }
         public string Identifier { get; set; }
         public string PollID { get; set; }
+        public string OptionID { get; set; }
 
         public static VoteIdentifierInfoDTO FromJson(object? obj, string pollID)
         {
@@ -29,7 +30,8 @@ namespace MusicCollaborationManager.Models.DTO
                 {
                     VoteID = (string)vote["id"],
                     Identifier = (string)vote["identifier"],
-                    PollID = (string)vote["poll_id"]
+                    PollID = (string)vote["poll_id"],
+                    OptionID = (string)vote["option_id"]
                 });
 
                 VoteEntryDetails = VoteDetails.Where(vd => vd.PollID == pollID).FirstOrDefault();
