@@ -8,7 +8,8 @@ namespace MusicCollaborationManager.Models.DTO
         public string? ImageURL { get; set; } = null;
         public string Uri { get; set; }
         public string Desc { get; set; }
+        public string PlaylistId { get; set; }
         public List<UserTrackDTO> Tracks { get; set; }
-
+        public int ListenerId { get; set; }
     }
 }

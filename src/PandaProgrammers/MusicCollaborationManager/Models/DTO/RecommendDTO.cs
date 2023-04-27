@@ -12,6 +12,7 @@ namespace MusicCollaborationManager.Models.DTO
     {
         public List<string> genre = new List<string> { };
         public List<string> seed = new List<string> { };
+        public List<string> artistSeed = new List<string> { };
         public string market = "US";
         public int limit { get; set; }
         public double target_acousticness { get; set; } 

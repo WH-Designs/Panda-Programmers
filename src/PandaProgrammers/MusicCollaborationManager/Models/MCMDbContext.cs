@@ -6,10 +6,6 @@ namespace MusicCollaborationManager.Models;
 
 public partial class MCMDbContext : DbContext
 {
-    public MCMDbContext()
-    {
-    }
-
     public MCMDbContext(DbContextOptions<MCMDbContext> options)
         : base(options)
     {
@@ -21,14 +17,14 @@ public partial class MCMDbContext : DbContext
 
     public virtual DbSet<Playlist> Playlists { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=MCMConnection");
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //    => optionsBuilder.UseSqlServer("Name=MCMConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27F13831CF");
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC272E6E7543");
 
             entity.ToTable("Comment");
 
@@ -37,22 +33,20 @@ public partial class MCMDbContext : DbContext
             entity.Property(e => e.Message)
                 .IsRequired()
                 .HasMaxLength(300);
-            entity.Property(e => e.PlaylistId).HasColumnName("PlaylistID");
+            entity.Property(e => e.SpotifyId)
+                .IsRequired()
+                .HasMaxLength(128)
+                .HasColumnName("SpotifyID");
 
             entity.HasOne(d => d.Listener).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.ListenerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Fk_Comment_Listener_ID");
-
-            entity.HasOne(d => d.Playlist).WithMany(p => p.Comments)
-                .HasForeignKey(d => d.PlaylistId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Fk_Comment_Playlist_ID");
         });
 
         modelBuilder.Entity<Listener>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC277A2FEE58");
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC2710E28F23");
 
             entity.ToTable("Listener");
 
@@ -78,7 +72,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Playlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27837AD924");
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27AA0B4D6E");
 
             entity.ToTable("Playlist");
 

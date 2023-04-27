@@ -97,12 +97,27 @@
             <br />
         </div>
     </div>
+    <div class="lg:col-span-1">
+        <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+            <h1 class="font-header font-bold text-4xl text-textback classicpanda:text-whitetext p-1 luxury:text-yellow-500 autumn:text-white revolution:text-white">Top Artists Generator</h1>
+            <p class="text-textback classicpanda:text-whitetext text-2x">
+                With this generator you will be able to get a playlist of songs based on your top listended to artists! This means that you will get songs similar to
+                the artists you already listen to and songs from artists that are similar.
+            </p>
+            <br />
+            <a asp-controller="Generator" asp-action="TopArtist"
+               class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+                                classicpanda:text-whitetext
+                                autumn:text-white
+                                revolution:text-white" id="topArtistGen">Try it out</a>
+            <br />
+        </div>
+    </div>
     <div class="xl:col-span-1"></div> @*Div to help grid span page correctly using grids*@
 </div>
 
 
 @section Scripts{
-    <script type="text/javascript" src="~/js/colorchanger.js"></script>
-    <script type="text/javascript" src="~/js/generatorindex.js"></script>
+    
 }
 

@@ -141,12 +141,7 @@ namespace MusicCollaborationManager.Services.Concrete
             {
                 recommendationsRequest.SeedTracks.Add(track);
                 if(recommendationsRequest.SeedTracks.Count >= 5) {break; }
-            }
-            //foreach (var genre in recommendDTO.genre)
-            //{
-            //    recommendationsRequest.SeedGenres.Add(genre);
-            //    if (recommendationsRequest.SeedGenres.Count >= 1) { break; }
-            //}
+            }            
             if (recommendDTO.target_valence != 0)
             {
                 recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
@@ -186,6 +181,49 @@ namespace MusicCollaborationManager.Services.Concrete
             var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
             return recommendations;
 
+        }
+
+        public async Task<RecommendationsResponse> GetRecommendationsArtistBasedAsync(RecommendDTO recommendDTO)
+        {
+            RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
+            recommendationsRequest.Market = recommendDTO.market;
+            recommendationsRequest.Limit = recommendDTO.limit;
+
+            foreach (var artist in recommendDTO.artistSeed)
+            {
+                recommendationsRequest.SeedArtists.Add(artist);
+                if (recommendationsRequest.SeedArtists.Count >= 5) { break; }
+            }
+
+            var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
+            return recommendations;
+
+        }
+
+        public async Task<RecommendationsResponse> GetRecommendationsGenreBased(RecommendDTO recommendDTO)
+        {
+            RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
+            recommendationsRequest.Market = recommendDTO.market;
+            recommendationsRequest.Limit = recommendDTO.limit;
+            foreach (var genre in recommendDTO.genre)
+            {
+                recommendationsRequest.SeedGenres.Add(genre);
+                if (recommendationsRequest.SeedGenres.Count >= 1) { break; }
+            }
+
+            recommendationsRequest.Target.Add("acousticness", recommendDTO.target_acousticness.ToString());
+            recommendationsRequest.Target.Add("danceability", recommendDTO.target_danceability.ToString());
+            recommendationsRequest.Target.Add("energy", recommendDTO.target_energy.ToString());
+            recommendationsRequest.Target.Add("instrumentalness", recommendDTO.target_instrumentalness.ToString());
+            recommendationsRequest.Target.Add("liveness", recommendDTO.target_liveness.ToString());
+            recommendationsRequest.Target.Add("popularity", recommendDTO.target_popularity.ToString());
+            recommendationsRequest.Target.Add("speechiness", recommendDTO.target_speechiness.ToString());
+            recommendationsRequest.Target.Add("temp", recommendDTO.target_tempo.ToString());
+            recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
+
+            var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
+
+            return recommendations;
         }
 
         public async Task<List<FullTrack>> ConvertToFullTrackAsync(List<SimpleTrack> tracks)
