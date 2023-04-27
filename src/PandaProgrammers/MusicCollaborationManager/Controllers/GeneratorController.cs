@@ -368,6 +368,27 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
+        public IActionResult RelatedArtists()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> RelatedArtistsPostAsync(RelatedArtistsViewModel vm)
+        {
+            try
+            {
+                return View("GeneratedPlaylists");
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "Error Occured";
+                return View("Index");
+            }
+        }
+
+        [Authorize]
         public IActionResult GeneratedPlaylists()
         {
             return View();
