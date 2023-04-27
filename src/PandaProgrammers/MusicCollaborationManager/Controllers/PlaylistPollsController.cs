@@ -29,11 +29,11 @@ namespace MusicCollaborationManager.Controllers
             _pollsService = pollsService;
         }
 
-        [HttpPost("createpoll/{playlistid}/{trackuri}")]
-        public async Task CreateNewPoll(string playlistid, string trackuri)
-        {
-            _listenerRepository
-        }
+        // [HttpPost("createpoll/{playlistid}/{trackuri}")]
+        // public async Task CreateNewPoll(string playlistid, string trackuri)
+        // {
+        //     _listenerRepository
+        // }
 
 
         //Probably safer to check the 'spotify_playlist_id' a potentially existing poll and load the existing track being polled on as part of the view model.

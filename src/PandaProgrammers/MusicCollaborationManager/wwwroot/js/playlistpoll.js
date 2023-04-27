@@ -235,6 +235,7 @@ let isSearchVisible = false;
 $("#transition-to-search-track-btn").click(function () {
     $("#user-playlist-contanier").toggle();
     $("#search-form").toggle();
+    $("#search-results-container").toggle();
 
     if (isSearchVisible == false) {
         $("#transition-to-search-track-btn").text("Cancel search");
