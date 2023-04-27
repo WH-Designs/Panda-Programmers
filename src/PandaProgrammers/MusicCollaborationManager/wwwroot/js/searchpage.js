@@ -105,9 +105,15 @@ function displaySearchResults(data) {
                         <td class="whitespace-nowrap"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
                         <td class="whitespace-nowrap">
                             <a class='text-blue-500' href='${itemUrl}'>${itemName}</a>
-                            <p>${itemType}</p>
                             <p>${ownerDisplayName}</p>
+                            <p>${itemType}</p>
                             <p>${itemReleaseDate}</p>
+                            <br>
+                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+                                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-gray-800 rounded-md group-hover:bg-opacity-0">
+                                    Like
+                                </span>
+                            </button>
                         </td>
                     </tr>`
                     $(searchItem).appendTo(`#search-row`);
