@@ -88,6 +88,12 @@ namespace MusicCollaborationManager.Services.Concrete
             return authUser.Me;
         }
 
+        public async Task<String> GetUserDisplayName(string spotifyID)
+        {
+            PublicUser user = await Spotify.UserProfile.Get(spotifyID);
+            return user.DisplayName;
+        }
+
         public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery) 
         {
             SearchRequest.Types types = SearchRequest.Types.All;

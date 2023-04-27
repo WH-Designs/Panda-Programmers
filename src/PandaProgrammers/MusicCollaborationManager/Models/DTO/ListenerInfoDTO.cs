@@ -6,5 +6,7 @@
         public string? LastName { get; set; }
         public string? Username { get; set; }
         public string? Theme { get; set; }
+        public string? SpotifyId { get; set; }
+        public bool? ConsentFlag { get; set; }
     }
 }

@@ -70,5 +70,34 @@ namespace MusicCollaborationManager.Controllers
                 return InfoToReturn;
             }
         }
+
+        [HttpGet("basicuserinfo/getall")]
+        public List<ListenerInfoDTO> GetAllListeners()
+        {
+            List<ListenerInfoDTO> returnList = new List<ListenerInfoDTO>();
+            
+            try {
+                List<Listener> listenerList = _listenerRepository.GetAll().ToList();
+                foreach(Listener listener in listenerList){
+                    ListenerInfoDTO infoTransferObject = new ListenerInfoDTO();
+                    infoTransferObject.FirstName = listener.FirstName;
+                    infoTransferObject.LastName = listener.LastName;
+                    infoTransferObject.Username = listener.SpotifyUserName ?? "";
+                    infoTransferObject.SpotifyId = listener.SpotifyId ?? "";
+                    infoTransferObject.ConsentFlag = listener.SearchConsentFlag;
+                    infoTransferObject.Theme = "";
+
+                    returnList.Add(infoTransferObject);
+                }
+
+                return returnList;
+
+            } catch(Exception) {
+                ListenerInfoDTO InfoToReturn = new ListenerInfoDTO();
+                InfoToReturn.FirstName = "Error";
+                returnList.Add(InfoToReturn);
+                return returnList;
+            }
+        }
     }
 }
