@@ -232,6 +232,7 @@ function getSearchQuery() {
 
 
 //--------------------
+
 let isSearchVisible = false;
 
 $("#transition-to-search-track-btn").click(function () {
@@ -263,20 +264,21 @@ $('body').on('click', '.specific-track-to-poll', function() {
     //console.log(randUri.length);
 
     const values = getPollFormValues();
-
-    //if (values.status) {
-    //    $.ajax({
-    //        method: "POST",
-    //        url: "/api/playlistpolls/createpoll", //REPLACE with YOUR code HERE. You need: trackUri, playlistID
-    //        dataType: "json",
-    //        contentType: "application/json; charset=UTF-8",
-    //        data: JSON.stringify(values),  //REPLACE with YOUR code OWN HERE
-    //        success: afterAddTask,  //REPLACE with YOUR code OWN HERE
-    //        error: errorOnAjax
-    //    });
-    //} else {
-    //           console.log("POST Status: failed");
-    //}
+    console.log("Playlist ID (from form): " + values.spotifyplaylistid);
+    console.log("Track ID (from form) :" + values.tracktopolluri);
+    if (values.status) {
+        $.ajax({
+            method: "POST",
+            url: "/api/PlaylistPolls/createpoll", //REPLACE with YOUR code HERE. You need: trackUri, playlistID
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(values),  //REPLACE with YOUR code OWN HERE
+            success: displayNewPoll,  //REPLACE with YOUR code OWN HERE
+            error: errorOnAjax
+        });
+    } else {
+               console.log("POST Status: failed");
+    }
 /*    let trackToPoll = $(`#${formToSubmitIndex}`)*/
 
     //NOTE: You made the form ID like this: id="track-to-poll-${index}-form"
@@ -296,20 +298,31 @@ $('body').on('click', '.specific-track-to-poll', function() {
 });
 
 function getPollFormValues() {
+    const startPollForm = document.getElementById("start-poll-form");
     const curplaylistid = document.getElementById("spotify-playlist-id-input");
     const tracktopoll = document.getElementById("track-to-poll-uri-input");
-    const startPollForm = document.getElementById("start-poll-form");
     if (!startPollForm.checkValidity()) {
         return { status: false };
     }
 
     return {
-        spotifyplaylistid: curplaylistid.value,
-        tracktopolluri: tracktopoll.value,
-        status: true,
+        newpollplaylistid: curplaylistid.value,
+        newpolltrackid: tracktopoll.value,
+        status: true
     }
 }
 
 //$(".specific-track-to-poll").click(function () {
 //    console.log("Poll should have started.")
 //});
+
+function displayNewPoll(data) {
+
+        console.log("Displaying new poll info:")
+        console.log(`Track info: \n --artist: ${data["trackArtist"]} \n --name: ${data["trackTitle"]} \n --duration: ${data["trackDuration"]}`);
+        console.log(`'Yes' option ID: ${data["yesOptionID"]}`);
+        console.log(`'No' option ID: ${data["noOptionID"]}`);
+        console.log(`Total votes: ${data["totalPollVotes"]}`);
+    
+
+}

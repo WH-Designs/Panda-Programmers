@@ -15,7 +15,7 @@ namespace MusicCollaborationManager.Models.DTO
 
         }
 
-        public static string? FromJSON_GetNewPollID(object? obj)
+        public static string FromJSON_GetNewPollID(object? obj)
         {
             JObject? theObj = null;
             try
