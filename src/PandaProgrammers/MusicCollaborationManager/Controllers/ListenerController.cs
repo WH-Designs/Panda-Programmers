@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.RegularExpressions;
 using MusicCollaborationManager.Services.Abstract;
+using System.Diagnostics;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -237,6 +238,8 @@ namespace MusicCollaborationManager.Controllers
                 //Polls stuff (below)------------
                 PlaylistViewModel PlaylistView = new PlaylistViewModel();
                 PlaylistView.NumPlaylistFollowers = convertPlaylist.Followers.Total;
+                //Console.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
+                //Debug.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
 
                 //If "_playlistPollService" does not have the current spotify playlist id in it, ignore the lines below.
                 Poll? PlaylistPollInfo = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(returnPlaylist.PlaylistId);

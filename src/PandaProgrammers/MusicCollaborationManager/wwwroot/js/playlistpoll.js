@@ -128,9 +128,9 @@ function displaySearchResults(data) {
                             let trackUri = item[index]["uri"];
                             let trackId = item[index]["id"]
                             let ownerDisplayName = "";
-                            console.log("Index " + index);
+                         /*   console.log("Index " + index);*/
 /*                            console.log("The URI for the track" + itemName + "is :" + trackUri);*/
-                            console.log("The ID for the track" + itemName + "is :" + trackId);
+                /*            console.log("The ID for the track" + itemName + "is :" + trackId);*/
 
                             if (itemReleaseDate == undefined) {
                                 itemReleaseDate = "";
@@ -269,11 +269,11 @@ $('body').on('click', '.specific-track-to-poll', function() {
     if (values.status) {
         $.ajax({
             method: "POST",
-            url: "/api/PlaylistPolls/createpoll", //REPLACE with YOUR code HERE. You need: trackUri, playlistID
+            url: "/api/PlaylistPolls/createpoll",
             dataType: "json",
             contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(values),  //REPLACE with YOUR code OWN HERE
-            success: displayNewPoll,  //REPLACE with YOUR code OWN HERE
+            data: JSON.stringify(values),
+            success: displayNewPoll, 
             error: errorOnAjax
         });
     } else {
@@ -318,11 +318,105 @@ function getPollFormValues() {
 
 function displayNewPoll(data) {
 
-        console.log("Displaying new poll info:")
-        console.log(`Track info: \n --artist: ${data["trackArtist"]} \n --name: ${data["trackTitle"]} \n --duration: ${data["trackDuration"]}`);
-        console.log(`'Yes' option ID: ${data["yesOptionID"]}`);
-        console.log(`'No' option ID: ${data["noOptionID"]}`);
-        console.log(`Total votes: ${data["totalPollVotes"]}`);
-    
+    console.log("Displaying new poll info:")
+    console.log(`Track info: \n --artist: ${data["trackArtist"]} \n --name: ${data["trackTitle"]} \n --duration: ${data["trackDuration"]}`);
+    console.log(`'Yes' option ID: ${data["yesOptionID"]}`);
+    console.log(`'No' option ID: ${data["noOptionID"]}`);
+    console.log(`Total votes: ${data["totalPollVotes"]}`);
+
+    let trackDuration = data["trackDuration"];
+    let trackTitle = data["trackTitle"];
+    let trackArtist = data["trackArtist"]
+
+    let curUser = $("#mcm-username").text();
+    let playlistFollowercount = $("#num-playlist-followers").text();
+    console.log("playlistFollowerCount: " + playlistFollowercount);
+    if (playlistFollowercount == "0") {
+        playlistFollowercount = 1;
+    }
+
+    let curplaylistID = $("#general-playlist-id").text();
+ 
+
+    let polledTrackInfo = `
+        <div class="flex flex-col">
+            <div>
+                <span id="num-poll-track-votes">${1}</span>
+                out of
+                <span id="total-playlist-followers">${playlistFollowercount}</span>
+                votes
+            </div>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-artist">Artist: ${trackArtist}</span>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-name">Track: ${trackTitle}</span>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">Duration: ${trackDuration}</span>
+            <div class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">You voted: Yes</div>
+            <div class="flex flex-row">
+                <form id="remove-vote-form">
+                    <input type="text" name="RemoveVotePlaylistID" id="remove-vote-playlist-id-input" value="${curplaylistID}">
+                    <input type="text" class="hidden" name="RemoveVoteUsername" id="remove-vote-username-input" value="${curUser}"/>
+                    <button type="button" class="text-textback classicpanda:text-whitetext
+                        autumn:text-white
+                        revolution:text-white hover:contrast-50" id="remove-vote-btn">Remove vote</button>
+                </form>         
+            </div>
+        </div>
+    `;
+     $("#polls-header").append(polledTrackInfo);
 
 }
+
+
+$('body').on('click', '#remove-vote-btn', function () {
+    console.log("Vote removed");
+
+    const values = getRemoveVoteFormValues();
+    console.log("Playlist ID (from form): " + values.spotifyplaylistid);
+    console.log("Track ID (from form) :" + values.tracktopolluri);
+    if (values.status) {
+        $.ajax({
+            method: "POST",
+            url: "/api/PlaylistPolls/removevote",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(values),
+            success: displayVoteOptionsForRemovedVote,
+            error: errorOnAjax
+        });
+    } else {
+        console.log("POST Status: failed");
+    }
+});
+
+
+function getRemoveVoteFormValues() {
+    const removeVoteForm = document.getElementById("remove-vote-form");
+    const curplaylistid = document.getElementById("remove-vote-playlist-id-input");
+    const curUsername = document.getElementById("remove-vote-username-input");
+    if (!removeVoteForm.checkValidity()) {
+        return { status: false };
+    }
+
+    return {
+        removevoteplaylistid: curplaylistid.value,
+        userremovingvote: curUsername.value,
+        status: true
+    }
+}
+
+//function displayVoteOptionsForRemovedVote(data) {
+//    console.log("Vote removed");
+//    $("#remove-vote-form").empty();
+//    $("#remove-vote-form").remove();
+
+//    /*
+//     "trackArtist": "string",
+//  "trackTitle": "string",
+//  "trackDuration": "string",
+//  "yesOptionID": "string",
+//  "noOptionID": "string",
+//  "totalPollVotes": "string"
+//    */
+
+//    let YesVoteOptionId = data["trackArtist"];
+//    let NoVoteOptionId = data[""]
+//}

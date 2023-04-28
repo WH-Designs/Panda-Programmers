@@ -32,6 +32,13 @@ namespace MusicCollaborationManager.Controllers
             _playlistPollRepository = playlistPollRepository;
         }
 
+        //[HttpGet("checkcuruservote")]
+        //public async Task<string?> CheckCurUserVote() 
+        //{
+
+        //}
+
+
 
         [HttpPost("createpoll")]
         public async Task<NewPlaylistPollDTO> CreateNewPoll([Bind("NewPollPlaylistId,NewPollTrackId")] PollCreationDTO newPollInput) //TrackID passed here (instead of "trackuri"). (Just haven't updated the name in DB yet.)
@@ -171,22 +178,37 @@ namespace MusicCollaborationManager.Controllers
             }
         }
 
-        [HttpPost("removevote/{playlistid}/{username}")]
-        public async Task<bool> RemoveVoteOnExistingPoll(string playlistid, string username)
+        [HttpPost("removevote")]
+        public async Task<NewPlaylistPollDTO> RemoveVoteOnExistingPoll(string RemoveVotePlaylistID, string RemoveVoteUsername)
         {
-            bool successfulVoteRemoval = true;
-            try
-            {
-                Poll PollInfo = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(playlistid);
-                VoteIdentifierInfoDTO CurUserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(PollInfo.PollId, username);
-                await _pollsService.RemoveVote(CurUserVote.VoteID);
-                return successfulVoteRemoval;
-            }
-            catch(Exception ex) 
-            {
-                successfulVoteRemoval = false;
-                return successfulVoteRemoval;
-            }
+            NewPlaylistPollDTO ExistingPoll = new NewPlaylistPollDTO();
+            ExistingPoll.TrackArtist = "Generic artist #55";
+            ExistingPoll.TrackTitle = "PRACTICE TRACK #1";
+            ExistingPoll.TrackDuration = "4 MIN";
+            ExistingPoll.YesOptionID = "#1234_YES";
+            ExistingPoll.NoOptionID = "#5678_NO";
+            ExistingPoll.TotalPollVotes = "4";
+
+            //bool successfulVoteRemoval = true;
+            //try
+            //{
+            //    Poll PollInfo = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(RemoveVotePlaylistID);
+            //    VoteIdentifierInfoDTO CurUserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(PollInfo.PollId, RemoveVoteUsername);
+            //    await _pollsService.RemoveVote(CurUserVote.VoteID);
+            //    return successfulVoteRemoval;
+            //}
+            //catch(Exception ex) 
+            //{
+            //    successfulVoteRemoval = false;
+            //    return successfulVoteRemoval;
+            //}
+
+            return ExistingPoll;
+
+            /*
+             * Need to return:
+             * -Options
+             */
         }
     }
 }
