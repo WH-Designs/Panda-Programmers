@@ -126,9 +126,11 @@ function displaySearchResults(data) {
                             let itemReleaseDate = item[index]["releaseDate"];
                             let itemUrl = item[index]["externalUrls"]["spotify"];
                             let trackUri = item[index]["uri"];
+                            let trackId = item[index]["id"]
                             let ownerDisplayName = "";
                             console.log("Index " + index);
-                            console.log("The URI for the track" + itemName + "is :" + trackUri);
+/*                            console.log("The URI for the track" + itemName + "is :" + trackUri);*/
+                            console.log("The ID for the track" + itemName + "is :" + trackId);
 
                             if (itemReleaseDate == undefined) {
                                 itemReleaseDate = "";
@@ -146,7 +148,7 @@ function displaySearchResults(data) {
                                     <p>${itemType}</p>
                                     <p>${ownerDisplayName}</p>
                                     <p>${itemReleaseDate}</p>
-                                    <button type="button" class="specific-track-to-poll" id="${trackUri}">Start poll to add to playlist</button>
+                                    <button type="button" class="specific-track-to-poll" id="${trackId}">Start poll to add to playlist</button>
                                 </td>
                             </tr>`
                             $(searchItem).appendTo(`#search-row`);
@@ -251,10 +253,14 @@ $("#transition-to-search-track-btn").click(function () {
 $('body').on('click', '.specific-track-to-poll', function() {
 
     console.log("Track has been selected for poll.");
-    let trackSelectedUri = $(this).attr('id');
+    let trackSelectedSpotifyId = $(this).attr('id');
 
-    let randUri = ":spotify:track:0whSaAvMslbr9uSEt6pjQy";
-    console.log(randUri.length);
+    $("#track-to-poll-uri-input").val(trackSelectedSpotifyId);
+
+    console.log("Track ID: " + trackSelectedSpotifyId);
+
+    //let randUri = ":spotify:track:0whSaAvMslbr9uSEt6pjQy";
+    //console.log(randUri.length);
 
     const values = getPollFormValues();
 
@@ -292,7 +298,7 @@ $('body').on('click', '.specific-track-to-poll', function() {
 function getPollFormValues() {
     const curplaylistid = document.getElementById("spotify-playlist-id-input");
     const tracktopoll = document.getElementById("track-to-poll-uri-input");
-    const startPollForm = document.getElementById("#start-poll-form");
+    const startPollForm = document.getElementById("start-poll-form");
     if (!startPollForm.checkValidity()) {
         return { status: false };
     }

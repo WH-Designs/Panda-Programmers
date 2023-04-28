@@ -5,27 +5,27 @@
 <div class="flex flex-col lg:flex-row w-fit">
     <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-2 mb-4 overflow-hidden" id="user-playlist-container">
         <div>
-            <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistToDisplay.Name &nbsp;&nbsp; <button class="playable-item hover:text-textback classicpanda:text-blacktext text-xl" data-spotify-id="@Model.PlaylistToDisplay.Uri"><i class="fa-solid fa-play fa-2xl"></i></button></h2>
-            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistToDisplay.Owner</h2>
+            <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistContents.Name &nbsp;&nbsp; <button class="playable-item hover:text-textback classicpanda:text-blacktext text-xl" data-spotify-id="@Model.PlaylistContents.Uri"><i class="fa-solid fa-play fa-2xl"></i></button></h2>
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistContents.Owner</h2>
         </div>
         <div class="classicpanda:text-blacktext flex flex-col md:flex-row bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 gap-x-4">
-            @if (Model.PlaylistToDisplay.ImageURL is null)
+            @if (Model.PlaylistContents.ImageURL is null)
             {
-                <img src="@Model.PlaylistToDisplay.ImageURL" alt="Playlist Image"
+                <img src="@Model.PlaylistContents.ImageURL" alt="Playlist Image"
                      class="text-textback classicpanda:text-blacktext hidden" />
                 <div class="flex flex-col">
                     <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center">
-                        <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistToDisplay.Desc</p>
+                        <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistContents.Desc</p>
                     </div>
                 </div>
             }
             else
             {
-                <img src="@Model.PlaylistToDisplay.ImageURL" alt="Playlist Image"
+                <img src="@Model.PlaylistContents.ImageURL" alt="Playlist Image"
                      class="text-textback classicpanda:text-blacktext w-[300px] h-[300px]" />
                 <div class="flex flex-col">
                     <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center">
-                        <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistToDisplay.Desc</p>
+                        <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistContents.Desc</p>
                     </div>
                 </div>
             }
@@ -42,7 +42,7 @@
                     </tr>
                     @{
                         int trackIndex = 0;
-                        foreach (var track in Model.PlaylistToDisplay.Tracks)
+                        foreach (var track in Model.PlaylistContents.Tracks)
                         {
                             <tr class="border-b border-gray-200 text-lg">
                                 <th scope="row" class="pl-5 font-medium whitespace-nowrap bg-coreback">@(trackIndex + 1)</th>
@@ -129,7 +129,7 @@
         </div>
      
         <form id="start-poll-form">
-            <input type="text" id="spotify-playlist-id-input" value="@Model.PlaylistToDisplay.PlaylistId" />
+            <input type="text" id="spotify-playlist-id-input" value="@Model.PlaylistContents.PlaylistId" />
             <input type="text" id="track-to-poll-uri-input" />
         </form>
             }
@@ -149,8 +149,8 @@
                         <label for="CommentMessage" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Comment</label>
                         <input id="comment-message-input" name="CommentMessage" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" type="text" required />
                     </div>
-                    <input id="playlistId" type="hidden" value="@Model.PlaylistToDisplay.PlaylistId"/>
-                    <input id="listenerId" type="hidden" value="@Model.PlaylistToDisplay.ListenerId"/>
+                    <input id="playlistId" type="hidden" value="@Model.PlaylistContents.PlaylistId"/>
+                    <input id="listenerId" type="hidden" value="@Model.PlaylistContents.ListenerId"/>
                     <input id="comment-submit-button" type="submit" value="Post" class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
                                 classicpanda:text-whitetext
                                 autumn:text-white

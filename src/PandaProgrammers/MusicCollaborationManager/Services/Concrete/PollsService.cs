@@ -78,10 +78,10 @@ namespace MusicCollaborationManager.Services.Concrete
             }
         }
 
-        public async Task<string?> CreatePollForSpecificPlaylist(string spotifyPlaylistID, string trackName)
+        public async Task<string?> CreatePollForSpecificPlaylist(string spotifyPlaylistID)
         {
             string source = BaseSource + "/create/poll";
-            string bodyRequest = "{\r\n    \"question\": \"Add '" + trackName + "' to playlist?\",\r\n    \"identifier\": \"" + spotifyPlaylistID + "\",\r\n    \"options\": [\r\n        {\r\n            \"text\": \"Yes\"\r\n        },\r\n        {\r\n            \"text\": \"No\"\r\n        }\r\n    ]\r\n}";
+            string bodyRequest = "{\r\n    \"question\": \"Add song" + " to playlist?\",\r\n    \"identifier\": \"" + spotifyPlaylistID + "\",\r\n    \"options\": [\r\n        {\r\n            \"text\": \"Yes\"\r\n        },\r\n        {\r\n            \"text\": \"No\"\r\n        }\r\n    ]\r\n}";
 
             string response = await GetJsonStringFromEndpointPost(ApiKey, source, bodyRequest);
             string? pollID = PollDTO.FromJSON_GetNewPollID(response);
@@ -90,7 +90,7 @@ namespace MusicCollaborationManager.Services.Concrete
         }
 
  
-        public async Task<IEnumerable<OptionInfoDTO>> GetPollByID(string pollID)
+        public async Task<IEnumerable<OptionInfoDTO>> GetPollOptionsByPollID(string pollID)
         {
             string source = BaseSource + "/get/poll/{poll_id}?poll_id=" + pollID;
             string response = await GetJsonStringFromEndpointGet(ApiKey, source);
