@@ -251,7 +251,7 @@ namespace MusicCollaborationManager.Controllers
                     PlaylistView.TrackVotedOn.Duration = TrackDetails.DurationMs.ToString();
 
                     //Just needed this to know the option_id of "yes" & "no" for that specific poll, in order to the user what they voted for.
-                    IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollByID(PlaylistPollInfo.PollId);
+                    IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(PlaylistPollInfo.PollId);
                     if(PollOptions != null)
                     {
                         PlaylistView.PlaylistVoteOptions = PollOptions;
@@ -266,7 +266,7 @@ namespace MusicCollaborationManager.Controllers
                         {
                           if(CurUserVote.OptionID == voteOption.OptionID) 
                             {
-                                PlaylistView.CurUserVoteOption = voteOption.OptionText;
+                                PlaylistView.TrackVotedOn.CurUserVoteOption = voteOption.OptionText;
                                 break;
                             }
                         }
@@ -278,8 +278,8 @@ namespace MusicCollaborationManager.Controllers
 
 
                 returnPlaylist.Tracks = tracks;
-                PlaylistView.PlaylistToDisplay.Tracks = new List<UserTrackDTO>();
-                PlaylistView.PlaylistToDisplay = returnPlaylist;
+                PlaylistView.PlaylistContents.Tracks = new List<UserTrackDTO>();
+                PlaylistView.PlaylistContents = returnPlaylist;
                 return View("Playlist", PlaylistView);
 
                 //This needs to incorporate the ViewModel (to do later).
