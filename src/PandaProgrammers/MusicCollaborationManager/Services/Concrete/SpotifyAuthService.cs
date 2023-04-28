@@ -123,6 +123,23 @@ namespace MusicCollaborationManager.Services.Concrete
             return returnArtists;
         }
 
+        public async Task<List<FullArtist>> GetAuthRelatedArtistsAsync(List<FullArtist> TopArtists)
+        {
+            var relatedArtists = new List<FullArtist>();
+
+            foreach (FullArtist artist in TopArtists)
+            {
+                var newArtists = await Spotify.Artists.GetRelatedArtists(artist.Id);
+                foreach (FullArtist newArtist in newArtists.Artists)
+                {
+                    relatedArtists.Add(newArtist);
+                }
+                relatedArtists.Add(artist);
+            }
+
+            return relatedArtists;
+        }
+
         public async Task<RecommendationGenresResponse> GetSeedGenresAsync()
         {
             var currentGenres = await Spotify.Browse.GetRecommendationGenres();
@@ -417,7 +434,6 @@ namespace MusicCollaborationManager.Services.Concrete
             FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
             return wantedPlaylist;
         }
-
         
     }
 }

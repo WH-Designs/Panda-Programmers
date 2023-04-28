@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SpotifyAPI.Web;
 using System.ComponentModel.DataAnnotations;
 
 namespace MusicCollaborationManager.ViewModels
@@ -16,16 +17,16 @@ namespace MusicCollaborationManager.ViewModels
         [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
         public string descriptionInput { get; set; }
 
-        public RelatedArtistsViewModel SeedArtists(RelatedArtistsViewModel vm, Task<RelatedArtistsResponse> artists)
+        public RelatedArtistsViewModel SeedArtists(RelatedArtistsViewModel vm, List<FullArtist> artists)
         {
             vm.RelatedSelect = new List<SelectListItem>();
 
-            foreach (var artist in artists.Result.artists)
+            foreach (var artist in artists)
             {
                 var item = new SelectListItem()
                 {
-                    Text = artist,
-                    Value = artist
+                    Text = artist.Name,
+                    Value = artist.Id
                 };
                 vm.RelatedSelect.Add(item);
             }
