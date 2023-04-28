@@ -6,7 +6,7 @@ namespace MusicCollaborationManager.ViewModels
     public class RelatedArtistsViewModel
     {
         public List<SelectListItem> RelatedSelect;
-        
+
         public List<string> RelatedArtists;
 
         [Required]
@@ -16,20 +16,20 @@ namespace MusicCollaborationManager.ViewModels
         [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
         public string descriptionInput { get; set; }
 
-        //public RelatedArtistsViewModel SeedArtists(RelatedArtistsViewModel vm, Task<RelatedArtistsResponse> artists)
-        //{
-        //    vm.RelatedSelect = new List<SelectListItem>();
+        public RelatedArtistsViewModel SeedArtists(RelatedArtistsViewModel vm, Task<RelatedArtistsResponse> artists)
+        {
+            vm.RelatedSelect = new List<SelectListItem>();
 
-        //    foreach(var artist in artists.Result.artists)
-        //    {
-        //        var item = new SelectListItem()
-        //        {
-        //            Text = artist,
-        //            Value = artist
-        //        };
-        //        vm.RelatedSelect.Add(item);
-        //    }
-        //    return vm;
-        //}
+            foreach (var artist in artists.Result.artists)
+            {
+                var item = new SelectListItem()
+                {
+                    Text = artist,
+                    Value = artist
+                };
+                vm.RelatedSelect.Add(item);
+            }
+            return vm;
+        }
     }
 }

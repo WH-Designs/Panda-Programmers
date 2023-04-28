@@ -379,6 +379,16 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+                GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+                string UserInputCoverImage = vm.coverImageInput;
+                string UserInputDescription = vm.descriptionInput;
+
+                RecommendDTO recommendDTO = new RecommendDTO();
+                GeneratorUtilities generatorUtilities = new GeneratorUtilities();
+
+                //_spotifyService.GetAuthTopArtistsAsync();
+                //_spotifyService.GetRecommendationsArtistBasedAsync();
+
                 return View("GeneratedPlaylists");
             }
             catch (Exception)
