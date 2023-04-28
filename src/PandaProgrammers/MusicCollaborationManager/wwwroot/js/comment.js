@@ -1,14 +1,14 @@
 let playlistId;
 let listenerId;
 
-console.log("Hello from comment.js");
+/*console.log("Hello from comment.js");*/
 
 // Get the data from the page Function
 function GetCommentValues() {
     playlistId = $("#playlistId").val();
     listenerId = $("#listenerId").val();
     if (!$("#comment-form")[0].checkValidity()) {
-        console.log("One or more form values are invalid");
+        /*console.log("One or more form values are invalid");*/
         return { status: false }
     }
     return {
@@ -22,7 +22,7 @@ function GetCommentValues() {
 
 // Display List of comments Function
 function DisplayComments(data) {
-    console.log(data);
+    /*console.log(data);*/
     $("#comments-container").empty();
     $.each(data,
         function (index, comment) {
@@ -65,7 +65,7 @@ $(function () {
 
     $("#comment-submit-button").click(function () {
         const data = GetCommentValues();
-        console.log(data);
+        /*console.log(data);*/
         if (data.status) {
             $.ajax({
                 method: "POST",
