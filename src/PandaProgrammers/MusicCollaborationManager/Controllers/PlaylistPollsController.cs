@@ -96,9 +96,16 @@ namespace MusicCollaborationManager.Controllers
                     PotentialNewPoll.TrackDuration = "4 MIN";
                     PotentialNewPoll.YesOptionID = "#1234_YES";
                     PotentialNewPoll.NoOptionID = "#5678_NO";
-                    PotentialNewPoll.TotalPollVotes = "1";
-                    PotentialNewPoll.PlaylistFollowerCount = "5";
                     PotentialNewPoll.UserVotedYes = true;
+
+                //Original
+                PotentialNewPoll.TotalPollVotes = "1";
+                PotentialNewPoll.PlaylistFollowerCount = "5";
+
+                //Case where totalpollvotes is higher than follower count.
+                //PotentialNewPoll.TotalPollVotes = "2";
+                //PotentialNewPoll.PlaylistFollowerCount = "3";
+
 
                 return PotentialNewPoll;
                     

@@ -320,14 +320,28 @@ function getPollFormValues() {
 
 function displayNewPoll(data) {
 
-    console.log("Displaying new poll info:")
+    console.log("Displaying NEW POLL info:")
     console.log(`Track info: \n --artist: ${data["trackArtist"]} \n --name: ${data["trackTitle"]} \n --duration: ${data["trackDuration"]}`);
     console.log(`'Yes' option ID: ${data["yesOptionID"]}`);
     console.log(`'No' option ID: ${data["noOptionID"]}`);
     console.log(`Total votes: ${data["totalPollVotes"]}`);
 
     clearAbilityToStartAPoll();
-    displayPolledTrackInfoForVotedUser(data);
+
+    let totalPollVotes = data["totalPollVotes"];
+    let playlistFolowerCount = data["playlistFollowerCount"];
+    console.log("TotalPollVotes: " + totalPollVotes);
+    console.log("PlaylistFollowercount: " + playlistFolowerCount);
+
+    //NEEDS TESTING when it must go immediataly to results.
+    if (Number(totalPollVotes) < Number(playlistFolowerCount)) {
+        displayPolledTrackInfoForVotedUser(data);
+    }
+    else { //Make sure that the test values in the api controller can handle the end result.
+        console.log("Poll not possible. Playlist follower count too low.");
+        displayPollResults(data);
+    }
+   
 }
 
 function clearAbilityToStartAPoll() {
@@ -468,23 +482,10 @@ function displayResultOfCastVote(data) {
     let noVotes = data["noVotes"];
     let userVotedYes = data["userVotedYes"]
 
-    //Make sure to CLEAR/REMOVE ALL forms.
-
     if (Number(playlistFollowerCount) <= totalVotes) {  //Poll has ended.
 
-        console.log("----------------END of poll---------------------------");
-        let pollEndedNotification;
-        if (yesVotes > noVotes) { //Majority voted "yes". Add the track to the playlist.
-            pollEndedNotification = `<h3> Voting ended. "${trackTitle}" has been added to the playlist.</h3>`;
-        }
-        else { //Majority voted "no".
-            pollEndedNotification = `
-            <div>
-                <h3>Voting ended. Majority have voted not to add "${trackTitle}" to the playlist".</h3>
-            </div>`;
-        }
-        $("#polls-header").append(pollEndedNotification);
-
+         //NEEDS TESTING.
+        displayPollResults(data);
     }
     else { //Poll should continue.
         if (userVotedYes == true || userVotedYes == false) { //This user already voted.
@@ -611,4 +612,25 @@ function displayPolledTrackInfoForVotedUser(data) {
     $("#remove-vote-btn").submit(function (event) {
         event.preventDefault();
     })
+}
+
+
+function displayPollResults(data) {
+
+    console.log("----------------END of poll---------------------------");
+    let yesVotes = data["yesVotes"];
+    let noVotes = data["noVotes"];
+    let trackTitle = data["trackTitle"];
+
+    let pollEndedNotification = "<h3>ERROR_DISPLAYING_POLL_RESULTS</h3>";
+    if (yesVotes > noVotes) { //Majority voted "yes". Add the track to the playlist.
+        pollEndedNotification = `<h3> Voting ended. "${trackTitle}" has been added to the playlist.</h3>`;
+    }
+    else { //Majority voted "no".
+        pollEndedNotification = `
+            <div>
+                <h3>Voting ended. Majority have voted not to add "${trackTitle}" to the playlist".</h3>
+            </div>`;
+    }
+    $("#polls-header").append(pollEndedNotification);
 }
