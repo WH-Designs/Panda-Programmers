@@ -32,18 +32,13 @@ namespace MusicCollaborationManager.Controllers
             _playlistPollRepository = playlistPollRepository;
         }
 
-        //[HttpGet("checkcuruservote")]
-        //public async Task<string?> CheckCurUserVote() 
-        //{
 
-        //}
-
-        [HttpGet("checkifpollexists")]
-        public async Task<GeneralPollInfoDTO> CheckIfPollExists([Bind("CurUserOnReady,PlaylistIdOnReady")] CheckPollExistanceDTO potentialPoll) 
+        [HttpGet("checkifpollexists/{username}/{playlistid}")]
+        public async Task<GeneralPollInfoDTO> CheckIfPollExists(string username, string playlistid) 
         {
             GeneralPollInfoDTO PotentialNewPoll = new GeneralPollInfoDTO();
 
-                Poll? NewPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(potentialPoll.PlaylistIdOnReady);
+                Poll? NewPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(playlistid);
             
             if (NewPoll == null)
             {
@@ -53,21 +48,22 @@ namespace MusicCollaborationManager.Controllers
 
 
                 //Debugging (below)------------
-                PotentialNewPoll.TrackArtist = potentialPoll.PlaylistIdOnReady + "_PlaylistID";
-                PotentialNewPoll.TrackTitle = "TrackID" + potentialPoll.PlaylistIdOnReady + "___Created_by_'createpoll'";
+                PotentialNewPoll.TrackArtist = playlistid + "_PlaylistID";
+                PotentialNewPoll.TrackTitle = "TrackID_" + username + "___Created_by_'checkifpollexists'";
                 PotentialNewPoll.TrackDuration = "4 MIN";
                 PotentialNewPoll.YesOptionID = "#1234_YES";
                 PotentialNewPoll.NoOptionID = "#5678_NO";
-                PotentialNewPoll.TotalPollVotes = "4";
-                PotentialNewPoll.PlaylistFollowerCount = "EMPTY_ON_PURPOSE";
-
+                PotentialNewPoll.TotalPollVotes = "MADEUP_3";
+                PotentialNewPoll.PlaylistFollowerCount = "MADEUP_4";
+                PotentialNewPoll.UserVotedYes = true;
+                //PotentialNewPoll.UserVotedYes = false;
                
                 return PotentialNewPoll;
             }
             else
             {
-                PotentialNewPoll.TrackArtist = potentialPoll.PlaylistIdOnReady + "_PlaylistID";
-                PotentialNewPoll.TrackTitle = "TrackID" + potentialPoll.PlaylistIdOnReady + "___Created_by_'createpoll'";
+                PotentialNewPoll.TrackArtist = playlistid + "_PlaylistID";
+                PotentialNewPoll.TrackTitle = "TrackID_" + username + "___Created_by_'checkifpollexists'";
                 PotentialNewPoll.TrackDuration = "4 MIN";
                 PotentialNewPoll.YesOptionID = "#1234_YES";
                 PotentialNewPoll.NoOptionID = "#5678_NO";
@@ -100,8 +96,8 @@ namespace MusicCollaborationManager.Controllers
                     PotentialNewPoll.TrackDuration = "4 MIN";
                     PotentialNewPoll.YesOptionID = "#1234_YES";
                     PotentialNewPoll.NoOptionID = "#5678_NO";
-                    PotentialNewPoll.TotalPollVotes = "4";
-                    PotentialNewPoll.PlaylistFollowerCount = "EMPTY_ON_PURPOSE";
+                    PotentialNewPoll.TotalPollVotes = "1";
+                    PotentialNewPoll.PlaylistFollowerCount = "#?";
 
                 return PotentialNewPoll;
                     
@@ -224,7 +220,7 @@ namespace MusicCollaborationManager.Controllers
         [HttpPost("createvote")]
         public async Task<GeneralPollInfoDTO> CreateVoteOnExistingPoll([Bind("CreateVotePlaylistId, CreateVoteUsername, CreateVoteOptionId")] SubmitVoteDTO userVote)
         {
-            int numFollowersServerSide = 5; //Just pretending this is the actual follower count from spotify's end.
+            int numFollowersServerSide = 4; //Just pretending this is the actual follower count from spotify's end.
 
             GeneralPollInfoDTO ExistingPoll = new GeneralPollInfoDTO();
 
@@ -246,7 +242,7 @@ namespace MusicCollaborationManager.Controllers
             }
             else
             {
-                ExistingPoll.UserVotedYes = false;
+                ExistingPoll.UserVotedYes = null; //"False" displays correct value. "True" display correct value. "null" display the correct value.
                 ExistingPoll.TrackArtist = "PlaylistID: " + userVote.CreateVotePlaylistId;
                 ExistingPoll.TrackTitle = "PRACTICE TRACK #100___Created_by_'removevote'";
                 ExistingPoll.TrackDuration = "CUR_USER_IS: " + userVote.CreateVoteUsername;

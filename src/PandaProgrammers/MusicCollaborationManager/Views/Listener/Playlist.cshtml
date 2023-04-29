@@ -127,9 +127,7 @@
                 </table>
             </div>
         </div>
-        <span id="mcm-username" class="hidden">@Model.MCMUsername</span>
-        <span id="general-playlist-id" class="hidden">@Model.PlaylistContents.PlaylistId</span>
-        <span id="num-playlist-followers" class="hidden">@Model.NumPlaylistFollowers</span>
+
      
         <form id="start-poll-form">
             <input type="text" id="spotify-playlist-id-input" name="NewPollPlaylistId" value="@Model.PlaylistContents.PlaylistId" />
@@ -137,6 +135,14 @@
         </form>
             }
         }
+        <span id="mcm-username" class="hidden">@Model.MCMUsername</span>
+        <span id="general-playlist-id" class="hidden">@Model.PlaylistContents.PlaylistId</span>
+        <span id="num-playlist-followers" class="hidden">@Model.NumPlaylistFollowers</span>
+        <form id="check-if-poll-exists-form" class="hidden">
+            <input type="text" name="CurUserOnReady" id="on-ready-username-input" value="@Model.MCMUsername"/>
+            <input type="text" name="PlaylistIdOnReady" id="on-ready-playlist-id-input" value="@Model.PlaylistContents.PlaylistId"/>
+            <button type="button"></button>
+        </form>
     </div>
     <div class="flex flex-col">
         <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-2 mb-4 overflow-hidden">

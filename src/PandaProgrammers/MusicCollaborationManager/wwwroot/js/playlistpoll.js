@@ -1,4 +1,4 @@
-﻿$(function () { 
+﻿$(function () {
     //Include an automatic ajax request when the page is loaded. The values to submit should be:
     //-username of current user
     //-the spotify playlist ID of the current playlist
@@ -13,29 +13,50 @@
         $(`#search-headers`).text("");
 
 
-            let search = getSearchQuery();
-            console.log("Search: " + JSON.stringify(search));
-            if (search.status) {
-                $.ajax({
-                    method: "POST",
-                    url: "/api/spotifyauth/search",
-                    dataType: "json",
-                    contentType: "application/json; charset=UTF-8",
-                    data: JSON.stringify(search),
-                    success: displaySearchResults,
-                    error: errorOnAjax
-                });
-            }
-            else {
-                console.log("Error on search status: " + search.status);
-            }
-        
+        let search = getSearchQuery();
+        console.log("Search: " + JSON.stringify(search));
+        if (search.status) {
+            $.ajax({
+                method: "POST",
+                url: "/api/spotifyauth/search",
+                dataType: "json",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(search),
+                success: displaySearchResults,
+                error: errorOnAjax
+            });
+        }
+        else {
+            console.log("Error on search status: " + search.status);
+        }
+
     })
+
+    ////NEEDS TESTING
+    //if (values.status) {
+    //    $.ajax({
+    //        type: "GET",
+    //        dataType: "json",
+    //        url: "api/PlaylistPolls/",
+    //        success: displayPreExistingPollInfo,
+    //        error: errorOnAjax
+    //    });
+    //} else {
+    //    console.log("GET Status: failed");
+    //}
 });
 
 function errorOnAjax(data) {
     console.log("ERROR in ajax request: " + data.status + " " + data.statusText);
 }
+
+//function displayPreExistingPollInfo(data) {
+
+//    let userVoteDecision = data["userVotedYes"];
+
+
+//    console.log("-----------Displaying pre-existing poll---------------");
+//}
 
 
 
@@ -128,9 +149,9 @@ function displaySearchResults(data) {
                             let trackUri = item[index]["uri"];
                             let trackId = item[index]["id"]
                             let ownerDisplayName = "";
-                         /*   console.log("Index " + index);*/
-/*                            console.log("The URI for the track" + itemName + "is :" + trackUri);*/
-                /*            console.log("The ID for the track" + itemName + "is :" + trackId);*/
+                            /*   console.log("Index " + index);*/
+                            /*                            console.log("The URI for the track" + itemName + "is :" + trackUri);*/
+                            /*            console.log("The ID for the track" + itemName + "is :" + trackId);*/
 
                             if (itemReleaseDate == undefined) {
                                 itemReleaseDate = "";
@@ -251,7 +272,7 @@ $("#transition-to-search-track-btn").click(function () {
 });
 
 
-$('body').on('click', '.specific-track-to-poll', function() {
+$('body').on('click', '.specific-track-to-poll', function () {
 
     console.log("Track has been selected for poll.");
     let trackSelectedSpotifyId = $(this).attr('id');
@@ -273,13 +294,13 @@ $('body').on('click', '.specific-track-to-poll', function() {
             dataType: "json",
             contentType: "application/json; charset=UTF-8",
             data: JSON.stringify(values),
-            success: displayNewPoll, 
+            success: displayNewPoll,
             error: errorOnAjax
         });
     } else {
-               console.log("POST Status: failed");
+        console.log("POST Status: failed");
     }
-/*    let trackToPoll = $(`#${formToSubmitIndex}`)*/
+    /*    let trackToPoll = $(`#${formToSubmitIndex}`)*/
 
     //NOTE: You made the form ID like this: id="track-to-poll-${index}-form"
     //let formToSubmitID = `#track-to-poll-${formToSubmitIndex}-form`
@@ -338,7 +359,7 @@ function displayNewPoll(data) {
     }
 
     let curplaylistID = $("#general-playlist-id").text();
- 
+
 
     let polledTrackInfo = `
         <div class="flex flex-col polling-info-container" id="remove-vote-container">
@@ -386,9 +407,9 @@ function getRemoveVoteFormValues() {
     }
 }
 
-//NEEDS TESTING 
+//NEEDS TESTING (again)
 function displayVoteOptionsForRemovedVote(data) {
-    console.log("Vote removed");
+    console.log("Vote removed (altered functions)");
 
     $(".polling-info-container").empty();
     $(".polling-info-container").remove();
@@ -401,58 +422,8 @@ function displayVoteOptionsForRemovedVote(data) {
     console.log(`Total votes: ${data["totalPollVotes"]}`);
     console.log(`Playlist follower count: ${data["playlistFollowerCount"]}`);
 
+    displayPolledTrackInfoWithDecisions(data);
 
-    let trackDuration = data["trackDuration"];
-    let trackTitle = data["trackTitle"];
-    let trackArtist = data["trackArtist"]
-
-
-    let YesVoteOptionId = data["trackArtist"];
-    let NoVoteOptionId = data["trackTitle"];
-
-    let curPlaylistId = $("#general-playlist-id").text();
-    let curUser = $("#mcm-username").text();
-    let playlistFollowercount = data["playlistFollowerCount"];
-    console.log("playlistFollowerCount: " + playlistFollowercount);
-
-
-    let polledTrackInfoWithDecisions = `
-        <div class="flex flex-col polling-info-container">
-            <div>
-                <span id="num-poll-track-votes">${1}</span>
-                out of
-                <span id="total-playlist-followers">${playlistFollowercount}</span>
-                votes
-            </div>
-            <div>Add track to playlist?</div>
-            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-artist">Artist: ${trackArtist}</span>
-            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-name">Track: ${trackTitle}</span>
-            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">Duration: ${trackDuration}</span>
-            <div class="flex flex-row">
-                <form id="create-vote-on-existing-poll-form">
-                     <input type="text" class="hidden" id="create-vote-playlist-id-input" name="CreateVotePlaylistId" value="${curPlaylistId}"/>
-
-                     <label for="create-vote-yes-option-id">Yes</label>
-                     <input type="radio" id="create-vote-yes-option-id" name="CreateVoteOptionId" value="${YesVoteOptionId}">
-
-                     <label for="create-vote-no-option-id">No</label>
-                     <input type="radio" id="create-vote-no-option-id" name="CreateVoteOptionId" value="${NoVoteOptionId}" checked>
-
-                     <input type="text" id="create-vote-username-input" name="CreateVoteUsername" value="${curUser}" class="hidden"/>
-                    <button type="button" class="text-textback classicpanda:text-whitetext
-                        autumn:text-white
-                        revolution:text-white hover:contrast-50" id="create-vote-btn">Submit Vote</button>
-                </form>
-            </div>
-        </div>
-    `;
-
-    //let polledTrackInfoWithDecisions = `<h3>TESTING<h3>`;
-    //console.log("NOW DISPLAYING VOTING OPTIONS");
-    $("#create-vote-btn").submit(function (event) {
-        event.preventDefault();
-    })
-    $("#polls-header").append(polledTrackInfoWithDecisions);
 }
 
 $('body').on('click', '#remove-vote-btn', function () {
@@ -523,6 +494,7 @@ function getSubmitVoteFormValues() {
 }
 
 //IMPORTANT: The voting process could continue OR END at this stage!
+//MISSING the scenario to display (or omit the notification of) in the case that the user did not vote.
 function displayResultOfCastVote(data) {
 
     $(".polling-info-container").empty();
@@ -543,21 +515,11 @@ function displayResultOfCastVote(data) {
     let playlistFollowerCount = data["playlistFollowerCount"];
     let yesVotes = data["yesVotes"];
     let noVotes = data["noVotes"];
-
-    let userDecisionAsText = "UNKNOWN_USER_DECISION";
-    let userVotedYes = data["userVotedYes"];
-    if (userVotedYes == true) {
-        console.log("User want the track on the playlist");
-        userDecisionAsText = "Yes";
-    }
-    else {
-        console.log("User does NOT want the track on the playlist");
-        userDecisionAsText = "No";
-    }
+    let userVotedYes = data["userVotedYes"]
 
     //Make sure to CLEAR/REMOVE ALL forms.
 
-    if (playlistFollowerCount <= totalVotes) {  //Poll has ended.
+    if (Number(playlistFollowerCount) <= totalVotes) {  //Poll has ended.
 
         console.log("----------------END of poll---------------------------");
         let pollEndedNotification;
@@ -574,19 +536,105 @@ function displayResultOfCastVote(data) {
 
     }
     else { //Poll should continue.
+        if (userVotedYes == true || userVotedYes == false) { //This user already voted.
+            displayPolledTrackInfoForVotedUser(data);
+        }
+        else { //This user has NOT voted. (Note: Just realized this will NEVER happen after a user has CAST THEIR VOTE. Will leave it as a sort of alt "catch" statement)
+            displayPolledTrackInfoWithDecisions(data);
+        }
+        
+    }
 
-        let trackDuration = data["trackDuration"];
-        let trackArtist = data["trackArtist"];
+}
 
-        let curUser = $("#mcm-username").text();
-
-
-        console.log("playlistFollowerCount: " + playlistFollowerCount);
-
-        let curplaylistID = $("#general-playlist-id").text();
+//Displays for all possible polling scenarios (below)----------------------------
 
 
-        let polledTrackInfo = `
+function displayPolledTrackInfoWithDecisions(data) {
+
+    let trackDuration = data["trackDuration"];
+    let trackTitle = data["trackTitle"];
+    let trackArtist = data["trackArtist"]
+
+    let totalVotes = data["totalPollVotes"];
+    let YesVoteOptionId = data["trackArtist"];
+    let NoVoteOptionId = data["trackTitle"];
+
+    let curPlaylistId = $("#general-playlist-id").text();
+    let curUser = $("#mcm-username").text();
+    let playlistFollowercount = data["playlistFollowerCount"];
+    console.log("playlistFollowerCount: " + playlistFollowercount);
+
+
+    let polledTrackInfoWithDecisions = `
+        <div class="flex flex-col polling-info-container">
+            <div>
+                <span id="num-poll-track-votes">${totalVotes}</span>
+                out of
+                <span id="total-playlist-followers">${playlistFollowercount}</span>
+                votes
+            </div>
+            <div>Add track to playlist?</div>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-artist">Artist: ${trackArtist}</span>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-name">Track: ${trackTitle}</span>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">Duration: ${trackDuration}</span>
+            <div class="flex flex-row">
+                <form id="create-vote-on-existing-poll-form">
+                     <input type="text" class="hidden" id="create-vote-playlist-id-input" name="CreateVotePlaylistId" value="${curPlaylistId}"/>
+
+                     <label for="create-vote-yes-option-id">Yes</label>
+                     <input type="radio" id="create-vote-yes-option-id" name="CreateVoteOptionId" value="${YesVoteOptionId}">
+
+                     <label for="create-vote-no-option-id">No</label>
+                     <input type="radio" id="create-vote-no-option-id" name="CreateVoteOptionId" value="${NoVoteOptionId}" checked>
+
+                     <input type="text" id="create-vote-username-input" name="CreateVoteUsername" value="${curUser}" class="hidden"/>
+                    <button type="button" class="text-textback classicpanda:text-whitetext
+                        autumn:text-white
+                        revolution:text-white hover:contrast-50" id="create-vote-btn">Submit Vote</button>
+                </form>
+            </div>
+        </div>
+    `;
+
+    //let polledTrackInfoWithDecisions = `<h3>TESTING<h3>`;
+    //console.log("NOW DISPLAYING VOTING OPTIONS");
+    $("#create-vote-btn").submit(function (event) {
+        event.preventDefault();
+    })
+    $("#polls-header").append(polledTrackInfoWithDecisions);
+}
+
+
+//Should be fine, but need to remove all other values from their parent function (or there could be conflicts).
+function displayPolledTrackInfoForVotedUser(data) {
+
+    let totalVotes = data["totalPollVotes"];
+    let trackTitle = data["trackTitle"];
+    let playlistFollowerCount = data["playlistFollowerCount"];
+
+    let trackDuration = data["trackDuration"];
+    let trackArtist = data["trackArtist"];
+
+    let curUser = $("#mcm-username").text();
+    let curplaylistID = $("#general-playlist-id").text();
+
+    let userDecisionAsText = "UNKNOWN_USER_DECISION"; //Just a placeholder value. An actual "yes" or "no will ALWAYS exist here.
+    let userVotedYes = data["userVotedYes"];
+    if (userVotedYes == true) {
+        console.log("User want the track on the playlist");
+        userDecisionAsText = "Yes";
+    }
+    else if (userVotedYes == false) {
+        console.log("User does NOT want the track on the playlist");
+        userDecisionAsText = "No";
+    }
+    else {
+        console.log("User has NOT cast their vote.");
+    }
+  
+
+    let allowVoteRemovalpolledTrackInfo = `
         <div class="flex flex-col polling-info-container" id="remove-vote-container">
             <div>
                 <span id="num-poll-track-votes">${totalVotes}</span>
@@ -609,10 +657,12 @@ function displayResultOfCastVote(data) {
             </div>
         </div>
     `;
-        $("#polls-header").append(polledTrackInfo);
-        $("#remove-vote-btn").submit(function (event) {
-            event.preventDefault();
-        })
-    }
+    $("#polls-header").append(allowVoteRemovalpolledTrackInfo);
+    $("#remove-vote-btn").submit(function (event) {
+        event.preventDefault();
+    })
+}
+
+function displayPolledTrackEndResults(data) {
 
 }
