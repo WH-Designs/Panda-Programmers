@@ -341,9 +341,8 @@ function displayNewPoll(data) {
  
 
     let polledTrackInfo = `
-        <div class="flex flex-col" id="remove-vote-container">
+        <div class="flex flex-col polling-info-container" id="remove-vote-container">
             <div>
-            ALLOW REMOVING VOTE (HERE)
                 <span id="num-poll-track-votes">${1}</span>
                 out of
                 <span id="total-playlist-followers">${playlistFollowercount}</span>
@@ -364,31 +363,12 @@ function displayNewPoll(data) {
             </div>
         </div>
     `;
-     $("#polls-header").append(polledTrackInfo);
+    $("#polls-header").append(polledTrackInfo);
+    $("#remove-vote-btn").submit(function (event) {
+        event.preventDefault();
+    })
 
 }
-
-//Ajax part needs testing!
-$('body').on('click', '#remove-vote-btn', function () {
-    console.log("Vote removed");
-
-    const values = getRemoveVoteFormValues();
-    console.log("Playlist ID (from 'removevote' form): " + values.spotifyplaylistid);
-    console.log("Track ID (from 'removevote' form) :" + values.tracktopolluri);
-    if (values.status) {
-        $.ajax({
-            method: "POST",
-            url: "/api/PlaylistPolls/removevote",
-            dataType: "json",
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(values),
-            success: displayVoteOptionsForRemovedVote,
-            error: errorOnAjax
-        });
-    } else {
-        console.log("POST Status: failed");
-    }
-});
 
 
 function getRemoveVoteFormValues() {
@@ -409,8 +389,9 @@ function getRemoveVoteFormValues() {
 //NEEDS TESTING 
 function displayVoteOptionsForRemovedVote(data) {
     console.log("Vote removed");
-    $("#remove-vote-container").empty();
-    $("#remove-vote-container").remove();
+
+    $(".polling-info-container").empty();
+    $(".polling-info-container").remove();
 
 
     console.log("Displaying VOTE OPTIONS info:")
@@ -418,15 +399,8 @@ function displayVoteOptionsForRemovedVote(data) {
     console.log(`'Yes' option ID: ${data["yesOptionID"]}`);
     console.log(`'No' option ID: ${data["noOptionID"]}`);
     console.log(`Total votes: ${data["totalPollVotes"]}`);
-    console.log(`Track duration: ${data["playlistFollowerCount"]}`);
-    /*
-     "trackArtist": "string",
-  "trackTitle": "string",
-  "trackDuration": "string",
-  "yesOptionID": "string",
-  "noOptionID": "string",
-  "totalPollVotes": "string"
-    */
+    console.log(`Playlist follower count: ${data["playlistFollowerCount"]}`);
+
 
     let trackDuration = data["trackDuration"];
     let trackTitle = data["trackTitle"];
@@ -442,30 +416,203 @@ function displayVoteOptionsForRemovedVote(data) {
     console.log("playlistFollowerCount: " + playlistFollowercount);
 
 
-    let polledTrackInfo = `
-        <div class="flex flex-col">
+    let polledTrackInfoWithDecisions = `
+        <div class="flex flex-col polling-info-container">
             <div>
                 <span id="num-poll-track-votes">${1}</span>
                 out of
                 <span id="total-playlist-followers">${playlistFollowercount}</span>
                 votes
             </div>
+            <div>Add track to playlist?</div>
             <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-artist">Artist: ${trackArtist}</span>
             <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-name">Track: ${trackTitle}</span>
             <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">Duration: ${trackDuration}</span>
             <div class="flex flex-row">
                 <form id="create-vote-on-existing-poll-form">
-                     <input type="text" id="create-vote-playlist-id-input" value="${curPlaylistId}"/>
+                     <input type="text" class="hidden" id="create-vote-playlist-id-input" name="CreateVotePlaylistId" value="${curPlaylistId}"/>
+
+                     <label for="create-vote-yes-option-id">Yes</label>
                      <input type="radio" id="create-vote-yes-option-id" name="CreateVoteOptionId" value="${YesVoteOptionId}">
-                     <input type="radio" id="create-vote-no-option-id" name="CreateVoteOptionId" value="${NoVoteOptionId}">
-                    
-                     <input type="text" id="create-vote-username-input" name="CreateVoteUsername" value="${curUser}"/>
+
+                     <label for="create-vote-no-option-id">No</label>
+                     <input type="radio" id="create-vote-no-option-id" name="CreateVoteOptionId" value="${NoVoteOptionId}" checked>
+
+                     <input type="text" id="create-vote-username-input" name="CreateVoteUsername" value="${curUser}" class="hidden"/>
                     <button type="button" class="text-textback classicpanda:text-whitetext
                         autumn:text-white
                         revolution:text-white hover:contrast-50" id="create-vote-btn">Submit Vote</button>
+                </form>
+            </div>
+        </div>
+    `;
+
+    //let polledTrackInfoWithDecisions = `<h3>TESTING<h3>`;
+    //console.log("NOW DISPLAYING VOTING OPTIONS");
+    $("#create-vote-btn").submit(function (event) {
+        event.preventDefault();
+    })
+    $("#polls-header").append(polledTrackInfoWithDecisions);
+}
+
+$('body').on('click', '#remove-vote-btn', function () {
+    console.log("Vote removed");
+
+    const values = getRemoveVoteFormValues();
+    console.log("Playlist ID (from 'removevote' form): " + values.spotifyplaylistid);
+    console.log("Track ID (from 'removevote' form) :" + values.tracktopolluri);
+    if (values.status) {
+        $.ajax({
+            method: "POST",
+            url: "/api/PlaylistPolls/removevote",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(values),
+            success: displayVoteOptionsForRemovedVote,
+            error: errorOnAjax
+        });
+    } else {
+        console.log("POST Status: failed (for removing a vote)");
+    }
+});
+
+
+$('body').on('click', '#create-vote-btn', function () {
+    console.log("Vote create (for existing poll)");
+
+    const values = getSubmitVoteFormValues();
+    console.log("Playlist ID (from 'create vote' form): " + values.spotifyplaylistid);
+    console.log("Track ID (from 'create vote' form) :" + values.tracktopolluri);
+    console.log("User decision: " + values.createvoteoptionid);
+    if (values.status) {
+        $.ajax({
+            method: "POST",
+            url: "/api/PlaylistPolls/createvote",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(values),
+            success: displayResultOfCastVote,
+            error: errorOnAjax
+        });
+    } else {
+        console.log("POST Status: failed (for creating a VOTE)");
+    }
+});
+
+
+
+function getSubmitVoteFormValues() {
+    const createVoteForm = document.getElementById("create-vote-on-existing-poll-form");
+    const curplaylistid = document.getElementById("create-vote-playlist-id-input");
+    const curUsername = document.getElementById("create-vote-username-input");
+
+    //https://stackoverflow.com/questions/596351/how-can-i-know-which-radio-button-is-selected-via-jquery -- Peter J's answer.
+    const userVoteDecision = $('input[name=CreateVoteOptionId]:checked', '#create-vote-on-existing-poll-form').val();
+
+    if (!createVoteForm.checkValidity()) {
+        return { status: false };
+    }
+
+
+    return {
+        createvoteplaylistid: curplaylistid.value,
+        createvoteusername: curUsername.value,
+        createvoteoptionid: userVoteDecision.val,
+        status: true
+    }
+}
+
+//IMPORTANT: The voting process could continue OR END at this stage!
+function displayResultOfCastVote(data) {
+
+    $(".polling-info-container").empty();
+    $(".polling-info-container").remove();
+
+    console.log("----------Displaying results of vote--------------------");
+    console.log("Displaying VOTE OPTIONS info:")
+    console.log(`Track info: \n --artist: ${data["trackArtist"]} \n --name: ${data["trackTitle"]} \n --duration: ${data["trackDuration"]}`);
+    console.log(`'Yes' option ID: ${data["yesOptionID"]}`);
+    console.log(`'No' option ID: ${data["noOptionID"]}`);
+    console.log(`Total votes: ${data["totalPollVotes"]}`);
+    console.log(`Playlist follower count: ${data["playlistFollowerCount"]}`);
+
+
+
+    let totalVotes = data["totalPollVotes"];
+    let trackTitle = data["trackTitle"];
+    let playlistFollowerCount = data["playlistFollowerCount"];
+    let yesVotes = data["yesVotes"];
+    let noVotes = data["noVotes"];
+
+    let userDecisionAsText = "UNKNOWN_USER_DECISION";
+    let userVotedYes = data["userVotedYes"];
+    if (userVotedYes == true) {
+        console.log("User want the track on the playlist");
+        userDecisionAsText = "Yes";
+    }
+    else {
+        console.log("User does NOT want the track on the playlist");
+        userDecisionAsText = "No";
+    }
+
+    //Make sure to CLEAR/REMOVE ALL forms.
+
+    if (playlistFollowerCount <= totalVotes) {  //Poll has ended.
+
+        console.log("----------------END of poll---------------------------");
+        let pollEndedNotification;
+        if (yesVotes > noVotes) { //Majority voted "yes". Add the track to the playlist.
+            pollEndedNotification = `<h3> Voting session ended. "${trackTitle}" has been added to the playlist.</h3>`;
+        }
+        else { //Majority voted "no".
+            pollEndedNotification = `
+            <div>
+                <h3>Voting session ended. Majority have voted not to add "${trackTitle}"".</h3>
+            </div>`;
+        }
+        $("#polls-header").append(pollEndedNotification);
+
+    }
+    else { //Poll should continue.
+
+        let trackDuration = data["trackDuration"];
+        let trackArtist = data["trackArtist"];
+
+        let curUser = $("#mcm-username").text();
+
+
+        console.log("playlistFollowerCount: " + playlistFollowerCount);
+
+        let curplaylistID = $("#general-playlist-id").text();
+
+
+        let polledTrackInfo = `
+        <div class="flex flex-col polling-info-container" id="remove-vote-container">
+            <div>
+                <span id="num-poll-track-votes">${totalVotes}</span>
+                out of
+                <span id="total-playlist-followers">${playlistFollowerCount}</span>
+                votes
+            </div>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-artist">Artist: ${trackArtist}</span>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-name">Track: ${trackTitle}</span>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">Duration: ${trackDuration}</span>
+            <div class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">You voted: ${userDecisionAsText}</div>
+            <div class="flex flex-row">
+                <form id="remove-vote-form">
+                    <input type="text" name="RemoveVotePlaylistID" id="remove-vote-playlist-id-input" value="${curplaylistID}">
+                    <input type="text" name="RemoveVoteUsername" id="remove-vote-username-input" value="${curUser}"/>
+                    <button type="button" class="text-textback classicpanda:text-whitetext
+                        autumn:text-white
+                        revolution:text-white hover:contrast-50" id="remove-vote-btn">Remove vote</button>
                 </form>         
             </div>
         </div>
     `;
-    $("#polls-header").append(polledTrackInfo);
+        $("#polls-header").append(polledTrackInfo);
+        $("#remove-vote-btn").submit(function (event) {
+            event.preventDefault();
+        })
+    }
+
 }
