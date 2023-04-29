@@ -329,6 +329,8 @@ function displayNewPoll(data) {
     let trackArtist = data["trackArtist"]
 
     let curUser = $("#mcm-username").text();
+
+    //We're going off the ViewModel for the follower count here. Do NOT use the one that came from the DTO (it's empty on purpose).
     let playlistFollowercount = $("#num-playlist-followers").text();
     console.log("playlistFollowerCount: " + playlistFollowercount);
     if (playlistFollowercount == "0") {
@@ -339,8 +341,9 @@ function displayNewPoll(data) {
  
 
     let polledTrackInfo = `
-        <div class="flex flex-col">
+        <div class="flex flex-col" id="remove-vote-container">
             <div>
+            ALLOW REMOVING VOTE (HERE)
                 <span id="num-poll-track-votes">${1}</span>
                 out of
                 <span id="total-playlist-followers">${playlistFollowercount}</span>
@@ -353,7 +356,7 @@ function displayNewPoll(data) {
             <div class="flex flex-row">
                 <form id="remove-vote-form">
                     <input type="text" name="RemoveVotePlaylistID" id="remove-vote-playlist-id-input" value="${curplaylistID}">
-                    <input type="text" class="hidden" name="RemoveVoteUsername" id="remove-vote-username-input" value="${curUser}"/>
+                    <input type="text" name="RemoveVoteUsername" id="remove-vote-username-input" value="${curUser}"/>
                     <button type="button" class="text-textback classicpanda:text-whitetext
                         autumn:text-white
                         revolution:text-white hover:contrast-50" id="remove-vote-btn">Remove vote</button>
@@ -365,13 +368,13 @@ function displayNewPoll(data) {
 
 }
 
-
+//Ajax part needs testing!
 $('body').on('click', '#remove-vote-btn', function () {
     console.log("Vote removed");
 
     const values = getRemoveVoteFormValues();
-    console.log("Playlist ID (from form): " + values.spotifyplaylistid);
-    console.log("Track ID (from form) :" + values.tracktopolluri);
+    console.log("Playlist ID (from 'removevote' form): " + values.spotifyplaylistid);
+    console.log("Track ID (from 'removevote' form) :" + values.tracktopolluri);
     if (values.status) {
         $.ajax({
             method: "POST",
@@ -398,25 +401,71 @@ function getRemoveVoteFormValues() {
 
     return {
         removevoteplaylistid: curplaylistid.value,
-        userremovingvote: curUsername.value,
+        removevoteusername: curUsername.value,
         status: true
     }
 }
 
-//function displayVoteOptionsForRemovedVote(data) {
-//    console.log("Vote removed");
-//    $("#remove-vote-form").empty();
-//    $("#remove-vote-form").remove();
+//NEEDS TESTING 
+function displayVoteOptionsForRemovedVote(data) {
+    console.log("Vote removed");
+    $("#remove-vote-container").empty();
+    $("#remove-vote-container").remove();
 
-//    /*
-//     "trackArtist": "string",
-//  "trackTitle": "string",
-//  "trackDuration": "string",
-//  "yesOptionID": "string",
-//  "noOptionID": "string",
-//  "totalPollVotes": "string"
-//    */
 
-//    let YesVoteOptionId = data["trackArtist"];
-//    let NoVoteOptionId = data[""]
-//}
+    console.log("Displaying VOTE OPTIONS info:")
+    console.log(`Track info: \n --artist: ${data["trackArtist"]} \n --name: ${data["trackTitle"]} \n --duration: ${data["trackDuration"]}`);
+    console.log(`'Yes' option ID: ${data["yesOptionID"]}`);
+    console.log(`'No' option ID: ${data["noOptionID"]}`);
+    console.log(`Total votes: ${data["totalPollVotes"]}`);
+    console.log(`Track duration: ${data["playlistFollowerCount"]}`);
+    /*
+     "trackArtist": "string",
+  "trackTitle": "string",
+  "trackDuration": "string",
+  "yesOptionID": "string",
+  "noOptionID": "string",
+  "totalPollVotes": "string"
+    */
+
+    let trackDuration = data["trackDuration"];
+    let trackTitle = data["trackTitle"];
+    let trackArtist = data["trackArtist"]
+
+
+    let YesVoteOptionId = data["trackArtist"];
+    let NoVoteOptionId = data["trackTitle"];
+
+    let curPlaylistId = $("#general-playlist-id").text();
+    let curUser = $("#mcm-username").text();
+    let playlistFollowercount = data["playlistFollowerCount"];
+    console.log("playlistFollowerCount: " + playlistFollowercount);
+
+
+    let polledTrackInfo = `
+        <div class="flex flex-col">
+            <div>
+                <span id="num-poll-track-votes">${1}</span>
+                out of
+                <span id="total-playlist-followers">${playlistFollowercount}</span>
+                votes
+            </div>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-artist">Artist: ${trackArtist}</span>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-name">Track: ${trackTitle}</span>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">Duration: ${trackDuration}</span>
+            <div class="flex flex-row">
+                <form id="create-vote-on-existing-poll-form">
+                     <input type="text" id="create-vote-playlist-id-input" value="${curPlaylistId}"/>
+                     <input type="radio" id="create-vote-yes-option-id" name="CreateVoteOptionId" value="${YesVoteOptionId}">
+                     <input type="radio" id="create-vote-no-option-id" name="CreateVoteOptionId" value="${NoVoteOptionId}">
+                    
+                     <input type="text" id="create-vote-username-input" name="CreateVoteUsername" value="${curUser}"/>
+                    <button type="button" class="text-textback classicpanda:text-whitetext
+                        autumn:text-white
+                        revolution:text-white hover:contrast-50" id="create-vote-btn">Submit Vote</button>
+                </form>         
+            </div>
+        </div>
+    `;
+    $("#polls-header").append(polledTrackInfo);
+}

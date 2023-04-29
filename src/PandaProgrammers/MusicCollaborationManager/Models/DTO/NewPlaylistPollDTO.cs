@@ -10,5 +10,6 @@
         public string YesOptionID { get; set; }
         public string NoOptionID { get; set; }
         public string TotalPollVotes { get; set; }
+        public string PlaylistFollowerCount { get; set; }
     }
 }

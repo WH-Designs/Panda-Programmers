@@ -244,8 +244,10 @@ namespace MusicCollaborationManager.Controllers
                 //If "_playlistPollService" does not have the current spotify playlist id in it, ignore the lines below.
                 Poll? PlaylistPollInfo = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(returnPlaylist.PlaylistId);
 
+                string userEmail = _userManager.Users.Single(x => x.Id == aspId).Email;
+                PlaylistView.MCMUsername = userEmail;
                 //Not 'null' indicates a poll is in progress.
-                if(PlaylistPollInfo != null)
+                if (PlaylistPollInfo != null)
                 {
                     PlaylistView.TrackBeingPolled = new VotingTrack();
                     FullTrack TrackDetails = await _spotifyService.GetSpotifyTrackByID(PlaylistPollInfo.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
@@ -260,9 +262,9 @@ namespace MusicCollaborationManager.Controllers
                         PlaylistView.PlaylistVoteOptions = PollOptions;
                     }
                     
-                    string userEmail = _userManager.Users.Single(x => x.Id == aspId).Email;
+                   
                     VoteIdentifierInfoDTO CurUserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(PlaylistPollInfo.PollId, userEmail);
-                    PlaylistView.MCMUsername = userEmail;
+                    
 
                     foreach (OptionInfoDTO voteOption in PollOptions)
                     {

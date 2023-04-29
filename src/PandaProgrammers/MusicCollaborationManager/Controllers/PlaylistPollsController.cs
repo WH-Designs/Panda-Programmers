@@ -54,14 +54,15 @@ namespace MusicCollaborationManager.Controllers
 
 
                     //Debugging (below)------------
-                    PotentialNewPoll.TrackArtist = newPollInput.NewPollPlaylistId;
-                    PotentialNewPoll.TrackTitle = "PRACTICE TRACK #1";
+                    PotentialNewPoll.TrackArtist = newPollInput.NewPollPlaylistId + "_PlaylistID";
+                    PotentialNewPoll.TrackTitle = "TrackID" + newPollInput.NewPollTrackId + "___Created_by_'createpoll'";
                     PotentialNewPoll.TrackDuration = "4 MIN";
                     PotentialNewPoll.YesOptionID = "#1234_YES";
                     PotentialNewPoll.NoOptionID = "#5678_NO";
                     PotentialNewPoll.TotalPollVotes = "4";
+                    PotentialNewPoll.PlaylistFollowerCount = "EMPTY_ON_PURPOSE";
 
-                   return PotentialNewPoll;
+                return PotentialNewPoll;
                     
 
                     //Debugging (Above)-----------
@@ -125,7 +126,7 @@ namespace MusicCollaborationManager.Controllers
         //    }
         // }
 
-        [HttpPost("createvote/{playlistid}/{optionid}/{username}")]
+        [HttpPost("createvote")]
         public async Task<bool?> CreateVoteOnExistingPoll(string playlistid, string optionID, string username)
         {
             bool? trackAddedToPlaylist = false;
@@ -179,15 +180,16 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [HttpPost("removevote")]
-        public async Task<NewPlaylistPollDTO> RemoveVoteOnExistingPoll(string RemoveVotePlaylistID, string RemoveVoteUsername)
+        public async Task<NewPlaylistPollDTO> RemoveVoteOnExistingPoll([Bind("RemoveVotePlaylistID, RemoveVoteUsername")] RemoveVoteDTO removeVoteInput)
         {
             NewPlaylistPollDTO ExistingPoll = new NewPlaylistPollDTO();
-            ExistingPoll.TrackArtist = "Generic artist #55";
-            ExistingPoll.TrackTitle = "PRACTICE TRACK #1";
-            ExistingPoll.TrackDuration = "4 MIN";
+            ExistingPoll.TrackArtist = "PlaylistID: " + removeVoteInput.RemoveVotePlaylistID;
+            ExistingPoll.TrackTitle = "PRACTICE TRACK #100___Created_by_'removevote'";
+            ExistingPoll.TrackDuration = "CUR_USER_IS: " + removeVoteInput.RemoveVoteUsername;
             ExistingPoll.YesOptionID = "#1234_YES";
             ExistingPoll.NoOptionID = "#5678_NO";
             ExistingPoll.TotalPollVotes = "4";
+            ExistingPoll.PlaylistFollowerCount = "EMPTY_ON_PURPOSE";
 
             //bool successfulVoteRemoval = true;
             //try
