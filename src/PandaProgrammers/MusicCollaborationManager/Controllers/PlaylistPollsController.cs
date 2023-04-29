@@ -97,7 +97,8 @@ namespace MusicCollaborationManager.Controllers
                     PotentialNewPoll.YesOptionID = "#1234_YES";
                     PotentialNewPoll.NoOptionID = "#5678_NO";
                     PotentialNewPoll.TotalPollVotes = "1";
-                    PotentialNewPoll.PlaylistFollowerCount = "#?";
+                    PotentialNewPoll.PlaylistFollowerCount = "5";
+                    PotentialNewPoll.UserVotedYes = true;
 
                 return PotentialNewPoll;
                     
@@ -220,7 +221,7 @@ namespace MusicCollaborationManager.Controllers
         [HttpPost("createvote")]
         public async Task<GeneralPollInfoDTO> CreateVoteOnExistingPoll([Bind("CreateVotePlaylistId, CreateVoteUsername, CreateVoteOptionId")] SubmitVoteDTO userVote)
         {
-            int numFollowersServerSide = 4; //Just pretending this is the actual follower count from spotify's end.
+            int numFollowersServerSide = 5; //Just pretending this is the actual follower count from spotify's end.
 
             GeneralPollInfoDTO ExistingPoll = new GeneralPollInfoDTO();
 
@@ -235,14 +236,14 @@ namespace MusicCollaborationManager.Controllers
                 ExistingPoll.NoOptionID = "#5678_NO";
                 ExistingPoll.TotalPollVotes = "5";
                 ExistingPoll.PlaylistFollowerCount = "5";
-                ExistingPoll.YesVotes = 3;
-                ExistingPoll.NoVotes = 2;
+                ExistingPoll.YesVotes = 2;
+                ExistingPoll.NoVotes = 3;
 
                 return ExistingPoll;
             }
             else
             {
-                ExistingPoll.UserVotedYes = null; //"False" displays correct value. "True" display correct value. "null" display the correct value.
+                ExistingPoll.UserVotedYes = false; //"False" displays correct value. "True" display correct value.//"null" display the correct value. "null" is meant for the "checkifpollexists" method. 
                 ExistingPoll.TrackArtist = "PlaylistID: " + userVote.CreateVotePlaylistId;
                 ExistingPoll.TrackTitle = "PRACTICE TRACK #100___Created_by_'removevote'";
                 ExistingPoll.TrackDuration = "CUR_USER_IS: " + userVote.CreateVoteUsername;

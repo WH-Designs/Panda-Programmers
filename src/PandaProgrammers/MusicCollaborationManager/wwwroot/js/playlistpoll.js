@@ -281,9 +281,6 @@ $('body').on('click', '.specific-track-to-poll', function () {
 
     console.log("Track ID: " + trackSelectedSpotifyId);
 
-    //let randUri = ":spotify:track:0whSaAvMslbr9uSEt6pjQy";
-    //console.log(randUri.length);
-
     const values = getPollFormValues();
     console.log("Playlist ID (from form): " + values.spotifyplaylistid);
     console.log("Track ID (from form) :" + values.tracktopolluri);
@@ -300,22 +297,6 @@ $('body').on('click', '.specific-track-to-poll', function () {
     } else {
         console.log("POST Status: failed");
     }
-    /*    let trackToPoll = $(`#${formToSubmitIndex}`)*/
-
-    //NOTE: You made the form ID like this: id="track-to-poll-${index}-form"
-    //let formToSubmitID = `#track-to-poll-${formToSubmitIndex}-form`
-    //console.log("The form that would've been submited: " + formToSubmitID);
-
-
-    //$.ajax({
-    //    method: "POST",
-    //    url: "/api/playlistpolls/startpoll",
-    //    dataType: "json",
-    //    contentType: "application/json; charset=UTF-8",
-    //    data: JSON.stringify(),  //MISSING URI HERE
-    //    success: , //NEED TO CREATE FUNCTION HERE?
-    //    error: errorOnAjax
-    //});
 });
 
 function getPollFormValues() {
@@ -345,50 +326,20 @@ function displayNewPoll(data) {
     console.log(`'No' option ID: ${data["noOptionID"]}`);
     console.log(`Total votes: ${data["totalPollVotes"]}`);
 
-    let trackDuration = data["trackDuration"];
-    let trackTitle = data["trackTitle"];
-    let trackArtist = data["trackArtist"]
+    clearAbilityToStartAPoll();
+    displayPolledTrackInfoForVotedUser(data);
+}
 
-    let curUser = $("#mcm-username").text();
+function clearAbilityToStartAPoll() {
 
-    //We're going off the ViewModel for the follower count here. Do NOT use the one that came from the DTO (it's empty on purpose).
-    let playlistFollowercount = $("#num-playlist-followers").text();
-    console.log("playlistFollowerCount: " + playlistFollowercount);
-    if (playlistFollowercount == "0") {
-        playlistFollowercount = 1;
-    }
+    $("#search-results-container").empty();
+    $("#search-results-container").remove();
 
-    let curplaylistID = $("#general-playlist-id").text();
-
-
-    let polledTrackInfo = `
-        <div class="flex flex-col polling-info-container" id="remove-vote-container">
-            <div>
-                <span id="num-poll-track-votes">${1}</span>
-                out of
-                <span id="total-playlist-followers">${playlistFollowercount}</span>
-                votes
-            </div>
-            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-artist">Artist: ${trackArtist}</span>
-            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-name">Track: ${trackTitle}</span>
-            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">Duration: ${trackDuration}</span>
-            <div class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">You voted: Yes</div>
-            <div class="flex flex-row">
-                <form id="remove-vote-form">
-                    <input type="text" name="RemoveVotePlaylistID" id="remove-vote-playlist-id-input" value="${curplaylistID}">
-                    <input type="text" name="RemoveVoteUsername" id="remove-vote-username-input" value="${curUser}"/>
-                    <button type="button" class="text-textback classicpanda:text-whitetext
-                        autumn:text-white
-                        revolution:text-white hover:contrast-50" id="remove-vote-btn">Remove vote</button>
-                </form>         
-            </div>
-        </div>
-    `;
-    $("#polls-header").append(polledTrackInfo);
-    $("#remove-vote-btn").submit(function (event) {
-        event.preventDefault();
-    })
-
+    $("#transition-to-search-track-btn").remove();
+    $("#spotify-search").remove();
+    $("#search-button").remove();
+    $("#start-poll-form").empty();
+    $("#start-poll-form").remove();
 }
 
 
@@ -524,12 +475,12 @@ function displayResultOfCastVote(data) {
         console.log("----------------END of poll---------------------------");
         let pollEndedNotification;
         if (yesVotes > noVotes) { //Majority voted "yes". Add the track to the playlist.
-            pollEndedNotification = `<h3> Voting session ended. "${trackTitle}" has been added to the playlist.</h3>`;
+            pollEndedNotification = `<h3> Voting ended. "${trackTitle}" has been added to the playlist.</h3>`;
         }
         else { //Majority voted "no".
             pollEndedNotification = `
             <div>
-                <h3>Voting session ended. Majority have voted not to add "${trackTitle}"".</h3>
+                <h3>Voting ended. Majority have voted not to add "${trackTitle}" to the playlist".</h3>
             </div>`;
         }
         $("#polls-header").append(pollEndedNotification);
@@ -597,8 +548,7 @@ function displayPolledTrackInfoWithDecisions(data) {
         </div>
     `;
 
-    //let polledTrackInfoWithDecisions = `<h3>TESTING<h3>`;
-    //console.log("NOW DISPLAYING VOTING OPTIONS");
+
     $("#create-vote-btn").submit(function (event) {
         event.preventDefault();
     })
@@ -644,12 +594,12 @@ function displayPolledTrackInfoForVotedUser(data) {
             </div>
             <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-artist">Artist: ${trackArtist}</span>
             <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-name">Track: ${trackTitle}</span>
-            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">Duration: ${trackDuration}</span>
-            <div class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">You voted: ${userDecisionAsText}</div>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500 hidden" id="track-polled-duration">Duration: ${trackDuration}</span>
+            <div class="text-textback classicpanda:text-whitetext luxury:text-yellow-500 hidden" id="track-polled-duration">You voted: ${userDecisionAsText}</div>
             <div class="flex flex-row">
                 <form id="remove-vote-form">
-                    <input type="text" name="RemoveVotePlaylistID" id="remove-vote-playlist-id-input" value="${curplaylistID}">
-                    <input type="text" name="RemoveVoteUsername" id="remove-vote-username-input" value="${curUser}"/>
+                    <input type="text" name="RemoveVotePlaylistID" id="remove-vote-playlist-id-input" class="hidden" value="${curplaylistID}">
+                    <input type="text" name="RemoveVoteUsername" id="remove-vote-username-input" class="hidden" value="${curUser}"/>
                     <button type="button" class="text-textback classicpanda:text-whitetext
                         autumn:text-white
                         revolution:text-white hover:contrast-50" id="remove-vote-btn">Remove vote</button>
@@ -661,8 +611,4 @@ function displayPolledTrackInfoForVotedUser(data) {
     $("#remove-vote-btn").submit(function (event) {
         event.preventDefault();
     })
-}
-
-function displayPolledTrackEndResults(data) {
-
 }
