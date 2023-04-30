@@ -32,31 +32,93 @@
 
     })
 
-    ////NEEDS TESTING
-    //if (values.status) {
-    //    $.ajax({
-    //        type: "GET",
-    //        dataType: "json",
-    //        url: "api/PlaylistPolls/",
-    //        success: displayPreExistingPollInfo,
-    //        error: errorOnAjax
-    //    });
-    //} else {
-    //    console.log("GET Status: failed");
-    //}
+    let curUser = $("#mcm-username").text();
+    let playlistID = $("#general-playlist-id").text();
+
+    console.log("MCM username (on document ready): " + curUser);
+    console.log("Playlist ID (on ready): " + playlistID);
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `/api/PlaylistPolls/checkifpollexists/${curUser}/${playlistID}`,
+        success: displayPreExistingPollInfo,
+        error: errorOnAjax
+    });
 });
+
+//$(document).ready(function () {
+
+//});
+
+/**
+ * 
+ * 
+    let curUser = $("#mcm-username").text();
+    let playlistID = $("#general-playlist-id").text();
+
+    if (values.status) {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: `api/PlaylistPolls/${curUser}/${playlistID}` ,
+            success: displayPreExistingPollInfo,
+            error: errorOnAjax
+        });
+    } else {
+        console.log("GET Status: failed");
+    }
+ * 
+ */
 
 function errorOnAjax(data) {
     console.log("ERROR in ajax request: " + data.status + " " + data.statusText);
 }
 
-//function displayPreExistingPollInfo(data) {
-
-//    let userVoteDecision = data["userVotedYes"];
+function displayPreExistingPollInfo(data) {
 
 
-//    console.log("-----------Displaying pre-existing poll---------------");
-//}
+    console.log("Checking if a poll exists...")
+ 
+
+    if (data != null && data != undefined) { //A poll exists (probably).
+        console.log("-----------Displaying pre-existing poll---------------");
+        let userVotedYes = data["userVotedYes"];
+        clearAbilityToStartAPoll();
+
+
+
+        if (data["noVotes"] == -1 && data["yesVotes"] == -1) { //Special case of -1 votes. Indicates that a polling session does NOT exist for this playlist.
+
+
+            console.log(`Track info: \n --artist: ${data["trackArtist"]} \n --name: ${data["trackTitle"]} \n --duration: ${data["trackDuration"]}`);
+            console.log(`'Yes' option ID: ${data["yesOptionID"]}`);
+            console.log(`'No' option ID: ${data["noOptionID"]}`);
+            console.log(`Total votes: ${data["totalPollVotes"]}`);
+
+
+            if (userVotedYes == true || userVotedYes == false) { //User has already voted.
+
+                displayPolledTrackInfoForVotedUser(data)
+            }
+            else { //User has not cast a vote.
+                displayPolledTrackInfoWithDecisions(data)
+            }
+        }
+        //Can go a few ways from here:
+        /*
+            -User has voted. 
+            -User has not voted.
+            -Poll may have ended right when the user arrives.
+        */
+    }
+    else {
+        console.log("No polling session exists for this playlist.");
+    }
+    //No need for an "else" statement (nothing to do if a poll does not exist).
+
+    
+}
 
 
 
@@ -595,8 +657,8 @@ function displayPolledTrackInfoForVotedUser(data) {
             </div>
             <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-artist">Artist: ${trackArtist}</span>
             <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-name">Track: ${trackTitle}</span>
-            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500 hidden" id="track-polled-duration">Duration: ${trackDuration}</span>
-            <div class="text-textback classicpanda:text-whitetext luxury:text-yellow-500 hidden" id="track-polled-duration">You voted: ${userDecisionAsText}</div>
+            <span class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">Duration: ${trackDuration}</span>
+            <div class="text-textback classicpanda:text-whitetext luxury:text-yellow-500" id="track-polled-duration">You voted: ${userDecisionAsText}</div>
             <div class="flex flex-row">
                 <form id="remove-vote-form">
                     <input type="text" name="RemoveVotePlaylistID" id="remove-vote-playlist-id-input" class="hidden" value="${curplaylistID}">

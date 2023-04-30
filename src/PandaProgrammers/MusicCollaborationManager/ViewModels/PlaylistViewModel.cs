@@ -12,6 +12,7 @@ namespace MusicCollaborationManager.ViewModels
         public FullPlaylistDTO PlaylistContents = new FullPlaylistDTO();
         public VotingTrack TrackBeingPolled { get; set; } = null; //'null' indicates there is no current poll.
         public string MCMUsername { get; set; }
+        public bool CurPollExists { get; set; }
 
 
     }

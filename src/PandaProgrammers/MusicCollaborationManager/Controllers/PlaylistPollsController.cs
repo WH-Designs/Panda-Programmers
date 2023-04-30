@@ -38,11 +38,10 @@ namespace MusicCollaborationManager.Controllers
         {
             GeneralPollInfoDTO PotentialNewPoll = new GeneralPollInfoDTO();
 
-                Poll? NewPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(playlistid);
+             Poll? NewPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(playlistid);
             
             if (NewPoll == null)
             {
-
                 //string NewPollID = await _pollsService.CreatePollForSpecificPlaylist(playlistId);
                 //string NewPollID = await _pollsService.CreatePollForSpecificPlaylist(newPollInput.PlaylistID);
 
@@ -53,12 +52,17 @@ namespace MusicCollaborationManager.Controllers
                 PotentialNewPoll.TrackDuration = "4 MIN";
                 PotentialNewPoll.YesOptionID = "#1234_YES";
                 PotentialNewPoll.NoOptionID = "#5678_NO";
-                PotentialNewPoll.TotalPollVotes = "MADEUP_3";
-                PotentialNewPoll.PlaylistFollowerCount = "MADEUP_4";
-                PotentialNewPoll.UserVotedYes = true;
+                PotentialNewPoll.TotalPollVotes = "3";
+                PotentialNewPoll.PlaylistFollowerCount = "4";
+                PotentialNewPoll.UserVotedYes = null;
                 //PotentialNewPoll.UserVotedYes = false;
-               
+
+                //Scenario in which a poll does not exist (in the case that "undefined" && "null" don't cut it).
+                PotentialNewPoll.NoVotes = -1;
+                PotentialNewPoll.YesVotes = -1;
+
                 return PotentialNewPoll;
+                //return null;
             }
             else
             {
