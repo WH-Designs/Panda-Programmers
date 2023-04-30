@@ -1,30 +1,34 @@
 ﻿namespace MusicCollaborationManager.Models.DTO
 {
+    //These properties are now listed in the order in which it is safe to retrieve them (using the methods defined below) inthis info from within the API controller
     public class GeneralPollInfoDTO
     {
-        public string YesOptionID { get; set; } // GetPollOptionsInfo -- 
-        public string NoOptionID { get; set; } // GetPollOptionsInfo
-        public string TotalPollVotes { get; set; } // GetPollOptionsInfo
+        //1) GetPollOptionsInfo -- 
+        public string YesOptionID { get; set; }
+        public string NoOptionID { get; set; }
+        public string TotalPollVotes { get; set; }
 
         //Number of people who voted "Yes" Votes & "No"
-        public int YesVotes { get; set; } = 0; // GetPollOptionsInfo
-        public int NoVotes { get; set; } = 0; // GetPollOptionsInfo
+        public int YesVotes { get; set; } = 0;
+        public int NoVotes { get; set; } = 0;
 
         //--------------------------------
 
-        public string TrackArtist { get; set; } //GetPolledTrackInfo
-        public string TrackTitle { get; set; } //GetPolledTrackInfo
-        public string TrackDuration { get; set; } //GetPolledTrackInfo 
+        //2)  //GetPolledTrackInfo
+        public string TrackArtist { get; set; }
+        public string TrackTitle { get; set; }
+        public string TrackDuration { get; set; }
 
 
         //--------------------------------
 
-
-        public string PlaylistFollowerCount { get; set; } //GetPlaylistFollowerCount
+        //3) //GetPlaylistFollowerCount
+        public string PlaylistFollowerCount { get; set; }
 
         //--------------------------------
 
-        public bool? UserVotedYes { get; set; } = null; //GetUserVote
+        //4) GetUserVote
+        public bool? UserVotedYes { get; set; } = null;
 
     }
 }

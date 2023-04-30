@@ -61,9 +61,9 @@ namespace MusicCollaborationManager.Controllers
             infoToAlter.TotalPollVotes = totalPollVotes.ToString();
         }
 
-        public async Task GetPolledTrackInfo(GeneralPollInfoDTO infoToAlter, Poll pollInfo)
+        public async Task GetPolledTrackInfo(GeneralPollInfoDTO infoToAlter, string playlistid)
         {
-            FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(pollInfo.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+            FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(playlistid, SpotifyAuthService.GetTracksClientAsync());
             infoToAlter.TrackArtist = PolledTrack.Id;
             infoToAlter.TrackTitle = PolledTrack.Name;
             infoToAlter.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in MS!
@@ -97,6 +97,8 @@ namespace MusicCollaborationManager.Controllers
             }
         }
 
+        //WARNING: The methods above only cover retrieving info. NONE of them cover ANY type of saving!
+
 
         [HttpGet("checkifpollexists/{username}/{playlistid}")]
         public async Task<GeneralPollInfoDTO> CheckIfPollExists(string username, string playlistid) 
@@ -104,12 +106,11 @@ namespace MusicCollaborationManager.Controllers
              GeneralPollInfoDTO PotentialExistingPoll = new GeneralPollInfoDTO();
              Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(playlistid);
 
-          
             if(ExistingPoll != null) 
             {
                 await GetPollOptionsInfo(PotentialExistingPoll, playlistid);
                 await GetPlaylistFollowerCount(PotentialExistingPoll, playlistid);
-                await GetPolledTrackInfo(PotentialExistingPoll, ExistingPoll);
+                await GetPolledTrackInfo(PotentialExistingPoll, playlistid);
                 await GetUserVote(PotentialExistingPoll, ExistingPoll, username);
 
                 return PotentialExistingPoll;
@@ -125,61 +126,30 @@ namespace MusicCollaborationManager.Controllers
         {
                 GeneralPollInfoDTO PotentialNewPoll = new GeneralPollInfoDTO();
 
-                Poll? NewPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(newPollInput.NewPollPlaylistId);
-                if (NewPoll == null)
+                Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(newPollInput.NewPollPlaylistId);
+                if (ExistingPoll == null) //No poll is in progress. Create one.
                 {
-
-                    //string NewPollID = await _pollsService.CreatePollForSpecificPlaylist(playlistId);
-                    //string NewPollID = await _pollsService.CreatePollForSpecificPlaylist(newPollInput.PlaylistID);
-
-
-                    //Debugging (below)------------
-                    PotentialNewPoll.TrackArtist = newPollInput.NewPollPlaylistId + "_PlaylistID";
-                    PotentialNewPoll.TrackTitle = "TrackID" + newPollInput.NewPollTrackId + "___Created_by_'createpoll'";
-                    PotentialNewPoll.TrackDuration = "4 MIN";
-                    PotentialNewPoll.YesOptionID = "#1234_YES";
-                    PotentialNewPoll.NoOptionID = "#5678_NO";
-                    PotentialNewPoll.UserVotedYes = true;
-
-                //Original
-                PotentialNewPoll.TotalPollVotes = "1";
-                PotentialNewPoll.PlaylistFollowerCount = "5";
-
-                //Case where totalpollvotes is higher than follower count.
-                //PotentialNewPoll.TotalPollVotes = "2";
-                //PotentialNewPoll.PlaylistFollowerCount = "3";
-
-
-                return PotentialNewPoll;
+                    Poll NewPoll = new Poll();
+                    NewPoll.PollId = await _pollsService.CreatePollForSpecificPlaylist(newPollInput.NewPollPlaylistId);
+                    NewPoll.SpotifyPlaylistId = newPollInput.NewPollPlaylistId;
+                    NewPoll.SpotifyTrackUri = newPollInput.NewPollTrackId;
+                    _playlistPollRepository.AddOrUpdate(NewPoll);
                     
+                    //---
+                    await GetPollOptionsInfo(PotentialNewPoll, newPollInput.NewPollPlaylistId);
+                    await GetPolledTrackInfo(PotentialNewPoll, newPollInput.NewPollPlaylistId);
+                    await GetPlaylistFollowerCount(PotentialNewPoll, newPollInput.NewPollPlaylistId);
 
-                    //Debugging (Above)-----------
+                    
+                    /*MISSING USERNAME! (You assumed starting a poll meant the user would cast their vote for the track.)
+                        Need to create inputs for a username in HTML & in "PollCreationDTO". */
+                    //_pollsService.CreateVoteForTrack()
+                    //await GetUserVote(PotentialNewPoll,)
+                   
 
-                    //NewPoll.PollId = NewPollID;
-                    //NewPoll.SpotifyPlaylistId = newPollInput.PlaylistID;
-                    //NewPoll.SpotifyTrackUri = newPollInput.TrackID;
-              
-                    //_playlistPollRepository.AddOrUpdate(NewPoll);
-                    //IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(NewPollID);
 
-                    //FullTrack TrackBeingPolled = await _spotifyService.GetSpotifyTrackByID(newPollInput.TrackID, SpotifyAuthService.GetTracksClientAsync());
-                    //PotentialNewPoll.TrackArtist = TrackBeingPolled.Artists[0].Name;
-                    //PotentialNewPoll.TrackTitle = TrackBeingPolled.Name;
-                    //PotentialNewPoll.TrackDuration = TrackBeingPolled.DurationMs.ToString(); //Convert to minutes later if possible.
-
-                    //foreach(var option in PollOptions) 
-                    //{
-                    //    if(option.OptionText == "Yes") 
-                    //    {
-                    //        PotentialNewPoll.YesOptionID = option.OptionID;
-                    //    }
-                    //    if(option.OptionText == "No") 
-                    //    {
-                    //        PotentialNewPoll.NoOptionID = option.OptionID;
-                    //    }
-                    //    PotentialNewPoll.TotalPollVotes += option.OptionCount;
-                    //}
-                    //return PotentialNewPoll;
+                    return PotentialNewPoll;
+                    
                 }
                 return null;
         }
