@@ -233,6 +233,16 @@ namespace MusicCollaborationManager.Controllers
         public async Task<GeneralPollInfoDTO> CreateVoteOnExistingPoll([Bind("CreateVotePlaylistId, CreateVoteUsername, CreateVoteOptionId")] SubmitVoteDTO userVote)
         {
             int numFollowersServerSide = 5; //Just pretending this is the actual follower count from spotify's end.
+            int YesVote = 2;
+            int NoVote = 2;
+            if (userVote.CreateVoteOptionId == "1234")
+            {
+                YesVote++;
+            }
+            else if(userVote.CreateVoteOptionId == "5678")
+            {
+                NoVote++;
+            }
 
             GeneralPollInfoDTO ExistingPoll = new GeneralPollInfoDTO();
 
@@ -246,9 +256,9 @@ namespace MusicCollaborationManager.Controllers
                 ExistingPoll.YesOptionID = "#1234_YES";
                 ExistingPoll.NoOptionID = "#5678_NO";
                 ExistingPoll.TotalPollVotes = "5";
-                ExistingPoll.PlaylistFollowerCount = "5";
-                ExistingPoll.YesVotes = 2;
-                ExistingPoll.NoVotes = 3;
+                ExistingPoll.PlaylistFollowerCount = userVote.CreateVoteOptionId;
+                ExistingPoll.YesVotes = YesVote;
+                ExistingPoll.NoVotes = NoVote;
 
                 return ExistingPoll;
             }

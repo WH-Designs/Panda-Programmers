@@ -81,7 +81,7 @@ function displayPreExistingPollInfo(data) {
     console.log("Checking if a poll exists...")
  
 
-    if (data != null && data != undefined) { //A poll exists (probably).
+    if (data != null && data != undefined) { //A poll exists. (Probably. Could also indicate an error returning the correct value from the API controller.) 
         console.log("-----------Displaying pre-existing poll---------------");
         let userVotedYes = data["userVotedYes"];
         clearAbilityToStartAPoll();
@@ -231,10 +231,9 @@ function displaySearchResults(data) {
                                 <td class="whitespace-nowrap"><a href='${itemUrl}'><img src='${imageUrl}' width=300 height=300></a></td>
                                 <td class="whitespace-nowrap">
                                     <a class='text-blue-500' href='${itemUrl}'>${itemName}</a>
-                                    <p>${itemType}</p>
                                     <p>${ownerDisplayName}</p>
                                     <p>${itemReleaseDate}</p>
-                                    <button type="button" class="specific-track-to-poll" id="${trackId}">Start poll to add to playlist</button>
+                                    <button type="button" class="specific-track-to-poll" id="${trackId}">Click to start voting</button>
                                 </td>
                             </tr>`
                             $(searchItem).appendTo(`#search-row`);
@@ -322,18 +321,32 @@ function getSearchQuery() {
 let isSearchVisible = false;
 
 $("#transition-to-search-track-btn").click(function () {
-    $("#user-playlist-contanier").toggle();
+ // /*  $("#user-playlist-container").toggle();*/
     $("#search-form").toggle();
-    $("#search-results-container").toggle();
+ ///*   $("#search-results-container").toggle();*/
 
-    if (isSearchVisible == false) {
-        $("#transition-to-search-track-btn").text("Cancel search");
-        isSearchVisible = true;
+ //   if (isSearchVisible == false) {
+ //       $("#transition-to-search-track-btn").text("Cancel search");
+ //       isSearchVisible = true;
+ //   }
+ //   else {
+ //       $("#transition-to-search-track-btn").text("Start poll for a track");
+ //       isSearchVisible = false;
+ //   }
+
+    //Alt version (below)-----
+    if ($("#search-form").is(":hidden")) {
+        $("#transition-to-search-track-btn").text("Start poll for a track");
+        $("#search-form").hide();
+        $("#search-results-container").hide();
+
     }
     else {
-        $("#transition-to-search-track-btn").text("Start poll for a track");
-        isSearchVisible = false;
+        $("#transition-to-search-track-btn").text("Cancel search");
+        $("#search-form").show();
+        $("#search-results-container").show();
     }
+
 });
 
 
@@ -507,8 +520,17 @@ function getSubmitVoteFormValues() {
     const curplaylistid = document.getElementById("create-vote-playlist-id-input");
     const curUsername = document.getElementById("create-vote-username-input");
 
-    //https://stackoverflow.com/questions/596351/how-can-i-know-which-radio-button-is-selected-via-jquery -- Peter J's answer.
-    const userVoteDecision = $('input[name=CreateVoteOptionId]:checked', '#create-vote-on-existing-poll-form').val();
+    //https://stackoverflow.com/questions/15839169/how-to-get-the-value-of-a-selected-radio-button -- Joe's answer.
+    let options = document.getElementsByName('CreateVoteOptionId');
+    let choosenoption;
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].checked) {
+            choosenoption = options[i].value;
+        }
+    }
+
+    console.log("RADIO CHOOSEN: " + choosenoption + ". type: " + typeof choosenoption);
+
 
     if (!createVoteForm.checkValidity()) {
         return { status: false };
@@ -518,7 +540,7 @@ function getSubmitVoteFormValues() {
     return {
         createvoteplaylistid: curplaylistid.value,
         createvoteusername: curUsername.value,
-        createvoteoptionid: userVoteDecision.val,
+        createvoteoptionid: choosenoption,
         status: true
     }
 }
@@ -548,7 +570,6 @@ function displayResultOfCastVote(data) {
     let userVotedYes = data["userVotedYes"]
 
     if (Number(playlistFollowerCount) <= totalVotes) {  //Poll has ended.
-
          //NEEDS TESTING.
         displayPollResults(data);
     }
