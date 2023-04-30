@@ -58,4 +58,10 @@ public class SearchController : Controller
             return Redirect("/listener");
         }
     }
+
+    public async Task<IActionResult> Like(string playlistID) 
+    {
+        // await _spotifyService.LikePlaylist(playlistID);
+        return Redirect("/listener");
+    }
 }

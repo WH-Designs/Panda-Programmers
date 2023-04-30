@@ -94,6 +94,12 @@ namespace MusicCollaborationManager.Services.Concrete
             return user.DisplayName;
         }
 
+        public async void LikePlaylist(string playlistID)
+        {
+            var playlist = await Spotify.Playlists.Get(playlistID);
+            var user = await Spotify.UserProfile.Current();
+        }
+
         public async Task<List<SimplePlaylist>> GetUserPlaylists(string spotifyID)
         {
             List<SimplePlaylist> playlists = new List<SimplePlaylist>();
