@@ -86,9 +86,10 @@ function displayPreExistingPollInfo(data) {
         let userVotedYes = data["userVotedYes"];
         clearAbilityToStartAPoll();
 
+        console.log(`'NoVotes' count: ${data["noVotes"]}`);
+        console.log(`'YesVotes' count: ${data["yesVotes"]}`);
 
 
-        if (data["noVotes"] == -1 && data["yesVotes"] == -1) { //Special case of -1 votes. Indicates that a polling session does NOT exist for this playlist.
 
 
             console.log(`Track info: \n --artist: ${data["trackArtist"]} \n --name: ${data["trackTitle"]} \n --duration: ${data["trackDuration"]}`);
@@ -98,13 +99,15 @@ function displayPreExistingPollInfo(data) {
 
 
             if (userVotedYes == true || userVotedYes == false) { //User has already voted.
-
-                displayPolledTrackInfoForVotedUser(data)
+                displayPolledTrackInfoForVotedUser(data);
+            }
+            else if (data["noVotes"] == -1 && data["yesVotes"] == -1) { //Special case of -1 votes. Indicates that a polling session has ended as soon as the user got to the page.
+                displayPollResults(data);
             }
             else { //User has not cast a vote.
-                displayPolledTrackInfoWithDecisions(data)
+                displayPolledTrackInfoWithDecisions(data);
             }
-        }
+        
         //Can go a few ways from here:
         /*
             -User has voted. 

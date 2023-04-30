@@ -56,10 +56,8 @@
                 </table>
             </div>
         </div>
-        @{
-            if(Model.TrackBeingPolled == null)
-            {
-                <button id="transition-to-search-track-btn" class="text-textback classicpanda:text-whitetext luxury:text-yellow-500">Start poll for a track</button>
+
+        <button id="transition-to-search-track-btn" class="text-textback classicpanda:text-whitetext luxury:text-yellow-500">Start poll for a track</button>
             
         
         <form id='search-form' class="ml-5">
@@ -133,8 +131,7 @@
             <input type="text" id="spotify-playlist-id-input" name="NewPollPlaylistId" value="@Model.PlaylistContents.PlaylistId" />
             <input type="text" id="track-to-poll-uri-input" name="NewPollTrackId"/>
         </form>
-            }
-        }
+  
         <span id="mcm-username" class="hidden">@Model.MCMUsername</span>
         <span id="general-playlist-id" class="hidden">@Model.PlaylistContents.PlaylistId</span>
         <span id="num-playlist-followers" class="hidden">@Model.NumPlaylistFollowers</span>

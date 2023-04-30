@@ -247,43 +247,43 @@ namespace MusicCollaborationManager.Controllers
                 string userEmail = _userManager.Users.Single(x => x.Id == aspId).Email;
                 PlaylistView.MCMUsername = userEmail;
                 //Not 'null' indicates a poll is in progress.
-                if (PlaylistPollInfo != null)
-                {
-                    PlaylistView.TrackBeingPolled = new VotingTrack();
-                    FullTrack TrackDetails = await _spotifyService.GetSpotifyTrackByID(PlaylistPollInfo.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
-                    PlaylistView.TrackBeingPolled.Artist = TrackDetails.Artists[0].Name;
-                    PlaylistView.TrackBeingPolled.Name = TrackDetails.Name;
-                    PlaylistView.TrackBeingPolled.Duration = TrackDetails.DurationMs.ToString();
+                //if (PlaylistPollInfo != null)
+                //{
+                //    PlaylistView.TrackBeingPolled = new VotingTrack();
+                //    FullTrack TrackDetails = await _spotifyService.GetSpotifyTrackByID(PlaylistPollInfo.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+                //    PlaylistView.TrackBeingPolled.Artist = TrackDetails.Artists[0].Name;
+                //    PlaylistView.TrackBeingPolled.Name = TrackDetails.Name;
+                //    PlaylistView.TrackBeingPolled.Duration = TrackDetails.DurationMs.ToString();
 
-                    //Just needed this to know the option_id of "yes" & "no" for that specific poll, in order to the user what they voted for.
-                    IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(PlaylistPollInfo.PollId);
-                    if(PollOptions != null)
-                    {
-                        PlaylistView.PlaylistVoteOptions = PollOptions;
-                    }
+                //    //Just needed this to know the option_id of "yes" & "no" for that specific poll, in order to the user what they voted for.
+                //    IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(PlaylistPollInfo.PollId);
+                //    if(PollOptions != null)
+                //    {
+                //        PlaylistView.PlaylistVoteOptions = PollOptions;
+                //    }
                     
                    
-                    VoteIdentifierInfoDTO CurUserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(PlaylistPollInfo.PollId, userEmail);
+                //    VoteIdentifierInfoDTO CurUserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(PlaylistPollInfo.PollId, userEmail);
                     
 
-                    foreach (OptionInfoDTO voteOption in PollOptions)
-                    {
-                        PlaylistView.TrackBeingPolled.TotalVotes += voteOption.OptionCount;
-                    }
+                //    foreach (OptionInfoDTO voteOption in PollOptions)
+                //    {
+                //        PlaylistView.TrackBeingPolled.TotalVotes += voteOption.OptionCount;
+                //    }
 
-                    if (CurUserVote != null)
-                    {
-                        foreach(OptionInfoDTO voteOption in PollOptions) 
-                        {
-                          if(CurUserVote.OptionID == voteOption.OptionID) 
-                            {
-                                PlaylistView.TrackBeingPolled.CurUserVoteOption = voteOption.OptionText;
-                                break;
-                            }
-                        }
-                    }
+                //    if (CurUserVote != null)
+                //    {
+                //        foreach(OptionInfoDTO voteOption in PollOptions) 
+                //        {
+                //          if(CurUserVote.OptionID == voteOption.OptionID) 
+                //            {
+                //                PlaylistView.TrackBeingPolled.CurUserVoteOption = voteOption.OptionText;
+                //                break;
+                //            }
+                //        }
+                //    }
 
-                }
+                //}
 
                 //Polls stuff only (above)---------
 

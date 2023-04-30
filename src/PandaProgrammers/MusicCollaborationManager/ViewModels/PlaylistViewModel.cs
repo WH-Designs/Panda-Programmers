@@ -7,7 +7,7 @@ namespace MusicCollaborationManager.ViewModels
         public PlaylistViewModel() 
         {
         }
-        public IEnumerable<OptionInfoDTO> PlaylistVoteOptions { get; set; } = null; //'null' indicates there is no current poll.
+        public IEnumerable<OptionInfoDTO> PlaylistVoteOptions { get; set; } = null; //GET RID OF THIS.
         public int NumPlaylistFollowers { get; set; }
         public FullPlaylistDTO PlaylistContents = new FullPlaylistDTO();
         public VotingTrack TrackBeingPolled { get; set; } = null; //'null' indicates there is no current poll.

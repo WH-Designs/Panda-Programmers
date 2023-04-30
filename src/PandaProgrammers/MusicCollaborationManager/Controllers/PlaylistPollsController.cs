@@ -57,7 +57,7 @@ namespace MusicCollaborationManager.Controllers
                 PotentialNewPoll.UserVotedYes = null;
                 //PotentialNewPoll.UserVotedYes = false;
 
-                //Scenario in which a poll does not exist (in the case that "undefined" && "null" don't cut it).
+                //Scenario in which a poll has ended as soon as the user arrived to the page.
                 PotentialNewPoll.NoVotes = -1;
                 PotentialNewPoll.YesVotes = -1;
 
