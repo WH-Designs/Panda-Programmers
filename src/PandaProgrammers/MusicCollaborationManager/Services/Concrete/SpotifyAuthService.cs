@@ -10,6 +10,7 @@ using MusicCollaborationManager.Models;
 using System;
 using MusicCollaborationManager.Utilities;
 using Microsoft.IdentityModel.Tokens;
+using SpotifyAPI.Web.Http;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -94,10 +95,10 @@ namespace MusicCollaborationManager.Services.Concrete
             return user.DisplayName;
         }
 
-        public async void LikePlaylist(string playlistID)
+        public async Task<bool> LikePlaylist(string playlistID)
         {
-            var playlist = await Spotify.Playlists.Get(playlistID);
-            var user = await Spotify.UserProfile.Current();
+            var resp = await Spotify.Follow.FollowPlaylist(playlistID);
+            return resp;
         }
 
         public async Task<List<SimplePlaylist>> GetUserPlaylists(string spotifyID)

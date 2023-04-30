@@ -62,7 +62,7 @@ function errorOnAjax(data) {
 
 function displaySearchResults(data) {
     console.log('displaySearchResults');
-    console.log(data);
+    console.log(data.jsonify);
     try {
 
         let count = 0;
@@ -90,6 +90,7 @@ function displaySearchResults(data) {
                     let itemReleaseDate = item[index]["releaseDate"];
                     let itemUrl = item[index]["externalUrls"]["spotify"];
                     let ownerDisplayName = item[index]["owner"]["displayName"];
+                    let itemID = item[index]["id"];
                     
                     if (itemReleaseDate == undefined) {
                         itemReleaseDate = "";
@@ -108,7 +109,7 @@ function displaySearchResults(data) {
                             <p>${itemType}</p>
                             <p>${itemReleaseDate}</p>
                             <br>
-                            <button name='playlistID' class="hover:text-blue-500 classicpanda:text-blacktext" id="playlist-@playlistIndex" aria-current="page" value="@currentPlaylist.Id">
+                            <button name='playlistID' class="hover:text-blue-500 classicpanda:text-blacktext" id="playlist-@playlistIndex" aria-current="page" value="${itemID}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                                     </svg>

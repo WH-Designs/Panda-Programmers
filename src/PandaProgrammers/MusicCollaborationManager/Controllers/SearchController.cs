@@ -61,7 +61,13 @@ public class SearchController : Controller
 
     public async Task<IActionResult> Like(string playlistID) 
     {
-        // await _spotifyService.LikePlaylist(playlistID);
-        return Redirect("/listener");
+        try{
+            await _spotifyService.LikePlaylist(playlistID);
+            return Redirect("/listener");
+        } catch(Exception e) {
+            Console.WriteLine(e.Message);
+            // add an alert popup here like the one for the generators
+            return Redirect("/");
+        }
     }
 }
