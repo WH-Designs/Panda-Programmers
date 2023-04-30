@@ -4,5 +4,6 @@
     {
         public string NewPollPlaylistId { get; set; }
         public string NewPollTrackId { get; set; }
+        public string NewPollUsername { get; set; }
     }
 }

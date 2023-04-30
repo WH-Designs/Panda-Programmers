@@ -122,7 +122,7 @@ namespace MusicCollaborationManager.Controllers
 
 
         [HttpPost("createpoll")]
-        public async Task<GeneralPollInfoDTO> CreateNewPoll([Bind("NewPollPlaylistId,NewPollTrackId")] PollCreationDTO newPollInput) //TrackID passed here (instead of "trackuri"). (Just haven't updated the name in DB yet.)
+        public async Task<GeneralPollInfoDTO> CreateNewPoll([Bind("NewPollPlaylistId,NewPollTrackId, NewPollUsername")] PollCreationDTO newPollInput) //TrackID passed here (instead of "trackuri"). (Just haven't updated the name in DB yet.)
         {
                 GeneralPollInfoDTO PotentialNewPoll = new GeneralPollInfoDTO();
 
@@ -142,7 +142,7 @@ namespace MusicCollaborationManager.Controllers
 
                     
                     /*MISSING USERNAME! (You assumed starting a poll meant the user would cast their vote for the track.)
-                        Need to create inputs for a username in HTML & in "PollCreationDTO". */
+                        Need to create inputs for a username in HTML & in . */
                     //_pollsService.CreateVoteForTrack()
                     //await GetUserVote(PotentialNewPoll,)
                    

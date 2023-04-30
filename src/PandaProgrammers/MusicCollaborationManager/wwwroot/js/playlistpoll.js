@@ -38,13 +38,13 @@
     console.log("MCM username (on document ready): " + curUser);
     console.log("Playlist ID (on ready): " + playlistID);
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: `/api/PlaylistPolls/checkifpollexists/${curUser}/${playlistID}`,
-        success: displayPreExistingPollInfo,
-        error: errorOnAjax
-    });
+    //$.ajax({
+    //    type: "GET",
+    //    dataType: "json",
+    //    url: `/api/PlaylistPolls/checkifpollexists/${curUser}/${playlistID}`,
+    //    success: displayPreExistingPollInfo,
+    //    error: errorOnAjax
+    //});
 });
 
 //$(document).ready(function () {
@@ -360,8 +360,9 @@ $('body').on('click', '.specific-track-to-poll', function () {
     console.log("Track ID: " + trackSelectedSpotifyId);
 
     const values = getPollFormValues();
-    console.log("Playlist ID (from form): " + values.spotifyplaylistid);
-    console.log("Track ID (from form) :" + values.tracktopolluri);
+    console.log("Playlist ID (from form 'createpoll'): " + values.spotifyplaylistid);
+    console.log("Track ID (from form 'createpoll') :" + values.tracktopolluri);
+    console.log("Current user: " + values.newpollusername);
     if (values.status) {
         $.ajax({
             method: "POST",
@@ -381,13 +382,21 @@ function getPollFormValues() {
     const startPollForm = document.getElementById("start-poll-form");
     const curplaylistid = document.getElementById("spotify-playlist-id-input");
     const tracktopoll = document.getElementById("track-to-poll-uri-input");
+    const curUser = document.getElementById("username-to-start-poll");
+
     if (!startPollForm.checkValidity()) {
         return { status: false };
     }
 
+    console.log("PRINTING VALUES USED TO CREATE POLL--------------------------")
+    console.log(`Playlist ID: ${curplaylistid.value}`);
+    console.log(`Track ID: ${tracktopoll.value}`);
+    console.log(`Username: ${curUser.value}`);
+
     return {
         newpollplaylistid: curplaylistid.value,
         newpolltrackid: tracktopoll.value,
+        newpollusername: curUser.value,
         status: true
     }
 }
