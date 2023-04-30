@@ -8,7 +8,7 @@
         public string NoOptionID { get; set; }
         public string TotalPollVotes { get; set; }
 
-        //Number of people who voted "Yes" Votes & "No"
+        //Number of people who voted "Yes" & "No"
         public int YesVotes { get; set; } = 0;
         public int NoVotes { get; set; } = 0;
 
