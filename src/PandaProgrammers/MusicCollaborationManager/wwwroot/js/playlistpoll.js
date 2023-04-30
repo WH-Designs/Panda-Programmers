@@ -101,7 +101,7 @@ function displayPreExistingPollInfo(data) {
             if (userVotedYes == true || userVotedYes == false) { //User has already voted.
                 displayPolledTrackInfoForVotedUser(data);
             }
-            else if (data["noVotes"] == -1 && data["yesVotes"] == -1) { //Special case of -1 votes. Indicates that a polling session has ended as soon as the user got to the page.
+            else if (data["noVotes"] == -1 && data["yesVotes"] == -1) { //Special case of -1 votes. Indicates that a polling session has ended as soon as the user got to the page. (Realized there's no actual use for this...)
                 displayPollResults(data);
             }
             else { //User has not cast a vote.

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Google.Apis.YouTube.v3.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicCollaborationManager.DAL.Abstract;
@@ -32,51 +33,89 @@ namespace MusicCollaborationManager.Controllers
             _playlistPollRepository = playlistPollRepository;
         }
 
+        public void ChangePollValues(GeneralPollInfoDTO infoToAlter)
+        {
+            infoToAlter.TrackArtist = "A COLORFUL HORSE!";
+        }
+
+        public async Task GetPollOptionsInfo(GeneralPollInfoDTO infoToAlter, string playlistid)
+        {
+            int totalPollVotes = 0;
+            IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(playlistid);
+            foreach (var option in PollOptions)
+            {
+                if (option.OptionText == "Yes")
+                {
+
+                    totalPollVotes += option.OptionCount;
+                    infoToAlter.YesVotes = option.OptionCount;
+                    infoToAlter.YesOptionID = option.OptionID;
+                }
+                else if (option.OptionText == "No")
+                {
+                    totalPollVotes += option.OptionCount;
+                    infoToAlter.NoVotes = option.OptionCount;
+                    infoToAlter.NoOptionID = option.OptionID;
+                }
+            }
+            infoToAlter.TotalPollVotes = totalPollVotes.ToString();
+        }
+
+        public async Task GetPolledTrackInfo(GeneralPollInfoDTO infoToAlter, Poll pollInfo)
+        {
+            FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(pollInfo.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+            infoToAlter.TrackArtist = PolledTrack.Id;
+            infoToAlter.TrackTitle = PolledTrack.Name;
+            infoToAlter.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in MS!
+        }
+
+        public async Task GetPlaylistFollowerCount(GeneralPollInfoDTO infoToRetrieve,string playlistid)
+        {
+            FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistid);
+            infoToRetrieve.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
+        }
+
+        public async Task GetUserVote(GeneralPollInfoDTO infoToRetrieve, Poll pollInfo, string username) 
+        {
+            //This "pollsService" method will return "null" if a vote does not exist.
+            VoteIdentifierInfoDTO UserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(pollInfo.PollId, username);
+            if (UserVote != null)
+            {
+
+                if (infoToRetrieve.YesOptionID == UserVote.VoteID) //User voted "yes"
+                {
+                    infoToRetrieve.UserVotedYes = true;
+                }
+                else if (infoToRetrieve.NoOptionID == UserVote.VoteID) //User voted "no"
+                {
+                    infoToRetrieve.UserVotedYes = false;
+                }
+            }
+            else //User did NOT vote.
+            {
+                infoToRetrieve.UserVotedYes = null;
+            }
+        }
+
 
         [HttpGet("checkifpollexists/{username}/{playlistid}")]
         public async Task<GeneralPollInfoDTO> CheckIfPollExists(string username, string playlistid) 
         {
-            GeneralPollInfoDTO PotentialNewPoll = new GeneralPollInfoDTO();
+             GeneralPollInfoDTO PotentialExistingPoll = new GeneralPollInfoDTO();
+             Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(playlistid);
 
-             Poll? NewPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(playlistid);
-            
-            if (NewPoll == null)
+          
+            if(ExistingPoll != null) 
             {
-                //string NewPollID = await _pollsService.CreatePollForSpecificPlaylist(playlistId);
-                //string NewPollID = await _pollsService.CreatePollForSpecificPlaylist(newPollInput.PlaylistID);
+                await GetPollOptionsInfo(PotentialExistingPoll, playlistid);
+                await GetPlaylistFollowerCount(PotentialExistingPoll, playlistid);
+                await GetPolledTrackInfo(PotentialExistingPoll, ExistingPoll);
+                await GetUserVote(PotentialExistingPoll, ExistingPoll, username);
 
-
-                //Debugging (below)------------
-                PotentialNewPoll.TrackArtist = playlistid + "_PlaylistID";
-                PotentialNewPoll.TrackTitle = "TrackID_" + username + "___Created_by_'checkifpollexists'";
-                PotentialNewPoll.TrackDuration = "4 MIN";
-                PotentialNewPoll.YesOptionID = "#1234_YES";
-                PotentialNewPoll.NoOptionID = "#5678_NO";
-                PotentialNewPoll.TotalPollVotes = "3";
-                PotentialNewPoll.PlaylistFollowerCount = "4";
-                PotentialNewPoll.UserVotedYes = null;
-                //PotentialNewPoll.UserVotedYes = false;
-
-                //Scenario in which a poll has ended as soon as the user arrived to the page.
-                PotentialNewPoll.NoVotes = -1;
-                PotentialNewPoll.YesVotes = -1;
-
-                return PotentialNewPoll;
-                //return null;
+                return PotentialExistingPoll;
             }
-            else
-            {
-                PotentialNewPoll.TrackArtist = playlistid + "_PlaylistID";
-                PotentialNewPoll.TrackTitle = "TrackID_" + username + "___Created_by_'checkifpollexists'";
-                PotentialNewPoll.TrackDuration = "4 MIN";
-                PotentialNewPoll.YesOptionID = "#1234_YES";
-                PotentialNewPoll.NoOptionID = "#5678_NO";
-                PotentialNewPoll.TotalPollVotes = "4";
-                PotentialNewPoll.PlaylistFollowerCount = "EMPTY_ON_PURPOSE";
-                PotentialNewPoll.UserVotedYes = null; //User has NOT VOTED.
 
-                return PotentialNewPoll;
-            }
+            return null;
         }
 
 
@@ -256,7 +295,7 @@ namespace MusicCollaborationManager.Controllers
                 ExistingPoll.YesOptionID = "#1234_YES";
                 ExistingPoll.NoOptionID = "#5678_NO";
                 ExistingPoll.TotalPollVotes = "5";
-                ExistingPoll.PlaylistFollowerCount = userVote.CreateVoteOptionId;
+                ExistingPoll.PlaylistFollowerCount = "5";
                 ExistingPoll.YesVotes = YesVote;
                 ExistingPoll.NoVotes = NoVote;
 

@@ -2,23 +2,29 @@
 {
     public class GeneralPollInfoDTO
     {
-        public string TrackArtist { get; set; }
-        public string TrackTitle { get; set; }
-        public string TrackDuration { get; set; }
+        public string YesOptionID { get; set; } // GetPollOptionsInfo -- 
+        public string NoOptionID { get; set; } // GetPollOptionsInfo
+        public string TotalPollVotes { get; set; } // GetPollOptionsInfo
 
-        //--Options (below)---
-        public string YesOptionID { get; set; }
-        public string NoOptionID { get; set; }
-        public string TotalPollVotes { get; set; }
-        public string PlaylistFollowerCount { get; set; }
+        //Number of people who voted "Yes" Votes & "No"
+        public int YesVotes { get; set; } = 0; // GetPollOptionsInfo
+        public int NoVotes { get; set; } = 0; // GetPollOptionsInfo
 
-        //Num of yes & no. Meant only for "createvote" endpoint (to tell if the polling should end). (below)------------
+        //--------------------------------
+
+        public string TrackArtist { get; set; } //GetPolledTrackInfo
+        public string TrackTitle { get; set; } //GetPolledTrackInfo
+        public string TrackDuration { get; set; } //GetPolledTrackInfo 
 
 
-        //"YesVotes" & "NoVotes" will BOTH be set to -1 to tell if a poll does not exist when working from the .js file.
-        public int YesVotes { get; set; } = 0;
-        public int NoVotes { get; set; } = 0;
-        public bool? UserVotedYes { get; set; } = null;
+        //--------------------------------
+
+
+        public string PlaylistFollowerCount { get; set; } //GetPlaylistFollowerCount
+
+        //--------------------------------
+
+        public bool? UserVotedYes { get; set; } = null; //GetUserVote
 
     }
 }
