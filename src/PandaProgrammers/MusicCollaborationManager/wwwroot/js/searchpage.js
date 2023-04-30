@@ -35,12 +35,11 @@ $(function () {
         else if (spotifyOrMcm == "mcm") {
 
             let mcmSearch = getSearchQueryMCM();
-            console.log("(MCM search) You entered: " + mcmSearch);
 
             if (mcmSearch.status == true) {
                 $.ajax({
                     method: "GET",
-                    url: "/api/listenerinfo/basicuserinfo/" + mcmSearch.SearchQuery,
+                    url: "/api/listenerinfo/basicuserinfo/getall",
                     dataType: "json",
                     contentType: "application/json; charset=UTF-8",
                     success: displayMCMSearchResults,
@@ -271,38 +270,66 @@ function getSearchQueryMCM() {
 
 
 function displayMCMSearchResults(data) {
+    let searchMCM = getSearchQuery();
+    
     console.log("MCM search RESULT: " + data);
-    console.log(data["username"]);
-    console.log("confirming update")
+    console.log("confirming update");
 
-    if (data["username"] == null) {
+    let searchArray = [];
+
+    $.each(data, function(index) {
+        if (data[index]["firstName"].toLowerCase().includes(searchMCM.SearchQuery.toLowerCase()) || 
+            data[index]["username"].toLowerCase().includes(searchMCM.SearchQuery.toLowerCase()) || 
+            data[index]["lastName"].toLowerCase().includes(searchMCM.SearchQuery.toLowerCase()))
+        {
+            if (data[index]["username"].length == 0) {
+                data[index]["username"] = "Username Not Found";
+            };
+
+            searchArray.push(data[index]);
+        };
+    });
+    
+    if (searchArray.length == 0)
+    {
         let noUserFoundDisplay = `
-        <div id="mcm-user-info" class="bg-coreback text-textback pb-4">
-            <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">(No results)</h3>
-        </div>`;
+            <div id="mcm-user-info" class="bg-coreback text-textback pb-4">
+                <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">(No results)</h3>
+            </div>`;
 
         $(noUserFoundDisplay).appendTo("#search-query-display");
-    }
-    else {
+    };
+
+    $.each(searchArray, function(index) {
+        
         let userInfoDisplay = `
-        <div id="mcm-user-info" class="bg-coreback text-textback">
-            <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">User Info</h3>
+        <table id='search-table' class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr id='search-headers'></tr>
+            </thead>
+            <tbody id='search-row' class="md:text-center text-lg">
+                <div id="mcm-user-info" class="bg-coreback text-textback">
+                    <h3 class="text-center font-bold text-2xl text-textback classicpanda:text-whitetext luxury:text-yellow-500 revolution:text-white autumn:text-white">User Info</h3>
+                    <div class="table-row-group">
+                        <div class="table-row"> 
+                            <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Full name:</div>
+                            <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${searchArray[index]["firstName"]} ${searchArray[index]["lastName"]}</div>
+                        </div>
 
+                        <div class="table-row">
+                            <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Username:</div>
+                            <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${searchArray[index]["username"]}</div>
+                        </div>
 
-             <div class="table-row-group">
-                <div class="table-row"> 
-                     <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Full name:</div>
-                    <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${data["firstName"]} ${data["lastName"]}</div>
+                        <div class="table-row">        
+                            <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Playlists:</div>
+                            <button name='spotifyID' class='text-blue-500' aria-current="page" value="${searchArray[index]["spotifyId"]}">${searchArray[index]["firstName"]}'s Playlists</button>
+                        </div>
+                    </div>
                 </div>
+            </tbody>
+        </table>`
 
-                <div class="table-row">
-                    <div class="font-bold table-cell text-textback classicpanda:text-whitetext text-1xl p-3">Username:</div>
-                    <div class="table-cell text-textback classicpanda:text-whitetext text-1xl p-3">${data["username"]}</div>
-                </div>
-             </div>
-        </div>`;
-
-        $(userInfoDisplay).appendTo("#search-query-display")
-    }
-
+        $(userInfoDisplay).appendTo("#table-placement");
+    });
 }

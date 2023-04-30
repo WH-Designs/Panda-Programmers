@@ -6,8 +6,10 @@ CREATE TABLE [Listener] (
     [LastName]          nvarchar(64)    NOT NULL,
     [FriendID]          int             NOT NULL,
     [ASPNetIdentityID]  nvarchar(64)    NOT NULL,
+    [SearchConsentFlag] bit             NOT NULL,
     [Theme]             nvarchar(255)   NULL,
     [SpotifyID]         nvarchar(128)   NULL,
+    [SpotifyUserName]   nvarchar(128)   NULL,
     [AuthToken]         nvarchar(512)   NULL,
     [AuthRefreshToken]  nvarchar(512)   NULL
 );

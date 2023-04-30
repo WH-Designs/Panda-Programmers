@@ -24,7 +24,7 @@ namespace MusicCollaborationManager.DAL.Concrete
                 comments = _dbSet.Where(c => c.SpotifyId.Equals(serviceId)).ToList();
                 return comments;
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
                 return null;
             }
