@@ -1,4 +1,6 @@
-﻿namespace MusicCollaborationManager.Models.DTO
+﻿using SpotifyAPI.Web;
+
+namespace MusicCollaborationManager.Models.DTO
 {
     public class ListenerInfoDTO
     {
@@ -8,5 +10,6 @@
         public string? Theme { get; set; }
         public string? SpotifyId { get; set; }
         public bool? ConsentFlag { get; set; }
+        public List<SimplePlaylist>? Playlists { get; set; }
     }
 }
