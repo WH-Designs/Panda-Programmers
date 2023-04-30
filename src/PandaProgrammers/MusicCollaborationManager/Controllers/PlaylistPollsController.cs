@@ -99,7 +99,7 @@ namespace MusicCollaborationManager.Controllers
 
         //WARNING: The methods above only cover retrieving info. NONE of them cover ANY type of saving!
 
-
+        //(Should be) FINISHED.
         [HttpGet("checkifpollexists/{username}/{playlistid}")]
         public async Task<GeneralPollInfoDTO> CheckIfPollExists(string username, string playlistid) 
         {
@@ -120,7 +120,7 @@ namespace MusicCollaborationManager.Controllers
         }
 
 
-
+        //(Should be) FINISHED (except js safeguard).
         [HttpPost("createpoll")]
         public async Task<GeneralPollInfoDTO> CreateNewPoll([Bind("NewPollPlaylistId,NewPollTrackId, NewPollUsername")] PollCreationDTO newPollInput) //TrackID passed here (instead of "trackuri"). (Just haven't updated the name in DB yet.)
         {
@@ -140,18 +140,16 @@ namespace MusicCollaborationManager.Controllers
                     await GetPolledTrackInfo(PotentialNewPoll, newPollInput.NewPollPlaylistId);
                     await GetPlaylistFollowerCount(PotentialNewPoll, newPollInput.NewPollPlaylistId);
 
-                    
-                    /*MISSING USERNAME! (You assumed starting a poll meant the user would cast their vote for the track.)
-                        Need to create inputs for a username in HTML & in . */
-                    //_pollsService.CreateVoteForTrack()
-                    //await GetUserVote(PotentialNewPoll,)
-                   
+                    await _pollsService.CreateVoteForTrack(NewPoll.PollId, PotentialNewPoll.YesOptionID, newPollInput.NewPollUsername);
+
+                    //This method does NOT have a safeguard if the vote does not exist, but the vote should exist (because we just created one).
+                    await GetUserVote(PotentialNewPoll, NewPoll, newPollInput.NewPollUsername);
 
 
                     return PotentialNewPoll;
                     
                 }
-                return null;
+                return null; //JS does not have a safeguard in case "null" is the return value.
         }
 
 
