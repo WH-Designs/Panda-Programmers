@@ -162,6 +162,7 @@ namespace MusicCollaborationManager.Controllers
                     if ((PlaylistFollowerCountAsInt == 0) || (PlaylistFollowerCountAsInt >= Int32.Parse(PotentialNewPoll.TotalPollVotes)))
                     {
                         _playlistPollRepository.Delete(NewPoll);
+                        await _pollsService.RemovePoll(NewPoll.PollId);
                     }
 
 
@@ -172,7 +173,7 @@ namespace MusicCollaborationManager.Controllers
         }
 
 
-        //NO js safeguard for "null" return. FORGOT about the possibility of having to remove the POLL!
+        //(Should be) FINISHED .NO js safeguard for "null" return.
         [HttpPost("createvote")]
         public async Task<GeneralPollInfoDTO> CreateVoteOnExistingPoll([Bind("CreateVotePlaylistId, CreateVoteUsername, CreateVoteOptionId")] SubmitVoteDTO userVote)
         {
@@ -183,15 +184,30 @@ namespace MusicCollaborationManager.Controllers
             if(ExistingPoll != null) 
             {
 
-                //await _pollsService.CreateVoteForTrack(ExistingPoll.PollId, userVote.CreateVoteOptionId, userVote.CreateVoteUsername);
+                await _pollsService.CreateVoteForTrack(ExistingPoll.PollId, userVote.CreateVoteOptionId, userVote.CreateVoteUsername);
 
 
-                //await GetPollOptionsInfo(InfoToReturn, userVote.CreateVotePlaylistId);
-                //await GetPolledTrackInfo(InfoToReturn, userVote.CreateVotePlaylistId);
-                //await GetPlaylistFollowerCount(InfoToReturn, userVote.CreateVotePlaylistId);
+                await GetPollOptionsInfo(InfoToReturn, userVote.CreateVotePlaylistId);
+                await GetPolledTrackInfo(InfoToReturn, userVote.CreateVotePlaylistId);
+                await GetPlaylistFollowerCount(InfoToReturn, userVote.CreateVotePlaylistId);
+                await GetUserVote(InfoToReturn, ExistingPoll, userVote.CreateVoteUsername);
 
-                
-                //await GetUserVote(InfoToReturn, ExistingPoll, userVote.CreateVoteUsername);
+                int PlaylistFollowerCountAsInt = 0;
+                try
+                {
+                    PlaylistFollowerCountAsInt = Int32.Parse(InfoToReturn.PlaylistFollowerCount);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Unable to parse playlist follower count. Defaulting to 0 as playlist follower count.");
+                }
+
+
+                if (PlaylistFollowerCountAsInt >= Int32.Parse(InfoToReturn.TotalPollVotes))
+                {
+                    _playlistPollRepository.Delete(ExistingPoll);
+                    await _pollsService.RemovePoll(ExistingPoll.PollId);
+                }
             }
 
             return null;
