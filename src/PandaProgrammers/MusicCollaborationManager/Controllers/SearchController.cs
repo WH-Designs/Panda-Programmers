@@ -44,4 +44,18 @@ public class SearchController : Controller
             return Redirect("/listener");
         }
     }
+    
+    public async Task<IActionResult> PlaylistsDisplay(string spotifyID)
+    {
+        try {
+
+            List<SimplePlaylist> usersPlaylists = await _spotifyService.GetUserPlaylists(spotifyID);
+            return View("PlaylistsDisplay", usersPlaylists);
+
+        } catch (Exception e) {
+            Console.WriteLine(e.Message);
+            // error popup redirect goes here
+            return Redirect("/listener");
+        }
+    }
 }

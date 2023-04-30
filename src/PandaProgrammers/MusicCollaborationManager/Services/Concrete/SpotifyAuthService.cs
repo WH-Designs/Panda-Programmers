@@ -88,6 +88,24 @@ namespace MusicCollaborationManager.Services.Concrete
             return authUser.Me;
         }
 
+        public async Task<String> GetUserDisplayName(string spotifyID)
+        {
+            PublicUser user = await Spotify.UserProfile.Get(spotifyID);
+            return user.DisplayName;
+        }
+
+        public async Task<List<SimplePlaylist>> GetUserPlaylists(string spotifyID)
+        {
+            List<SimplePlaylist> playlists = new List<SimplePlaylist>();
+            
+            Paging<SimplePlaylist> pagingPlaylists = await Spotify.Playlists.GetUsers(spotifyID);
+            playlists = pagingPlaylists.Items;
+
+            playlists = playlists.Where(p => p.Owner.Id == spotifyID).ToList();
+
+            return playlists;
+        }
+
         public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery) 
         {
             SearchRequest.Types types = SearchRequest.Types.All;

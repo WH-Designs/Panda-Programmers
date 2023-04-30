@@ -69,6 +69,7 @@ public class HomeController : Controller
 
         await _spotifyService.GetCallbackAsync(code, listener);
         PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUserAsync();
+        listener.SpotifyUserName = currentSpotifyUser.DisplayName;
         _listenerRepository.AddOrUpdate(listener);
 
         if (listener.SpotifyId == null)
