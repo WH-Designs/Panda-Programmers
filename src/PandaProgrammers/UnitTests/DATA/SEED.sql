@@ -15,3 +15,8 @@ INSERT INTO [Comment] (Likes, Message, ListenerID, SpotifyID)
     (10 ,'I like this playlist' ,1 , '0wbYwQItyK648wmeNcqP5z'),
     (20 ,'I dislike this playlist' ,2 , '0wbYwQItyK648wmeNcqP5z'),
     (55 ,'This playlist is average' ,3 , '0wbYwQItyK848wyeNcqP5z');
+
+INSERT INTO [Polls] (PollID, SpotifyPlaylistID, SpotifyTrackUri)
+    VALUES
+    ('apwbYwQItyK648wmeNcqP51','pwbYwQItyK648wmeNcqP51','twbYwQItyK648wmeNcqP51'),
+     ('apwbYwQItyK648wmeNcqP52','pwbYwQItyK648wmeNcqP52','twbYwQItyK648wmeNcqP52')

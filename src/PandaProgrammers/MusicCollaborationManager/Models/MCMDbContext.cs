@@ -23,14 +23,14 @@ public partial class MCMDbContext : DbContext
 
     public virtual DbSet<Poll> Polls { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=MCMConnection");
+    //public virtual DbSet<Vote> Votes { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC274FA24D65");
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27F0E9E0D4");
 
             entity.ToTable("Comment");
 
@@ -52,7 +52,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Listener>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC270A6840D0");
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC27BA17744F");
 
             entity.ToTable("Listener");
 
@@ -79,7 +79,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Playlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC271706E24D");
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC274FC5014C");
 
             entity.ToTable("Playlist");
 
@@ -89,7 +89,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Poll>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Polls__3214EC27C6EA2370");
+            entity.HasKey(e => e.Id).HasName("PK__Polls__3214EC273887E3D6");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.PollId)
