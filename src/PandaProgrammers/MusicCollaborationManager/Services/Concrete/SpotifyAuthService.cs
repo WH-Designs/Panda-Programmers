@@ -10,6 +10,7 @@ using MusicCollaborationManager.Models;
 using System;
 using MusicCollaborationManager.Utilities;
 using Microsoft.IdentityModel.Tokens;
+using SpotifyAPI.Web.Http;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -88,6 +89,30 @@ namespace MusicCollaborationManager.Services.Concrete
             return authUser.Me;
         }
 
+        public async Task<String> GetUserDisplayName(string spotifyID)
+        {
+            PublicUser user = await Spotify.UserProfile.Get(spotifyID);
+            return user.DisplayName;
+        }
+
+        public async Task<bool> LikePlaylist(string playlistID)
+        {
+            var resp = await Spotify.Follow.FollowPlaylist(playlistID);
+            return resp;
+        }
+
+        public async Task<List<SimplePlaylist>> GetUserPlaylists(string spotifyID)
+        {
+            List<SimplePlaylist> playlists = new List<SimplePlaylist>();
+            
+            Paging<SimplePlaylist> pagingPlaylists = await Spotify.Playlists.GetUsers(spotifyID);
+            playlists = pagingPlaylists.Items;
+
+            playlists = playlists.Where(p => p.Owner.Id == spotifyID).ToList();
+
+            return playlists;
+        }
+
         public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery) 
         {
             SearchRequest.Types types = SearchRequest.Types.All;
@@ -123,6 +148,23 @@ namespace MusicCollaborationManager.Services.Concrete
             return returnArtists;
         }
 
+        public async Task<List<FullArtist>> GetAuthRelatedArtistsAsync(List<FullArtist> TopArtists)
+        {
+            var relatedArtists = new List<FullArtist>();
+
+            foreach (FullArtist artist in TopArtists)
+            {
+                var newArtists = await Spotify.Artists.GetRelatedArtists(artist.Id);
+                foreach (FullArtist newArtist in newArtists.Artists)
+                {
+                    relatedArtists.Add(newArtist);
+                }
+                relatedArtists.Add(artist);
+            }
+
+            return relatedArtists;
+        }
+
         public async Task<RecommendationGenresResponse> GetSeedGenresAsync()
         {
             var currentGenres = await Spotify.Browse.GetRecommendationGenres();
@@ -141,12 +183,7 @@ namespace MusicCollaborationManager.Services.Concrete
             {
                 recommendationsRequest.SeedTracks.Add(track);
                 if(recommendationsRequest.SeedTracks.Count >= 5) {break; }
-            }
-            //foreach (var genre in recommendDTO.genre)
-            //{
-            //    recommendationsRequest.SeedGenres.Add(genre);
-            //    if (recommendationsRequest.SeedGenres.Count >= 1) { break; }
-            //}
+            }            
             if (recommendDTO.target_valence != 0)
             {
                 recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
@@ -186,6 +223,49 @@ namespace MusicCollaborationManager.Services.Concrete
             var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
             return recommendations;
 
+        }
+
+        public async Task<RecommendationsResponse> GetRecommendationsArtistBasedAsync(RecommendDTO recommendDTO)
+        {
+            RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
+            recommendationsRequest.Market = recommendDTO.market;
+            recommendationsRequest.Limit = recommendDTO.limit;
+
+            foreach (var artist in recommendDTO.artistSeed)
+            {
+                recommendationsRequest.SeedArtists.Add(artist);
+                if (recommendationsRequest.SeedArtists.Count >= 5) { break; }
+            }
+
+            var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
+            return recommendations;
+
+        }
+
+        public async Task<RecommendationsResponse> GetRecommendationsGenreBased(RecommendDTO recommendDTO)
+        {
+            RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
+            recommendationsRequest.Market = recommendDTO.market;
+            recommendationsRequest.Limit = recommendDTO.limit;
+            foreach (var genre in recommendDTO.genre)
+            {
+                recommendationsRequest.SeedGenres.Add(genre);
+                if (recommendationsRequest.SeedGenres.Count >= 1) { break; }
+            }
+
+            recommendationsRequest.Target.Add("acousticness", recommendDTO.target_acousticness.ToString());
+            recommendationsRequest.Target.Add("danceability", recommendDTO.target_danceability.ToString());
+            recommendationsRequest.Target.Add("energy", recommendDTO.target_energy.ToString());
+            recommendationsRequest.Target.Add("instrumentalness", recommendDTO.target_instrumentalness.ToString());
+            recommendationsRequest.Target.Add("liveness", recommendDTO.target_liveness.ToString());
+            recommendationsRequest.Target.Add("popularity", recommendDTO.target_popularity.ToString());
+            recommendationsRequest.Target.Add("speechiness", recommendDTO.target_speechiness.ToString());
+            recommendationsRequest.Target.Add("temp", recommendDTO.target_tempo.ToString());
+            recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
+
+            var recommendations = await Spotify.Browse.GetRecommendations(recommendationsRequest);
+
+            return recommendations;
         }
 
         public async Task<List<FullTrack>> ConvertToFullTrackAsync(List<SimpleTrack> tracks)
@@ -378,6 +458,16 @@ namespace MusicCollaborationManager.Services.Concrete
         public async Task<FullPlaylist> GetPlaylistFromIDAsync(string playlistID) {
             FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
             return wantedPlaylist;
+        }
+
+        public static ITracksClient GetTracksClientAsync() 
+        {
+            return Spotify.Tracks;
+        }
+
+        public async Task<FullTrack> GetSpotifyTrackByID(string trackID, ITracksClient tracksClient)
+        {
+            return await tracksClient.Get(trackID);       
         }
     }
 }

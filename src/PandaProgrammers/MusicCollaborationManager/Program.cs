@@ -39,6 +39,8 @@ public class Program
         string deepAiKey = builder.Configuration["DeepAiKey"];
         string sendGridKey = builder.Configuration["SendGridKey"];
         string openAiKey = builder.Configuration["OpenAiKey"];
+        string youTubeKey = builder.Configuration["YT_ApiKey"];
+        string pollsKey = builder.Configuration["PollsApiKey"];
 
         builder.Services.AddControllersWithViews();
         var MCMconnectionString = builder.Configuration.GetConnectionString("MCMConnection");
@@ -58,6 +60,8 @@ public class Program
         builder.Services.AddScoped<DbContext, MCMDbContext>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         builder.Services.AddScoped<IListenerRepository, ListenerRepository>();
+        builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+        builder.Services.AddScoped<IPlaylistPollRepository, PlaylistPollRepository>();
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -94,6 +98,8 @@ public class Program
         builder.Services.AddScoped<IDeepAiService, DeepAiService>(
             d => new DeepAiService(deepAiKey)
         );
+        builder.Services.AddScoped<IYouTubeService, YouTubeService>(s => new YouTubeService(youTubeKey));
+        builder.Services.AddScoped<IPollsService, PollsService>(s => new PollsService(pollsKey));
 
         builder.Services.AddSwaggerGen();
         var app = builder.Build();
