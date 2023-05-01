@@ -15,9 +15,13 @@ public partial class Listener
 
     public string AspnetIdentityId { get; set; }
 
+    public bool SearchConsentFlag { get; set; }
+
     public string Theme { get; set; }
 
     public string SpotifyId { get; set; }
+
+    public string SpotifyUserName { get; set; }
 
     public string AuthToken { get; set; }
 

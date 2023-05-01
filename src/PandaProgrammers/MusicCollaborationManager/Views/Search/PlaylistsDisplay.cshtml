@@ -1,0 +1,40 @@
+@model List<SpotifyAPI.Web.SimplePlaylist>
+
+<div class="flex flex-col w-[88%] ml-10 md:w-3/4">
+    <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+        <div>
+            <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">@Model[0].Owner.DisplayName's Playlists</h2>
+        </div>
+
+        <div class="flex flex-col">
+            <h1 class="text-textback classicpanda:text-whitetext">Playlists</h1>
+            <div class="flex gap-x-3 md:max-h-auto3 w-[360px] md:w-auto overflow-x-auto mr-6 md:mr-0 text-center text-lg">
+                @{
+                    int playlistIndex = 0;
+                    foreach (var currentPlaylist in Model)
+                    {
+                        <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg gap-y-3" id="song-preview-@playlistIndex">
+                            <img src="@currentPlaylist.Images[0].Url" />
+                            <h2 class="text-textback classicpanda:text-blacktext">Playlist Name: <span id="entry-playlist-name-@playlistIndex">@currentPlaylist.Name</span></h2>
+                            <form asp-controller="Listener" asp-action="Playlist">
+                                <button name='playlistID' class="hover:text-blue-500 classicpanda:text-blacktext" id="playlist-@playlistIndex" aria-current="page" value="@currentPlaylist.Id">Open Playlist</button>
+                            </form>
+                            <form asp-controller="Search" asp-action="Like">
+                                <button name='playlistID' class="hover:text-blue-500 classicpanda:text-blacktext" id="playlist-@playlistIndex" aria-current="page" value="@currentPlaylist.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                        playlistIndex++;
+                    }
+                }
+            </div>
+        </div>
+</div>
+
+@section Scripts{
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+}

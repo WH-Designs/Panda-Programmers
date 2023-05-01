@@ -42,7 +42,6 @@ function TopArtistDomManip(data) {
 
 function GetAuthTopArtistsAsync(data) 
 {
-    console.log(data);
     let genreList = [];
     const genreDict = {};
 
@@ -56,7 +55,6 @@ function GetAuthTopArtistsAsync(data)
     var keys = items.map((e) => { return e[0] });
 
     // sorting dictionary method^ found here: https://www.educative.io/answers/how-can-we-sort-a-dictionary-by-value-in-javascript
-    console.log(keys);
     return keys;
 }
 

@@ -82,32 +82,32 @@ namespace MusicCollaborationManager_BDD_Tests.Features
         {
 #line 10
 #line hidden
-            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                         "UserName",
                         "Email",
                         "FirstName",
                         "LastName",
                         "Password"});
-            table8.AddRow(new string[] {
+            table9.AddRow(new string[] {
                         "chadb@gmail.com",
                         "chadb@gmail.com",
                         "Chad",
                         "Bass",
                         "Pass321!"});
-            table8.AddRow(new string[] {
+            table9.AddRow(new string[] {
                         "tiffanyf@gmail.com",
                         "tiffanyf@gmail.com",
                         "Tiffany",
                         "Fox",
                         "Pass321!"});
-            table8.AddRow(new string[] {
+            table9.AddRow(new string[] {
                         "dwightm@gmail.com",
                         "dwightm@gmail.com",
                         "Dwight",
                         "Morse",
                         "Pass321!"});
 #line 11
- testRunner.Given("the following users exist settings", ((string)(null)), table8, "Given ");
+ testRunner.Given("the following users exist settings", ((string)(null)), table9, "Given ");
 #line hidden
         }
         

@@ -132,7 +132,7 @@ namespace MusicCollaborationManager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult<Task> EditListenerInformation(
-            [Bind("FirstName,LastName")] Listener listener
+            [Bind("FirstName,LastName,SearchConsentFlag")] Listener listener
         )
         {
             if (
@@ -144,13 +144,18 @@ namespace MusicCollaborationManager.Controllers
                 return View("Settings");
             }
 
+            Listener oldListener = _listenerRepository.FindListenerByAspId(_userManager.GetUserId(User));
+
             ModelState.ClearValidationState("FriendId");
             ModelState.ClearValidationState("AspnetIdentityId");
             ModelState.ClearValidationState("SpotifyId");
 
             listener.FriendId = 0;
             listener.AspnetIdentityId = _userManager.GetUserId(User);
-            listener.SpotifyId = null;
+            listener.SpotifyId = oldListener.SpotifyId;
+            listener.AuthRefreshToken = oldListener.AuthRefreshToken;
+            listener.AuthToken = oldListener.AuthToken;
+            listener.SpotifyUserName = oldListener.SpotifyUserName;
 
             TryValidateModel(listener);
 
@@ -158,10 +163,6 @@ namespace MusicCollaborationManager.Controllers
             {
                 try
                 {
-                    Listener oldListener = _listenerRepository.FindListenerByAspId(
-                        _userManager.GetUserId(User)
-                    );
-
                     if (oldListener.AspnetIdentityId.Equals(listener.AspnetIdentityId))
                     {
                         _listenerRepository.Delete(oldListener);

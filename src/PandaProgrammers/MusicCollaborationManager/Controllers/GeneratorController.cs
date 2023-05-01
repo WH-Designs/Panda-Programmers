@@ -92,7 +92,7 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre);
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 ViewBag.Error = "Error Occured";
                 return View("Index");
@@ -239,7 +239,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     return RedirectToAction("callforward", "Home");
                 }
-                foreach(FullTrack track in seedTracks)
+                foreach (FullTrack track in seedTracks)
                 {
                     seedIds.Add(track.Id);
                 }
@@ -348,6 +348,58 @@ namespace MusicCollaborationManager.Controllers
                 {
                     recommendDTO.artistSeed.Add(artist);
                 }
+
+                recommendDTO.limit = 20;
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsArtistBasedAsync(recommendDTO);
+                List<SimpleTrack> result = new List<SimpleTrack>();
+                result = response.Tracks;
+
+                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
+                generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
+                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null);
+
+                return View("GeneratedPlaylists", generatorsViewModel);
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "Error Occured";
+                return View("Index");
+            }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> RelatedArtists(RelatedArtistsViewModel vm)
+        {
+            try
+            {
+                var firstList = await _spotifyService.GetAuthTopArtistsAsync();
+                var holder = await _spotifyService.GetAuthRelatedArtistsAsync(firstList);
+                var seededVM = vm.SeedArtists(vm, holder);
+
+                return View("RelatedArtists", seededVM);
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "Error Occured";
+                return View("Index");
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> RelatedArtistsPostAsync(RelatedArtistsViewModel vm)
+        {
+            try
+            {
+                GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
+                string UserInputCoverImage = vm.coverImageInput;
+                string UserInputDescription = vm.descriptionInput;
+                string UserArtist = vm.Artist;
+
+                RecommendDTO recommendDTO = new RecommendDTO();
+                GeneratorUtilities generatorUtilities = new GeneratorUtilities();
+
+                recommendDTO.artistSeed.Add(UserArtist);
 
                 recommendDTO.limit = 20;
                 RecommendationsResponse response = await _spotifyService.GetRecommendationsArtistBasedAsync(recommendDTO);

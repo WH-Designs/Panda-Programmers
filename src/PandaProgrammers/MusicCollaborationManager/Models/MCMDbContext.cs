@@ -21,8 +21,11 @@ public partial class MCMDbContext : DbContext
 
     public virtual DbSet<Playlist> Playlists { get; set; }
 
+<<<<<<< HEAD
     public virtual DbSet<Poll> Polls { get; set; }
 
+=======
+>>>>>>> dev
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=MCMConnection");
 
@@ -30,7 +33,11 @@ public partial class MCMDbContext : DbContext
     {
         modelBuilder.Entity<Comment>(entity =>
         {
+<<<<<<< HEAD
             entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27D6E96E08");
+=======
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC274FA24D65");
+>>>>>>> dev
 
             entity.ToTable("Comment");
 
@@ -52,7 +59,11 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Listener>(entity =>
         {
+<<<<<<< HEAD
             entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC27CBB586FA");
+=======
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC270A6840D0");
+>>>>>>> dev
 
             entity.ToTable("Listener");
 
@@ -73,12 +84,17 @@ public partial class MCMDbContext : DbContext
             entity.Property(e => e.SpotifyId)
                 .HasMaxLength(128)
                 .HasColumnName("SpotifyID");
+            entity.Property(e => e.SpotifyUserName).HasMaxLength(128);
             entity.Property(e => e.Theme).HasMaxLength(255);
         });
 
         modelBuilder.Entity<Playlist>(entity =>
         {
+<<<<<<< HEAD
             entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27F368DDDB");
+=======
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC271706E24D");
+>>>>>>> dev
 
             entity.ToTable("Playlist");
 

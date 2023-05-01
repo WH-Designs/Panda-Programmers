@@ -63,108 +63,22 @@
 
     <div class="flex flex-col mr-3"> @* Search Results *@
         <div id='search-query-display'></div>
-        <div class="overflow-x-hidden bg-coreback shadow-xl rounded-xl">
-            <table id='search-table' class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr id='search-headers'>
-                    </tr>
-                </thead>
-                <tbody id='search-row' class="md:text-center text-lg">
-                </tbody>
-            </table>
+            <form asp-controller="Search" asp-action="Like">
+                <table id='search-table' class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr id='search-headers'></tr>
+                    </thead>
+                    <tbody id='search-row' class="md:text-center text-lg"></tbody>
+                </table>
+            </form>
+          
+          
+          <form asp-controller="Search" asp-action="PlaylistsDisplay" id='playlists-button'>
+            <div id='table-placement' class="overflow-x-hidden bg-coreback shadow-xl rounded-xl">
+          </form>
         </div>
     </div>
 </div>
-
-
-@*<div class="flex">
-  <form id='search-form' class='grid grid-cols-3 gap-1'>
-    <div class=''>
-      <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="listLabel">
-        <li>
-          <div class="flex items-center p-2 rounded hover:bg-gray-100">
-            <input id="checkbox-item-1" type="checkbox"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ">
-            <label for="checkbox-item-1" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">All</label>
-          </div>
-        </li>
-        <li>
-          <div class="flex items-center p-2 rounded hover:bg-gray-100">
-            <input checked id="checkbox-item-2" type="checkbox"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-            <label for="checkbox-item-2" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Artists</label>
-          </div>
-        </li>
-        <li>
-          <div class="flex items-center p-2 rounded hover:bg-gray-100">
-            <input id="checkbox-item-3" type="checkbox"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-            <label for="checkbox-item-3" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Playlists</label>
-          </div>
-        </li>
-        <li>
-          <div class="flex items-center p-2 rounded hover:bg-gray-100">
-            <input id="checkbox-item-4" type="checkbox"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-            <label for="checkbox-item-4" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Tracks</label>
-          </div>
-        </li>
-        <li>
-          <div class="flex items-center p-2 rounded hover:bg-gray-100">
-            <input id="checkbox-item-5" type="checkbox"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-            <label for="checkbox-item-5" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Albums</label>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <div class=''>
-      <div class="bg-coreback text-textback"> <!--RADIO INPUT SECTION-->
-        <label for="spotify-radio">Spotify</label>
-        <input id="spotify-radio" type="radio" name="mcm-or-spotify-scope" value="spotify" checked />
-
-        <label for="mcm-radio">MCM</label>
-        <input id="mcm-radio" type="radio" name="mcm-or-spotify-scope" value="mcm" />
-      </div>
-      <label for="spotify-search"
-        class="mb-2 text-sm font-medium text-textback classicpanda:text-whitetext sr-only">Search</label>
-      <div class="relative">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <svg aria-hidden="true" class="w-5 h-5 text-textback" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-          </svg>
-        </div>
-        <input type="search" id="spotify-search"
-          class="classicpanda:text-whitetext block w-full p-4 pl-11 right-200 text-sm border rounded-lg bg-gray-800 border-gray-600 placeholder-white text-textback focus:border-gray-500"
-          placeholder="Search" required>
-        <button type="submit" id='search-button'
-          class="classicpanda:text-whitetext text-textback absolute right-2.5 bottom-2.5 rounded-lg bg-gray-700 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
-      </div>
-    </div>
-  </form>
-</div>
-
-<div class="flex flex-col">
-  <div class="overflow-x-auto ml-64 mt-2">
-    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-      <div class="overflow-hidden">
-        <div id='search-query-display'></div>
-        <table id='search-table' class="min-w-full text-center text-sm font-light">
-          <thead class="border-b bg-neutral-50 font-medium">
-            <tr id='search-headers'>
-            </tr>
-          </thead>
-          <tbody id='search-row'>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>*@
-
 
 @section Scripts{
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
