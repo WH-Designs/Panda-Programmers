@@ -126,7 +126,7 @@ namespace MusicCollaborationManager.Services.Concrete
                 return null;
             }
       
-            return VoteIdentifierInfoDTO.FromJson(response, pollID);
+            return VoteIdentifierInfoDTO.FromJson(response, pollID, username);
         }
 
         public void RemoveVote(string voteID)

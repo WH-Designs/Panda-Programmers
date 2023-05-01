@@ -11,7 +11,7 @@ namespace MusicCollaborationManager.Models.DTO
         public string PollID { get; set; }
         public string OptionID { get; set; }
 
-        public static VoteIdentifierInfoDTO FromJson(object? obj, string pollID)
+        public static VoteIdentifierInfoDTO FromJson(object? obj, string pollID, string username)
         {
             VoteIdentifierInfoDTO VoteEntryDetails = new VoteIdentifierInfoDTO();
             JObject? jObject = null;
@@ -34,7 +34,7 @@ namespace MusicCollaborationManager.Models.DTO
                     OptionID = (string)vote["option_id"]
                 });
 
-                VoteEntryDetails = VoteDetails.Where(vd => vd.PollID == pollID).FirstOrDefault();
+                VoteEntryDetails = VoteDetails.Where(vd => vd.PollID == pollID && vd.Identifier == username).FirstOrDefault();
 
                 return VoteEntryDetails;
             }

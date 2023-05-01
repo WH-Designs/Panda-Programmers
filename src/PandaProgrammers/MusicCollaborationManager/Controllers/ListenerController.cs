@@ -246,14 +246,13 @@ namespace MusicCollaborationManager.Controllers
 
                 //For testing purposes ONLY (below)------------
 
-                //IEnumerable<PollDTO> AllPolls =  _pollsService.GetAllPolls();
+                //IEnumerable<PollDTO> AllPolls = _pollsService.GetAllPolls();
 
-                //foreach(var poll in AllPolls) 
+                //foreach (var poll in AllPolls)
                 //{
                 //    _pollsService.RemovePoll(poll.PollID);
                 //}
 
-                //await _pollsService.RemovePoll("644f2cc09e9c2c0010ee5ce7");
 
                 //For testing purposes ONLY (above)------------
                 //Polls stuff only (above)---------

@@ -67,7 +67,7 @@ namespace MusicCollaborationManager.Controllers
                 InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
 
                 FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
-                InfoToReturn.TrackArtist = PolledTrack.Id;
+                InfoToReturn.TrackArtist = PolledTrack.Artists[0].Name;
                 InfoToReturn.TrackTitle = PolledTrack.Name;
                 InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
 
@@ -77,11 +77,11 @@ namespace MusicCollaborationManager.Controllers
                 if (UserVote != null)
                 {
 
-                    if (InfoToReturn.YesOptionID == UserVote.VoteID) //User voted "yes"
+                    if (InfoToReturn.YesOptionID == UserVote.OptionID) //User voted "yes"
                     {
                         InfoToReturn.UserVotedYes = true;
                     }
-                    else if (InfoToReturn.NoOptionID == UserVote.VoteID) //User voted "no"
+                    else if (InfoToReturn.NoOptionID == UserVote.OptionID) //User voted "no"
                     {
                         InfoToReturn.UserVotedYes = false;
                     }
@@ -122,7 +122,7 @@ namespace MusicCollaborationManager.Controllers
                 _playlistPollRepository.AddOrUpdate(NewPoll);
 
 
-                _pollsService.CreateVoteForTrack(NewPoll.PollId, InfoToReturn.YesOptionID, newPollInput.NewPollUsername);
+               
                 int totalPollVotes = 0;
                 IEnumerable<OptionInfoDTO> PollOptions = _pollsService.GetPollOptionsByPollID(NewPoll.PollId);
                 foreach (var option in PollOptions)
@@ -141,7 +141,8 @@ namespace MusicCollaborationManager.Controllers
                         InfoToReturn.NoOptionID = option.OptionID;
                     }
                 }
-                InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
+                 _pollsService.CreateVoteForTrack(NewPoll.PollId, InfoToReturn.YesOptionID, newPollInput.NewPollUsername);
+                InfoToReturn.TotalPollVotes = "1";
 
                 FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(newPollInput.NewPollPlaylistId);
                 InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
@@ -152,7 +153,7 @@ namespace MusicCollaborationManager.Controllers
 
 
                 FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(newPollInput.NewPollTrackId, SpotifyAuthService.GetTracksClientAsync());
-                InfoToReturn.TrackArtist = PolledTrack.Id;
+                InfoToReturn.TrackArtist = PolledTrack.Artists[0].Name;
                 InfoToReturn.TrackTitle = PolledTrack.Name;
                 InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
                                                                                 //---------
