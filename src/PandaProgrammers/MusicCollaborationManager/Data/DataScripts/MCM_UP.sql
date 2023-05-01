@@ -27,6 +27,13 @@ CREATE TABLE [Playlist] (
     [ServiceID]         int             NOT NULL,
 );
 
+CREATE TABLE [Polls](
+     [ID]                   int             PRIMARY KEY IDENTITY(1, 1),
+     [PollID]               nvarchar(64)    NOT NULL,
+     [SpotifyPlaylistID]    nvarchar(64)    NOT NULL,
+     [SpotifyTrackUri]      nvarchar(64)    NOT NULL
+);
+
 ALTER TABLE [Comment] ADD CONSTRAINT [Fk_Comment_Listener_ID]
     FOREIGN KEY ([ListenerID]) REFERENCES [Listener] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
