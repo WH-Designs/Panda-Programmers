@@ -305,13 +305,9 @@ namespace MusicCollaborationManager.Controllers
                 PlaylistView.NumPlaylistFollowers = convertPlaylist.Followers.Total;
                 PlaylistView.PlaylistContents.Tracks = new List<UserTrackDTO>();
                 PlaylistView.PlaylistContents = returnPlaylist;
-               
-
-
-
 
                 returnPlaylist.Tracks = tracks;
-                return View("Playlist", returnPlaylist);
+                return View("Playlist", PlaylistView);
             }
         }
     }
