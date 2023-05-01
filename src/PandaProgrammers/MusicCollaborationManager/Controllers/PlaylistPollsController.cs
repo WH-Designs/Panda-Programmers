@@ -171,6 +171,16 @@ namespace MusicCollaborationManager.Controllers
                     
                     if ((PlaylistFollowerCountAsInt == 0) || (PlaylistFollowerCountAsInt <= Int32.Parse(InfoToReturn.TotalPollVotes)))
                     {
+
+                        if(InfoToReturn.NoVotes < InfoToReturn.YesVotes) 
+                        {
+                            List<string> TrackToAdd = new List<string>
+                            {
+                                PolledTrack.Uri
+                            };
+                            await _spotifyService.AddSongsToPlaylistAsync(CurPlaylist, TrackToAdd);
+                        }
+
                         _playlistPollRepository.Delete(NewPoll);
                         await _pollsService.RemovePoll(NewPoll.PollId);
                     }
@@ -265,6 +275,16 @@ namespace MusicCollaborationManager.Controllers
 
                 if (PlaylistFollowerCountAsInt <= Int32.Parse(InfoToReturn.TotalPollVotes))
                 {
+                    if (InfoToReturn.NoVotes < InfoToReturn.YesVotes)
+                    {
+                        List<string> TrackToAdd = new List<string>
+                            {
+                                PolledTrack.Uri
+                            };
+                        await _spotifyService.AddSongsToPlaylistAsync(CurPlaylist, TrackToAdd);
+                    }
+
+
                     _playlistPollRepository.Delete(ExistingPoll);
                     await _pollsService.RemovePoll(ExistingPoll.PollId);
                 }

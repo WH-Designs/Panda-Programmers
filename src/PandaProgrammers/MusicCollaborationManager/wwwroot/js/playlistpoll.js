@@ -38,13 +38,13 @@
     console.log("MCM username (on document ready): " + curUser);
     console.log("Playlist ID (on ready): " + playlistID);
 
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: `/api/PlaylistPolls/checkifpollexists/${curUser}/${playlistID}`,
-    //    success: displayPreExistingPollInfo,
-    //    error: errorOnAjax
-    //});
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `/api/PlaylistPolls/checkifpollexists/${curUser}/${playlistID}`,
+        success: displayPreExistingPollInfo,
+        error: errorOnAjax
+    });
 });
 
 //$(document).ready(function () {
