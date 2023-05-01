@@ -504,12 +504,12 @@ $('body').on('click', '#remove-vote-btn', function () {
 
 
 $('body').on('click', '#create-vote-btn', function () {
-    console.log("Vote create (for existing poll)");
+    console.log("Vote created (for existing poll)");
 
     const values = getSubmitVoteFormValues();
-    console.log("Playlist ID (from 'create vote' form): " + values.spotifyplaylistid);
-    console.log("Track ID (from 'create vote' form) :" + values.tracktopolluri);
-    console.log("User decision: " + values.createvoteoptionid);
+    console.log("Playlist ID (from 'create vote' form): " + values.createvoteplaylistid);
+    console.log("Current user :" + values.createvoteusername);
+    console.log("User decision (option id): " + values.createvoteoptionid);
     if (values.status) {
         $.ajax({
             method: "POST",
@@ -607,8 +607,8 @@ function displayPolledTrackInfoWithDecisions(data) {
     let trackArtist = data["trackArtist"]
 
     let totalVotes = data["totalPollVotes"];
-    let YesVoteOptionId = data["trackArtist"];
-    let NoVoteOptionId = data["trackTitle"];
+    let YesVoteOptionId = data["yesOptionID"];
+    let NoVoteOptionId = data["noOptionID"];
 
     let curPlaylistId = $("#general-playlist-id").text();
     let curUser = $("#mcm-username").text();
