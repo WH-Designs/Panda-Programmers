@@ -459,7 +459,6 @@ namespace MusicCollaborationManager.Services.Concrete
             FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
             return wantedPlaylist;
         }
-<<<<<<< HEAD
 
         //-MINE (in progress below)-----
 
@@ -472,8 +471,5 @@ namespace MusicCollaborationManager.Services.Concrete
         {
             return await tracksClient.Get(trackID);       
         }
-=======
-        
->>>>>>> dev
     }
 }
