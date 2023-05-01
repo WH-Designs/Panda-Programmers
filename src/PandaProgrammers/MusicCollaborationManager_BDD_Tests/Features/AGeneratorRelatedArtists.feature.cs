@@ -20,9 +20,9 @@ namespace MusicCollaborationManager_BDD_Tests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Generator Related Artists")]
+    [NUnit.Framework.DescriptionAttribute("A Generator Related Artists")]
     [NUnit.Framework.CategoryAttribute("Wyatt")]
-    public partial class GeneratorRelatedArtistsFeature
+    public partial class AGeneratorRelatedArtistsFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -30,14 +30,14 @@ namespace MusicCollaborationManager_BDD_Tests.Features
         private string[] _featureTags = new string[] {
                 "Wyatt"};
         
-#line 1 "GeneratorRelatedArtists.feature"
+#line 1 "AGeneratorRelatedArtists.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Generator Related Artists", null, ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "A Generator Related Artists", null, ProgrammingLanguage.CSharp, new string[] {
                         "Wyatt"});
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -80,20 +80,20 @@ namespace MusicCollaborationManager_BDD_Tests.Features
         {
 #line 4
 #line hidden
-            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "UserName",
                         "Email",
                         "FirstName",
                         "LastName",
                         "Password"});
-            table6.AddRow(new string[] {
+            table1.AddRow(new string[] {
                         "chadb@gmail.com",
                         "chadb@gmail.com",
                         "Chad",
                         "Bass",
                         "Pass321!"});
 #line 5
- testRunner.Given("the following users exist generator", ((string)(null)), table6, "Given ");
+ testRunner.Given("the following users exist generator", ((string)(null)), table1, "Given ");
 #line hidden
         }
         

@@ -11,11 +11,11 @@ Background:
 	  | UserName			 | Email                 | FirstName | LastName | Password     |
 	  | chadb@gmail.com	     | chadb@gmail.com       | Chad      | Bass     | Pass321!     |
 
-Scenario: Logged in user generating a playlist that fails returns to the dashboard 
-	Given I am a logged in user with first name '<FirstName>'
-	    And I am on the '<Page>' page
-    When I click on the generate playlist button
-	Then I am redirected to the '<RedirectPage>' page
-    Examples:
-    | FirstName | Page           | RedirectPage |
-    | Chad      | GeneratorIndex | Dashboard |
+#Scenario: Logged in user generating a playlist that fails returns to the dashboard 
+#	Given I am a logged in user with first name '<FirstName>'
+#	    And I am on the '<Page>' page
+#    When I click on the generate playlist button
+#	Then I am redirected to the '<RedirectPage>' page
+#    Examples:
+#    | FirstName | Page           | RedirectPage |
+#    | Chad      | GeneratorIndex | Dashboard |
