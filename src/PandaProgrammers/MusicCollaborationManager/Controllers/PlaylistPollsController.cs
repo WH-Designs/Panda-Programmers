@@ -8,6 +8,7 @@ using MusicCollaborationManager.Models.DTO;
 using MusicCollaborationManager.Services.Abstract;
 using MusicCollaborationManager.Services.Concrete;
 using SpotifyAPI.Web;
+using System.Dynamic;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -124,7 +125,7 @@ namespace MusicCollaborationManager.Controllers
         [HttpPost("createpoll")]
         public async Task<GeneralPollInfoDTO> CreateNewPoll([Bind("NewPollPlaylistId,NewPollTrackId, NewPollUsername")] PollCreationDTO newPollInput) //TrackID passed here (instead of "trackuri"). (Just haven't updated the name in DB yet.)
         {
-                GeneralPollInfoDTO PotentialNewPoll = new GeneralPollInfoDTO();
+                GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
 
                 Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(newPollInput.NewPollPlaylistId);
                 if (ExistingPoll == null) //No poll is in progress. Create one.
@@ -136,22 +137,22 @@ namespace MusicCollaborationManager.Controllers
                     _playlistPollRepository.AddOrUpdate(NewPoll);
                     
                     //---
-                    await GetPollOptionsInfo(PotentialNewPoll, newPollInput.NewPollPlaylistId);
+                    await GetPollOptionsInfo(InfoToReturn, newPollInput.NewPollPlaylistId);
 
                     FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(newPollInput.NewPollPlaylistId);
-                    PotentialNewPoll.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
+                    InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
 
-                    await GetPlaylistFollowerCount(PotentialNewPoll, newPollInput.NewPollPlaylistId);
+                    await GetPlaylistFollowerCount(InfoToReturn, newPollInput.NewPollPlaylistId);
 
-                    await _pollsService.CreateVoteForTrack(NewPoll.PollId, PotentialNewPoll.YesOptionID, newPollInput.NewPollUsername);
+                    await _pollsService.CreateVoteForTrack(NewPoll.PollId, InfoToReturn.YesOptionID, newPollInput.NewPollUsername);
 
                     //This method does NOT have a safeguard if the vote does not exist, but the vote should exist (because we just created one).
-                    await GetUserVote(PotentialNewPoll, NewPoll, newPollInput.NewPollUsername);
+                    await GetUserVote(InfoToReturn, NewPoll, newPollInput.NewPollUsername);
 
                     int PlaylistFollowerCountAsInt = 0;
                     try
                     {
-                        PlaylistFollowerCountAsInt = Int32.Parse(PotentialNewPoll.PlaylistFollowerCount);
+                        PlaylistFollowerCountAsInt = Int32.Parse(InfoToReturn.PlaylistFollowerCount);
                     }
                     catch (Exception ex)
                     {
@@ -159,21 +160,21 @@ namespace MusicCollaborationManager.Controllers
                     }
                     
                     
-                    if ((PlaylistFollowerCountAsInt == 0) || (PlaylistFollowerCountAsInt >= Int32.Parse(PotentialNewPoll.TotalPollVotes)))
+                    if ((PlaylistFollowerCountAsInt == 0) || (PlaylistFollowerCountAsInt >= Int32.Parse(InfoToReturn.TotalPollVotes)))
                     {
                         _playlistPollRepository.Delete(NewPoll);
                         await _pollsService.RemovePoll(NewPoll.PollId);
                     }
 
 
-                    return PotentialNewPoll;
+                    return InfoToReturn;
                     
                 }
                 return null; //JS does not have a safeguard in case "null" is the return value.
         }
 
 
-        //(Should be) FINISHED .NO js safeguard for "null" return.
+        //(Should be) FINISHED. No js safeguard for "null" return.
         [HttpPost("createvote")]
         public async Task<GeneralPollInfoDTO> CreateVoteOnExistingPoll([Bind("CreateVotePlaylistId, CreateVoteUsername, CreateVoteOptionId")] SubmitVoteDTO userVote)
         {
@@ -208,21 +209,32 @@ namespace MusicCollaborationManager.Controllers
                     _playlistPollRepository.Delete(ExistingPoll);
                     await _pollsService.RemovePoll(ExistingPoll.PollId);
                 }
+                return InfoToReturn;
             }
 
-            return null;
+            return null; //No js safeguard for "null" return.
         }
 
+        //(Should be) FINISHED. No js safeguard for "null" return.
         [HttpPost("removevote")]
         public async Task<GeneralPollInfoDTO> RemoveVoteOnExistingPoll([Bind("RemoveVotePlaylistID, RemoveVoteUsername")] RemoveVoteDTO removeVoteInput)
         {
             GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
             Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(removeVoteInput.RemoveVotePlaylistID);
-            if(ExistingPoll != null) 
+            if(ExistingPoll != null)
             {
-                
+
+                VoteIdentifierInfoDTO UserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(ExistingPoll.PollId, removeVoteInput.RemoveVoteUsername);
+                await _pollsService.RemoveVote(UserVote.VoteID);
+
+                await GetPollOptionsInfo(InfoToReturn, removeVoteInput.RemoveVotePlaylistID);
+                await GetPolledTrackInfo(InfoToReturn, removeVoteInput.RemoveVotePlaylistID);
+                await GetPlaylistFollowerCount(InfoToReturn, removeVoteInput.RemoveVotePlaylistID);
+                await GetUserVote(InfoToReturn, ExistingPoll, removeVoteInput.RemoveVoteUsername);
+
+                return InfoToReturn;
             }
-            return null;
+            return null; //No js safeguard for "null" return.
         }
     }
 }
