@@ -238,8 +238,8 @@ namespace MusicCollaborationManager.Controllers
                 //Polls stuff (below)------------
                 PlaylistViewModel PlaylistView = new PlaylistViewModel();
                 PlaylistView.NumPlaylistFollowers = convertPlaylist.Followers.Total;
-                Console.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
-                Debug.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
+                //Console.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
+                //Debug.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
 
                 string userEmail = _userManager.Users.Single(x => x.Id == aspId).Email;
                 PlaylistView.MCMUsername = userEmail;
@@ -267,6 +267,10 @@ namespace MusicCollaborationManager.Controllers
             } catch(ArgumentException e) {
                 Console.WriteLine(e.Message);
 
+               
+                PlaylistViewModel PlaylistView = new PlaylistViewModel();
+
+
                 FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
                 List<UserTrackDTO> tracks = new List<UserTrackDTO>();
                 FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync("0wbYwQItyK648wmeNcqP5z");
@@ -293,7 +297,19 @@ namespace MusicCollaborationManager.Controllers
                         continue;
                     }
                 }
-                
+
+                string aspId = _userManager.GetUserId(User);
+                string userEmail = _userManager.Users.Single(x => x.Id == aspId).Email;
+                PlaylistView.MCMUsername = userEmail;
+
+                PlaylistView.NumPlaylistFollowers = convertPlaylist.Followers.Total;
+                PlaylistView.PlaylistContents.Tracks = new List<UserTrackDTO>();
+                PlaylistView.PlaylistContents = returnPlaylist;
+               
+
+
+
+
                 returnPlaylist.Tracks = tracks;
                 return View("Playlist", returnPlaylist);
             }
