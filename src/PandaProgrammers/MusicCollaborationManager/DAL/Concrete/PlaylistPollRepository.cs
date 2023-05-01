@@ -10,7 +10,7 @@ namespace MusicCollaborationManager.DAL.Concrete
         {
         }
 
-        public Poll? GetPollDetailsBySpotifyPlaylistID(string curSpotifyPlaylistID)
+        public Poll GetPollDetailsBySpotifyPlaylistID(string curSpotifyPlaylistID)
         {
             return _dbSet.SingleOrDefault(poll => poll.SpotifyPlaylistId == curSpotifyPlaylistID);
         }

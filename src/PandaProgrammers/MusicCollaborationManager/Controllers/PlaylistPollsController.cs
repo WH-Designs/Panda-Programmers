@@ -23,7 +23,7 @@ namespace MusicCollaborationManager.Controllers
         private readonly IPollsService _pollsService;
         private readonly IPlaylistPollRepository _playlistPollRepository;
 
-        public PlaylistPollsController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SpotifyAuthService spotifyService, IListenerRepository listenerRepository, 
+        public PlaylistPollsController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SpotifyAuthService spotifyService, IListenerRepository listenerRepository,
             IPollsService pollsService, IPlaylistPollRepository playlistPollRepository)
         {
             _logger = logger;
@@ -35,16 +35,89 @@ namespace MusicCollaborationManager.Controllers
         }
 
         //(Should be) FINISHED.
-        [HttpGet("checkifpollexists/{username}/{playlistid}")]
-        public async Task<GeneralPollInfoDTO> CheckIfPollExists(string username, string playlistid) 
-        {
-             GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
-             Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(playlistid);
+        //[HttpGet("checkifpollexists/{username}/{playlistid}")]
+        //public async Task<GeneralPollInfoDTO> CheckIfPollExists(string username, string playlistid)
+        //{
+        //    GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
+        //    Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(playlistid);
 
-            if(ExistingPoll != null) 
+        //    if (ExistingPoll != null)
+        //    {
+        //        int totalPollVotes = 0;
+        //        IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(playlistid);
+        //        foreach (var option in PollOptions)
+        //        {
+        //            if (option.OptionText == "Yes")
+        //            {
+
+        //                totalPollVotes += option.OptionCount;
+        //                InfoToReturn.YesVotes = option.OptionCount;
+        //                InfoToReturn.YesOptionID = option.OptionID;
+        //            }
+        //            else if (option.OptionText == "No")
+        //            {
+        //                totalPollVotes += option.OptionCount;
+        //                InfoToReturn.NoVotes = option.OptionCount;
+        //                InfoToReturn.NoOptionID = option.OptionID;
+        //            }
+        //        }
+        //        InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
+
+        //        FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistid);
+        //        InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
+
+        //        FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+        //        InfoToReturn.TrackArtist = PolledTrack.Id;
+        //        InfoToReturn.TrackTitle = PolledTrack.Name;
+        //        InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
+
+
+        //        //This "pollsService" method will return "null" if a vote does not exist.
+        //        VoteIdentifierInfoDTO UserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(ExistingPoll.PollId, username);
+        //        if (UserVote != null)
+        //        {
+
+        //            if (InfoToReturn.YesOptionID == UserVote.VoteID) //User voted "yes"
+        //            {
+        //                InfoToReturn.UserVotedYes = true;
+        //            }
+        //            else if (InfoToReturn.NoOptionID == UserVote.VoteID) //User voted "no"
+        //            {
+        //                InfoToReturn.UserVotedYes = false;
+        //            }
+        //        }
+        //        else //User did NOT vote.
+        //        {
+        //            InfoToReturn.UserVotedYes = null;
+        //        }
+        //        return InfoToReturn;
+        //    }
+        //    return null;
+        //}
+
+
+
+
+
+
+        //(Should be) FINISHED (except js safeguard).
+        [HttpPost("createpoll")]
+        public async Task<ActionResult<GeneralPollInfoDTO>> CreateNewPoll([Bind("NewPollPlaylistId,NewPollTrackId, NewPollUsername")] PollCreationDTO newPollInput) //TrackID passed here (instead of "trackuri"). (Just haven't updated the name in DB yet.)
+        {
+            GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
+
+            Poll ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(newPollInput.NewPollPlaylistId);
+            if (ExistingPoll == null) //No poll is in progress. Create one.
             {
+                Poll NewPoll = new Poll();
+                NewPoll.PollId = _pollsService.CreatePollForSpecificPlaylist(newPollInput.NewPollPlaylistId);
+                NewPoll.SpotifyPlaylistId = newPollInput.NewPollPlaylistId;
+                NewPoll.SpotifyTrackUri = newPollInput.NewPollTrackId;
+                _playlistPollRepository.AddOrUpdate(NewPoll);
+
+
                 int totalPollVotes = 0;
-                IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(playlistid);
+                IEnumerable<OptionInfoDTO> PollOptions = _pollsService.GetPollOptionsByPollID(NewPoll.PollId);
                 foreach (var option in PollOptions)
                 {
                     if (option.OptionText == "Yes")
@@ -63,88 +136,15 @@ namespace MusicCollaborationManager.Controllers
                 }
                 InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
 
-                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistid);
+                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(newPollInput.NewPollPlaylistId);
                 InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
 
-                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
-                InfoToReturn.TrackArtist = PolledTrack.Id;
-                InfoToReturn.TrackTitle = PolledTrack.Name;
-                InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
 
 
-                //This "pollsService" method will return "null" if a vote does not exist.
-                VoteIdentifierInfoDTO UserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(ExistingPoll.PollId, username);
-                if (UserVote != null)
-                {
-
-                    if (InfoToReturn.YesOptionID == UserVote.VoteID) //User voted "yes"
-                    {
-                        InfoToReturn.UserVotedYes = true;
-                    }
-                    else if (InfoToReturn.NoOptionID == UserVote.VoteID) //User voted "no"
-                    {
-                        InfoToReturn.UserVotedYes = false;
-                    }
-                }
-                else //User did NOT vote.
-                {
-                    InfoToReturn.UserVotedYes = null;
-                }
-                return InfoToReturn;
-            }
-            return null;
-        }
+                _pollsService.CreateVoteForTrack(NewPoll.PollId, InfoToReturn.YesOptionID, newPollInput.NewPollUsername);
 
 
-
-
-
-
-        //(Should be) FINISHED (except js safeguard).
-        [HttpPost("createpoll")]
-        public async Task<GeneralPollInfoDTO> CreateNewPoll([Bind("NewPollPlaylistId,NewPollTrackId, NewPollUsername")] PollCreationDTO newPollInput) //TrackID passed here (instead of "trackuri"). (Just haven't updated the name in DB yet.)
-        {
-                GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
-
-                Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(newPollInput.NewPollPlaylistId);
-                if (ExistingPoll == null) //No poll is in progress. Create one.
-                {
-                    Poll NewPoll = new Poll();
-                    NewPoll.PollId = await _pollsService.CreatePollForSpecificPlaylist(newPollInput.NewPollPlaylistId);
-                    NewPoll.SpotifyPlaylistId = newPollInput.NewPollPlaylistId;
-                    NewPoll.SpotifyTrackUri = newPollInput.NewPollTrackId;
-                    _playlistPollRepository.AddOrUpdate(NewPoll);
-
-
-                    int totalPollVotes = 0;
-                    IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(newPollInput.NewPollPlaylistId);
-                    foreach (var option in PollOptions)
-                    {
-                        if (option.OptionText == "Yes")
-                        {
-
-                            totalPollVotes += option.OptionCount;
-                            InfoToReturn.YesVotes = option.OptionCount;
-                            InfoToReturn.YesOptionID = option.OptionID;
-                        }
-                        else if (option.OptionText == "No")
-                        {
-                            totalPollVotes += option.OptionCount;
-                            InfoToReturn.NoVotes = option.OptionCount;
-                            InfoToReturn.NoOptionID = option.OptionID;
-                        }
-                    }
-                    InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
-
-                    FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(newPollInput.NewPollPlaylistId);
-                    InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
-
-
-
-                    await _pollsService.CreateVoteForTrack(NewPoll.PollId, InfoToReturn.YesOptionID, newPollInput.NewPollUsername);
-
-
-                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(newPollInput.NewPollTrackId, SpotifyAuthService.GetTracksClientAsync());
                 InfoToReturn.TrackArtist = PolledTrack.Id;
                 InfoToReturn.TrackTitle = PolledTrack.Name;
                 InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
@@ -159,110 +159,6 @@ namespace MusicCollaborationManager.Controllers
                 //-----------
 
                 int PlaylistFollowerCountAsInt = 0;
-                    try
-                    {
-                        PlaylistFollowerCountAsInt = Int32.Parse(InfoToReturn.PlaylistFollowerCount);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Unable to parse playlist follower count. Defaulting to 0 as playlist follower count.");
-                    }
-                    
-                    
-                    if ((PlaylistFollowerCountAsInt == 0) || (PlaylistFollowerCountAsInt <= Int32.Parse(InfoToReturn.TotalPollVotes)))
-                    {
-
-                        if(InfoToReturn.NoVotes < InfoToReturn.YesVotes) 
-                        {
-                            List<string> TrackToAdd = new List<string>
-                            {
-                                PolledTrack.Uri
-                            };
-                            await _spotifyService.AddSongsToPlaylistAsync(CurPlaylist, TrackToAdd);
-                        }
-
-                        _playlistPollRepository.Delete(NewPoll);
-                        await _pollsService.RemovePoll(NewPoll.PollId);
-                    }
-
-
-                    return InfoToReturn;
-                    
-                }
-                return null; //JS does not have a safeguard in case "null" is the return value.
-        }
-
-
-
-
-
-
-        //(Should be) FINISHED. No js safeguard for "null" return.
-        [HttpPost("createvote")]
-        public async Task<GeneralPollInfoDTO> CreateVoteOnExistingPoll([Bind("CreateVotePlaylistId, CreateVoteUsername, CreateVoteOptionId")] SubmitVoteDTO userVote)
-        {
-
-            GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
-
-            Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(userVote.CreateVotePlaylistId);
-            if(ExistingPoll != null) 
-            {
-
-                await _pollsService.CreateVoteForTrack(ExistingPoll.PollId, userVote.CreateVoteOptionId, userVote.CreateVoteUsername);
-
-                //-----------------------------
-
-
-                int totalPollVotes = 0;
-                IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(userVote.CreateVotePlaylistId);
-                foreach (var option in PollOptions)
-                {
-                    if (option.OptionText == "Yes")
-                    {
-
-                        totalPollVotes += option.OptionCount;
-                        InfoToReturn.YesVotes = option.OptionCount;
-                        InfoToReturn.YesOptionID = option.OptionID;
-                    }
-                    else if (option.OptionText == "No")
-                    {
-                        totalPollVotes += option.OptionCount;
-                        InfoToReturn.NoVotes = option.OptionCount;
-                        InfoToReturn.NoOptionID = option.OptionID;
-                    }
-                }
-                InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
-
-
-
-
-                //---------------------------
-                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
-                InfoToReturn.TrackArtist = PolledTrack.Id;
-                InfoToReturn.TrackTitle = PolledTrack.Name;
-                InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
-
-                //-------------------
-
-                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(userVote.CreateVotePlaylistId);
-                InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
-
-                //----------------------------
-                //This "pollsService" method will return "null" if a vote does not exist.
-                VoteIdentifierInfoDTO UserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(ExistingPoll.PollId, userVote.CreateVoteUsername);
-                if (InfoToReturn.YesOptionID == UserVote.VoteID) //User voted "yes"
-                {
-                    InfoToReturn.UserVotedYes = true;
-                }
-                else if (InfoToReturn.NoOptionID == UserVote.VoteID) //User voted "no"
-                {
-                    InfoToReturn.UserVotedYes = false;
-                }
-                
-
-                //----------------------
-
-                int PlaylistFollowerCountAsInt = 0;
                 try
                 {
                     PlaylistFollowerCountAsInt = Int32.Parse(InfoToReturn.PlaylistFollowerCount);
@@ -273,8 +169,9 @@ namespace MusicCollaborationManager.Controllers
                 }
 
 
-                if (PlaylistFollowerCountAsInt <= Int32.Parse(InfoToReturn.TotalPollVotes))
+                if ((PlaylistFollowerCountAsInt == 0) || (PlaylistFollowerCountAsInt <= Int32.Parse(InfoToReturn.TotalPollVotes)))
                 {
+
                     if (InfoToReturn.NoVotes < InfoToReturn.YesVotes)
                     {
                         List<string> TrackToAdd = new List<string>
@@ -284,17 +181,14 @@ namespace MusicCollaborationManager.Controllers
                         await _spotifyService.AddSongsToPlaylistAsync(CurPlaylist, TrackToAdd);
                     }
 
-
-                    _playlistPollRepository.Delete(ExistingPoll);
-                    await _pollsService.RemovePoll(ExistingPoll.PollId);
+                    _playlistPollRepository.Delete(NewPoll);
+                     _pollsService.RemovePoll(NewPoll.PollId);
                 }
-                return InfoToReturn;
+
+                return CreatedAtAction("Playlist", "createpoll", InfoToReturn);
             }
-
-            return null; //No js safeguard for "null" return.
+            return InfoToReturn; //JS does not have a safeguard in case "null" is the return value.
         }
-
-
 
 
 
@@ -302,62 +196,166 @@ namespace MusicCollaborationManager.Controllers
 
 
         //(Should be) FINISHED. No js safeguard for "null" return.
-        [HttpPost("removevote")]
-        public async Task<GeneralPollInfoDTO> RemoveVoteOnExistingPoll([Bind("RemoveVotePlaylistID, RemoveVoteUsername")] RemoveVoteDTO removeVoteInput)
-        {
-            GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
-            Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(removeVoteInput.RemoveVotePlaylistID);
-            if(ExistingPoll != null)
-            {
+        //[HttpPost("createvote")]
+        //public async Task<GeneralPollInfoDTO> CreateVoteOnExistingPoll([Bind("CreateVotePlaylistId, CreateVoteUsername, CreateVoteOptionId")] SubmitVoteDTO userVote)
+        //{
 
-                VoteIdentifierInfoDTO UserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(ExistingPoll.PollId, removeVoteInput.RemoveVoteUsername);
-                await _pollsService.RemoveVote(UserVote.VoteID);
+        //    GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
 
-                //--------------------
+        //    Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(userVote.CreateVotePlaylistId);
+        //    if (ExistingPoll != null)
+        //    {
 
-                int totalPollVotes = 0;
-                IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(removeVoteInput.RemoveVotePlaylistID);
-                foreach (var option in PollOptions)
-                {
-                    if (option.OptionText == "Yes")
-                    {
+        //        await _pollsService.CreateVoteForTrack(ExistingPoll.PollId, userVote.CreateVoteOptionId, userVote.CreateVoteUsername);
 
-                        totalPollVotes += option.OptionCount;
-                        InfoToReturn.YesVotes = option.OptionCount;
-                        InfoToReturn.YesOptionID = option.OptionID;
-                    }
-                    else if (option.OptionText == "No")
-                    {
-                        totalPollVotes += option.OptionCount;
-                        InfoToReturn.NoVotes = option.OptionCount;
-                        InfoToReturn.NoOptionID = option.OptionID;
-                    }
-                }
-                InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
-
-                //---------------------
-
-                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
-                InfoToReturn.TrackArtist = PolledTrack.Id;
-                InfoToReturn.TrackTitle = PolledTrack.Name;
-                InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
+        //        //-----------------------------
 
 
-                //-------------------------------------------
+        //        int totalPollVotes = 0;
+        //        IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(userVote.CreateVotePlaylistId);
+        //        foreach (var option in PollOptions)
+        //        {
+        //            if (option.OptionText == "Yes")
+        //            {
 
-                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(removeVoteInput.RemoveVotePlaylistID);
-                InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
+        //                totalPollVotes += option.OptionCount;
+        //                InfoToReturn.YesVotes = option.OptionCount;
+        //                InfoToReturn.YesOptionID = option.OptionID;
+        //            }
+        //            else if (option.OptionText == "No")
+        //            {
+        //                totalPollVotes += option.OptionCount;
+        //                InfoToReturn.NoVotes = option.OptionCount;
+        //                InfoToReturn.NoOptionID = option.OptionID;
+        //            }
+        //        }
+        //        InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
 
 
-                //----------------------------
-		        InfoToReturn.UserVotedYes = null;
-
-                //---------------------------
 
 
-                return InfoToReturn;
-            }
-            return null; //No js safeguard for "null" return.
-        }
+        //        //---------------------------
+        //        FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+        //        InfoToReturn.TrackArtist = PolledTrack.Id;
+        //        InfoToReturn.TrackTitle = PolledTrack.Name;
+        //        InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
+
+        //        //-------------------
+
+        //        FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(userVote.CreateVotePlaylistId);
+        //        InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
+
+        //        //----------------------------
+        //        //This "pollsService" method will return "null" if a vote does not exist.
+        //        VoteIdentifierInfoDTO UserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(ExistingPoll.PollId, userVote.CreateVoteUsername);
+        //        if (InfoToReturn.YesOptionID == UserVote.VoteID) //User voted "yes"
+        //        {
+        //            InfoToReturn.UserVotedYes = true;
+        //        }
+        //        else if (InfoToReturn.NoOptionID == UserVote.VoteID) //User voted "no"
+        //        {
+        //            InfoToReturn.UserVotedYes = false;
+        //        }
+
+
+        //        //----------------------
+
+        //        int PlaylistFollowerCountAsInt = 0;
+        //        try
+        //        {
+        //            PlaylistFollowerCountAsInt = Int32.Parse(InfoToReturn.PlaylistFollowerCount);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine("Unable to parse playlist follower count. Defaulting to 0 as playlist follower count.");
+        //        }
+
+
+        //        if (PlaylistFollowerCountAsInt <= Int32.Parse(InfoToReturn.TotalPollVotes))
+        //        {
+        //            if (InfoToReturn.NoVotes < InfoToReturn.YesVotes)
+        //            {
+        //                List<string> TrackToAdd = new List<string>
+        //                    {
+        //                        PolledTrack.Uri
+        //                    };
+        //                await _spotifyService.AddSongsToPlaylistAsync(CurPlaylist, TrackToAdd);
+        //            }
+
+
+        //            _playlistPollRepository.Delete(ExistingPoll);
+        //            await _pollsService.RemovePoll(ExistingPoll.PollId);
+        //        }
+        //        return InfoToReturn;
+        //    }
+
+        //    return null; //No js safeguard for "null" return.
+        //}
+
+
+
+
+
+
+
+
+        ////(Should be) FINISHED. No js safeguard for "null" return.
+        //[HttpPost("removevote")]
+        //public async Task<GeneralPollInfoDTO> RemoveVoteOnExistingPoll([Bind("RemoveVotePlaylistID, RemoveVoteUsername")] RemoveVoteDTO removeVoteInput)
+        //{
+        //    GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
+        //    Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(removeVoteInput.RemoveVotePlaylistID);
+        //    if (ExistingPoll != null)
+        //    {
+
+        //        VoteIdentifierInfoDTO UserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(ExistingPoll.PollId, removeVoteInput.RemoveVoteUsername);
+        //        await _pollsService.RemoveVote(UserVote.VoteID);
+
+        //        //--------------------
+
+        //        int totalPollVotes = 0;
+        //        IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(removeVoteInput.RemoveVotePlaylistID);
+        //        foreach (var option in PollOptions)
+        //        {
+        //            if (option.OptionText == "Yes")
+        //            {
+
+        //                totalPollVotes += option.OptionCount;
+        //                InfoToReturn.YesVotes = option.OptionCount;
+        //                InfoToReturn.YesOptionID = option.OptionID;
+        //            }
+        //            else if (option.OptionText == "No")
+        //            {
+        //                totalPollVotes += option.OptionCount;
+        //                InfoToReturn.NoVotes = option.OptionCount;
+        //                InfoToReturn.NoOptionID = option.OptionID;
+        //            }
+        //        }
+        //        InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
+
+        //        //---------------------
+
+        //        FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+        //        InfoToReturn.TrackArtist = PolledTrack.Id;
+        //        InfoToReturn.TrackTitle = PolledTrack.Name;
+        //        InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
+
+
+        //        //-------------------------------------------
+
+        //        FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(removeVoteInput.RemoveVotePlaylistID);
+        //        InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
+
+
+        //        //----------------------------
+        //        InfoToReturn.UserVotedYes = null;
+
+        //        //---------------------------
+
+
+        //        return InfoToReturn;
+        //    }
+        //    return null; //No js safeguard for "null" return.
+        //}
     }
 }

@@ -238,12 +238,24 @@ namespace MusicCollaborationManager.Controllers
                 //Polls stuff (below)------------
                 PlaylistViewModel PlaylistView = new PlaylistViewModel();
                 PlaylistView.NumPlaylistFollowers = convertPlaylist.Followers.Total;
-                //Console.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
-                //Debug.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
+                Console.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
+                Debug.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
 
                 string userEmail = _userManager.Users.Single(x => x.Id == aspId).Email;
                 PlaylistView.MCMUsername = userEmail;
-               
+
+                //For testing purposes ONLY (below)------------
+
+                IEnumerable<PollDTO> AllPolls =  _pollsService.GetAllPolls();
+
+                foreach(var poll in AllPolls) 
+                {
+                    _pollsService.RemovePoll(poll.PollID);
+                }
+
+                //await _pollsService.RemovePoll("644f2cc09e9c2c0010ee5ce7");
+
+                //For testing purposes ONLY (above)------------
                 //Polls stuff only (above)---------
 
 

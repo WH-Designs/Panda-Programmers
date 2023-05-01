@@ -38,13 +38,13 @@
     console.log("MCM username (on document ready): " + curUser);
     console.log("Playlist ID (on ready): " + playlistID);
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: `/api/PlaylistPolls/checkifpollexists/${curUser}/${playlistID}`,
-        success: displayPreExistingPollInfo,
-        error: errorOnAjax
-    });
+    //$.ajax({
+    //    type: "GET",
+    //    dataType: "json",
+    //    url: `/api/PlaylistPolls/checkifpollexists/${curUser}/${playlistID}`,
+    //    success: displayPreExistingPollInfo,
+    //    error: errorOnAjax
+    //});
 });
 
 //$(document).ready(function () {
@@ -359,9 +359,10 @@ $('body').on('click', '.specific-track-to-poll', function () {
 
     console.log("Track ID: " + trackSelectedSpotifyId);
 
-    const values = getPollFormValues();
-    console.log("Playlist ID (from form 'createpoll'): " + values.spotifyplaylistid);
-    console.log("Track ID (from form 'createpoll') :" + values.tracktopolluri);
+    const values = getPollFormValues()
+    console.log("1ST Ajax request 'POST' createpoll");
+    console.log("Playlist ID (from form 'createpoll'): " + values.newpollplaylistid);
+    console.log("Track ID (from form 'createpoll') :" + values.newpolltrackid);
     console.log("Current user: " + values.newpollusername);
     if (values.status) {
         $.ajax({
