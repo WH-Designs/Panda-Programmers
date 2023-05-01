@@ -459,6 +459,15 @@ namespace MusicCollaborationManager.Services.Concrete
             FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
             return wantedPlaylist;
         }
-        
+
+        public static ITracksClient GetTracksClientAsync() 
+        {
+            return Spotify.Tracks;
+        }
+
+        public async Task<FullTrack> GetSpotifyTrackByID(string trackID, ITracksClient tracksClient)
+        {
+            return await tracksClient.Get(trackID);       
+        }
     }
 }
