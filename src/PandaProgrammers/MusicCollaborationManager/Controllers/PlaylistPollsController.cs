@@ -316,62 +316,77 @@ namespace MusicCollaborationManager.Controllers
 
 
         ////(Should be) FINISHED. No js safeguard for "null" return.
-        //[HttpPost("removevote")]
-        //public async Task<GeneralPollInfoDTO> RemoveVoteOnExistingPoll([Bind("RemoveVotePlaylistID, RemoveVoteUsername")] RemoveVoteDTO removeVoteInput)
-        //{
-        //    GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
-        //    Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(removeVoteInput.RemoveVotePlaylistID);
-        //    if (ExistingPoll != null)
-        //    {
+        [HttpPost("removevote")]
+        public async Task<GeneralPollInfoDTO> RemoveVoteOnExistingPoll([Bind("RemoveVotePlaylistID, RemoveVoteUsername")] RemoveVoteDTO removeVoteInput)
+        {
+            GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
+            Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(removeVoteInput.RemoveVotePlaylistID);
+            if (ExistingPoll != null)
+            {
 
-        //        VoteIdentifierInfoDTO UserVote = await _pollsService.GetSpecificUserVoteForAGivenPlaylist(ExistingPoll.PollId, removeVoteInput.RemoveVoteUsername);
-        //        await _pollsService.RemoveVote(UserVote.VoteID);
+                VoteIdentifierInfoDTO UserVote = _pollsService.GetSpecificUserVoteForAGivenPlaylist(ExistingPoll.PollId, removeVoteInput.RemoveVoteUsername);
+                _pollsService.RemoveVote(UserVote.VoteID);
 
-        //        //--------------------
+                //--------------------
 
-        //        int totalPollVotes = 0;
-        //        IEnumerable<OptionInfoDTO> PollOptions = await _pollsService.GetPollOptionsByPollID(removeVoteInput.RemoveVotePlaylistID);
-        //        foreach (var option in PollOptions)
-        //        {
-        //            if (option.OptionText == "Yes")
-        //            {
+                int totalPollVotes = 0;
+                IEnumerable<OptionInfoDTO> PollOptions = _pollsService.GetPollOptionsByPollID(ExistingPoll.PollId);
+                foreach (var option in PollOptions)
+                {
+                    if (option.OptionText == "Yes")
+                    {
 
-        //                totalPollVotes += option.OptionCount;
-        //                InfoToReturn.YesVotes = option.OptionCount;
-        //                InfoToReturn.YesOptionID = option.OptionID;
-        //            }
-        //            else if (option.OptionText == "No")
-        //            {
-        //                totalPollVotes += option.OptionCount;
-        //                InfoToReturn.NoVotes = option.OptionCount;
-        //                InfoToReturn.NoOptionID = option.OptionID;
-        //            }
-        //        }
-        //        InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
+                        totalPollVotes += option.OptionCount;
+                        InfoToReturn.YesVotes = option.OptionCount;
+                        InfoToReturn.YesOptionID = option.OptionID;
+                    }
+                    else if (option.OptionText == "No")
+                    {
+                        totalPollVotes += option.OptionCount;
+                        InfoToReturn.NoVotes = option.OptionCount;
+                        InfoToReturn.NoOptionID = option.OptionID;
+                    }
+                }
+                InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
 
-        //        //---------------------
+                //---------------------
 
-        //        FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
-        //        InfoToReturn.TrackArtist = PolledTrack.Id;
-        //        InfoToReturn.TrackTitle = PolledTrack.Name;
-        //        InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
-
-
-        //        //-------------------------------------------
-
-        //        FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(removeVoteInput.RemoveVotePlaylistID);
-        //        InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
+                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+                InfoToReturn.TrackArtist = PolledTrack.Artists[0].Name;
+                InfoToReturn.TrackTitle = PolledTrack.Name;
+                InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
 
 
-        //        //----------------------------
-        //        InfoToReturn.UserVotedYes = null;
+                //-------------------------------------------
 
-        //        //---------------------------
+                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(removeVoteInput.RemoveVotePlaylistID);
+                InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
+
+                int PlaylistFollowerCountAsInt = 0;
+                try
+                {
+                    PlaylistFollowerCountAsInt = Int32.Parse(InfoToReturn.PlaylistFollowerCount);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Unable to parse playlist follower count. Defaulting to 0 as playlist follower count.");
+                }
 
 
-        //        return InfoToReturn;
-        //    }
-        //    return null; //No js safeguard for "null" return.
-        //}
+                //Simulating that playlist has 2 followers (below)------
+                PlaylistFollowerCountAsInt = 2;
+                InfoToReturn.PlaylistFollowerCount = "2";
+
+                //Simulating that playlist has 2 followers (above)------
+                //----------------------------
+                InfoToReturn.UserVotedYes = null;
+
+                //---------------------------
+
+
+                return InfoToReturn;
+            }
+            return null; //No js safeguard for "null" return.
+        }
     }
 }
