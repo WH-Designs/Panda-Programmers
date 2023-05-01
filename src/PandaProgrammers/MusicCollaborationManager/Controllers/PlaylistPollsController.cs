@@ -93,7 +93,7 @@ namespace MusicCollaborationManager.Controllers
 
                 //Simulating that playlist has 2 followers (below)------
                 //PlaylistFollowerCountAsInt = 2;
-                InfoToReturn.PlaylistFollowerCount = "2";
+                //InfoToReturn.PlaylistFollowerCount = "2";
 
                 //Simulating that playlist has 2 followers (above)------
                 return InfoToReturn;
@@ -175,8 +175,8 @@ namespace MusicCollaborationManager.Controllers
 
 
                 //Simulating that playlist has 2 followers (below)------
-                PlaylistFollowerCountAsInt = 2;
-                InfoToReturn.PlaylistFollowerCount = "2";
+                //PlaylistFollowerCountAsInt = 2;
+                //InfoToReturn.PlaylistFollowerCount = "2";
 
                 //Simulating that playlist has 2 followers (above)------
                 if (PlaylistFollowerCountAsInt <= Int32.Parse(InfoToReturn.TotalPollVotes))
@@ -281,8 +281,8 @@ namespace MusicCollaborationManager.Controllers
                 }
 
                 //Simulating that playlist has 2 followers (below)------
-                PlaylistFollowerCountAsInt = 2;
-                InfoToReturn.PlaylistFollowerCount = "2";
+                //PlaylistFollowerCountAsInt = 2;
+                //InfoToReturn.PlaylistFollowerCount = "2";
 
                 //Simulating that playlist has 2 followers (above)------
 
@@ -374,8 +374,8 @@ namespace MusicCollaborationManager.Controllers
 
 
                 //Simulating that playlist has 2 followers (below)------
-                PlaylistFollowerCountAsInt = 2;
-                InfoToReturn.PlaylistFollowerCount = "2";
+                //PlaylistFollowerCountAsInt = 2;
+                //InfoToReturn.PlaylistFollowerCount = "2";
 
                 //Simulating that playlist has 2 followers (above)------
                 //----------------------------
