@@ -460,14 +460,12 @@ namespace MusicCollaborationManager.Services.Concrete
             return wantedPlaylist;
         }
 
-        //-MINE (in progress below)-----
-
         public static ITracksClient GetTracksClientAsync() 
         {
             return Spotify.Tracks;
         }
 
-        public async Task<FullTrack> GetSpotifyTrackByID(string trackID, ITracksClient tracksClient) //NEED UNIT TESTING
+        public async Task<FullTrack> GetSpotifyTrackByID(string trackID, ITracksClient tracksClient)
         {
             return await tracksClient.Get(trackID);       
         }
