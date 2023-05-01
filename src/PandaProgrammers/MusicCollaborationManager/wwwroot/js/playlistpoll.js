@@ -38,13 +38,13 @@
     console.log("MCM username (on document ready): " + curUser);
     console.log("Playlist ID (on ready): " + playlistID);
 
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: `/api/PlaylistPolls/checkifpollexists/${curUser}/${playlistID}`,
-    //    success: displayPreExistingPollInfo,
-    //    error: errorOnAjax
-    //});
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: `/api/PlaylistPolls/checkifpollexists/${curUser}/${playlistID}`,
+        success: displayPreExistingPollInfo,
+        error: errorOnAjax
+    });
 });
 
 //$(document).ready(function () {
@@ -95,17 +95,20 @@ function displayPreExistingPollInfo(data) {
             console.log(`Track info: \n --artist: ${data["trackArtist"]} \n --name: ${data["trackTitle"]} \n --duration: ${data["trackDuration"]}`);
             console.log(`'Yes' option ID: ${data["yesOptionID"]}`);
             console.log(`'No' option ID: ${data["noOptionID"]}`);
-            console.log(`Total votes: ${data["totalPollVotes"]}`);
-
+        console.log(`Total votes: ${data["totalPollVotes"]}`);
+        console.log(`What the user voted: ${userVotedYes}`);
+            
 
             if (userVotedYes == true || userVotedYes == false) { //User has already voted.
-                displayPolledTrackInfoForVotedUser(data);
+                /*displayPolledTrackInfoForVotedUser(data);*/
+                displayPolledTrackInfoWithDecisions(data);
             }
             else if (data["noVotes"] == -1 && data["yesVotes"] == -1) { //Special case of -1 votes. Indicates that a polling session has ended as soon as the user got to the page. (Realized there's no actual use for this...)
                 displayPollResults(data);
             }
             else { //User has not cast a vote.
-                displayPolledTrackInfoWithDecisions(data);
+                /* displayPolledTrackInfoWithDecisions(data);*/
+                displayPolledTrackInfoForVotedUser(data);
             }
         
         //Can go a few ways from here:
@@ -666,7 +669,7 @@ function displayPolledTrackInfoForVotedUser(data) {
     let curUser = $("#mcm-username").text();
     let curplaylistID = $("#general-playlist-id").text();
 
-    let userDecisionAsText = "UNKNOWN_USER_DECISION"; //Just a placeholder value. An actual "yes" or "no will ALWAYS exist here.
+    let userDecisionAsText = "(You haven't voted yet)"; //Just a placeholder value. An actual "yes" or "no will ALWAYS exist here.
     let userVotedYes = data["userVotedYes"];
     if (userVotedYes == true) {
         console.log("User want the track on the playlist");
