@@ -1,5 +1,5 @@
 ﻿@Wyatt
-Feature: Generator Related Artists
+Feature: A Generator Related Artists
 
 Background:
 	Given the following users exist generator
