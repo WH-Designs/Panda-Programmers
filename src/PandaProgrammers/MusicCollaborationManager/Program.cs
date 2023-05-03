@@ -137,7 +137,7 @@ public class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-            app.UseMigrationsEndPoint();
+            // app.UseMigrationsEndPoint();
 
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
