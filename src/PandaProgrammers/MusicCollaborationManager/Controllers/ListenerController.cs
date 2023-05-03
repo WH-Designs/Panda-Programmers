@@ -15,6 +15,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.RegularExpressions;
+using MusicCollaborationManager.Services.Abstract;
+using System.Diagnostics;
 
 namespace MusicCollaborationManager.Controllers
 {
@@ -24,18 +26,25 @@ namespace MusicCollaborationManager.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SpotifyAuthService _spotifyService;
+        private readonly IPollsService _pollsService;
+        private readonly IPlaylistPollRepository _playlistPollRepository;
+
 
         public ListenerController(
             IListenerRepository listenerRepository,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            SpotifyAuthService spotifyService
+            SpotifyAuthService spotifyService,
+            IPollsService pollsService,
+            IPlaylistPollRepository playlistPollRepository
         )
         {
             _listenerRepository = listenerRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _spotifyService = spotifyService;
+            _pollsService = pollsService;
+            _playlistPollRepository = playlistPollRepository;
         }
 
         [Authorize]
@@ -123,7 +132,7 @@ namespace MusicCollaborationManager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult<Task> EditListenerInformation(
-            [Bind("FirstName,LastName")] Listener listener
+            [Bind("FirstName,LastName,SearchConsentFlag")] Listener listener
         )
         {
             if (
@@ -135,13 +144,18 @@ namespace MusicCollaborationManager.Controllers
                 return View("Settings");
             }
 
+            Listener oldListener = _listenerRepository.FindListenerByAspId(_userManager.GetUserId(User));
+
             ModelState.ClearValidationState("FriendId");
             ModelState.ClearValidationState("AspnetIdentityId");
             ModelState.ClearValidationState("SpotifyId");
 
             listener.FriendId = 0;
             listener.AspnetIdentityId = _userManager.GetUserId(User);
-            listener.SpotifyId = null;
+            listener.SpotifyId = oldListener.SpotifyId;
+            listener.AuthRefreshToken = oldListener.AuthRefreshToken;
+            listener.AuthToken = oldListener.AuthToken;
+            listener.SpotifyUserName = oldListener.SpotifyUserName;
 
             TryValidateModel(listener);
 
@@ -149,10 +163,6 @@ namespace MusicCollaborationManager.Controllers
             {
                 try
                 {
-                    Listener oldListener = _listenerRepository.FindListenerByAspId(
-                        _userManager.GetUserId(User)
-                    );
-
                     if (oldListener.AspnetIdentityId.Equals(listener.AspnetIdentityId))
                     {
                         _listenerRepository.Delete(oldListener);
@@ -183,7 +193,19 @@ namespace MusicCollaborationManager.Controllers
 
         [Authorize]
         public async Task<IActionResult> Playlist(string playlistID) {
+
+            /*Needs ViewModel with:
+                - username (of current MCM user) | Maybe the ID will work instead?
+                - Number of follower for this playlist (on spotify)
+             */
+            
+            
+
             try {
+
+                string aspId = _userManager.GetUserId(User);
+                Listener listener;
+                listener = _listenerRepository.FindListenerByAspId(aspId);
 
                 FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
                 List<UserTrackDTO> tracks = new List<UserTrackDTO>();
@@ -195,6 +217,9 @@ namespace MusicCollaborationManager.Controllers
                 returnPlaylist.Uri = convertPlaylist.Uri;
                 returnPlaylist.Owner = convertPlaylist.Owner.DisplayName;
                 returnPlaylist.Desc = convertPlaylist.Description;
+                returnPlaylist.PlaylistId = playlistID;
+                returnPlaylist.ListenerId = listener.Id;
+
 
                 foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
                     UserTrackDTO currentTrack = new UserTrackDTO();
@@ -210,12 +235,42 @@ namespace MusicCollaborationManager.Controllers
                         continue;
                     }
                 }
-                
-                returnPlaylist.Tracks = tracks;
-                return View("Playlist", returnPlaylist);
 
+                //Polls stuff (below)------------
+                PlaylistViewModel PlaylistView = new PlaylistViewModel();
+                PlaylistView.NumPlaylistFollowers = convertPlaylist.Followers.Total;
+                //Console.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
+                //Debug.WriteLine("Num playlist followers: " + PlaylistView.NumPlaylistFollowers);
+
+                string userEmail = _userManager.Users.Single(x => x.Id == aspId).Email;
+                PlaylistView.MCMUsername = userEmail;
+
+                //For testing purposes ONLY (below)------------
+
+                //IEnumerable<PollDTO> AllPolls = _pollsService.GetAllPolls();
+
+                //foreach (var poll in AllPolls)
+                //{
+                //    _pollsService.RemovePoll(poll.PollID);
+                //}
+
+
+                //For testing purposes ONLY (above)------------
+                //Polls stuff only (above)---------
+
+
+                returnPlaylist.Tracks = tracks;
+                PlaylistView.PlaylistContents.Tracks = new List<UserTrackDTO>();
+                PlaylistView.PlaylistContents = returnPlaylist;
+                return View("Playlist", PlaylistView);
+
+                //This needs to incorporate the ViewModel (to do later).
             } catch(ArgumentException e) {
                 Console.WriteLine(e.Message);
+
+               
+                PlaylistViewModel PlaylistView = new PlaylistViewModel();
+
 
                 FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
                 List<UserTrackDTO> tracks = new List<UserTrackDTO>();
@@ -227,6 +282,7 @@ namespace MusicCollaborationManager.Controllers
                 returnPlaylist.Uri = convertPlaylist.Uri;
                 returnPlaylist.Owner = convertPlaylist.Owner.DisplayName;
                 returnPlaylist.Desc = convertPlaylist.Description;
+                returnPlaylist.PlaylistId = "0wbYwQItyK648wmeNcqP5z";
 
                 foreach (PlaylistTrack<IPlayableItem> item in convertPlaylist.Tracks.Items){
                     UserTrackDTO currentTrack = new UserTrackDTO();
@@ -242,9 +298,17 @@ namespace MusicCollaborationManager.Controllers
                         continue;
                     }
                 }
-                
+
+                string aspId = _userManager.GetUserId(User);
+                string userEmail = _userManager.Users.Single(x => x.Id == aspId).Email;
+                PlaylistView.MCMUsername = userEmail;
+
+                PlaylistView.NumPlaylistFollowers = convertPlaylist.Followers.Total;
+                PlaylistView.PlaylistContents.Tracks = new List<UserTrackDTO>();
+                PlaylistView.PlaylistContents = returnPlaylist;
+
                 returnPlaylist.Tracks = tracks;
-                return View("Playlist", returnPlaylist);
+                return View("Playlist", PlaylistView);
             }
         }
     }

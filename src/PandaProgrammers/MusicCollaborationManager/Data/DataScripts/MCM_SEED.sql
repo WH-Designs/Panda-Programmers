@@ -10,15 +10,9 @@ INSERT INTO [Playlist] (ServiceID)
     (0),
     (0);
 
-INSERT INTO [Comment] (Likes, Message, ListenerID, PlaylistID)
+INSERT INTO [Comment] (Likes, Message, ListenerID, SpotifyID)
     VALUES
-    (10 ,'I like this playlist' ,1 , 1),
-    (20 ,'I dislike this playlist' ,2 , 1),
-    (55 ,'This playlist is average' ,3 , 2);
-
-INSERT INTO [Theme] (PrimaryColor, SecondaryColor, Font, ListenerID)
-    VALUES
-    ('dff064' ,'21637f' ,'Times New Roman' ,1),
-    ('5f605f' ,'f2f3f9' ,'Arial' ,2),
-    ('e88bb4' ,'d5d6cb' ,'Papyrus' ,3);
+    (10 ,'I like this playlist' ,1 , '0wbYwQItyK648wmeNcqP5z'),
+    (20 ,'I dislike this playlist' ,2 , '0wbYwQItyK648wmeNcqP5z'),
+    (55 ,'This playlist is average' ,3 , '0wbYwQItyK648wmeNcqP5z');
 

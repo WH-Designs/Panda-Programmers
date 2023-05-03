@@ -13,9 +13,7 @@ public partial class Comment
 
     public int ListenerId { get; set; }
 
-    public int PlaylistId { get; set; }
+    public string SpotifyId { get; set; }
 
     public virtual Listener Listener { get; set; }
-
-    public virtual Playlist Playlist { get; set; }
 }

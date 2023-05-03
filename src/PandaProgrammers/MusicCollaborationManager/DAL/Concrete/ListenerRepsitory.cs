@@ -31,7 +31,7 @@ public class ListenerRepository : Repository<Listener>, IListenerRepository
 
             return fullName;
         }
-        catch (InvalidOperationException ex)
+        catch (InvalidOperationException)
         {
             return null;
         }
@@ -51,7 +51,7 @@ public class ListenerRepository : Repository<Listener>, IListenerRepository
             listener = _dbSet.First(l => l.AspnetIdentityId.Equals(aspUserId));
             return listener;
         }
-        catch (InvalidOperationException ex)
+        catch (InvalidOperationException)
         {
             return null;
         }
