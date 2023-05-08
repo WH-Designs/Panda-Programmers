@@ -424,5 +424,11 @@ namespace MusicCollaborationManager.Controllers
         {
             return View();
         }
+
+        [Authorize]
+        public IActionResult FAQ()
+        {
+            return View();
+        }
     }
 }
