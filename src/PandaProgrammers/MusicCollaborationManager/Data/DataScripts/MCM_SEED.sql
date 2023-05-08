@@ -18,11 +18,11 @@ INSERT INTO [Comment] (Likes, Message, ListenerID, SpotifyID)
 
 INSERT INTO [Tutorials] (Link)
     VALUES
-    ('https://youtu.be/nd7dKEjJ5To'),
-    ('https://youtu.be/Lkak2r-mYPk'),
-    ('https://youtu.be/F4Vt4UPWTd8'),
-    ('https://youtu.be/Pc8uIPka8_k'),
-    ('https://youtu.be/Hpvp9Q2y3WY'),
-    ('https://youtu.be/93c6bVf_CjU'),
-    ('https://youtu.be/93c6bVf_CjU'),
-    ('https://youtu.be/TqFQd9ef_xQ');
+    ('https://youtube.com/embed/nd7dKEjJ5To'),
+    ('https://youtube.com/embed/Lkak2r-mYPk'),
+    ('https://youtube.com/embed/F4Vt4UPWTd8'),
+    ('https://youtube.com/embed/Pc8uIPka8_k'),
+    ('https://youtube.com/embed/Hpvp9Q2y3WY'),
+    ('https://youtube.com/embed/93c6bVf_CjU'),
+    ('https://youtube.com/embed/l53Eoq2JVT0'),
+    ('https://youtube.com/embed/TqFQd9ef_xQ');

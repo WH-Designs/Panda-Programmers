@@ -1,6 +1,6 @@
-﻿
+﻿@model List<String>
 
-<div class="flex flex-col ml-5 mr-5 md:ml-8 lg:ml-32 xl:ml-[400px]">
+<div class="flex flex-col ml-5 mr-32 md:ml-8 lg:ml-20">
     <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
         <h1 class="font-header font-bold text-5xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">Generator FAQ</h1>
         <p class="font-header font-bold text-1xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">Select a topic to learn more about it</p>
@@ -42,7 +42,7 @@
                 </p>
                 <br />
                 <iframe width="420" height="315"
-                        src="">
+                        src="@Model[0]" allowfullscreen>
                 </iframe>
             </div>
         </div>
@@ -55,6 +55,10 @@
                     The mood generator is the perfect way to quickly generate a playlist based on how you feel! Whether you are in a calm mood and looking to relax or are filled with an all-consuming rage, we got you covered. Simply
                     select one of our six moods available and we will provide you with the perfect playlist.
                 </p>
+                <br />
+                <iframe width="420" height="315"
+                        src="@Model[1]" allowfullscreen>
+                </iframe>
             </div>
         </div>
         <br />
@@ -63,6 +67,10 @@
             <div class="hidden content">
                 <br />
                 <p>Not written yet</p>
+                <br />
+                <iframe width="420" height="315"
+                        src="@Model[6]" allowfullscreen>
+                </iframe>
             </div>
         </div>
         <div class="text-1xl classicpanda:font-header font-bold text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
@@ -75,6 +83,10 @@
                     Friday. This means that the songs you generate on a Monday night will be calm and relaxing since you would have work the next day. Contrast this with a Friday night being much more upbeat and energetic because
                     you are going into the weekend.
                 </p>
+                <br />
+                <iframe width="420" height="315"
+                        src="@Model[2]" allowfullscreen>
+                </iframe>
             </div>
         </div>
         <br />
@@ -86,6 +98,10 @@
                     This generator is very simple to use! All you have to do is select the generate button and it will automatically find you top artists and generate the playlist. You do not need to put in any input on 
                     this one as it is fully automated. Just sit back and watch the magic happen!
                 </p>
+                <br />
+                <iframe width="420" height="315"
+                        src="@Model[4]" allowfullscreen>
+                </iframe>
             </div>
         </div>
         <br />
@@ -98,6 +114,10 @@
                     and favorites. This generator is super easy to use as all you have to do is select the generate button and it will automatically find your top tracks and generate the playlist. You do not need to put any input on this
                     one as it is fully automated! Just sit back and watch the magic happen.
                 </p>
+                <br />
+                <iframe width="420" height="315"
+                        src="@Model[3]" allowfullscreen>
+                </iframe>
             </div>
         </div>
         <br />
@@ -110,6 +130,10 @@
                     one of these tracks and have it generate a playlist with songs similar to the track selected. This generator will allow you to find tracks very similar to the one you select and will help you to discover new music
                     that is akin to what you already love.
                 </p>
+                <br />
+                <iframe width="420" height="315"
+                        src="@Model[5]" allowfullscreen>
+                </iframe>
             </div>
         </div>
         <br />
@@ -124,6 +148,10 @@
                     your playlist will not have an image or a description when it is generated. As mentioned previously, the track input generator does not have prompts to be filled out and is completely automatic. It will automatically
                     create an image and a description based on the track you selected. 
                 </p>
+                <br />
+                <iframe width="420" height="315"
+                        src="@Model[7]" allowfullscreen>
+                </iframe>
             </div>
         </div>
     </div>

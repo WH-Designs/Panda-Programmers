@@ -23,14 +23,16 @@ public partial class MCMDbContext : DbContext
 
     public virtual DbSet<Poll> Polls { get; set; }
 
-    //public virtual DbSet<Vote> Votes { get; set; }
+    public virtual DbSet<Tutorial> Tutorials { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer("Name=MCMConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27F0E9E0D4");
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC274C7E12E2");
 
             entity.ToTable("Comment");
 
@@ -52,7 +54,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Listener>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC27BA17744F");
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC27C8A774A1");
 
             entity.ToTable("Listener");
 
@@ -79,7 +81,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Playlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC274FC5014C");
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27AD2E9D4C");
 
             entity.ToTable("Playlist");
 
@@ -89,7 +91,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Poll>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Polls__3214EC273887E3D6");
+            entity.HasKey(e => e.Id).HasName("PK__Polls__3214EC27E353160A");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.PollId)
@@ -103,6 +105,16 @@ public partial class MCMDbContext : DbContext
             entity.Property(e => e.SpotifyTrackUri)
                 .IsRequired()
                 .HasMaxLength(64);
+        });
+
+        modelBuilder.Entity<Tutorial>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Tutorial__3214EC272BC12D13");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Link)
+                .IsRequired()
+                .HasMaxLength(512);
         });
 
         OnModelCreatingPartial(modelBuilder);
