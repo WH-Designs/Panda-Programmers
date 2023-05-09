@@ -6,10 +6,10 @@
         <p class="font-header font-bold text-1xl text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white">Select a topic to learn more about it</p>
         <br />
         <div class="text-1xl classicpanda:font-header font-bold text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
-            <button type="button" class="collapsible text-2xl">General Info & How to Use</button>
+            <button type="button" class="collapsible text-2xl" id="general_btn">General Info & How to Use</button>
             <div class="hidden content">
                 <br />
-                <p>
+                <p id="general_content">
                     Welcome to Music Collaboration Manager's playlist generators! Each of our playlist generators offers a unique way to generate a new playlist for you and add it to your Spotify account. Now I know what you are thinking,
                     why would I want a playlist generator when I can just make one on my own? Well simply put, using one of our generators is much faster and can give you a playlist on the fly! Whether it be an emergency road-trip playlist
                     or you need some tunes for your night on the town, you can quickly and easily generate a playlist using Music Collaboration Manager. At most, you will have to input some basic information and then let our application
@@ -32,52 +32,55 @@
         </div>          
         <br />
         <div class="text-1xl classicpanda:font-header font-bold text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
-            <button type="button" class="collapsible text-2xl">Questionnaire Generator</button>
+            <button type="button" class="collapsible text-2xl" id="quest_btn">Questionnaire Generator</button>
             <div class="hidden content">
                 <br />
-                <p>The questionnaire generator is a highly customizable playlist generator. With this generator, you will be able to select a genre and then adjust various levels of the songs within this genre to give you a high level
+                <p id="quest_content">The questionnaire generator is a highly customizable playlist generator. With this generator, you will be able to select a genre and then adjust various levels of the songs within this genre to give you a high level
                     of control over your new playlist. Simply move the sliders to the values you desire and you will get back the closest match with the values you input. It should be known that this generator is not perfect and if you
                     input values that don't make sense, you may not get back the expected results. For example, if you select death metal for your genre and then choose to make it have a very low energy and be very happy, your results
                     may not be the best. You will still get back a playlist, but it may not be what you are looking for.
                 </p>
                 <br />
                 <iframe width="420" height="315"
-                        src="@Model[0]" allowfullscreen>
+                        src="@Model[0]" allowfullscreen id="quest_vid">
                 </iframe>
             </div>
         </div>
         <br />
         <div class="text-1xl classicpanda:font-header font-bold text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
-            <button type="button" class="collapsible text-2xl">Mood Generator</button>
+            <button type="button" class="collapsible text-2xl" id="mood_btn">Mood Generator</button>
             <div class="hidden content">
                 <br />
-                <p>
+                <p id="mood_content">
                     The mood generator is the perfect way to quickly generate a playlist based on how you feel! Whether you are in a calm mood and looking to relax or are filled with an all-consuming rage, we got you covered. Simply
                     select one of our six moods available and we will provide you with the perfect playlist.
                 </p>
                 <br />
                 <iframe width="420" height="315"
-                        src="@Model[1]" allowfullscreen>
+                        src="@Model[1]" allowfullscreen id="mood_vid">
                 </iframe>
             </div>
         </div>
         <br />
         <div class="text-1xl classicpanda:font-header font-bold text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
-            <button type="button" class="collapsible text-2xl">Related Artist Generator</button>
+            <button type="button" class="collapsible text-2xl" id="relate_btn">Related Artist Generator</button>
             <div class="hidden content">
                 <br />
-                <p>Not written yet</p>
+                <p id="relate_content">The related artist generator lets you pick a popular artist and get a playlist with their songs and related artists! Simply select an artist from the wide variety in 
+                    our drop down list you want you playlist to be based one. After that, our generator will automatically make you a playlist with songs by that artists and similar artists. This generator
+                    makes it quick and easy to find artists similar to those you love and discover new music!
+                </p>
                 <br />
                 <iframe width="420" height="315"
-                        src="@Model[6]" allowfullscreen>
+                        src="@Model[6]" allowfullscreen id="relate_vid">
                 </iframe>
             </div>
         </div>
         <div class="text-1xl classicpanda:font-header font-bold text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
-            <button type="button" class="collapsible text-2xl">Time Generator</button>
+            <button type="button" class="collapsible text-2xl" id="time_btn">Time Generator</button>
             <div class="hidden content">
                 <br />
-                <p>
+                <p id="time_content">
                     The time-based generator allows you to find the perfect music based on the time and day of a standard workweek. Whether you are working a 9 to 5 and need some music to help you focus or are a go-getter who gets
                     up at 4 am to run two miles, we got you covered. This generator takes no input and will generate itself based on what time and day you are using it. It is based on a standard work week which is 9 to 5, Monday to
                     Friday. This means that the songs you generate on a Monday night will be calm and relaxing since you would have work the next day. Contrast this with a Friday night being much more upbeat and energetic because
@@ -85,63 +88,63 @@
                 </p>
                 <br />
                 <iframe width="420" height="315"
-                        src="@Model[2]" allowfullscreen>
+                        src="@Model[2]" allowfullscreen id="time_vid">
                 </iframe>
             </div>
         </div>
         <br />
         <div class="text-1xl classicpanda:font-header font-bold text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
-            <button type="button" class="collapsible text-2xl">Top Artist Generator</button>
+            <button type="button" class="collapsible text-2xl" id="topa_btn">Top Artist Generator</button>
             <div class="hidden content">
                 <br />
-                <p>The top artist generator finds your top artists on Spotify and generates a playlist based on those artists. This means you can find more music from the artists you love and find artists similar to them. 
+                <p id="topa_content">The top artist generator finds your top artists on Spotify and generates a playlist based on those artists. This means you can find more music from the artists you love and find artists similar to them. 
                     This generator is very simple to use! All you have to do is select the generate button and it will automatically find you top artists and generate the playlist. You do not need to put in any input on 
                     this one as it is fully automated. Just sit back and watch the magic happen!
                 </p>
                 <br />
                 <iframe width="420" height="315"
-                        src="@Model[4]" allowfullscreen>
+                        src="@Model[4]" allowfullscreen id="topa_vid">
                 </iframe>
             </div>
         </div>
         <br />
         <div class="text-1xl classicpanda:font-header font-bold text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
-            <button type="button" class="collapsible text-2xl">Top Track Generator</button>
+            <button type="button" class="collapsible text-2xl" id="topt_btn">Top Track Generator</button>
             <div class="hidden content">
                 <br />
-                <p>
+                <p id="topt_content">
                     The top track generator finds your top tracks on Spotify and generates a playlist based on those top tracks! This means you can listen to music similar to what you already love and potentially discover new tracks
                     and favorites. This generator is super easy to use as all you have to do is select the generate button and it will automatically find your top tracks and generate the playlist. You do not need to put any input on this
                     one as it is fully automated! Just sit back and watch the magic happen.
                 </p>
                 <br />
                 <iframe width="420" height="315"
-                        src="@Model[3]" allowfullscreen>
+                        src="@Model[3]" allowfullscreen id="topt_vid">
                 </iframe>
             </div>
         </div>
         <br />
         <div class="text-1xl classicpanda:font-header font-bold text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
-            <button type="button" class="collapsible text-2xl">Track Input Generator</button>
+            <button type="button" class="collapsible text-2xl" id="input_btn">Track Input Generator</button>
             <div class="hidden content">
                 <br />
-                <p>
+                <p id="input_content">
                     The track input generator allows you to select a single track to have a playlist generated on. This generator will automatically find your top tracks and display them to you. From there you will be able to select
                     one of these tracks and have it generate a playlist with songs similar to the track selected. This generator will allow you to find tracks very similar to the one you select and will help you to discover new music
                     that is akin to what you already love.
                 </p>
                 <br />
                 <iframe width="420" height="315"
-                        src="@Model[5]" allowfullscreen>
+                        src="@Model[5]" allowfullscreen id="input_vid">
                 </iframe>
             </div>
         </div>
         <br />
         <div class="text-1xl classicpanda:font-header font-bold text-textback classicpanda:text-whitetext p-2 luxury:text-yellow-500 autumn:text-white revolution:text-white shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
-            <button type="button" class="collapsible text-2xl">AI Generation</button>
+            <button type="button" class="collapsible text-2xl" id="ai_btn">AI Generation</button>
             <div class="hidden content">
                 <br />
-                <p>
+                <p id="ai_content">
                     On all of the generator pages, except the track input page, there are places to input information for you to put in a prompt for an AI to generate an image and a description based on your prompt. When you generate a
                     playlist and have these prompts filled out, an AI will generate an image and a description for your playlist. You will be able to see both of these on the same page where you can see your generated playlist. When you
                     save your playlist the image and description the AI created will be assigned to the image and description of the new playlist in your Spotify account. If you choose to leave these two blank, neither will be created and
@@ -150,7 +153,7 @@
                 </p>
                 <br />
                 <iframe width="420" height="315"
-                        src="@Model[7]" allowfullscreen>
+                        src="@Model[7]" allowfullscreen id="ai_vid">
                 </iframe>
             </div>
         </div>
