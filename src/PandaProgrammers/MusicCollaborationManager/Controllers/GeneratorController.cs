@@ -90,6 +90,12 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre);
+
+                string imgURL = "https://www.allrecipes.com/thmb/5bCKvl89aQOSIBqwodUZa8lKbp4=/364x242/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7483839_Pizza-Bombs_LaDonna-Langwell_4x3-b494cdfc6a494d3ab4c69dee2fed0c3d.jpg";
+
+                string base64ImgString = await GeneratorsViewModel.ImageUrlToBase64(imgURL);
+                generatorsViewModel.PlaylistImgBase64 = base64ImgString;
+
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
             catch (Exception)
