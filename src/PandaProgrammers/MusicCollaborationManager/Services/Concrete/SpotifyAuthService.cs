@@ -11,6 +11,7 @@ using System;
 using MusicCollaborationManager.Utilities;
 using Microsoft.IdentityModel.Tokens;
 using SpotifyAPI.Web.Http;
+using System.Xml.Schema;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -468,6 +469,11 @@ namespace MusicCollaborationManager.Services.Concrete
         public async Task<FullTrack> GetSpotifyTrackByID(string trackID, ITracksClient tracksClient)
         {
             return await tracksClient.Get(trackID);       
+        }
+
+        public async Task<FullArtist> GetArtistById(string artistID)
+        {
+            return await Spotify.Artists.Get(artistID);
         }
     }
 }

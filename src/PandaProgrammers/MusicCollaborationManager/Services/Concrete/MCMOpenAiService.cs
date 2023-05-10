@@ -68,6 +68,35 @@ class MCMOpenAiService : IMCMOpenAiService
         }
     }
 
+    public async Task<string> GetTitle(string titlePrompt)
+    {
+        if (titlePrompt == null)
+        {
+            return null;
+        }
+        else
+        {
+            string inputOnly = $"Using these description word or words {titlePrompt}, create a short title for a playlist. Do not return the title in quotes.";
+
+            response = await _openAIService.TextCompletion.Get(inputOnly, o =>
+            {
+                o.N = 1;
+                o.MaxTokens = 500;
+            });
+        }
+
+        if (response.IsSuccess)
+        {
+            string result = String.Join(" ", response.Result.Choices.Select(i => i.Text).ToList());
+            result = result.Replace('"', ' ').Trim();
+            return result;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     public async Task<string> GetTextResponseFromOpenAiFromUserInputAuto(string UserInput)
     {
         if (UserInput == null)

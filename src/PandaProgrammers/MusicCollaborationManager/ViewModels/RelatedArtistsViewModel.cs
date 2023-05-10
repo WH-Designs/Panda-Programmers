@@ -10,12 +10,17 @@ namespace MusicCollaborationManager.ViewModels
 
         public List<string> RelatedArtists;
 
+        public string artistName;
+
         [Required]
         public string Artist { get; set; }
         [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
         public string coverImageInput { get; set; }
         [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
         public string descriptionInput { get; set; }
+        [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
+        public string titleInput { get; set; }
+        public bool generateTitle { get; set; }
 
         public RelatedArtistsViewModel SeedArtists(RelatedArtistsViewModel vm, List<FullArtist> artists)
         {
