@@ -56,17 +56,17 @@ namespace MusicCollaborationManager.Controllers
 
             listener = _listenerRepository.FindListenerByAspId(aspId);
 
-            if (listener.SpotifyId != null)
-            {
-                await _spotifyService.GetCallbackAsync("", listener);
-                _listenerRepository.AddOrUpdate(listener);
-            }
-
             vm.fullName = _listenerRepository.GetListenerFullName(listener.Id);
 
             vm.listener = listener;
 
             vm.aspUser = User;
+
+            if (vm.listener.SpotifyId != null)
+            {
+                Listener newListener = await _spotifyService.GetCallbackAsync("", vm.listener);
+                _listenerRepository.AddOrUpdate(newListener);
+            }
 
             try
             {
@@ -76,8 +76,9 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return RedirectToAction("callforward", "Home");
+                Console.WriteLine(e.Message);
+                TempData["Error"] = "Error Occured";
+                return RedirectToAction("Index", "Home");
             }
 
             return View(vm);
