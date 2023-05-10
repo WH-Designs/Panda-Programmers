@@ -25,8 +25,9 @@ namespace MusicCollaborationManager.Controllers
         private readonly IDeepAiService _deepAiService;
         private readonly IMCMOpenAiService _mcMOpenAiService;
         private readonly ITutorialRepository _tutorialRepository;
+        private readonly IPromptRepository _promptRepository;
 
-        public GeneratorController(ITutorialRepository tutorialRepository, IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService, IDeepAiService deepAiService, IMCMOpenAiService mcMOpenAiService)
+        public GeneratorController(IPromptRepository promptRepository, ITutorialRepository tutorialRepository, IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService, IDeepAiService deepAiService, IMCMOpenAiService mcMOpenAiService)
         {
             _listenerRepository = listenerRepository;
             _userManager = userManager;
@@ -35,6 +36,7 @@ namespace MusicCollaborationManager.Controllers
             _deepAiService = deepAiService;
             _mcMOpenAiService = mcMOpenAiService;
             _tutorialRepository = tutorialRepository;
+            _promptRepository = promptRepository;
         }
 
         [Authorize]
@@ -66,6 +68,8 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+                PromptDTO promptDTO = _promptRepository.GetPromptDTO();
+
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
                 string UserGenre = vm.genre;
                 GeneratorUtilities utilities = new GeneratorUtilities();
@@ -91,7 +95,15 @@ namespace MusicCollaborationManager.Controllers
 
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre);
+                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
+                if (vm.generateTitle == false)
+                {
+                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(vm.genre, promptDTO);
+                }
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
             catch (Exception)
@@ -123,6 +135,8 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+                PromptDTO promptDTO = _promptRepository.GetPromptDTO();
+
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
                 string UserInputCoverImage = vm.coverImageInput;
                 string UserInputDescription = vm.descriptionInput;
@@ -143,10 +157,16 @@ namespace MusicCollaborationManager.Controllers
                 result = response.Tracks;
 
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
-
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre);
+                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
+                if (vm.generateTitle == false)
+                {
+                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(vm.mood, promptDTO);
+                }
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -178,6 +198,8 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+                PromptDTO promptDTO = _promptRepository.GetPromptDTO();
+
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
                 string UserInputCoverImage = vm.coverImageInput;
                 string UserInputDescription = vm.descriptionInput;
@@ -202,10 +224,16 @@ namespace MusicCollaborationManager.Controllers
                 result = response.Tracks;
 
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
-
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre);
+                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
+                if (vm.generateTitle == false)
+                {
+                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(UserGenre, promptDTO);
+                }
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -229,6 +257,8 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+                PromptDTO promptDTO = _promptRepository.GetPromptDTO();
+
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
                 string UserInputCoverImage = vm.coverImageInput;
                 string UserInputDescription = vm.descriptionInput;
@@ -258,7 +288,16 @@ namespace MusicCollaborationManager.Controllers
 
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null);
+                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
+                if (vm.generateTitle == false)
+                {
+                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                }
+                else
+                {
+                    string prompt = "My top songs";
+                    generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(prompt, promptDTO);
+                }
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -293,6 +332,8 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+                PromptDTO promptDTO = _promptRepository.GetPromptDTO();
+
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
                 string UserInputCoverImage = $"the song titled {vm.trackName} by {vm.artistName}";
                 string UserInputDescription = $"the song titled {vm.trackName} by {vm.artistName}";
@@ -306,7 +347,8 @@ namespace MusicCollaborationManager.Controllers
 
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInputAuto(UserInputDescription);
+                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInputAuto(UserInputDescription, promptDTO);
+                generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(vm.trackName, promptDTO);
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
@@ -329,6 +371,8 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+                PromptDTO promptDTO = _promptRepository.GetPromptDTO();
+
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
                 string UserInputCoverImage = vm.coverImageInput;
                 string UserInputDescription = vm.descriptionInput;
@@ -358,7 +402,15 @@ namespace MusicCollaborationManager.Controllers
 
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null);
+                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
+                if (vm.generateTitle == false)
+                {
+                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle("Best artists and their hits", promptDTO);
+                }
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
@@ -393,10 +445,15 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+                PromptDTO promptDTO = _promptRepository.GetPromptDTO();
+
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
                 string UserInputCoverImage = vm.coverImageInput;
                 string UserInputDescription = vm.descriptionInput;
                 string UserArtist = vm.Artist;
+
+                FullArtist artist = await _spotifyService.GetArtistById(vm.Artist);
+                vm.artistName = artist.Name;
 
                 RecommendDTO recommendDTO = new RecommendDTO();
                 GeneratorUtilities generatorUtilities = new GeneratorUtilities();
@@ -410,7 +467,15 @@ namespace MusicCollaborationManager.Controllers
 
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null);
+                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
+                if (vm.generateTitle == false)
+                {
+                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle($"The songs by artists similar to {vm.artistName}", promptDTO);
+                }
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }

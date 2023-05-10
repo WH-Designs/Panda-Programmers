@@ -35,8 +35,13 @@ CREATE TABLE [Polls](
 );
 
 CREATE TABLE [Tutorials] (
-    [ID]                int             PRIMARY KEY IDENTITY(1, 1),
+    [ID]                int                 PRIMARY KEY IDENTITY(1, 1),
     [Link]              nvarchar(512)       NOT NULL,
+);
+
+CREATE TABLE [Prompts] (
+    [ID]                int                 PRIMARY KEY IDENTITY(1, 1),
+    [Prompt]            nvarchar(512)       NOT NULL,
 );
 
 ALTER TABLE [Comment] ADD CONSTRAINT [Fk_Comment_Listener_ID]

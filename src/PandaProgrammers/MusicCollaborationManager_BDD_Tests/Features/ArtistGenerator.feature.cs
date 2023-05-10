@@ -84,20 +84,20 @@ their top artists automatically.", ProgrammingLanguage.CSharp, new string[] {
         {
 #line 9
 #line hidden
-            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "UserName",
                         "Email",
                         "FirstName",
                         "LastName",
                         "Password"});
-            table2.AddRow(new string[] {
+            table3.AddRow(new string[] {
                         "chadb@gmail.com",
                         "chadb@gmail.com",
                         "Chad",
                         "Bass",
                         "Pass321!"});
 #line 10
- testRunner.Given("the following users exist generator", ((string)(null)), table2, "Given ");
+ testRunner.Given("the following users exist generator", ((string)(null)), table3, "Given ");
 #line hidden
         }
         

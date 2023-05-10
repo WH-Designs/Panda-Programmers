@@ -26,3 +26,13 @@ INSERT INTO [Tutorials] (Link)
     ('https://youtube.com/embed/93c6bVf_CjU'),
     ('https://youtube.com/embed/l53Eoq2JVT0'),
     ('https://youtube.com/embed/TqFQd9ef_xQ');
+
+INSERT INTO [Prompts] (Prompt)
+    VALUES
+    ('Using these words {0}, give a detailed description of a music playlist and dont mention any specific artists.'),
+    ('Give me a detailed paragraph describing an {0} music playlist and dont mention any specific artists.'),
+    ('Using these words {0}, give a detailed description of a {1} music playlist and dont mention any specific artists.'),
+    ('Using these description word or words {0}, create a short title for a playlist. Do not return the title in quotes.'),
+    ('Using these words {0}, give a general description of the type of music that could be found in a playlist of similar songs and dont mention any specific artists and dont describe specific songs in the playlist.');
+
+    
