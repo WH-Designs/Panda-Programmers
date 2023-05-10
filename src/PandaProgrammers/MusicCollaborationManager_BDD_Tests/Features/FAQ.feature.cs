@@ -20,27 +20,31 @@ namespace MusicCollaborationManager_BDD_Tests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Preset Themes")]
-    [NUnit.Framework.CategoryAttribute("Michael")]
-    public partial class PresetThemesFeature
+    [NUnit.Framework.DescriptionAttribute("FAQ")]
+    [NUnit.Framework.CategoryAttribute("Blake")]
+    public partial class FAQFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = new string[] {
-                "Michael"};
+                "Blake"};
         
-#line 1 "PresetThemes.feature"
+#line 1 "FAQ.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Preset Themes", "**As a listener I want to be able to see pre-made themes so I can customize the w" +
-                    "ebsite to my preferences**\r\n\r\nThis story is about being able to use pre-made the" +
-                    "mes. We want this to be editable and displayable \r\nwithout page loads.", ProgrammingLanguage.CSharp, new string[] {
-                        "Michael"});
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "FAQ", @"**As a listener with little knowledge of playlist generators, I'd like a better understanding of them before I use them so I'll know how to use them effectively**
+
+A listener will be able to go to an FAQ page to learn more about how to use the generators and how they work. After observing users during alpha testing, it became 
+clear that there may be some confusion on how to use the generators properly. With an FAQ page it would be helpful to let the users know how to user the generators 
+correctly and give them information on what to expect from each generator. On top of that, some users may also wish to know how the generators work, which will also 
+be detailed here. This description of how they work will be written in such a way that a listener does not need to have CS knowledge to understand how they work on 
+a high level.", ProgrammingLanguage.CSharp, new string[] {
+                        "Blake"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -80,93 +84,37 @@ namespace MusicCollaborationManager_BDD_Tests.Features
         
         public virtual void FeatureBackground()
         {
-#line 10
+#line 11
 #line hidden
-            TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "UserName",
                         "Email",
                         "FirstName",
                         "LastName",
                         "Password"});
-            table10.AddRow(new string[] {
+            table3.AddRow(new string[] {
                         "chadb@gmail.com",
                         "chadb@gmail.com",
                         "Chad",
                         "Bass",
                         "Pass321!"});
-            table10.AddRow(new string[] {
-                        "tiffanyf@gmail.com",
-                        "tiffanyf@gmail.com",
-                        "Tiffany",
-                        "Fox",
-                        "Pass321!"});
-            table10.AddRow(new string[] {
-                        "dwightm@gmail.com",
-                        "dwightm@gmail.com",
-                        "Dwight",
-                        "Morse",
-                        "Pass321!"});
-#line 11
- testRunner.Given("the following users exist settings", ((string)(null)), table10, "Given ");
+#line 12
+ testRunner.Given("the following users exist generator", ((string)(null)), table3, "Given ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user can reach settings page")]
-        public virtual void LoggedInUserCanReachSettingsPage()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can reach settings page", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 17
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 10
-this.FeatureBackground();
-#line hidden
-#line 18
- testRunner.Given("I am a logged in user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 19
- testRunner.When("I click on the settings button in the navbar", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 20
- testRunner.Then("I should be taken to the settings page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user can see first and last name")]
-        [NUnit.Framework.TestCaseAttribute("Chad", "Bass", null)]
-        [NUnit.Framework.TestCaseAttribute("Tiffany", "Fox", null)]
-        [NUnit.Framework.TestCaseAttribute("Dwight", "Morse", null)]
-        public virtual void LoggedInUserCanSeeFirstAndLastName(string firstName, string lastName, string[] exampleTags)
+        [NUnit.Framework.DescriptionAttribute("Logged in user can navigate to the FAQ from the generator index page")]
+        [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", "FAQ", null)]
+        public virtual void LoggedInUserCanNavigateToTheFAQFromTheGeneratorIndexPage(string firstName, string page, string genPage, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("FirstName", firstName);
-            argumentsOfScenario.Add("LastName", lastName);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can see first and last name", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 22
+            argumentsOfScenario.Add("Page", page);
+            argumentsOfScenario.Add("GenPage", genPage);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can navigate to the FAQ from the generator index page", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 16
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -186,32 +134,86 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 10
+#line 11
 this.FeatureBackground();
 #line hidden
-#line 23
- testRunner.Given(string.Format("I am a logged in user with first name \'{0}\' and last name \'{1}\'", firstName, lastName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 17
+ testRunner.Given(string.Format("I am a logged in user with first name \'{0}\'", firstName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 24
- testRunner.When("I click on the settings button in the navbar", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
+  testRunner.And(string.Format("I am on the \'{0}\' page", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 25
- testRunner.Then("I should be taken to the settings page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 19
+ testRunner.When("I select the FAQ page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 26
- testRunner.And(string.Format("I should see my first name \'{0}\' and last name `\'{1}\'", firstName, lastName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 20
+ testRunner.Then(string.Format("I should be redirected to the \'{0}\' page", genPage), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Logged in user can see section of page to change site theme")]
-        public virtual void LoggedInUserCanSeeSectionOfPageToChangeSiteTheme()
+        [NUnit.Framework.DescriptionAttribute("Logged in user will see generator information buttons on FAQ page")]
+        [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", null)]
+        public virtual void LoggedInUserWillSeeGeneratorInformationButtonsOnFAQPage(string firstName, string page, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user can see section of page to change site theme", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            argumentsOfScenario.Add("FirstName", firstName);
+            argumentsOfScenario.Add("Page", page);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user will see generator information buttons on FAQ page", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 25
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 11
+this.FeatureBackground();
+#line hidden
+#line 26
+ testRunner.Given(string.Format("I am a logged in user with first name \'{0}\'", firstName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 27
+  testRunner.And(string.Format("I am on the \'{0}\' page", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 28
+ testRunner.When("I select the FAQ page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 29
+ testRunner.Then("I should should see FAQ information buttons", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Logged in user will see generator information appear when clicking on any informa" +
+            "tion button")]
+        [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", null)]
+        public virtual void LoggedInUserWillSeeGeneratorInformationAppearWhenClickingOnAnyInformationButton(string firstName, string page, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("FirstName", firstName);
+            argumentsOfScenario.Add("Page", page);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user will see generator information appear when clicking on any informa" +
+                    "tion button", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 34
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -232,31 +234,41 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 10
+#line 11
 this.FeatureBackground();
 #line hidden
 #line 35
- testRunner.Given("I am a listener", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given(string.Format("I am a logged in user with first name \'{0}\'", firstName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 36
- testRunner.When("I am on my profile page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.And(string.Format("I am on the \'{0}\' page", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 37
- testRunner.Then("I can see the section with options to change my theme to different pre-made theme" +
-                        "s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I select the FAQ page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 38
+  testRunner.And("I click any information button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 39
+ testRunner.Then("I should should see FAQ information", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Listener can toggle different themes")]
-        public virtual void ListenerCanToggleDifferentThemes()
+        [NUnit.Framework.DescriptionAttribute("Logged in user will see tutorial videos when clicking on any generator informatio" +
+            "n button")]
+        [NUnit.Framework.TestCaseAttribute("Chad", "GeneratorIndex", null)]
+        public virtual void LoggedInUserWillSeeTutorialVideosWhenClickingOnAnyGeneratorInformationButton(string firstName, string page, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Listener can toggle different themes", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 39
+            argumentsOfScenario.Add("FirstName", firstName);
+            argumentsOfScenario.Add("Page", page);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Logged in user will see tutorial videos when clicking on any generator informatio" +
+                    "n button", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 45
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -276,17 +288,23 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 10
+#line 11
 this.FeatureBackground();
 #line hidden
-#line 40
- testRunner.Given("I am a listener on my settings page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 46
+ testRunner.Given(string.Format("I am a logged in user with first name \'{0}\'", firstName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 41
- testRunner.When("I click on one of the different pre-made theme buttons", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 47
+  testRunner.And(string.Format("I am on the \'{0}\' page", page), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 42
- testRunner.Then("the website responds accordingly and adjusts my theme without a page reload", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 48
+ testRunner.When("I select the FAQ page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 49
+  testRunner.And("I click any information button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 50
+ testRunner.Then("I should should see a tutotial video", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

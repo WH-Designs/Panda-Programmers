@@ -24,8 +24,9 @@ namespace MusicCollaborationManager.Controllers
         private readonly SpotifyAuthService _spotifyService;
         private readonly IDeepAiService _deepAiService;
         private readonly IMCMOpenAiService _mcMOpenAiService;
+        private readonly ITutorialRepository _tutorialRepository;
 
-        public GeneratorController(IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService, IDeepAiService deepAiService, IMCMOpenAiService mcMOpenAiService)
+        public GeneratorController(ITutorialRepository tutorialRepository, IListenerRepository listenerRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, SpotifyAuthService spotifyService, IDeepAiService deepAiService, IMCMOpenAiService mcMOpenAiService)
         {
             _listenerRepository = listenerRepository;
             _userManager = userManager;
@@ -33,6 +34,7 @@ namespace MusicCollaborationManager.Controllers
             _spotifyService = spotifyService;
             _deepAiService = deepAiService;
             _mcMOpenAiService = mcMOpenAiService;
+            _tutorialRepository = tutorialRepository;
         }
 
         [Authorize]
@@ -471,6 +473,18 @@ namespace MusicCollaborationManager.Controllers
         public IActionResult GeneratedPlaylists()
         {
             return View();
+        }
+
+        [Authorize]
+        public IActionResult FAQ()
+        {
+            List<string> links = new List<string>();
+            for (int i = 1; i < 9; i++)
+            {
+                links.Add(_tutorialRepository.GetTutorialLink(i));
+            }
+
+            return View("FAQ", links);
         }
     }
 }
