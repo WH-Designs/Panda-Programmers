@@ -34,6 +34,11 @@ CREATE TABLE [Polls](
      [SpotifyTrackUri]      nvarchar(64)    NOT NULL
 );
 
+CREATE TABLE [Tutorials] (
+    [ID]                int             PRIMARY KEY IDENTITY(1, 1),
+    [Link]              nvarchar(512)       NOT NULL,
+);
+
 ALTER TABLE [Comment] ADD CONSTRAINT [Fk_Comment_Listener_ID]
     FOREIGN KEY ([ListenerID]) REFERENCES [Listener] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
