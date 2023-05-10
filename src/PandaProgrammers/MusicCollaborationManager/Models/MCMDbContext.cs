@@ -23,6 +23,8 @@ public partial class MCMDbContext : DbContext
 
     public virtual DbSet<Poll> Polls { get; set; }
 
+    public virtual DbSet<Prompt> Prompts { get; set; }
+
     public virtual DbSet<Tutorial> Tutorials { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,7 +34,7 @@ public partial class MCMDbContext : DbContext
     {
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC274C7E12E2");
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27477FC065");
 
             entity.ToTable("Comment");
 
@@ -54,7 +56,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Listener>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC27C8A774A1");
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC2766F11076");
 
             entity.ToTable("Listener");
 
@@ -81,7 +83,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Playlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27AD2E9D4C");
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27CD68B385");
 
             entity.ToTable("Playlist");
 
@@ -91,7 +93,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Poll>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Polls__3214EC27E353160A");
+            entity.HasKey(e => e.Id).HasName("PK__Polls__3214EC277447159D");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.PollId)
@@ -107,9 +109,20 @@ public partial class MCMDbContext : DbContext
                 .HasMaxLength(64);
         });
 
+        modelBuilder.Entity<Prompt>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Prompts__3214EC27F8C4CF77");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Prompt1)
+                .IsRequired()
+                .HasMaxLength(512)
+                .HasColumnName("Prompt");
+        });
+
         modelBuilder.Entity<Tutorial>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Tutorial__3214EC272BC12D13");
+            entity.HasKey(e => e.Id).HasName("PK__Tutorial__3214EC274DB3A065");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Link)
