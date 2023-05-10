@@ -336,6 +336,7 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInputAuto(UserInputDescription);
+                generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle($"The songs similar to the song titles {vm.trackName} by the artist {vm.artistName}. Base title on what type of song this is. Do not mention the name of the song or artist.");
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
