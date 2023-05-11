@@ -91,10 +91,15 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre);
 
-                string imgURL = "https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-coke-50593.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-
-                string base64ImgString = await GeneratorsViewModel.ImageUrlToBase64(imgURL);
-                generatorsViewModel.PlaylistImgBase64 = base64ImgString;
+                if(generatorsViewModel.PlaylistCoverImageUrl != null) 
+                {
+                    string base64ImgString = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
+                    generatorsViewModel.PlaylistImgBase64 = base64ImgString;
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                }
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }

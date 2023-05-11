@@ -149,7 +149,7 @@ function redirectToGenIndex() {
 
 function savePlaylist(data) {
 
-    console.log(`Result of saving playlist: ${data["playlistId"]}`);
+/*    console.log(`Result of saving playlist: ${data["playlistId"]}`);*/
     //console.log("Result of 'SaveMCMGeneratedPlaylist': " + data);
     let text = "The playlist has been saved to your Spotify account";
 
@@ -170,27 +170,37 @@ function savePlaylist(data) {
 
     $("#explanation-title").append(popUpMsg);
 
+    let playlistCoverToUse = $("#playlist-img-input-extra").val();
 
-    $("#new-playlist-id").val(data["playlistId"])
+    if (playlistCoverToUse != "NO_PLAYLIST_COVER")
+    {
+        $("#new-playlist-id").val(data["playlistId"])
 
-    let newPlaylistDetails = getNewPlaylistImgDetails()
-    console.log(`newPlaylistDetails (status): ${newPlaylistDetails.status}`);
-    console.log(`newPlaylistDetails (playlistid): ${newPlaylistDetails.playlistid}`);
+        let newPlaylistDetails = getNewPlaylistImgDetails()
+        //console.log(`newPlaylistDetails (status): ${newPlaylistDetails.status}`);
+        //console.log(`newPlaylistDetails (playlistid): ${newPlaylistDetails.playlistid}`);
 
-    $.ajax({
-        method: "PUT",
-        url: "/api/spotifyauth/changeplaylistcover",
-        dataType: "json",
-        contentType: "application/json; charset=UTF-8",
-        data: JSON.stringify(newPlaylistDetails),
-        success: playlistCoverSafe,
-        error: errorOnAjax
-    });
-  /*  setTimeout(redirectToGenIndex, 4000);*/
+        $.ajax({
+            method: "PUT",
+            url: "/api/spotifyauth/changeplaylistcover",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(newPlaylistDetails),
+            success: playlistCoverSafe,
+            error: errorOnAjax
+        });
+    }
+
+    setTimeout(redirectToGenIndex, 4000); //An "alert" was preferred over this.
 }
 
 function playlistCoverSafe(data) {
-    console.log("Playlist cover uploaded successfully!")
+
+    if (data["coverSaveSuccessful"] == true) {
+        console.log("Playlist cover uploaded successfully!");
+    } else {
+        console.log(`There was a problem uploading the playlist cover`);
+    }
 }
 
 function errorOnAjax(data) {

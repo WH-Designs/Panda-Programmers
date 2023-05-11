@@ -66,34 +66,12 @@
 
         </div>
 
-        <img src="https://www.allrecipes.com/thmb/5bCKvl89aQOSIBqwodUZa8lKbp4=/364x242/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7483839_Pizza-Bombs_LaDonna-Langwell_4x3-b494cdfc6a494d3ab4c69dee2fed0c3d.jpg" id="test-image-input" />
         <form class="bg-secondaryback classicpanda:bg-coreback flex flex-col gap-x-3.5 gap-y-4 mt-6" id="playlist-form">
             @{
                 for (int i = 0; i < Model.fullResult.Count; i++)
                 {
                     <input id="track-@i-input" value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="NewTrackUris" />
                 }
-
-                //if (Model.PlaylistImgBase64 == null)
-                //{
-                //    <input type="text" id="playlist-img-input" name="PlaylistImgBaseString" />
-                //}
-                //else
-                //{
-                //    <input type="text" id="playlist-img-input" name="PlaylistImgAsBase64" value="@Model.PlaylistImgBase64" />
-                //}
-
-                //------------------------
-
-                //<labal for="NewPlaylistName">Playlist name</labal>
-                //<input type="text" name="NewPlaylistName" value="" id="new-playlist-name"/> <!--Set the default of this to 'MCM Playlist' from the controller.-->
-
-                ////------------------------
-                //<input type="hidden" id="new-playlist-description" />
-
-                ////-------------
-                //<label for="IsNewPlaylistPublic">Make playlist public?</label>
-                //<input type="checkbox" name="IsNewPlaylistPublic" id="new-playlist-visibility" />
             }
 
 
@@ -116,7 +94,7 @@
 
         </form>
 
-        <form id="upload-playlist-cover-form">
+        <form id="upload-playlist-cover-form" class="hidden">
             <input type="text" name="PlaylistId" value="" placeholder="Future playlistId" id="new-playlist-id" />
             <input type="text" name="PlaylistImgBaseString" value="@Model.PlaylistImgBase64" placeholder="PlaylistImgBaseString" id="playlist-img-input-extra"/>
 

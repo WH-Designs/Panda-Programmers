@@ -97,19 +97,28 @@ namespace MusicCollaborationManager.Controllers
             }
         }
 
+        //A return value of "false" indicates an error. "true" means successful.
         [HttpPut("changeplaylistcover")]
-        public async Task<bool> ChangePlaylistCoverImage([Bind("PlaylistId,PlaylistImgBaseString")] ChangePlaylistCoverDTO NewPlaylistInfo) 
+        public async Task<UploadCoverResultDTO> ChangePlaylistCoverImage([Bind("PlaylistId,PlaylistImgBaseString")] ChangePlaylistCoverDTO NewPlaylistInfo) 
         {
-            if(NewPlaylistInfo.PlaylistImgBaseString == null) 
+            UploadCoverResultDTO UploadCover = new UploadCoverResultDTO();
+            UploadCover.CoverSaveSuccessful = false;
+            if (NewPlaylistInfo.PlaylistImgBaseString == null) 
             {
-                return false;
+                return UploadCover;
             }
             else if(NewPlaylistInfo.PlaylistImgBaseString.Length == 0)
             {
-                return false;
+                return UploadCover;
+            }
+            else if(NewPlaylistInfo.PlaylistImgBaseString == "NO_PLAYLIST_COVER") 
+            {
+                UploadCover.CoverSaveSuccessful = true;
+                return UploadCover;
             }
 
-            return await _spotifyService.ChangeCoverForPlaylist(NewPlaylistInfo.PlaylistId, NewPlaylistInfo.PlaylistImgBaseString);
+            UploadCover.CoverSaveSuccessful = await _spotifyService.ChangeCoverForPlaylist(NewPlaylistInfo.PlaylistId, NewPlaylistInfo.PlaylistImgBaseString);
+            return UploadCover;
         }
     }
 }
