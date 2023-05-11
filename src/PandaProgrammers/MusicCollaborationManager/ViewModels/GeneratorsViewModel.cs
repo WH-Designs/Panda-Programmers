@@ -15,5 +15,6 @@ namespace MusicCollaborationManager.ViewModels
             var imageBytes = await httClient.GetByteArrayAsync(imageUrl);
             return Convert.ToBase64String(imageBytes);
         }
+        public string PlaylistTitle { get; set; }
     }
 }
