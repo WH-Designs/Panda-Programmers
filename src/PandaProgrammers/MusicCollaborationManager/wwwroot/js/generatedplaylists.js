@@ -239,9 +239,9 @@ function getNewPlaylistFormValues() {
     const newPlaylistForm = document.getElementById("playlist-form");
     const tracks = document.getElementsByName('NewTrackUris');
 
-    const playlistName = document.getElementById(`new-playlist-name`);
-    const playlistDescription = document.getElementById(`new-playlist-description`);
-    const playlistVisibility = document.getElementById(`new-playlist-visibility`);
+    //const playlistName = document.getElementById(`new-playlist-name`);
+    //const playlistDescription = document.getElementById(`new-playlist-description`);
+    //const playlistVisibility = document.getElementById(`new-playlist-visibility`);
 
     if (!newPlaylistForm.checkValidity()) {
         return { status: false };
@@ -259,9 +259,9 @@ function getNewPlaylistFormValues() {
 
     return {
         newtrackuris: j,
-        newplaylistname: playlistName.value,  //NEEDS TESTING. NEED TO ADD A FUNCTION FOR TESTING whitespaace/empty input.
-        newplaylistDescription: playlistDescription.value, //NEEDS TESTING
-        isnewplaylistpublic: playlistVisibility.value, //NEEDS TESTING
+        //newplaylistname: playlistName.value,  //NEEDS TESTING. NEED TO ADD A FUNCTION FOR TESTING whitespaace/empty input.
+        //newplaylistDescription: playlistDescription.value, //NEEDS TESTING
+        //isnewplaylistpublic: playlistVisibility.value, //NEEDS TESTING
         status: true
     }
 }
@@ -281,7 +281,7 @@ function getNewPlaylistImgDetails() {
 
     return {
         playlistid: newPlaylistId.value,
-        playlistimgasbase64: playlistimg.value,
+        playlistimgasbasestring: playlistimg.value,
         status: true
     }
 

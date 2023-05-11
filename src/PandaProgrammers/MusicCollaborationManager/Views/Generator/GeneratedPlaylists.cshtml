@@ -85,15 +85,15 @@
 
                 //------------------------
 
-                <labal for="NewPlaylistName">Playlist name</labal>
-                <input type="text" name="NewPlaylistName" value="" id="new-playlist-name"/> <!--Set the default of this to 'MCM Playlist' from the controller.-->
+                //<labal for="NewPlaylistName">Playlist name</labal>
+                //<input type="text" name="NewPlaylistName" value="" id="new-playlist-name"/> <!--Set the default of this to 'MCM Playlist' from the controller.-->
 
-                //------------------------
-                <input type="hidden" id="new-playlist-description" />
+                ////------------------------
+                //<input type="hidden" id="new-playlist-description" />
 
-                //-------------
-                <label for="IsNewPlaylistPublic">Make playlist public?</label>
-                <input type="checkbox" name="IsNewPlaylistPublic" id="new-playlist-visibility" />
+                ////-------------
+                //<label for="IsNewPlaylistPublic">Make playlist public?</label>
+                //<input type="checkbox" name="IsNewPlaylistPublic" id="new-playlist-visibility" />
             }
 
 
@@ -117,8 +117,8 @@
         </form>
 
         <form id="upload-playlist-cover-form">
+            <input type="text" name="PlaylistId" value="" placeholder="Future playlistId" id="new-playlist-id" />
             <input type="text" name="PlaylistImgBaseString" value="@Model.PlaylistImgBase64" placeholder="PlaylistImgBaseString" id="playlist-img-input-extra"/>
-            <input type="text" name="PlaylistId" value="" placeholder="Future playlistId" id="new-playlist-id"/>
 
         </form>
     </div>
