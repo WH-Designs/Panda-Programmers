@@ -38,8 +38,7 @@ namespace MusicCollaborationManager.Services.Concrete
             new Uri(Uri), ClientId, LoginRequest.ResponseType.Code)
             {
                 Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead, Scopes.PlaylistModifyPrivate,
-                Scopes.PlaylistModifyPublic, 
-                    Scopes.UgcImageUpload}
+                Scopes.PlaylistModifyPublic}
             };
             var uri = loginRequest.ToUri();
 

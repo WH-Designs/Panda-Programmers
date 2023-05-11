@@ -232,12 +232,21 @@ $(".playable-item").click(function () {
 });
 
 function getNewPlaylistFormValues() {
+    let playlistDescriptionText = $("#visible-playlist-description").text();
+    $("#new-playlist-description").val(playlistDescriptionText);
+
+
     const newPlaylistForm = document.getElementById("playlist-form");
     const tracks = document.getElementsByName('NewTrackUris');
+
+    const playlistName = document.getElementById(`new-playlist-name`);
+    const playlistDescription = document.getElementById(`new-playlist-description`);
+    const playlistVisibility = document.getElementById(`new-playlist-visibility`);
 
     if (!newPlaylistForm.checkValidity()) {
         return { status: false };
     }
+
 
     let j = [];
 
@@ -250,6 +259,9 @@ function getNewPlaylistFormValues() {
 
     return {
         newtrackuris: j,
+        newplaylistname: playlistName.value,  //NEEDS TESTING. NEED TO ADD A FUNCTION FOR TESTING whitespaace/empty input.
+        newplaylistDescription: playlistDescription.value, //NEEDS TESTING
+        isnewplaylistpublic: playlistVisibility.value, //NEEDS TESTING
         status: true
     }
 }

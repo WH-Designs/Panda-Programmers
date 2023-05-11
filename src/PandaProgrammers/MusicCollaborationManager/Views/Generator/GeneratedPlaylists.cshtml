@@ -19,7 +19,7 @@
                 <img src="@Model.PlaylistCoverImageUrl" alt="Playlist Image"
                      class="text-textback classicpanda:text-blacktext hidden" />
                 <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center">
-                    <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistDescription</p>
+                    <p class="text-textback classicpanda:text-blacktext" id="visible-playlist-description">@Model.PlaylistDescription</p>
                 </div>
             }
             else
@@ -27,7 +27,7 @@
                 <img src="@Model.PlaylistCoverImageUrl" alt="Playlist Image"
                      class="text-textback classicpanda:text-blacktext" />
                 <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center mt-11">
-                    <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistDescription</p>
+                    <p class="text-textback classicpanda:text-blacktext" id="visible-playlist-description">@Model.PlaylistDescription</p>
                 </div>
             }
         </div>
@@ -82,6 +82,18 @@
                 //{
                 //    <input type="text" id="playlist-img-input" name="PlaylistImgAsBase64" value="@Model.PlaylistImgBase64" />
                 //}
+
+                //------------------------
+
+                <labal for="NewPlaylistName">Playlist name</labal>
+                <input type="text" name="NewPlaylistName" value="" id="new-playlist-name"/> <!--Set the default of this to 'MCM Playlist' from the controller.-->
+
+                //------------------------
+                <input type="hidden" id="new-playlist-description" />
+
+                //-------------
+                <label for="IsNewPlaylistPublic">Make playlist public?</label>
+                <input type="checkbox" name="IsNewPlaylistPublic" id="new-playlist-visibility" />
             }
 
 

@@ -60,13 +60,17 @@ namespace MusicCollaborationManager.Controllers
         
         [HttpPost("savegeneratedplaylist")]
         [ProducesResponseType(StatusCodes.Status200OK)] 
-        public async Task<CreatedPlaylistDTO> SaveMCMGeneratedPlaylist([Bind("NewTrackUris")] SavePlaylistDTO NewPlaylistInfo)
+        public async Task<CreatedPlaylistDTO> SaveMCMGeneratedPlaylist([Bind("NewTrackUris, NewPlaylistName, NewPlaylistDescription, IsNewPlaylistPublic")] SavePlaylistDTO NewPlaylistInfo)
         {
             FullPlaylist NewPlaylist = new FullPlaylist();
             CreatedPlaylistDTO CreatedPlaylistInfo = new CreatedPlaylistDTO();
             CreatedPlaylistInfo.PlaylistId = null;
 
-            PlaylistCreateRequest CreationRequest = new PlaylistCreateRequest("MCM Playlist_Unique");
+            //PlaylistCreateRequest CreationRequest = new PlaylistCreateRequest("MCM Playlist");
+            PlaylistCreateRequest CreationRequest = new PlaylistCreateRequest(NewPlaylistInfo.NewPlaylistName);
+            CreationRequest.Description = NewPlaylistInfo.NewPlaylistDescription;
+            CreationRequest.Public = NewPlaylistInfo.IsNewPlaylistPublic;
+
             UserProfileClient UserProfileClient = (UserProfileClient)SpotifyAuthService.GetUserProfileClientAsync();
             PlaylistsClient PlaylistsClient = (PlaylistsClient)SpotifyAuthService.GetPlaylistsClientAsync();
 
@@ -83,6 +87,8 @@ namespace MusicCollaborationManager.Controllers
             try
             {
                 await _spotifyService.AddSongsToPlaylistAsync(NewPlaylist, NewPlaylistInfo.NewTrackUris);
+
+
 
                 CreatedPlaylistInfo.PlaylistId = NewPlaylist.Id;
                 return CreatedPlaylistInfo;
