@@ -64,8 +64,8 @@ namespace MusicCollaborationManager.Controllers
 
             if (vm.listener.SpotifyId != null)
             {
-                Listener newListener = await _spotifyService.GetCallbackAsync("", vm.listener);
-                _listenerRepository.AddOrUpdate(newListener);
+                vm.listener = await _spotifyService.GetCallbackAsync("", vm.listener);
+                _listenerRepository.AddOrUpdate(vm.listener);
             }
 
             try

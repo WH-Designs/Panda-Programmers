@@ -339,7 +339,9 @@ namespace MusicCollaborationManager.Controllers
                 List<FullTrack> seedTracks = await _spotifyService.GetTopTracksAsync();
                 if (seedTracks.Count <= 0)
                 {
-                    return RedirectToAction("callforward", "Home");
+                    Console.WriteLine("Seed Tracks Count <= 0");
+                    ViewBag.Error = "Error Occured";
+                    return View("Index");
                 }
                 foreach (FullTrack track in seedTracks)
                 {
@@ -362,8 +364,9 @@ namespace MusicCollaborationManager.Controllers
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -380,8 +383,9 @@ namespace MusicCollaborationManager.Controllers
 
                 return View("RelatedArtists", seededVM);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -414,8 +418,9 @@ namespace MusicCollaborationManager.Controllers
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
