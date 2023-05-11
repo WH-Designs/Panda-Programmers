@@ -100,6 +100,15 @@ namespace MusicCollaborationManager.Controllers
         [HttpPut("changeplaylistcover")]
         public async Task<bool> ChangePlaylistCoverImage([Bind("PlaylistId,PlaylistImgBaseString")] ChangePlaylistCoverDTO NewPlaylistInfo) 
         {
+            if(NewPlaylistInfo.PlaylistImgBaseString == null) 
+            {
+                return false;
+            }
+            else if(NewPlaylistInfo.PlaylistImgBaseString.Length == 0)
+            {
+                return false;
+            }
+
             return await _spotifyService.ChangeCoverForPlaylist(NewPlaylistInfo.PlaylistId, NewPlaylistInfo.PlaylistImgBaseString);
         }
     }

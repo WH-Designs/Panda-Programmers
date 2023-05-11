@@ -281,7 +281,7 @@ function getNewPlaylistImgDetails() {
 
     return {
         playlistid: newPlaylistId.value,
-        playlistimgasbasestring: playlistimg.value,
+        playlistimgbasestring: playlistimg.value,
         status: true
     }
 
