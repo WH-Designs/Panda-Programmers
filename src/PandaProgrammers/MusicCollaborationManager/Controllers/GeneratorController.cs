@@ -98,12 +98,29 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
                 if (vm.generateTitle == false)
                 {
-                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    if(string.IsNullOrEmpty(vm.titleInput) == false)
+                    {
+                        generatorsViewModel.PlaylistTitle = vm.titleInput;    
+                    }
+                    else{
+                        generatorsViewModel.PlaylistTitle = "MCM Playlist";
+                    }
+                    
                 }
                 else
                 {
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(vm.genre, promptDTO);
                 }
+                
+                if(generatorsViewModel.PlaylistCoverImageUrl == null)
+                {
+                     generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                }
+                else{
+                    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
+                }
+               
+                
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
             catch (Exception)

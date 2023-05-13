@@ -11,6 +11,8 @@
 $("#save-playlist-btn").click(function () {
 
     const values = getNewPlaylistFormValues();
+    console.log(`New playlist form status:  ${values.status}`);
+    console.log(`Track URIs: ${values.newtrackuris}`);
 
     $.ajax({
         method: "POST",
@@ -191,7 +193,7 @@ function savePlaylist(data) {
         });
     }
 
-    setTimeout(redirectToGenIndex, 4000); //An "alert" was preferred over this.
+    // setTimeout(redirectToGenIndex, 4000); //An "alert" was preferred over this.
 }
 
 function playlistCoverSafe(data) {
@@ -249,29 +251,22 @@ function getNewPlaylistFormValues() {
     const newPlaylistForm = document.getElementById("playlist-form");
     const tracks = document.getElementsByName('NewTrackUris');
 
-    //const playlistName = document.getElementById(`new-playlist-name`);
-    //const playlistDescription = document.getElementById(`new-playlist-description`);
-    //const playlistVisibility = document.getElementById(`new-playlist-visibility`);
-
     if (!newPlaylistForm.checkValidity()) {
         return { status: false };
     }
 
 
-    let j = [];
+    let tracks = [];
 
     $.each(tracks, function (index, item) {
 /*        console.log(`Adding item: ${index} - ${item.value}`);*/
-        j.push(item.value);
+        tracks.push(item.value);
     });
 
 /*    console.log(`j content: ${j}`);*/
 
     return {
-        newtrackuris: j,
-        //newplaylistname: playlistName.value,  //NEEDS TESTING. NEED TO ADD A FUNCTION FOR TESTING whitespaace/empty input.
-        //newplaylistDescription: playlistDescription.value, //NEEDS TESTING
-        //isnewplaylistpublic: playlistVisibility.value, //NEEDS TESTING
+        newtrackuris: tracks,
         status: true
     }
 }

@@ -9,6 +9,7 @@ namespace MusicCollaborationManager.ViewModels
         public string PlaylistDescription { get; set; }
         public string? PlaylistImgBase64 { get; set; } = null;
 
+        //https://stackoverflow.com/questions/35406457/load-an-image-from-url-as-base64-string -- Ronald Babu's answer.
         public static async Task<string> ImageUrlToBase64(string imageUrl)
         {
             using var httClient = new HttpClient();
