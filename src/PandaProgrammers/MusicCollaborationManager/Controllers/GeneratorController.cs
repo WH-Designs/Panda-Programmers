@@ -506,6 +506,16 @@ namespace MusicCollaborationManager.Controllers
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle("Best artists and their hits", promptDTO);
                 }
 
+
+                if (generatorsViewModel.PlaylistCoverImageUrl == null)
+                {
+                    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
+                }
+
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
             catch (Exception e)
@@ -566,11 +576,27 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
                 if (vm.generateTitle == false)
                 {
-                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    if (string.IsNullOrEmpty(vm.titleInput) == false)
+                    {
+                        generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    }
+                    else
+                    {
+                        generatorsViewModel.PlaylistTitle = "MCM Playlist";
+                    }
                 }
                 else
                 {
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle($"The songs by artists similar to {vm.artistName}", promptDTO);
+                }
+
+                if (generatorsViewModel.PlaylistCoverImageUrl == null)
+                {
+                    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
 
                 return View("GeneratedPlaylists", generatorsViewModel);
