@@ -53,12 +53,19 @@
         </div>
 
         <div class="flex flex-col mt-5">
-            <h2 class="font-header text-center text-textback classicpanda:text-whitetext text-2xl">Removed tracks</h2>
-            <div class="table">
-                <div class="table-header-group">
-                    <div class="font-header table-cell text-textback classicpanda:text-whitetext text-xl p-2">Track</div>
-                    <div class="font-header table-cell text-textback classicpanda:text-whitetext text-xl p-2">Album</div>
-                    <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2"></div> <!--Column for "add" btn. (Which is NOT meant to be visible.)-->
+            <div class="mt-20" id="embed-iframe"></div>
+        </div>
+
+        <div class="flex flex-col mt-5">
+                <h2 class="font-header text-center text-textback classicpanda:text-whitetext text-2xl">Removed tracks</h2>
+                <div class="table">
+                    <div class="table-header-group">
+                        <div class="font-header table-cell text-textback classicpanda:text-whitetext text-xl p-2">Track</div>
+                        <div class="font-header table-cell text-textback classicpanda:text-whitetext text-xl p-2">Album</div>
+                        <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2"></div> <!--Column for "add" btn. (Which is NOT meant to be visible.)-->
+                    </div>
+                    <div class="table-row-group" id="removed-tracks-table-body">
+                    </div>
                 </div>
                 <div class="table-row-group" id="removed-tracks-table-body">
                 </div>
@@ -100,18 +107,14 @@
 
         </form>
     </div>
-    <div class="-z-50" style="width: 0; height: 0; border: 0; border: none; position: absolute;">
-        <div id="embed-iframe" style=""></div>
-    </div>
 </div>
 
 <script>
-
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
         let element = document.getElementById('embed-iframe');
         let options = {
-            width: '80%',
-            height: '400',
+            width: '50%',
+            height: '450',
             uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
 
         };
@@ -127,7 +130,6 @@
         IFrameAPI.createController(element, options, callback);
 
     };
-    console.log("Spotify player should be loaded")
 </script>
 
 
