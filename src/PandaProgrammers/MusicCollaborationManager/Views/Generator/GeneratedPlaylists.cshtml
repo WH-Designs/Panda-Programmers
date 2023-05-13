@@ -14,12 +14,12 @@
         </div>
 
         <div class="classicpanda:text-blacktext flex bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 gap-x-4">
-            @if(Model.PlaylistCoverImageUrl is null)
+            @if (Model.PlaylistCoverImageUrl is null)
             {
                 <img src="@Model.PlaylistCoverImageUrl" alt="Playlist Image"
-                class="text-textback classicpanda:text-blacktext hidden" />
+                     class="text-textback classicpanda:text-blacktext hidden" />
                 <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center">
-                    <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistDescription</p>
+                    <p class="text-textback classicpanda:text-blacktext" id="visible-playlist-description">@Model.PlaylistDescription</p>
                 </div>
             }
             else
@@ -27,7 +27,7 @@
                 <img src="@Model.PlaylistCoverImageUrl" alt="Playlist Image"
                      class="text-textback classicpanda:text-blacktext" />
                 <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center mt-11">
-                    <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistDescription</p>
+                    <p class="text-textback classicpanda:text-blacktext" id="visible-playlist-description">@Model.PlaylistDescription</p>
                 </div>
             }
         </div>
@@ -67,32 +67,44 @@
                     <div class="table-row-group" id="removed-tracks-table-body">
                     </div>
                 </div>
-            
+                <div class="table-row-group" id="removed-tracks-table-body">
+                </div>
+            </div>
+
         </div>
 
         <form class="bg-secondaryback classicpanda:bg-coreback flex flex-col gap-x-3.5 gap-y-4 mt-6" id="playlist-form">
             @{
                 for (int i = 0; i < Model.fullResult.Count; i++)
                 {
-                    <input id="track-@i-input" value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="newTrackUris[@i]" />
+                    <input id="track-@i-input" value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="NewTrackUris" />
                 }
             }
-            
-                <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+
+
+
+
+            <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
                                 classicpanda:text-whitetext
                                 autumn:text-white
                                 revolution:text-white"
-                        type="button" id="save-playlist-btn">
-                    Save playlist
-                </button>
-                <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+                    type="button" id="save-playlist-btn">
+                Save playlist
+            </button>
+            <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
                                 classicpanda:text-whitetext
                                 autumn:text-white
                                 revolution:text-white"
-                        type="button" id="discard-playlist-btn">
-                    Discard playlist
-                </button>
-            
+                    type="button" id="discard-playlist-btn">
+                Discard playlist
+            </button>
+
+        </form>
+
+        <form id="upload-playlist-cover-form" class="hidden">
+            <input type="text" name="PlaylistId" value="" placeholder="Future playlistId" id="new-playlist-id" />
+            <input type="text" name="PlaylistImgBaseString" value="@Model.PlaylistImgBase64" placeholder="PlaylistImgBaseString" id="playlist-img-input-extra"/>
+
         </form>
     </div>
 </div>
@@ -128,6 +140,6 @@
 @section Scripts
     {
     <script type="text/javascript" src="~/js/generatedplaylists.js"></script>
-   
+
 }
 

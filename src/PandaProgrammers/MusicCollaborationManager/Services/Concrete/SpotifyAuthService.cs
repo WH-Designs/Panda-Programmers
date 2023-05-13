@@ -33,24 +33,26 @@ namespace MusicCollaborationManager.Services.Concrete
             authUser = new AuthorizedUserDTO();
         }
 
-        public string GetUriAsync(){
+        public string GetUriAsync()
+        {
             var loginRequest = new LoginRequest(
             new Uri(Uri), ClientId, LoginRequest.ResponseType.Code)
             {
-            Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead, Scopes.PlaylistModifyPrivate, 
-                Scopes.PlaylistModifyPublic}
+                Scope = new[] { Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserReadPrivate, Scopes.UserTopRead, Scopes.PlaylistModifyPrivate,
+                Scopes.PlaylistModifyPublic, Scopes.UgcImageUpload}
             };
             var uri = loginRequest.ToUri();
-            
+
             return uri.AbsoluteUri;
         }
 
         public async Task<Listener> GetCallbackAsync(string code, Listener listener)
         {
             Uri uri = new Uri(Uri);
-            
-            if (listener.AuthToken == null && listener.SpotifyId == null && listener.AuthRefreshToken == null) {
-                
+
+            if (listener.AuthToken == null && listener.SpotifyId == null && listener.AuthRefreshToken == null)
+            {
+
                 var response = await new OAuthClient().RequestToken(new AuthorizationCodeTokenRequest(ClientId, ClientSecret, code, uri));
                 listener.AuthToken = response.AccessToken;
                 listener.AuthRefreshToken = response.RefreshToken;
@@ -65,17 +67,20 @@ namespace MusicCollaborationManager.Services.Concrete
                 return listener;
             }
 
-            try {                
+            try
+            {
                 var refreshResponse = await new OAuthClient().RequestToken(new AuthorizationCodeRefreshRequest(ClientId, ClientSecret, listener.AuthRefreshToken));
 
-                listener.AuthToken = refreshResponse.AccessToken;          
+                listener.AuthToken = refreshResponse.AccessToken;
 
                 var authenticatedSpotify = new SpotifyClient(listener.AuthToken);
                 Spotify = authenticatedSpotify;
 
-                return listener;                
+                return listener;
 
-            } catch (APIUnauthorizedException e){
+            }
+            catch (APIUnauthorizedException e)
+            {
                 Console.WriteLine(e.Message);
 
                 listener.AuthRefreshToken = "";
@@ -105,7 +110,7 @@ namespace MusicCollaborationManager.Services.Concrete
         public async Task<List<SimplePlaylist>> GetUserPlaylists(string spotifyID)
         {
             List<SimplePlaylist> playlists = new List<SimplePlaylist>();
-            
+
             Paging<SimplePlaylist> pagingPlaylists = await Spotify.Playlists.GetUsers(spotifyID);
             playlists = pagingPlaylists.Items;
 
@@ -114,7 +119,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return playlists;
         }
 
-        public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery) 
+        public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery)
         {
             SearchRequest.Types types = SearchRequest.Types.All;
 
@@ -130,8 +135,9 @@ namespace MusicCollaborationManager.Services.Concrete
         {
             var topArtists = await Spotify.Personalization.GetTopArtists();
             List<FullArtist> returnArtists = topArtists.Items;
-            
-            if (returnArtists.Count == 0) {
+
+            if (returnArtists.Count == 0)
+            {
                 List<string> artistIDs = new List<string>();
 
                 artistIDs.Add("04gDigrS5kc9YWfZHwBETP");
@@ -139,13 +145,13 @@ namespace MusicCollaborationManager.Services.Concrete
                 artistIDs.Add("5cj0lLjcoR7YOSnhnX0Po5");
                 artistIDs.Add("06HL4z0CvFAxyc27GXpf02");
                 artistIDs.Add("66CXWjxzNUsdJxJ2JdwvnR");
-                
+
                 ArtistsRequest artistReq = new ArtistsRequest(artistIDs);
 
                 var topGenArtists = await Spotify.Artists.GetSeveral(artistReq);
                 var returnGenArtists = topGenArtists.Artists.ToList();
                 return returnGenArtists;
-            } 
+            }
             return returnArtists;
         }
 
@@ -180,16 +186,17 @@ namespace MusicCollaborationManager.Services.Concrete
             recommendationsRequest.Market = recommendDTO.market;
             recommendationsRequest.Limit = recommendDTO.limit;
 
-            foreach(var track in recommendDTO.seed)
+            foreach (var track in recommendDTO.seed)
             {
                 recommendationsRequest.SeedTracks.Add(track);
-                if(recommendationsRequest.SeedTracks.Count >= 5) {break; }
-            }            
+                if (recommendationsRequest.SeedTracks.Count >= 5) { break; }
+            }
             if (recommendDTO.target_valence != 0)
             {
                 recommendationsRequest.Target.Add("valence", recommendDTO.target_valence.ToString());
             }
-            if (recommendDTO.target_acousticness != 0){
+            if (recommendDTO.target_acousticness != 0)
+            {
                 recommendationsRequest.Target.Add("acousticness", recommendDTO.target_acousticness.ToString());
             }
             if (recommendDTO.target_danceability != 0)
@@ -295,24 +302,24 @@ namespace MusicCollaborationManager.Services.Concrete
             request.Limit = 10;
             SearchResponse response = await Spotify.Search.Item(request);
 
-            for (int i=0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 string playlistID = response.Playlists.Items[generatorUtilities.rngValueInput(1, response.Playlists.Items.Count())].Id;
                 var playlist = await Spotify.Playlists.GetItems(playlistID);
 
                 FullTrack track = (FullTrack)playlist.Items[generatorUtilities.rngValueInput(1, playlist.Items.Count - 1)].Track;
                 trackIDs.Add(track.Id);
-            }                 
+            }
 
             return trackIDs;
         }
 
-        public static IUserProfileClient GetUserProfileClientAsync() 
+        public static IUserProfileClient GetUserProfileClientAsync()
         {
             return Spotify.UserProfile;
         }
 
-        public static IPlaylistsClient GetPlaylistsClientAsync() 
+        public static IPlaylistsClient GetPlaylistsClientAsync()
         {
             return Spotify.Playlists;
         }
@@ -321,6 +328,11 @@ namespace MusicCollaborationManager.Services.Concrete
         {
             PlaylistAddItemsRequest AddItemsRequest = new PlaylistAddItemsRequest(trackUris);
             await Spotify.Playlists.AddItems(playlistToFill.Id, AddItemsRequest);
+        }
+
+        public async Task<bool> ChangeCoverForPlaylist(string playlistID, string imgAsBase64)
+        {
+            return await Spotify.Playlists.UploadCover(playlistID, imgAsBase64);
         }
 
         public static async Task<FullPlaylist> CreateNewSpotifyPlaylistAsync(PlaylistCreateRequest createRequest, IUserProfileClient userProfileClient, IPlaylistsClient playlistsClient)
@@ -451,24 +463,25 @@ namespace MusicCollaborationManager.Services.Concrete
             PersonalizationTopRequest Request = new PersonalizationTopRequest();
             Request.Limit = 20;
             var topTracks = await Spotify.Personalization.GetTopTracks(Request);
-            var topTracksList = topTracks.Items;          
+            var topTracksList = topTracks.Items;
 
             return topTracksList;
         }
 
-        public async Task<FullPlaylist> GetPlaylistFromIDAsync(string playlistID) {
+        public async Task<FullPlaylist> GetPlaylistFromIDAsync(string playlistID)
+        {
             FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
             return wantedPlaylist;
         }
 
-        public static ITracksClient GetTracksClientAsync() 
+        public static ITracksClient GetTracksClientAsync()
         {
             return Spotify.Tracks;
         }
 
         public async Task<FullTrack> GetSpotifyTrackByID(string trackID, ITracksClient tracksClient)
         {
-            return await tracksClient.Get(trackID);       
+            return await tracksClient.Get(trackID);
         }
 
         public async Task<FullArtist> GetArtistById(string artistID)
