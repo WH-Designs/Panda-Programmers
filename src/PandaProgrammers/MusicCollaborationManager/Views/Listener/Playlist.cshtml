@@ -165,17 +165,18 @@
            
         </div>
     </div>
-    
+    <button value="@Model.PlaylistContents.Uri" class="hidden" id="playlist-Uri"></button>
 </div>
 
 <script>
 
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        let playlistUri = $("#playlist-Uri").val();
         let element = document.getElementById('embed-iframe');
         let options = {
             width: '100%',
             height: '250',
-            uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
+            uri: playlistUri
 
         };
         let callback = (EmbedController) => {
