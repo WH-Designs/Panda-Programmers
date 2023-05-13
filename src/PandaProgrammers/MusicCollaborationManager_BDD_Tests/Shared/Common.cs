@@ -28,7 +28,9 @@ namespace MusicCollaborationManager_BDD_Tests.Shared
             {"Search", "/Search/Search"},
             {"TopArtist", "/Generator/TopArtist"},
             {"RelatedGenerator", "/Generator/RelatedArtists" },
-            {"FAQ", "/Generator/FAQ"}
+            {"FAQ", "/Generator/FAQ"},
+            {"EmailConfirmation", "/Identity/Account/ResendEmailConfirmation" },
+            {"ResetPassword", "/Identity/Account/ResetPassword" }
         };
 
         public static string PathFor(string pathName) => Paths[pathName];

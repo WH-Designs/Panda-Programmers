@@ -66,5 +66,10 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         {
             return ResendEmailLink.Text.Contains(text);
         }
+
+        public void ResendEmailPage()
+        {
+            ResendEmailLink.Click();
+        }
     }
 }
