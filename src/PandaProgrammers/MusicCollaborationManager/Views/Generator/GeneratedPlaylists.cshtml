@@ -51,7 +51,7 @@
                 }
             </div>
         </div>
-
+        
         <div class="flex flex-col mt-5">
             <div class="mt-20" id="embed-iframe"></div>
         </div>
@@ -97,13 +97,16 @@
     </div>
 </div>
 
+<button value="@Model.fullResult[0].Uri" class="hidden" id="track-Uri"></button>
+
 <script>
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        let trackUri = $("#track-Uri").val();
         let element = document.getElementById('embed-iframe');
         let options = {
             width: '50%',
             height: '450',
-            uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
+            uri: trackUri
 
         };
         let callback = (EmbedController) => {
