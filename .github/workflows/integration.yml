@@ -1,0 +1,65 @@
+name: Build, test and deploy application to Azure
+
+on:
+  push:
+    branches: [ "integration" ]
+  pull_request:
+    branches: [ "integration" ]
+  workflow_dispatch: 
+
+env:
+# path from root of repo to dir containing project folders (usually where the .sln file is)
+  PATH_TO_SOLUTION: './src/PandaProgrammers'
+  MAIN_PROJECT: MusicCollaborationManager
+  UNIT_TEST_PROJECT: UnitTests
+# JS_UNIT_TEST_PROJECT: JestTests
+  AZURE_WEBAPP_NAME: musiccollaborationmanager
+  AZURE_WEBAPP_PACKAGE_PATH: publish
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: 7.0.x
+
+defaults:
+  run:
+    working-directory: './src/PandaProgrammers/MusicCollaborationManager'
+
+jobs:
+  build_and_test:
+    name: Build and run tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+  
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+
+    - name: Restore all projects in use
+      run: |
+        dotnet restore "${{ env.MAIN_PROJECT }}"
+        dotnet restore "${{ env.UNIT_TEST_PROJECT }}"
+    - name: Build main project
+      run: dotnet build "${{ env.MAIN_PROJECT }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+
+    - name: Build unit test project
+      run: dotnet build "${{ env.UNIT_TEST_PROJECT }}" --configuration "Debug" --no-restore
+
+    - name: Run all unit tests, but exclude BDD tests
+      run: dotnet test --filter FullyQualifiedName\!~Features --no-restore
+
+    - name: Publish
+      run: dotnet publish "${{ env.MAIN_PROJECT }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+
+    - name: Deploy to Azure WebApp using previously stored publish profile
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.MUSIC_COLLABORATION_MANAGER_PROFILE }}
+        package: ${{ env.PATH_TO_SOLUTION }}/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+# Lots of examples have the deploy step in a separate job, but publishing artifacts for the publish
+# folder took 2m 44s and 95MB, which is unnecessary when we don't need to keep it, so put deploy
+# in the same job as build/test/publish
+
+# IMPORTANT: I needed to add configuration variables on Azure for the deploy to succeed, see this issue for more
+# https://github.com/microsoft/Oryx/issues/1242#issuecomment-1050729304
