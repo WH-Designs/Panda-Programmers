@@ -193,7 +193,7 @@ function savePlaylist(data) {
         });
     }
 
-     setTimeout(redirectToGenIndex, 4000); //An "alert" was preferred over this.
+   /*  setTimeout(redirectToGenIndex, 4000);*/ //An "alert" was preferred over this.
 }
 
 function playlistCoverSafe(data) {

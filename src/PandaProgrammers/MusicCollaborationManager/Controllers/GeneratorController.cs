@@ -178,12 +178,30 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
                 if (vm.generateTitle == false)
                 {
-                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    if (string.IsNullOrEmpty(vm.titleInput) == false)
+                    {
+                        generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    }
+                    else
+                    {
+                        generatorsViewModel.PlaylistTitle = "MCM Playlist";
+                    }
                 }
                 else
                 {
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(vm.mood, promptDTO);
                 }
+
+                if (generatorsViewModel.PlaylistCoverImageUrl == null)
+                {
+                    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
+                }
+
+
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -243,13 +261,32 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
+
+                //Testing purposes only.
+                ////https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-coke-50593.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
+                //generatorsViewModel.PlaylistCoverImageUrl = "https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-coke-50593.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
                 if (vm.generateTitle == false)
                 {
-                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    if (string.IsNullOrEmpty(vm.titleInput) == false)
+                    {
+                        generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    }
+                    else
+                    {
+                        generatorsViewModel.PlaylistTitle = "MCM Playlist";
+                    }
                 }
                 else
                 {
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(UserGenre, promptDTO);
+                }
+                if (generatorsViewModel.PlaylistCoverImageUrl == null)
+                {
+                    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
 
                 return View("GeneratedPlaylists", generatorsViewModel);
