@@ -63,6 +63,7 @@ public class Program
         builder.Services.AddScoped<ICommentRepository, CommentRepository>();
         builder.Services.AddScoped<IPlaylistPollRepository, PlaylistPollRepository>();
         builder.Services.AddScoped<ITutorialRepository, TutorialRepository>();
+        builder.Services.AddScoped<IPromptRepository, PromptRepository>();
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

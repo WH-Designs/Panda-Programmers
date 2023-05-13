@@ -83,38 +83,38 @@ of this there is a short description for each of the generators. This page can b
         {
 #line 8
 #line hidden
-            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                         "UserName",
                         "Email",
                         "FirstName",
                         "LastName",
                         "Password"});
-            table5.AddRow(new string[] {
+            table6.AddRow(new string[] {
                         "chadb@gmail.com",
                         "chadb@gmail.com",
                         "Chad",
                         "Bass",
                         "Pass321!"});
 #line 9
- testRunner.Given("the following users exist generator", ((string)(null)), table5, "Given ");
+ testRunner.Given("the following users exist generator", ((string)(null)), table6, "Given ");
 #line hidden
-            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                         "Title",
                         "titleKey"});
-            table6.AddRow(new string[] {
+            table7.AddRow(new string[] {
                         "Questionnaire Generator",
                         "Q"});
 #line 12
- testRunner.And("the following generator titles exist", ((string)(null)), table6, "And ");
+ testRunner.And("the following generator titles exist", ((string)(null)), table7, "And ");
 #line hidden
-            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                         "descriptionKey",
                         "Description"});
-            table7.AddRow(new string[] {
+            table8.AddRow(new string[] {
                         "Q",
                         @"With this generator you will be able to fill out a short questionnaire about songs and then get back a playlist of songs that fit your desired input. If you like the playlist that is returned, then you will have the option to save it to your own Spotify account!"});
 #line 15
- testRunner.And("the following generartor descriptions exist", ((string)(null)), table7, "And ");
+ testRunner.And("the following generartor descriptions exist", ((string)(null)), table8, "And ");
 #line hidden
         }
         
