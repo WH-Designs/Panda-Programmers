@@ -14,6 +14,10 @@ $(function () {
         success: getVisitorTracks,
         error: errorOnAjax
     });
+
+    $("#alert-button").on("click", function () {
+        $("#generator-alert").hide();
+    });
 });
 
 
