@@ -280,6 +280,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(UserGenre, promptDTO);
                 }
+
                 if (generatorsViewModel.PlaylistCoverImageUrl == null)
                 {
                     generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
@@ -345,13 +346,30 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
                 if (vm.generateTitle == false)
                 {
-                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    if (string.IsNullOrEmpty(vm.titleInput) == false)
+                    {
+                        generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    }
+                    else
+                    {
+                        generatorsViewModel.PlaylistTitle = "MCM Playlist";
+                    }
                 }
                 else
                 {
                     string prompt = "My top songs";
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(prompt, promptDTO);
                 }
+
+                if (generatorsViewModel.PlaylistCoverImageUrl == null)
+                {
+                    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
+                }
+
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -403,6 +421,26 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInputAuto(UserInputDescription, promptDTO);
                 generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(vm.trackName, promptDTO);
+
+                //CAN'T TELL if this is necessary atm.
+                //if (string.IsNullOrEmpty(generatorsViewModel.PlaylistTitle) == false)
+                //{
+                //    generatorsViewModel.PlaylistTitle = generatorsViewModel.PlaylistTitle;
+                //}
+                //else
+                //{
+                //    generatorsViewModel.PlaylistTitle = "MCM Playlist";
+                //}
+
+                try
+                {
+                    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
+                }
+                catch (Exception ex) 
+                {
+                    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                }
+
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
