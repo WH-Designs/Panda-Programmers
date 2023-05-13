@@ -250,6 +250,7 @@ function getNewPlaylistFormValues() {
 
     const newPlaylistForm = document.getElementById("playlist-form");
     const tracks = document.getElementsByName('NewTrackUris');
+    const playlistName = document.getElementById(`new-playlist-name`);
 
     if (!newPlaylistForm.checkValidity()) {
         return { status: false };
@@ -267,6 +268,7 @@ function getNewPlaylistFormValues() {
 
     return {
         newtrackuris: tracksAsArray,
+        newplaylistname: playlistName.value,
         status: true
     }
 }
