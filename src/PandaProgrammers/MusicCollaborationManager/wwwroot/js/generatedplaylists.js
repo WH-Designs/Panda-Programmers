@@ -193,7 +193,7 @@ function savePlaylist(data) {
         });
     }
 
-    // setTimeout(redirectToGenIndex, 4000); //An "alert" was preferred over this.
+     setTimeout(redirectToGenIndex, 4000); //An "alert" was preferred over this.
 }
 
 function playlistCoverSafe(data) {
@@ -256,17 +256,17 @@ function getNewPlaylistFormValues() {
     }
 
 
-    let tracks = [];
+    let tracksAsArray = [];
 
     $.each(tracks, function (index, item) {
 /*        console.log(`Adding item: ${index} - ${item.value}`);*/
-        tracks.push(item.value);
+        tracksAsArray.push(item.value);
     });
 
 /*    console.log(`j content: ${j}`);*/
 
     return {
-        newtrackuris: tracks,
+        newtrackuris: tracksAsArray,
         status: true
     }
 }
