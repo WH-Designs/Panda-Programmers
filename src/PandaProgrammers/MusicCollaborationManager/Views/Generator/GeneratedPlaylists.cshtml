@@ -10,7 +10,7 @@
     <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 md:w-[35%] bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
         <div>
             <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
-            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">Generated Playlist</h2>
+            <h2 id="playlistTitle" class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistTitle</h2>
         </div>
 
         <div class="classicpanda:text-blacktext flex bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 gap-x-4">
@@ -53,6 +53,10 @@
         </div>
 
         <div class="flex flex-col mt-5">
+            <div class="mt-20" id="embed-iframe"></div>
+        </div>
+
+        <div class="flex flex-col mt-5">
                 <h2 class="font-header text-center text-textback classicpanda:text-whitetext text-2xl">Removed tracks</h2>
                 <div class="table">
                     <div class="table-header-group">
@@ -91,18 +95,14 @@
             
         </form>
     </div>
-    <div class="-z-50" style="width: 0; height: 0; border: 0; border: none; position: absolute;">
-        <div id="embed-iframe" style=""></div>
-    </div>
 </div>
 
 <script>
-
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
         let element = document.getElementById('embed-iframe');
         let options = {
-            width: '80%',
-            height: '400',
+            width: '50%',
+            height: '450',
             uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
 
         };
@@ -118,7 +118,6 @@
         IFrameAPI.createController(element, options, callback);
 
     };
-    console.log("Spotify player should be loaded")
 </script>
 
 

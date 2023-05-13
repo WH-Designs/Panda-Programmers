@@ -62,6 +62,8 @@ public class Program
         builder.Services.AddScoped<IListenerRepository, ListenerRepository>();
         builder.Services.AddScoped<ICommentRepository, CommentRepository>();
         builder.Services.AddScoped<IPlaylistPollRepository, PlaylistPollRepository>();
+        builder.Services.AddScoped<ITutorialRepository, TutorialRepository>();
+        builder.Services.AddScoped<IPromptRepository, PromptRepository>();
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -137,7 +139,7 @@ public class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-            app.UseMigrationsEndPoint();
+            // app.UseMigrationsEndPoint();
 
             app.UseDeveloperExceptionPage();
             app.UseSwagger();

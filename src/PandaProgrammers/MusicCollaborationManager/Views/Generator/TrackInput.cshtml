@@ -19,7 +19,7 @@
                                 <input asp-for="trackName" class="hidden" value="@track.Name">
                                 <input asp-for="artistName" class="hidden" value="@track.Artists[0].Name">
                                 @{                                    
-                                    <button type="submit" aria-current="page"><img src="@track.Album.Images[0].Url"></button>
+                                    <button id="inputTrack" type="submit" aria-current="page"><img src="@track.Album.Images[0].Url"></button>
                                 }                                
                                 <p>@track.Name</p>
                             </div>

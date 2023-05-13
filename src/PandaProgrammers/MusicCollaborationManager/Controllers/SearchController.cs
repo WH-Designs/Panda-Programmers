@@ -41,7 +41,8 @@ public class SearchController : Controller
 
         } catch (Exception e) {
             Console.WriteLine(e.Message);
-            return Redirect("/listener");
+            TempData["Error"] = "Error Occured";
+            return RedirectToAction("Index", "Home");
         }
     }
     
@@ -54,8 +55,8 @@ public class SearchController : Controller
 
         } catch (Exception e) {
             Console.WriteLine(e.Message);
-            // error popup redirect goes here
-            return Redirect("/listener");
+            TempData["Error"] = "Error Occured";
+            return RedirectToAction("Index", "Home");
         }
     }
 
@@ -66,8 +67,8 @@ public class SearchController : Controller
             return Redirect("/listener");
         } catch(Exception e) {
             Console.WriteLine(e.Message);
-            // add an alert popup here like the one for the generators
-            return Redirect("/");
+            TempData["Error"] = "Error Occured";
+            return RedirectToAction("Index", "Home");
         }
     }
 }
