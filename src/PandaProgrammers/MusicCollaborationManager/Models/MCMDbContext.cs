@@ -6,6 +6,10 @@ namespace MusicCollaborationManager.Models;
 
 public partial class MCMDbContext : DbContext
 {
+    public MCMDbContext()
+    {
+    }
+
     public MCMDbContext(DbContextOptions<MCMDbContext> options)
         : base(options)
     {
@@ -17,14 +21,20 @@ public partial class MCMDbContext : DbContext
 
     public virtual DbSet<Playlist> Playlists { get; set; }
 
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //    => optionsBuilder.UseSqlServer("Name=MCMConnection");
+    public virtual DbSet<Poll> Polls { get; set; }
+
+    public virtual DbSet<Prompt> Prompts { get; set; }
+
+    public virtual DbSet<Tutorial> Tutorials { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer("Name=MCMConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC272E6E7543");
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27477FC065");
 
             entity.ToTable("Comment");
 
@@ -46,7 +56,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Listener>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC2710E28F23");
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC2766F11076");
 
             entity.ToTable("Listener");
 
@@ -67,17 +77,57 @@ public partial class MCMDbContext : DbContext
             entity.Property(e => e.SpotifyId)
                 .HasMaxLength(128)
                 .HasColumnName("SpotifyID");
+            entity.Property(e => e.SpotifyUserName).HasMaxLength(128);
             entity.Property(e => e.Theme).HasMaxLength(255);
         });
 
         modelBuilder.Entity<Playlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27AA0B4D6E");
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27CD68B385");
 
             entity.ToTable("Playlist");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
+        });
+
+        modelBuilder.Entity<Poll>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Polls__3214EC277447159D");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.PollId)
+                .IsRequired()
+                .HasMaxLength(64)
+                .HasColumnName("PollID");
+            entity.Property(e => e.SpotifyPlaylistId)
+                .IsRequired()
+                .HasMaxLength(64)
+                .HasColumnName("SpotifyPlaylistID");
+            entity.Property(e => e.SpotifyTrackUri)
+                .IsRequired()
+                .HasMaxLength(64);
+        });
+
+        modelBuilder.Entity<Prompt>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Prompts__3214EC27F8C4CF77");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Prompt1)
+                .IsRequired()
+                .HasMaxLength(512)
+                .HasColumnName("Prompt");
+        });
+
+        modelBuilder.Entity<Tutorial>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Tutorial__3214EC274DB3A065");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Link)
+                .IsRequired()
+                .HasMaxLength(512);
         });
 
         OnModelCreatingPartial(modelBuilder);

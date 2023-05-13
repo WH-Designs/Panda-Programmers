@@ -10,6 +10,8 @@ using MusicCollaborationManager.Models;
 using System;
 using MusicCollaborationManager.Utilities;
 using Microsoft.IdentityModel.Tokens;
+using SpotifyAPI.Web.Http;
+using System.Xml.Schema;
 
 namespace MusicCollaborationManager.Services.Concrete
 {
@@ -88,6 +90,30 @@ namespace MusicCollaborationManager.Services.Concrete
             return authUser.Me;
         }
 
+        public async Task<String> GetUserDisplayName(string spotifyID)
+        {
+            PublicUser user = await Spotify.UserProfile.Get(spotifyID);
+            return user.DisplayName;
+        }
+
+        public async Task<bool> LikePlaylist(string playlistID)
+        {
+            var resp = await Spotify.Follow.FollowPlaylist(playlistID);
+            return resp;
+        }
+
+        public async Task<List<SimplePlaylist>> GetUserPlaylists(string spotifyID)
+        {
+            List<SimplePlaylist> playlists = new List<SimplePlaylist>();
+            
+            Paging<SimplePlaylist> pagingPlaylists = await Spotify.Playlists.GetUsers(spotifyID);
+            playlists = pagingPlaylists.Items;
+
+            playlists = playlists.Where(p => p.Owner.Id == spotifyID).ToList();
+
+            return playlists;
+        }
+
         public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery) 
         {
             SearchRequest.Types types = SearchRequest.Types.All;
@@ -121,6 +147,23 @@ namespace MusicCollaborationManager.Services.Concrete
                 return returnGenArtists;
             } 
             return returnArtists;
+        }
+
+        public async Task<List<FullArtist>> GetAuthRelatedArtistsAsync(List<FullArtist> TopArtists)
+        {
+            var relatedArtists = new List<FullArtist>();
+
+            foreach (FullArtist artist in TopArtists)
+            {
+                var newArtists = await Spotify.Artists.GetRelatedArtists(artist.Id);
+                foreach (FullArtist newArtist in newArtists.Artists)
+                {
+                    relatedArtists.Add(newArtist);
+                }
+                relatedArtists.Add(artist);
+            }
+
+            return relatedArtists;
         }
 
         public async Task<RecommendationGenresResponse> GetSeedGenresAsync()
@@ -416,6 +459,21 @@ namespace MusicCollaborationManager.Services.Concrete
         public async Task<FullPlaylist> GetPlaylistFromIDAsync(string playlistID) {
             FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
             return wantedPlaylist;
+        }
+
+        public static ITracksClient GetTracksClientAsync() 
+        {
+            return Spotify.Tracks;
+        }
+
+        public async Task<FullTrack> GetSpotifyTrackByID(string trackID, ITracksClient tracksClient)
+        {
+            return await tracksClient.Get(trackID);       
+        }
+
+        public async Task<FullArtist> GetArtistById(string artistID)
+        {
+            return await Spotify.Artists.Get(artistID);
         }
     }
 }

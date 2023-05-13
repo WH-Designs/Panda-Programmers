@@ -36,6 +36,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+        ViewBag.Error = TempData["Error"];
+        
         IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
         VisitorDashboard visitorDash = new VisitorDashboard();
         foreach (MusicVideoDTO video in j)
@@ -45,6 +47,7 @@ public class HomeController : Controller
 
         return View(visitorDash);
     }
+
 
     public IActionResult callforward()
     {
@@ -69,6 +72,7 @@ public class HomeController : Controller
 
         await _spotifyService.GetCallbackAsync(code, listener);
         PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUserAsync();
+        listener.SpotifyUserName = currentSpotifyUser.DisplayName;
         _listenerRepository.AddOrUpdate(listener);
 
         if (listener.SpotifyId == null)

@@ -6,8 +6,10 @@ CREATE TABLE [Listener] (
     [LastName]          nvarchar(64)    NOT NULL,
     [FriendID]          int             NOT NULL,
     [ASPNetIdentityID]  nvarchar(64)    NOT NULL,
+    [SearchConsentFlag] bit             NOT NULL,
     [Theme]             nvarchar(255)   NULL,
     [SpotifyID]         nvarchar(128)   NULL,
+    [SpotifyUserName]   nvarchar(128)   NULL,
     [AuthToken]         nvarchar(512)   NULL,
     [AuthRefreshToken]  nvarchar(512)   NULL
 );
@@ -23,6 +25,23 @@ CREATE TABLE [Comment] (
 CREATE TABLE [Playlist] (
     [ID]                int             PRIMARY KEY IDENTITY(1, 1),
     [ServiceID]         int             NOT NULL,
+);
+
+CREATE TABLE [Polls](
+     [ID]                   int             PRIMARY KEY IDENTITY(1, 1),
+     [PollID]               nvarchar(64)    NOT NULL,
+     [SpotifyPlaylistID]    nvarchar(64)    NOT NULL,
+     [SpotifyTrackUri]      nvarchar(64)    NOT NULL
+);
+
+CREATE TABLE [Tutorials] (
+    [ID]                int                 PRIMARY KEY IDENTITY(1, 1),
+    [Link]              nvarchar(512)       NOT NULL,
+);
+
+CREATE TABLE [Prompts] (
+    [ID]                int                 PRIMARY KEY IDENTITY(1, 1),
+    [Prompt]            nvarchar(512)       NOT NULL,
 );
 
 ALTER TABLE [Comment] ADD CONSTRAINT [Fk_Comment_Listener_ID]

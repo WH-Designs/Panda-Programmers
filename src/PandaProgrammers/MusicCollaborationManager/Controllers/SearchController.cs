@@ -41,7 +41,34 @@ public class SearchController : Controller
 
         } catch (Exception e) {
             Console.WriteLine(e.Message);
+            TempData["Error"] = "Error Occured";
+            return RedirectToAction("Index", "Home");
+        }
+    }
+    
+    public async Task<IActionResult> PlaylistsDisplay(string spotifyID)
+    {
+        try {
+
+            List<SimplePlaylist> usersPlaylists = await _spotifyService.GetUserPlaylists(spotifyID);
+            return View("PlaylistsDisplay", usersPlaylists);
+
+        } catch (Exception e) {
+            Console.WriteLine(e.Message);
+            TempData["Error"] = "Error Occured";
+            return RedirectToAction("Index", "Home");
+        }
+    }
+
+    public async Task<IActionResult> Like(string playlistID) 
+    {
+        try{
+            await _spotifyService.LikePlaylist(playlistID);
             return Redirect("/listener");
+        } catch(Exception e) {
+            Console.WriteLine(e.Message);
+            TempData["Error"] = "Error Occured";
+            return RedirectToAction("Index", "Home");
         }
     }
 }
