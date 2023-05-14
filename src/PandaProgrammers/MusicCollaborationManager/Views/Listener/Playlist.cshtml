@@ -46,7 +46,7 @@
                         {
                             <tr class="border-b border-gray-200 text-lg">
                                 <th scope="row" class="pl-5 font-medium whitespace-nowrap bg-coreback">@(trackIndex + 1)</th>
-                                <td class="pl-2 pb-2 pt-2 bg-coreback"><a href="@track.LinkToTrack"><img src="@track.ImageURL" alt="" class="text-textback md:w-[150px] md:h-[150px]"></img></a></td>
+                                <td class="pl-2 pb-2 pt-2 bg-coreback"><a href="@track.LinkToTrack"><img src="@track.ImageURL" alt="" class="text-textback md:w-[150px] md:h-[150px]"/></a></td>
                                 <td class="pl-10 bg-coreback">@track.Title</td>
                                 <td class="pl-3 pr-2 bg-coreback">@track.Artist</td>
                             </tr>
@@ -165,17 +165,18 @@
            
         </div>
     </div>
-    
+    <button value="@Model.PlaylistContents.Uri" class="hidden" id="playlist-Uri"></button>
 </div>
 
 <script>
 
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        let playlistUri = $("#playlist-Uri").val();
         let element = document.getElementById('embed-iframe');
         let options = {
             width: '100%',
             height: '250',
-            uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
+            uri: playlistUri
 
         };
         let callback = (EmbedController) => {
