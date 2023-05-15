@@ -491,7 +491,14 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
                 if (vm.generateTitle == false)
                 {
-                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    if (string.IsNullOrEmpty(vm.titleInput) == false)
+                    {
+                        generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    }
+                    else
+                    {
+                        generatorsViewModel.PlaylistTitle = "MCM Playlist";
+                    }
                 }
                 else
                 {
