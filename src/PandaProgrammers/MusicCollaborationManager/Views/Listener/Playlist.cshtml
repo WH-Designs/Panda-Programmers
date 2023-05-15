@@ -5,7 +5,7 @@
 <div class="flex flex-col lg:flex-row w-fit">
     <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-2 mb-4 overflow-hidden" id="user-playlist-container">
         <div>
-            <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistContents.Name &nbsp;&nbsp; <button class="playable-item hover:text-textback classicpanda:text-blacktext text-xl" data-spotify-id="@Model.PlaylistContents.Uri"><i class="fa-solid fa-play fa-2xl"></i></button></h2>
+            <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500"><a href="@Model.PlaylistContents.LinkToPlaylist">@Model.PlaylistContents.Name</a>&nbsp;&nbsp; <button class="playable-item hover:text-textback classicpanda:text-blacktext text-xl" data-spotify-id="@Model.PlaylistContents.Uri"><i class="fa-solid fa-play fa-2xl"></i></button></h2>
             <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistContents.Owner</h2>
         </div>
         <div class="classicpanda:text-blacktext flex flex-col md:flex-row bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 gap-x-4">
