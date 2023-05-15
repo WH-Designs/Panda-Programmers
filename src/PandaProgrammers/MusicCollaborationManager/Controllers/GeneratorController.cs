@@ -281,14 +281,16 @@ namespace MusicCollaborationManager.Controllers
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(UserGenre, promptDTO);
                 }
 
-                if (generatorsViewModel.PlaylistCoverImageUrl == null)
-                {
-                    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
-                }
-                else
-                {
-                    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
-                }
+                generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+
+                //if (generatorsViewModel.PlaylistCoverImageUrl == null)
+                //{
+                //    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                //}
+                //else
+                //{
+                //    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
+                //}
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
