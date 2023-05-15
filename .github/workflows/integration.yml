@@ -20,7 +20,7 @@ env:
 
 defaults:
   run:
-    working-directory: './src/PandaProgrammers/MusicCollaborationManager'
+    working-directory: './src/PandaProgrammers'
 
 jobs:
   build_and_test:
