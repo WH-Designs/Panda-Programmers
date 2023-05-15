@@ -6,7 +6,7 @@
 }
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
-<div class="flex flex-col ">
+<div class="flex flex-col">
     <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 md:w-[35%] bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
         <div>
             <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
@@ -57,15 +57,12 @@
         </div>
 
         <div class="flex flex-col mt-5">
-                <h2 class="font-header text-center text-textback classicpanda:text-whitetext text-2xl">Removed tracks</h2>
-                <div class="table">
-                    <div class="table-header-group">
-                        <div class="font-header table-cell text-textback classicpanda:text-whitetext text-xl p-2">Track</div>
-                        <div class="font-header table-cell text-textback classicpanda:text-whitetext text-xl p-2">Album</div>
-                        <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2"></div> <!--Column for "add" btn. (Which is NOT meant to be visible.)-->
-                    </div>
-                    <div class="table-row-group" id="removed-tracks-table-body">
-                    </div>
+            <h2 class="font-header text-center text-textback classicpanda:text-whitetext text-2xl">Removed tracks</h2>
+            <div class="table">
+                <div class="table-header-group">
+                    <div class="font-header table-cell text-textback classicpanda:text-whitetext text-xl p-2">Track</div>
+                    <div class="font-header table-cell text-textback classicpanda:text-whitetext text-xl p-2">Album</div>
+                    <div class="table-cell text-textback classicpanda:text-whitetext text-xl p-2"></div> <!--Column for "add" btn. (Which is NOT meant to be visible.)-->
                 </div>
                 <div class="table-row-group" id="removed-tracks-table-body">
                 </div>
@@ -82,40 +79,43 @@
             }
 
 
-            <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+
+
+        <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
                                 classicpanda:text-whitetext
                                 autumn:text-white
                                 revolution:text-white"
-                    type="button" id="save-playlist-btn">
-                Save playlist
-            </button>
-            <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+                type="button" id="save-playlist-btn">
+            Save playlist
+        </button>
+        <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
                                 classicpanda:text-whitetext
                                 autumn:text-white
                                 revolution:text-white"
-                    type="button" id="discard-playlist-btn">
-                Discard playlist
-            </button>
+                type="button" id="discard-playlist-btn">
+            Discard playlist
+        </button>
 
-        </form>
+    </form>
 
-        </div>
+    <form id="upload-playlist-cover-form" class="hidden">
+        <input type="text" name="PlaylistId" value="" placeholder="Future playlistId" id="new-playlist-id" />
+        <input type="text" name="PlaylistImgBaseString" value="@Model.PlaylistImgBase64" placeholder="PlaylistImgBaseString" id="playlist-img-input-extra" />
 
-        <form id="upload-playlist-cover-form" class="hidden">
-            <input type="text" name="PlaylistId" value="" placeholder="Future playlistId" id="new-playlist-id" />
-            <input type="text" name="PlaylistImgBaseString" value="@Model.PlaylistImgBase64" placeholder="PlaylistImgBaseString" id="playlist-img-input-extra"/>
-
-        </form>
+    </form>
     </div>
 </div>
 
+<button value="@Model.fullResult[0].Uri" class="hidden" id="track-Uri"></button>
+
 <script>
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        let trackUri = $("#track-Uri").val();
         let element = document.getElementById('embed-iframe');
         let options = {
-            width: '50%',
+            width: '100%',
             height: '450',
-            uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
+            uri: trackUri
 
         };
         let callback = (EmbedController) => {
