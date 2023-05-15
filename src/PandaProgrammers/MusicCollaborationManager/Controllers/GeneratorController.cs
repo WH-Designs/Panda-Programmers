@@ -281,16 +281,16 @@ namespace MusicCollaborationManager.Controllers
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(UserGenre, promptDTO);
                 }
 
-                generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                //generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
 
-                //if (generatorsViewModel.PlaylistCoverImageUrl == null)
-                //{
-                //    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
-                //}
-                //else
-                //{
-                //    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
-                //}
+                if (generatorsViewModel.PlaylistCoverImageUrl == null)
+                {
+                    generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
+                }
+                else
+                {
+                    generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
+                }
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -423,16 +423,6 @@ namespace MusicCollaborationManager.Controllers
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
                 generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInputAuto(UserInputDescription, promptDTO);
                 generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(vm.trackName, promptDTO);
-
-                //CAN'T TELL if this is necessary atm.
-                //if (string.IsNullOrEmpty(generatorsViewModel.PlaylistTitle) == false)
-                //{
-                //    generatorsViewModel.PlaylistTitle = generatorsViewModel.PlaylistTitle;
-                //}
-                //else
-                //{
-                //    generatorsViewModel.PlaylistTitle = "MCM Playlist";
-                //}
 
                 try
                 {
