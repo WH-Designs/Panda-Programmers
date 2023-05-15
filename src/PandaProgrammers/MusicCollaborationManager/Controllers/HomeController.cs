@@ -48,6 +48,11 @@ public class HomeController : Controller
         return View(visitorDash);
     }
 
+    public IActionResult whoops()
+    {
+        return View();
+    }
+
 
     public IActionResult callforward()
     {

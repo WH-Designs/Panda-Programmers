@@ -6,6 +6,14 @@ namespace UnitTests;
 
 public class SpotifyAuthServiceTests 
 {
+
+
+    [SetUp]
+    public void Setup()
+    {
+        
+    }
+    
     [Test]
     public void Test()
     {
