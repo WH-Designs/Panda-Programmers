@@ -22,7 +22,8 @@ function playlistNameIsValid(playlistName) {
 
 function checkForPlaylistNameInputErrors(playlistNameInput) {
 
-    let anyNameInputErrors = true;
+    let playlistNameHasCharacters = true;
+    let playlistNameAcceptableLength = true;
 
     if (playlistNameInput.length >= 100) {
         console.log("Playlist name must be 100 characters or less.");
@@ -34,12 +35,12 @@ function checkForPlaylistNameInputErrors(playlistNameInput) {
 
         $("#playlist-name-too-long-msg").remove();
         $(playlistNameTooLong).insertAfter("#titleinput");
-        anyNameInputErrors = true;
+        playlistNameAcceptableLength = false;
     }
     else {
         console.log("Playlist name length requirement satisfied.");
         $("#playlist-name-too-long-msg").remove();
-        anyNameInputErrors = false;
+        playlistNameAcceptableLength = true;
     }
 
     if (playlistNameIsValid(playlistNameInput) == false) {
@@ -52,22 +53,23 @@ function checkForPlaylistNameInputErrors(playlistNameInput) {
 
         $("#playlist-name-input-invalid-msg").remove();
         $(invalidPlaylistNameMsg).insertAfter("#titleinput");
-        anyNameInputErrors = true;
+        playlistNameHasCharacters = false;
     }
     else {
         console.log("Playlist name input meets criteria. (playlist name length criteron not verified here).");
         $("#playlist-name-input-invalid-msg").remove();
-        anyNameInputErrors = false;
+        playlistNameHasCharacters = true;
     }
 
-    if (anyNameInputErrors) {
+    if ((playlistNameHasCharacters == false) || (playlistNameAcceptableLength == false)) {
         let defaultPlaylistNameMsg = `
             <p id="default-playlist-name-msg" class="text-red-500 font-bold playlist-name-error-input">
-                A default name will be given to the playlist if you proceed.
+                (A default name will be given to the playlist if you proceed.)
             </p>`;
 
         $("#default-playlist-name-msg").remove();
         $(defaultPlaylistNameMsg).insertAfter("#titleinput");
+        console.log(`character ok: ${playlistNameHasCharacters} \n length ok: ${playlistNameAcceptableLength}`);
     }
     else {
         $("#default-playlist-name-msg").remove();
@@ -86,8 +88,12 @@ $("#titleinput").keyup(function () {
 
 //$("#aiTitle").click(function () {
 
+//    let AITitleWillBeGenerated = $("#aiTitle").val();
+//    console.log(`aiTitle (value): ${AITitleWillBeGenerated}`);
+
 //    //If it's not checked:
-//    clearAllPlaylistNameInputErrorMessages();
+    
+//    /*clearAllPlaylistNameInputErrorMessages();*/
 
 //    //If it is checked
 //});
