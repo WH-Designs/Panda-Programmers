@@ -4,13 +4,6 @@
 //100 characters for playlist NAME
 //300 characters for playlist DESCRIPTION
 
-
-function clearAllPlaylistNameInputErrorMessages() {
-    console.log("Erasing all playlist NAME error messages."); 
-
-    
-}
-
 function playlistNameIsValid(playlistName) {
     const playlistNameCriteria = /\w+/;
 
@@ -86,14 +79,23 @@ $("#titleinput").keyup(function () {
 });
 
 
-//$("#aiTitle").click(function () {
+$("#aiTitle").click(function () {
 
-//    let AITitleWillBeGenerated = $("#aiTitle").val();
-//    console.log(`aiTitle (value): ${AITitleWillBeGenerated}`);
+    let AITitleWillBeGenerated = $("#aiTitle").val();
+    console.log(`aiTitle (value): ${AITitleWillBeGenerated}`);
 
-//    //If it's not checked:
-    
-//    /*clearAllPlaylistNameInputErrorMessages();*/
+    //If it's not checked:
+    console.log(`AI title type: ${typeof(AITitleWillBeGenerated)}`);
 
-//    //If it is checked
-//});
+    if (AITitleWillBeGenerated == "true") {
+        console.log("AI title will be generated.");
+        $(".playlist-name-error-input").remove();
+    }
+    else {
+        console.log("AI title will NOT be generated.");
+        let playlistNameInput = $("#titleinput").val();
+        console.log(`Playlist name input: ${playlistNameInput}`);
+
+        checkForPlaylistNameInputErrors(playlistNameInput);
+    }
+});
