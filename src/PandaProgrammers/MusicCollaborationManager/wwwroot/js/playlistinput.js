@@ -4,6 +4,15 @@
 //100 characters for playlist NAME
 //300 characters for playlist DESCRIPTION
 
+//$(function () {
+//    let defaultPlaylistNameMsg = `
+//            <p id="default-playlist-name-msg" class="text-red-500 font-bold playlist-name-error-input">
+//                (A default name will be given to the playlist if this is left blank.)
+//            </p>`;
+
+//    $(defaultPlaylistNameMsg).insertAfter("#titleinput");
+//});
+
 function playlistNameIsValid(playlistName) {
     const playlistNameCriteria = /\w+/;
 
@@ -15,9 +24,6 @@ function playlistNameIsValid(playlistName) {
 
 function checkForPlaylistNameInputErrors(playlistNameInput) {
 
-    let playlistNameHasCharacters = true;
-    let playlistNameAcceptableLength = true;
-
     if (playlistNameInput.length >= 100) {
         console.log("Playlist name must be 100 characters or less.");
 
@@ -28,12 +34,10 @@ function checkForPlaylistNameInputErrors(playlistNameInput) {
 
         $("#playlist-name-too-long-msg").remove();
         $(playlistNameTooLong).insertAfter("#titleinput");
-        playlistNameAcceptableLength = false;
     }
     else {
         console.log("Playlist name length requirement satisfied.");
         $("#playlist-name-too-long-msg").remove();
-        playlistNameAcceptableLength = true;
     }
 
     if (playlistNameIsValid(playlistNameInput) == false) {
@@ -46,26 +50,10 @@ function checkForPlaylistNameInputErrors(playlistNameInput) {
 
         $("#playlist-name-input-invalid-msg").remove();
         $(invalidPlaylistNameMsg).insertAfter("#titleinput");
-        playlistNameHasCharacters = false;
     }
     else {
         console.log("Playlist name input meets criteria. (playlist name length criteron not verified here).");
         $("#playlist-name-input-invalid-msg").remove();
-        playlistNameHasCharacters = true;
-    }
-
-    if ((playlistNameHasCharacters == false) || (playlistNameAcceptableLength == false)) {
-        let defaultPlaylistNameMsg = `
-            <p id="default-playlist-name-msg" class="text-red-500 font-bold playlist-name-error-input">
-                (A default name will be given to the playlist if you proceed.)
-            </p>`;
-
-        $("#default-playlist-name-msg").remove();
-        $(defaultPlaylistNameMsg).insertAfter("#titleinput");
-        console.log(`character ok: ${playlistNameHasCharacters} \n length ok: ${playlistNameAcceptableLength}`);
-    }
-    else {
-        $("#default-playlist-name-msg").remove();
     }
   
 }
@@ -90,12 +78,22 @@ $("#aiTitle").click(function () {
     if (AITitleWillBeGenerated == "true") {
         console.log("AI title will be generated.");
         $(".playlist-name-error-input").remove();
+        $("#optional-playlist-title-note").hide();
     }
     else {
+        $("#optional-playlist-title-note").show()
         console.log("AI title will NOT be generated.");
         let playlistNameInput = $("#titleinput").val();
+
+        if (playlistNameInput == "") {
+
+        }
+        else {
+            checkForPlaylistNameInputErrors(playlistNameInput);
+        }
+
         console.log(`Playlist name input: ${playlistNameInput}`);
 
-        checkForPlaylistNameInputErrors(playlistNameInput);
+        
     }
 });
