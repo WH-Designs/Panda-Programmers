@@ -88,5 +88,7 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _topArtistPage.PlaylistNameInputExists().Should().BeTrue();
         }
 
+
+
     }
 }

@@ -43,7 +43,16 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
 
         public bool PlaylistNameInputExists()
         {
-            return PlaylistNameInputLabel.Text.Contains("Playlist Title Input");
+            if ((PlaylistNameInput.Displayed == true) && (PlaylistNameInputLabel.Text.Contains("Playlist Title Input"))) 
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void FillInputForPlaylistName(string playlistName)
+        {
+            PlaylistNameInput.SendKeys(playlistName);
         }
     }
 }
