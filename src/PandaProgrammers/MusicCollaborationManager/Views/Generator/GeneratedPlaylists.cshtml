@@ -75,7 +75,17 @@
                     <input id="track-@i-input" value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="NewTrackUris" />
                 }
 
-                <input type="text" name="NewPlaylistName" value="@Model.PlaylistTitle" id="new-playlist-name" class="hidden" maxlength="100" />
+                    <input type="text" name="NewPlaylistName" value="@Model.PlaylistTitle" id="new-playlist-name" class="hidden" maxlength="100" />
+
+                    if (Model.IsPlaylistPublicOnSpotify == true)
+                    {
+                        <input type="checkbox" name="NewPlaylistIsVisible" id="new-playlist-is-public-question" checked/>
+                    }
+                    else
+                    {
+                        <input type="checkbox" name="NewPlaylistIsVisible" id="new-playlist-is-public-question" />
+                    }
+                    
             }
 
 

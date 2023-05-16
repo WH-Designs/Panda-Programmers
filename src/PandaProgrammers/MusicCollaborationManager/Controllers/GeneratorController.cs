@@ -121,6 +121,7 @@ namespace MusicCollaborationManager.Controllers
                 else{
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
+                generatorsViewModel.IsPlaylistPublicOnSpotify = vm.playlistIsPublicOnSpotify;
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;                

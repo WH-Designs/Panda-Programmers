@@ -41,6 +41,8 @@ namespace MusicCollaborationManager.ViewModels
         public string titleInput { get; set; }
         public bool generateTitle { get; set; }
 
+        public bool playlistIsPublicOnSpotify { get; set; } = false;
+
         public QuestionViewModel SeedGenres(QuestionViewModel vm ,Task<RecommendationGenresResponse> recommendation)
         {
             vm.genresSelect = new List<SelectListItem>();

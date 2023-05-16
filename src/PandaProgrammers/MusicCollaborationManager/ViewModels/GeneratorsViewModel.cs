@@ -8,6 +8,7 @@ namespace MusicCollaborationManager.ViewModels
         public string PlaylistCoverImageUrl { get; set; }
         public string PlaylistDescription { get; set; }
         public string? PlaylistImgBase64 { get; set; } = null;
+        public bool IsPlaylistPublicOnSpotify { get; set; }
 
         //https://stackoverflow.com/questions/35406457/load-an-image-from-url-as-base64-string -- Ronald Babu's answer.
         public static async Task<string> ImageUrlToBase64(string imageUrl)
