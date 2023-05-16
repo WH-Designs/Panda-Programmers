@@ -42,8 +42,8 @@
                         <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg gap-y-3" id="song-preview-@trackIndex">
                             <i id="remove-entry-icon-@trackIndex" class="cursor-pointer fa-solid fa-x text-textback classicpanda:text-blacktext hover:text-textback/50 re-add-entry classicpanda:hover:text-gray-400 remove-track-btn"></i>
                             <img src="@track.Album.Images[0].Url" />
-                            <h2 class="text-textback classicpanda:text-blacktext">Track Name: <span id="entry-track-name-@trackIndex">@track.Name</span></h2>
-                            <h2 class="text-textback classicpanda:text-blacktext">Album Name: <span id="entry-album-name-@trackIndex">@track.Album.Name</span></h2>
+                            <h2 class="text-textback classicpanda:text-blacktext font-bold"><span id="entry-track-name-@trackIndex">@track.Name</span></h2>
+                            <h2 class="text-textback classicpanda:text-blacktext italic font-thin"><span id="entry-album-name-@trackIndex">@track.Album.Name</span></h2>
                             <button class="playable-item hover:text-textback classicpanda:text-blacktext" id="track-@trackIndex" data-spotify-id="@track.Uri"><i class="fa-solid fa-play fa-xl"></i></button>
                         </div>
                         trackIndex++;
