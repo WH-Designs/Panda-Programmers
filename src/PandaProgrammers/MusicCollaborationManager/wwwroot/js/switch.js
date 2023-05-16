@@ -14,4 +14,15 @@
     }
 }
 
+function toggleCheckboxPlaylistOnSpotifyVisibility() {
+    const checkbox = $('#playlistVisibilityInput');
+
+    if (checkbox.prop('checked')) {
+        checkbox.val(true);
+    } else {
+        checkbox.val(false);
+    }
+}
+
 $('input[type="checkbox"][id="aiTitle"]').on('click', toggleCheckbox);
+$('input[type="checkbox"][id="playlistVisibilityInput"]').on('click', toggleCheckboxPlaylistOnSpotifyVisibility);
