@@ -83,20 +83,20 @@ have been sent to the dashboard without being notified. An alert allows the user
         {
 #line 9
 #line hidden
-            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                         "UserName",
                         "Email",
                         "FirstName",
                         "LastName",
                         "Password"});
-            table5.AddRow(new string[] {
+            table6.AddRow(new string[] {
                         "chadb@gmail.com",
                         "chadb@gmail.com",
                         "Chad",
                         "Bass",
                         "Pass321!"});
 #line 10
- testRunner.Given("the following users exist generator", ((string)(null)), table5, "Given ");
+ testRunner.Given("the following users exist generator", ((string)(null)), table6, "Given ");
 #line hidden
         }
     }

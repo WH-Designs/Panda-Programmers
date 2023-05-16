@@ -21,6 +21,9 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public IWebElement NavbarToggle => _webDriver.FindElement(By.Id("navbar-toggle-button"));
         public IWebElement SpotifyLogin => _webDriver.FindElement(By.Id("spotify-button"));
 
+        private IWebElement PlaylistNameInputLabel => _webDriver.FindElement(By.Id("titletext"));
+        private IWebElement PlaylistNameInput => _webDriver.FindElement(By.Id("titleinput"));
+
 
         public void GoToTopArtistGenerator()
         {
@@ -36,6 +39,11 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         {
             NavbarToggle.Click();
             SpotifyLogin.Click();
+        }
+
+        public bool PlaylistNameInputExists()
+        {
+            return PlaylistNameInputLabel.Text.Contains("Playlist Title Input");
         }
     }
 }
