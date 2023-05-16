@@ -1,8 +1,8 @@
-INSERT INTO [Listener] (FirstName, LastName, FriendID, ASPNetIdentityID, SpotifyID)
+INSERT INTO [Listener] (FirstName, LastName, FriendID, ASPNetIdentityID, SpotifyID, SearchConsentFlag, Theme, AuthToken, AuthRefreshToken)
     VALUES
-    ('Chad' ,'Bass' ,1 , '4b7959dc-2e9f-4fa9-ad38-d49ea70c8d32', '0'),
-    ('Tiffany' ,'Fox' ,2 , '52f959dc-3e9a-4fa9-ad38-d49ea7448d32', '0'),
-    ('Dwight' ,'Morse' ,3 , '4b7959dc-2e9f-4fa9-ad38-d49ea70c8d32', '0');
+    ('Chad' ,'Bass' ,1 , '4b7959dc-2e9f-4fa9-ad38-d49ea70c8d32', '0', 1, '0', '0', '0'),
+    ('Tiffany' ,'Fox' ,2 , '52f959dc-3e9a-4fa9-ad38-d49ea7448d32', '0', 1, '0', '0', '0'),
+    ('Dwight' ,'Morse' ,3 , '4b7959dc-2e9f-4fa9-ad38-d49ea70c8d32', '0', 1, '0', '0', '0');
 
 INSERT INTO [Playlist] (ServiceID)
     VALUES
