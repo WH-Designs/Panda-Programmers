@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechTalk.SpecFlow;
 
 namespace MusicCollaborationManager_BDD_Tests.PageObjects
 {
@@ -20,6 +21,11 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public IWebElement track => _webDriver.FindElement(By.Id("remove-entry-icon-19"));
         public IWebElement NavbarToggle => _webDriver.FindElement(By.Id("navbar-toggle-button"));
         public IWebElement SpotifyLogin => _webDriver.FindElement(By.Id("spotify-button"));
+
+        private IWebElement PlaylistNameInputLabel => _webDriver.FindElement(By.Id("titletext"));
+        private IWebElement PlaylistNameInput => _webDriver.FindElement(By.Id("titleinput"));
+
+        private IWebElement InvalidPlaylistNameInputMessage => _webDriver.FindElement(By.Id("playlist-name-input-invalid-msg"));
 
 
         public void GoToTopArtistGenerator()
@@ -37,5 +43,25 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
             NavbarToggle.Click();
             SpotifyLogin.Click();
         }
+
+        public bool PlaylistNameInputExists()
+        {
+            if ((PlaylistNameInput.Displayed == true) && (PlaylistNameInputLabel.Text.Contains("Playlist Title Input"))) 
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void FillInputForPlaylistName(string playlistName)
+        {
+            PlaylistNameInput.SendKeys(playlistName);
+        }
+
+        public bool InvalidInputMessagesAreVisible() 
+        {
+            return InvalidPlaylistNameInputMessage.Text.Contains("Playlist name must include at least 1 character that is not whitespace.");
+        }
+
     }
 }

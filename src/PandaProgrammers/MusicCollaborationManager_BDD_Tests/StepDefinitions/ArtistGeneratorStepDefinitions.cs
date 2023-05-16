@@ -82,5 +82,17 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _topArtistPage.track.Displayed.Should().BeTrue();
         }
 
+        [Then(@"I should see a spot to enter a playlist name")]
+        public void ThenIShouldSeeASpotToEnterAPlaylistName()
+        {
+            _topArtistPage.PlaylistNameInputExists().Should().BeTrue();
+        }
+
+        [Then(@"I should see error messages about what input is invalid")]
+        public void ThenIShouldSeeErrorMessagesAboutWhatInputIsInvalid()
+        {
+            _topArtistPage.InvalidInputMessagesAreVisible().Should().BeTrue();
+        }
+
     }
 }

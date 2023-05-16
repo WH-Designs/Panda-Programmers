@@ -10,7 +10,7 @@ namespace MusicCollaborationManager_BDD_Tests.Shared
     public class Common
     {
         public const string BaseUrl = "http://127.0.0.1:5000";     // copied from launchSettings.json
-        //public const string BaseUrl = "https://localhost:5000";      Just in case the one above doesn't work.
+  /*      public const string BaseUrl = "https://localhost:5000"; */            //Just in case the one above doesn't work.
 
 
         // File to store browser cookies in
