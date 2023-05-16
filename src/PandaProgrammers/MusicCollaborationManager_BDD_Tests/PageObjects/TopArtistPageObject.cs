@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechTalk.SpecFlow;
 
 namespace MusicCollaborationManager_BDD_Tests.PageObjects
 {
@@ -23,6 +24,8 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
 
         private IWebElement PlaylistNameInputLabel => _webDriver.FindElement(By.Id("titletext"));
         private IWebElement PlaylistNameInput => _webDriver.FindElement(By.Id("titleinput"));
+
+        private IWebElement InvalidPlaylistNameInputMessage => _webDriver.FindElement(By.Id("playlist-name-input-invalid-msg"));
 
 
         public void GoToTopArtistGenerator()
@@ -54,5 +57,11 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         {
             PlaylistNameInput.SendKeys(playlistName);
         }
+
+        public bool InvalidInputMessagesAreVisible() 
+        {
+            return InvalidPlaylistNameInputMessage.Text.Contains("Playlist name must include at least 1 character that is not whitespace.");
+        }
+
     }
 }

@@ -88,7 +88,11 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _topArtistPage.PlaylistNameInputExists().Should().BeTrue();
         }
 
-
+        [Then(@"I should see error messages about what input is invalid")]
+        public void ThenIShouldSeeErrorMessagesAboutWhatInputIsInvalid()
+        {
+            _topArtistPage.InvalidInputMessagesAreVisible().Should().BeTrue();
+        }
 
     }
 }
