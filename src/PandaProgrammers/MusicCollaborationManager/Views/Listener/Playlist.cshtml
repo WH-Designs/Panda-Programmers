@@ -1,5 +1,8 @@
 @model MusicCollaborationManager.ViewModels.PlaylistViewModel
 
+@{
+    Console.WriteLine(Model.PlaylistContents.LinkToPlaylist);
+}
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
 <div class="flex flex-col lg:flex-row w-fit">
