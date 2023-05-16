@@ -120,8 +120,8 @@ $(".remove-track-btn").click(function () {
         // console.log(`Index of track to REadd: ${trackToAddIndex}`);
         // console.log(`RE-ADDING ENTRY. \n Track Uri: ${trackUri}`);
         let entryToReadd = `
-            <input id="track-${removedTrackIndex}-input" value="${trackUri}" type="hidden" name="newTrackUris[${removedTrackIndex}]"/>
-        `
+            <input id="track-${removedTrackIndex}-input" value="${trackUri}" type="hidden" name="NewTrackUris"/>
+        `;
 
         $("#playlist-form").append(entryToReadd);
 
@@ -193,7 +193,7 @@ function savePlaylist(data) {
         });
     }
 
-     setTimeout(redirectToGenIndex, 4000); //An "alert" was preferred over this.
+    //  setTimeout(redirectToGenIndex, 4000); //An "alert" was preferred over this.
 }
 
 function playlistCoverSafe(data) {
@@ -250,6 +250,7 @@ function getNewPlaylistFormValues() {
 
     const newPlaylistForm = document.getElementById("playlist-form");
     const tracks = document.getElementsByName('NewTrackUris');
+    const playlistName = document.getElementById(`new-playlist-name`);
 
     if (!newPlaylistForm.checkValidity()) {
         return { status: false };
@@ -267,6 +268,7 @@ function getNewPlaylistFormValues() {
 
     return {
         newtrackuris: tracksAsArray,
+        newplaylistname: playlistName.value,
         status: true
     }
 }
