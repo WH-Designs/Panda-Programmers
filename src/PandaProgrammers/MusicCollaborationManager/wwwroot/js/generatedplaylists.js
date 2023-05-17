@@ -252,10 +252,20 @@ function getNewPlaylistFormValues() {
     const tracks = document.getElementsByName('NewTrackUris');
     const playlistName = document.getElementById(`new-playlist-name`);
 
+    //https://stackoverflow.com/questions/15839169/how-to-get-the-value-of-a-selected-radio-button -- Joe's answer.
+    let options = document.getElementsByName('NewPlaylistIsVisible');
+    let playlistVisibilityDecision;
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].checked) {
+            playlistVisibilityDecision = options[i].value;
+        }
+    }
+
+    console.log("RADIO CHOOSEN: " + playlistVisibilityDecision + ". type: " + typeof playlistVisibilityDecision);
+
     if (!newPlaylistForm.checkValidity()) {
         return { status: false };
     }
-
 
     let tracksAsArray = [];
 
@@ -264,11 +274,22 @@ function getNewPlaylistFormValues() {
         tracksAsArray.push(item.value);
     });
 
+    let playlistIsPublic = null;
+    if (playlistVisibilityDecision == "Public") {
+        console.log(`Playlist is PUBLIC`);
+        playlistIsPublic = true;
+    }
+    else {
+        console.log(`Playlist is PRIVATE`);
+        playlistIsPublic = false;
+    }
+
 /*    console.log(`j content: ${j}`);*/
 
     return {
         newtrackuris: tracksAsArray,
         newplaylistname: playlistName.value,
+        newplaylistisvisible: playlistIsPublic,
         status: true
     }
 }

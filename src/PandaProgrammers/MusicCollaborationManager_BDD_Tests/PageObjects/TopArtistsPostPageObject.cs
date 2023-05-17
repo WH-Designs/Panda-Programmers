@@ -27,10 +27,30 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         //public IWebElement GenerateButton => _webDriver.FindElement(By.Id("playlist-generate-button"));
 
         private IWebElement PlaylistTitle => _webDriver.FindElement(By.Id("playlistTitle"));
+        private IWebElement PlaylistVisibilityLabel => _webDriver.FindElement(By.XPath("/html/body/div[2]/main/div/div/div[5]/form[1]/div/h6"));
+        private IWebElement PublicPlaylistOption => _webDriver.FindElement(By.Id("public-playlist-visibility"));
+        private IWebElement PrivatePlaylistOption => _webDriver.FindElement(By.Id("private-playlist-visibility"));
+
 
         public bool IsCurrentPlaylistTitle(string playlistTitle) 
         {
             return PlaylistTitle.Text.Contains(playlistTitle);
+        }
+
+        public bool PlaylistVisibilityOptionExists() 
+        {
+            if (PlaylistVisibilityLabel.Displayed
+                && PrivatePlaylistOption.Displayed
+                && PublicPlaylistOption.Displayed) 
+            {
+                if (PrivatePlaylistOption.GetAttribute("value") == "Private"  && (PublicPlaylistOption.GetAttribute("value") == "Public"))
+                {
+                    return true;
+                }
+         
+            }
+
+            return false;
         }
 
     }
