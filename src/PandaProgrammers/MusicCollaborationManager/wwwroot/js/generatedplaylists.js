@@ -251,9 +251,22 @@ function getNewPlaylistFormValues() {
     const newPlaylistForm = document.getElementById("playlist-form");
     const tracks = document.getElementsByName('NewTrackUris');
     const playlistName = document.getElementById(`new-playlist-name`);
+    const isPlaylistPublic = document.getElementById("new-playlist-visibility")
+    console.log(`isPlaylistPublic: ${isPlaylistPublic.checked}`)
 
     if (!newPlaylistForm.checkValidity()) {
         return { status: false };
+    }
+
+    let playlistShouldBePublic = null;
+
+    if (isPlaylistPublic.checked) {
+        console.log(`playlist is PUBLIC`);
+        playlistShouldBePublic = true;
+    }
+    else{
+        console.log(`playlist is PRIVATE`);
+        playlistShouldBePublic = false;
     }
 
 
@@ -269,6 +282,7 @@ function getNewPlaylistFormValues() {
     return {
         newtrackuris: tracksAsArray,
         newplaylistname: playlistName.value,
+        newplaylistisvisible: playlistShouldBePublic,
         status: true
     }
 }
