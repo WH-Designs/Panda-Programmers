@@ -26,6 +26,5 @@ namespace MusicCollaborationManager.ViewModels
         [RegularExpression("^[\\w ]*[^\\W_][\\w ]")]
         public string titleInput { get; set; }
         public bool generateTitle { get; set; }
-        public bool playlistIsPublicOnSpotify { get; set; }
     }
 }

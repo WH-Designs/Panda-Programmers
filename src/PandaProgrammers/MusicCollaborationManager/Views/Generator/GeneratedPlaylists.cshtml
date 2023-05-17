@@ -31,6 +31,15 @@
                 </div>
             }
         </div>
+@*        <div>
+            <label class="flex items-center relative w-max cursor-pointer select-none">
+                <span class="text-textback classicpanda:text-blacktext font-bold p-2">Make playlist public on Spotify profile?</span>
+                <input id="playlistVisibilityInput" value="false" type="checkbox" class="appearance-none transition-colors cursor-pointer w-14 h-7 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500 bg-red-500" />
+                <span class="absolute font-medium text-xs uppercase right-1 text-white"></span>
+                <span class="absolute font-medium text-xs uppercase right-8 text-white"></span>
+                <span class="w-7 h-7 right-7 absolute rounded-full transform transition-transform bg-gray-200" />
+            </label>
+        </div>*@
 
         <div class="flex flex-col">
             <h1 class="text-textback classicpanda:text-whitetext">Tracks</h1>
@@ -77,14 +86,19 @@
 
                     <input type="text" name="NewPlaylistName" value="@Model.PlaylistTitle" id="new-playlist-name" class="hidden" maxlength="100" />
 
-                    if (Model.IsPlaylistPublicOnSpotify == true)
-                    {
-                        <input type="checkbox" name="NewPlaylistIsVisible" id="new-playlist-visibility" class="hidden" checked />
-                    }
-                    else
-                    {
-                        <input type="checkbox" name="NewPlaylistIsVisible" id="new-playlist-visibility" class="hidden" />
-                    }
+                    <div class="text-textback classicpanda:text-whitetext
+                                    autumn:text-white
+                                    revolution:text-white mt-1">
+                        <h6 class="text-lg">Show playlist on Spotify public profile?</h6>
+                        <div>
+                            <input type="radio" id="public-playlist-visibility" name="NewPlaylistIsVisible" value="Public">
+                            <label for="public-playlist-visibility">Yes</label>
+                            <input type="radio" id="private-playlist-visibility" name="NewPlaylistIsVisible" value="Private" checked>
+                            <label for="private-playlist-visibility">No</label>
+                        </div>
+                    </div>
+                    
+
                     
             }
 

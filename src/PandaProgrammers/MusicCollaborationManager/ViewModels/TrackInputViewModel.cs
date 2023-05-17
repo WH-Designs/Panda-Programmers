@@ -9,6 +9,5 @@ namespace MusicCollaborationManager.ViewModels
         public string trackID { get; set; }
         public string trackName { get; set; }
         public string artistName { get; set; }
-        public bool playlistIsPublicOnSpotify { get; set; }
     }
 }
