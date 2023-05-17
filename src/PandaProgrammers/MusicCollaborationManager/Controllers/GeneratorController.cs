@@ -208,6 +208,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
+                generatorsViewModel.IsPlaylistPublicOnSpotify = vm.playlistIsPublicOnSpotify;
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;
@@ -293,8 +294,6 @@ namespace MusicCollaborationManager.Controllers
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(UserGenre, promptDTO);
                 }
 
-                //generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
-
                 if (generatorsViewModel.PlaylistCoverImageUrl == null)
                 {
                     generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
@@ -303,6 +302,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
+                generatorsViewModel.IsPlaylistPublicOnSpotify = vm.playlistIsPublicOnSpotify;
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;
@@ -389,6 +389,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
+                generatorsViewModel.IsPlaylistPublicOnSpotify = vm.playlistIsPublicOnSpotify;
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;
@@ -456,6 +457,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
                 }
+                generatorsViewModel.IsPlaylistPublicOnSpotify = vm.playlistIsPublicOnSpotify;
 
                 await Task.WhenAll(convertTask, descriptionTask, titleTask);
                 generatorsViewModel.fullResult = convertTask.Result;
@@ -544,6 +546,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
+                generatorsViewModel.IsPlaylistPublicOnSpotify = vm.playlistIsPublicOnSpotify;
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;
@@ -633,6 +636,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
+                generatorsViewModel.IsPlaylistPublicOnSpotify = vm.playlistIsPublicOnSpotify;
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;
