@@ -27,6 +27,9 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
 
         private IWebElement InvalidPlaylistNameInputMessage => _webDriver.FindElement(By.Id("playlist-name-input-invalid-msg"));
 
+        private IWebElement PlaylistVisibilitySwitch => _webDriver.FindElement(By.Id("playlistVisibilityInput"));
+        private IWebElement PlaylistVisibilityLabel => _webDriver.FindElement(By.XPath("/html/body/div[2]/main/form/div/div/div[2]/label[2]/span[1]"));
+
 
         public void GoToTopArtistGenerator()
         {
@@ -61,6 +64,20 @@ namespace MusicCollaborationManager_BDD_Tests.PageObjects
         public bool InvalidInputMessagesAreVisible() 
         {
             return InvalidPlaylistNameInputMessage.Text.Contains("Playlist name must include at least 1 character that is not whitespace.");
+        }
+
+        public bool PlaylistVisibilityOptionExists()
+        {
+            if(PlaylistVisibilitySwitch.Displayed
+                && PlaylistVisibilityLabel.Displayed
+                && PlaylistVisibilityLabel.Text.Contains("Make playlist public on Spotify profile?")) 
+            {
+                return true;
+                
+            }
+
+             return false;
+            
         }
 
     }
