@@ -16,6 +16,7 @@ Scenario: Generator visibility setting is visible
 	Given I am a logged in user with first name '<FirstName>'
 		And I am on the '<Page>' page
 	When I go to a playlist page
+		And I click on the button to generate the playlist
 	Then I should see a playlist visibility setting
 	Examples:
 	| Page           | FirstName |

@@ -94,12 +94,6 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _topArtistPage.InvalidInputMessagesAreVisible().Should().BeTrue();
         }
 
-        [Then(@"I should see a playlist visibility setting")]
-        public void ThenIShouldSeeAPlaylistVisibilitySetting()
-        {
-            _topArtistPage.PlaylistVisibilityOptionExists().Should().BeTrue();
-        }
-
 
     }
 }

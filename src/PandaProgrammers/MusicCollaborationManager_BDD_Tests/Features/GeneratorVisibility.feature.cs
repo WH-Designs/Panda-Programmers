@@ -143,6 +143,9 @@ this.FeatureBackground();
  testRunner.When("I go to a playlist page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 19
+  testRunner.And("I click on the button to generate the playlist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 20
  testRunner.Then("I should see a playlist visibility setting", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
