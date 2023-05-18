@@ -212,7 +212,7 @@ namespace MusicCollaborationManager.Controllers
                 List<UserTrackDTO> tracks = new List<UserTrackDTO>();
                 FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistID);
                 
-                returnPlaylist.LinkToPlaylist = convertPlaylist.Href;
+                returnPlaylist.LinkToPlaylist = convertPlaylist.ExternalUrls["spotify"];
                 returnPlaylist.Name = convertPlaylist.Name;
                 returnPlaylist.ImageURL = convertPlaylist.Images[0].Url;
                 returnPlaylist.Uri = convertPlaylist.Uri;

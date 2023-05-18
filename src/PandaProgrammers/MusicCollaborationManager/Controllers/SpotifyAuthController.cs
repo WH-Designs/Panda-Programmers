@@ -60,13 +60,16 @@ namespace MusicCollaborationManager.Controllers
         
         [HttpPost("savegeneratedplaylist")]
         [ProducesResponseType(StatusCodes.Status200OK)] 
-        public async Task<CreatedPlaylistDTO> SaveMCMGeneratedPlaylist([Bind("NewTrackUris")] SavePlaylistDTO NewPlaylistInfo)
+        public async Task<CreatedPlaylistDTO> SaveMCMGeneratedPlaylist([Bind("NewTrackUris, NewPlaylistName, NewPlaylistIsVisible")] SavePlaylistDTO NewPlaylistInfo)
         {
             FullPlaylist NewPlaylist = new FullPlaylist();
             CreatedPlaylistDTO CreatedPlaylistInfo = new CreatedPlaylistDTO();
             CreatedPlaylistInfo.PlaylistId = null;
 
-            PlaylistCreateRequest CreationRequest = new PlaylistCreateRequest("MCM Playlist");
+            PlaylistCreateRequest CreationRequest = new PlaylistCreateRequest(NewPlaylistInfo.NewPlaylistName) 
+            { 
+                Public = NewPlaylistInfo.NewPlaylistIsVisible 
+            };
 
             UserProfileClient UserProfileClient = (UserProfileClient)SpotifyAuthService.GetUserProfileClientAsync();
             PlaylistsClient PlaylistsClient = (PlaylistsClient)SpotifyAuthService.GetPlaylistsClientAsync();
@@ -85,8 +88,6 @@ namespace MusicCollaborationManager.Controllers
             {
                 await _spotifyService.AddSongsToPlaylistAsync(NewPlaylist, NewPlaylistInfo.NewTrackUris);
 
-
-
                 CreatedPlaylistInfo.PlaylistId = NewPlaylist.Id;
                 return CreatedPlaylistInfo;
             }
@@ -96,6 +97,9 @@ namespace MusicCollaborationManager.Controllers
                 return CreatedPlaylistInfo;
             }
         }
+
+        //[HttpPut("updateplaylistrequest")]
+        //public async Task<bool> ChangePlaylistVisibility()
 
         //A return value of "false" indicates an error. "true" means successful.
         [HttpPut("changeplaylistcover")]

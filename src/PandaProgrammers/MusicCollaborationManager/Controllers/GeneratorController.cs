@@ -94,9 +94,11 @@ namespace MusicCollaborationManager.Controllers
                 string UserInputCoverImage = vm.coverImageInput;
                 string UserInputDescription = vm.descriptionInput;
 
-                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
+                //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
+                //generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
                 if (vm.generateTitle == false)
                 {
                     if(string.IsNullOrEmpty(vm.titleInput) == false)
@@ -120,8 +122,11 @@ namespace MusicCollaborationManager.Controllers
                 else{
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
-               
-                
+
+                await Task.WhenAll(convertTask, descriptionTask);
+                generatorsViewModel.fullResult = convertTask.Result;                
+                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
+
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
             catch (Exception e)
@@ -174,11 +179,13 @@ namespace MusicCollaborationManager.Controllers
                 }
                 RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO);
                 List<SimpleTrack> result = new List<SimpleTrack>();
-                result = response.Tracks;
+                result = response.Tracks;            
 
-                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
+                //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
+                //generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
                 if (vm.generateTitle == false)
                 {
                     if (string.IsNullOrEmpty(vm.titleInput) == false)
@@ -204,7 +211,9 @@ namespace MusicCollaborationManager.Controllers
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
 
-
+                await Task.WhenAll(convertTask, descriptionTask);
+                generatorsViewModel.fullResult = convertTask.Result;
+                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -263,9 +272,11 @@ namespace MusicCollaborationManager.Controllers
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
-                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
+                //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
+                //generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
 
                 //Testing purposes only.
                 ////https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-coke-50593.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
@@ -294,6 +305,10 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
+
+                await Task.WhenAll(convertTask, descriptionTask);
+                generatorsViewModel.fullResult = convertTask.Result;
+                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -349,9 +364,11 @@ namespace MusicCollaborationManager.Controllers
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
-                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
+                //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
+                //generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
                 if (vm.generateTitle == false)
                 {
                     if (string.IsNullOrEmpty(vm.titleInput) == false)
@@ -378,6 +395,9 @@ namespace MusicCollaborationManager.Controllers
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
 
+                await Task.WhenAll(convertTask, descriptionTask);
+                generatorsViewModel.fullResult = convertTask.Result;
+                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -427,20 +447,13 @@ namespace MusicCollaborationManager.Controllers
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
-                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInputAuto(UserInputDescription, promptDTO);
+                var titleTask = _mcMOpenAiService.GetTitle(vm.trackName, promptDTO);
+                //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInputAuto(UserInputDescription, promptDTO);
-                generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(vm.trackName, promptDTO);
-
-                //CAN'T TELL if this is necessary atm.
-                //if (string.IsNullOrEmpty(generatorsViewModel.PlaylistTitle) == false)
-                //{
-                //    generatorsViewModel.PlaylistTitle = generatorsViewModel.PlaylistTitle;
-                //}
-                //else
-                //{
-                //    generatorsViewModel.PlaylistTitle = "MCM Playlist";
-                //}
+                //generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInputAuto(UserInputDescription, promptDTO);
+                //generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(vm.trackName, promptDTO);
 
                 try
                 {
@@ -451,6 +464,10 @@ namespace MusicCollaborationManager.Controllers
                     generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
                 }
 
+                await Task.WhenAll(convertTask, descriptionTask, titleTask);
+                generatorsViewModel.fullResult = convertTask.Result;
+                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
+                generatorsViewModel.PlaylistTitle = titleTask.Result;
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
@@ -505,12 +522,21 @@ namespace MusicCollaborationManager.Controllers
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
-                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
+                //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
+                //generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
                 if (vm.generateTitle == false)
                 {
-                    generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    if (string.IsNullOrEmpty(vm.titleInput) == false)
+                    {
+                        generatorsViewModel.PlaylistTitle = vm.titleInput;
+                    }
+                    else
+                    {
+                        generatorsViewModel.PlaylistTitle = "MCM Playlist";
+                    }
                 }
                 else
                 {
@@ -526,6 +552,10 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
+
+                await Task.WhenAll(convertTask, descriptionTask);
+                generatorsViewModel.fullResult = convertTask.Result;
+                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
@@ -582,9 +612,11 @@ namespace MusicCollaborationManager.Controllers
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
-                generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
+                //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
-                generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
+                //generatorsViewModel.PlaylistDescription = await _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
                 if (vm.generateTitle == false)
                 {
                     if (string.IsNullOrEmpty(vm.titleInput) == false)
@@ -609,6 +641,10 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
+
+                await Task.WhenAll(convertTask, descriptionTask);
+                generatorsViewModel.fullResult = convertTask.Result;
+                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }

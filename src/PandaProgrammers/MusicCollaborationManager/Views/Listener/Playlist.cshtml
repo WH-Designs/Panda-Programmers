@@ -1,11 +1,14 @@
 @model MusicCollaborationManager.ViewModels.PlaylistViewModel
 
+@{
+    Console.WriteLine(Model.PlaylistContents.LinkToPlaylist);
+}
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
 <div class="flex flex-col lg:flex-row w-fit">
     <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-2 mb-4 overflow-hidden" id="user-playlist-container">
         <div>
-            <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistContents.Name &nbsp;&nbsp; <button class="playable-item hover:text-textback classicpanda:text-blacktext text-xl" data-spotify-id="@Model.PlaylistContents.Uri"><i class="fa-solid fa-play fa-2xl"></i></button></h2>
+            <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500"><a href="@Model.PlaylistContents.LinkToPlaylist">@Model.PlaylistContents.Name</a>&nbsp;&nbsp; <button class="playable-item hover:text-textback classicpanda:text-blacktext text-xl" data-spotify-id="@Model.PlaylistContents.Uri"><i class="fa-solid fa-play fa-2xl"></i></button></h2>
             <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistContents.Owner</h2>
         </div>
         <div class="classicpanda:text-blacktext flex flex-col md:flex-row bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 gap-x-4">
@@ -46,7 +49,7 @@
                         {
                             <tr class="border-b border-gray-200 text-lg">
                                 <th scope="row" class="pl-5 font-medium whitespace-nowrap bg-coreback">@(trackIndex + 1)</th>
-                                <td class="pl-2 pb-2 pt-2 bg-coreback"><a href="@track.LinkToTrack"><img src="@track.ImageURL" alt="" class="text-textback md:w-[150px] md:h-[150px]"></img></a></td>
+                                <td class="pl-2 pb-2 pt-2 bg-coreback"><a href="@track.LinkToTrack"><img src="@track.ImageURL" alt="" class="text-textback md:w-[150px] md:h-[150px]"/></a></td>
                                 <td class="pl-10 bg-coreback">@track.Title</td>
                                 <td class="pl-3 pr-2 bg-coreback">@track.Artist</td>
                             </tr>
@@ -165,17 +168,18 @@
            
         </div>
     </div>
-    
+    <button value="@Model.PlaylistContents.Uri" class="hidden" id="playlist-Uri"></button>
 </div>
 
 <script>
 
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        let playlistUri = $("#playlist-Uri").val();
         let element = document.getElementById('embed-iframe');
         let options = {
             width: '100%',
             height: '250',
-            uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
+            uri: playlistUri
 
         };
         let callback = (EmbedController) => {
