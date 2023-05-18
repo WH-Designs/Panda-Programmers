@@ -75,7 +75,22 @@
                     <input id="track-@i-input" value="@Model.fullResult.ElementAt(i).Uri" type="hidden" name="NewTrackUris" />
                 }
 
-                <input type="text" name="NewPlaylistName" value="@Model.PlaylistTitle" id="new-playlist-name" class="hidden" maxlength="100" />
+                    <input type="text" name="NewPlaylistName" value="@Model.PlaylistTitle" id="new-playlist-name" class="hidden" maxlength="100" />
+
+                    <div class="text-textback classicpanda:text-whitetext
+                                    autumn:text-white
+                                    revolution:text-white mt-1">
+                        <h6 class="text-lg">Show playlist on Spotify public profile?</h6>
+                        <div>
+                            <input type="radio" id="public-playlist-visibility" name="NewPlaylistIsVisible" value="Public">
+                            <label for="public-playlist-visibility">Yes</label>
+                            <input type="radio" id="private-playlist-visibility" name="NewPlaylistIsVisible" value="Private" checked>
+                            <label for="private-playlist-visibility">No</label>
+                        </div>
+                    </div>
+                    
+
+                    
             }
 
 

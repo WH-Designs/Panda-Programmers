@@ -292,8 +292,6 @@ namespace MusicCollaborationManager.Controllers
                     generatorsViewModel.PlaylistTitle = await _mcMOpenAiService.GetTitle(UserGenre, promptDTO);
                 }
 
-                //generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
-
                 if (generatorsViewModel.PlaylistCoverImageUrl == null)
                 {
                     generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";

@@ -94,5 +94,6 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
             _topArtistPage.InvalidInputMessagesAreVisible().Should().BeTrue();
         }
 
+
     }
 }
