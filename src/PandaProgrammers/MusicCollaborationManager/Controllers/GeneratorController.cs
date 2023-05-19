@@ -125,6 +125,7 @@ namespace MusicCollaborationManager.Controllers
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;                
                 generatorsViewModel.PlaylistDescription = descriptionTask.Result;
+                generatorsViewModel.EnsurePlaylistDescriptionSize();
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }

@@ -1,4 +1,6 @@
-﻿using SpotifyAPI.Web;
+﻿using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using SpotifyAPI.Web;
+using System.Diagnostics;
 
 namespace MusicCollaborationManager.ViewModels
 {
@@ -17,5 +19,24 @@ namespace MusicCollaborationManager.ViewModels
             return Convert.ToBase64String(imageBytes);
         }
         public string PlaylistTitle { get; set; }
+
+        public void EnsurePlaylistDescriptionSize() 
+        {
+            if(this.PlaylistDescription.Length >= 300)
+            {
+                string newPlaylistDescription = this.PlaylistDescription;
+                while(newPlaylistDescription.Length >= 300) 
+                {
+                    newPlaylistDescription =  newPlaylistDescription.Substring(0, 299);
+                    int lastPeriodIndex = newPlaylistDescription.LastIndexOf('.');
+                    newPlaylistDescription = newPlaylistDescription.Substring(0, lastPeriodIndex + 1);
+                    Debug.WriteLine($"Length of playlist description: \n{newPlaylistDescription.Length}\n Description: \n {newPlaylistDescription}");
+                }
+                this.PlaylistDescription = newPlaylistDescription;
+                return;
+            }
+            
+            Debug.WriteLine($"No description trimming needed. Description char count: {this.PlaylistDescription.Length}");
+        }
     }
 }
