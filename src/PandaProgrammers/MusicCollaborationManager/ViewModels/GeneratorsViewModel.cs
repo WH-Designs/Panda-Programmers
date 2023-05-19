@@ -22,16 +22,26 @@ namespace MusicCollaborationManager.ViewModels
 
         public void EnsurePlaylistDescriptionSize() 
         {
-            if(this.PlaylistDescription.Length > 300)
+            if (this.PlaylistDescription.Length > 300)
             {
+                //Testing PURPOSES ONLY (above)--
+
                 string newPlaylistDescription = this.PlaylistDescription;
-                while(newPlaylistDescription.Length >= 300) 
+
+                newPlaylistDescription =  newPlaylistDescription.Substring(0, 300);
+                int lastPeriodIndex = newPlaylistDescription.LastIndexOf('.');
+
+                if(lastPeriodIndex == newPlaylistDescription.Length -1) 
                 {
-                    newPlaylistDescription =  newPlaylistDescription.Substring(0, 299);
-                    int lastPeriodIndex = newPlaylistDescription.LastIndexOf('.');
+                    this.PlaylistDescription = newPlaylistDescription;
+                }
+                else 
+                {
                     newPlaylistDescription = newPlaylistDescription.Substring(0, lastPeriodIndex + 1);
                     Debug.WriteLine($"Length of playlist description: \n{newPlaylistDescription.Length}\n Description: \n {newPlaylistDescription}");
                 }
+               
+                
                 this.PlaylistDescription = newPlaylistDescription;
                 return;
             }
