@@ -155,9 +155,11 @@ function savePlaylist(data) {
     //console.log("Result of 'SaveMCMGeneratedPlaylist': " + data);
     let text = "The playlist has been saved to your Spotify account";
 
-    if (data === null) {
+    if (data === null || data === undefined) {
         text = "There was an error adding the playlist to your Spotify account";
     }
+    console.log(`The result: ${text}`);
+    console.log(`The result 2: ${data}`);
 
 
     let popUpMsg = `
@@ -251,6 +253,7 @@ function getNewPlaylistFormValues() {
     const newPlaylistForm = document.getElementById("playlist-form");
     const tracks = document.getElementsByName('NewTrackUris');
     const playlistName = document.getElementById(`new-playlist-name`);
+    const playlistDescription = document.getElementById(`new-playlist-description`);
 
     //https://stackoverflow.com/questions/15839169/how-to-get-the-value-of-a-selected-radio-button -- Joe's answer.
     let options = document.getElementsByName('NewPlaylistIsVisible');
@@ -290,6 +293,7 @@ function getNewPlaylistFormValues() {
         newtrackuris: tracksAsArray,
         newplaylistname: playlistName.value,
         newplaylistisvisible: playlistIsPublic,
+        newplaylistdescription: playlistDescription.value,
         status: true
     }
 }
