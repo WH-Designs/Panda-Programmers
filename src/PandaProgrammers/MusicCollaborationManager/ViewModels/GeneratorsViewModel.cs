@@ -22,7 +22,7 @@ namespace MusicCollaborationManager.ViewModels
 
         public void EnsurePlaylistDescriptionSize() 
         {
-            if(this.PlaylistDescription.Length >= 300)
+            if(this.PlaylistDescription.Length > 300)
             {
                 string newPlaylistDescription = this.PlaylistDescription;
                 while(newPlaylistDescription.Length >= 300) 
