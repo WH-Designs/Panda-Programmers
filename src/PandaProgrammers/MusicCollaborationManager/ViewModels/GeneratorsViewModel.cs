@@ -21,16 +21,16 @@ namespace MusicCollaborationManager.ViewModels
         }
         public string PlaylistTitle { get; set; }
 
-        public string EnsurePlaylistDescriptionSize() 
+        public static string EnsurePlaylistDescriptionSize(string playlistDescription) 
         {
-            if (this.PlaylistDescription.IsNullOrEmpty()) 
+            if (playlistDescription.IsNullOrEmpty()) 
             {
                 return null;
             }
 
-            else if (this.PlaylistDescription.Length > 300)
+            else if (playlistDescription.Length > 300)
             {
-                string newPlaylistDescription = this.PlaylistDescription;
+                string newPlaylistDescription = playlistDescription;
 
                 newPlaylistDescription =  newPlaylistDescription.Substring(0, 300);
                 int lastPeriodIndex = newPlaylistDescription.LastIndexOf('.');
@@ -52,8 +52,8 @@ namespace MusicCollaborationManager.ViewModels
                 }
             }
 
-            Debug.WriteLine($"No description trimming needed. Description char count: {this.PlaylistDescription.Length}");
-            return this.PlaylistDescription;
+            Debug.WriteLine($"No description trimming needed. Description char count: {playlistDescription.Length}");
+            return playlistDescription;
         }
 
         //public string GetUserInputPhrase(string userDescriptionInput)
