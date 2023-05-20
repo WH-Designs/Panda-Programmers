@@ -6,14 +6,14 @@
 }
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
-<div class="flex flex-col">
-    <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 md:w-[35%] bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
+
+    <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 xl:w-[1400px] bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
         <div>
             <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
             <h2 id="playlistTitle" class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistTitle</h2>
         </div>
 
-        <div class="classicpanda:text-blacktext flex bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 gap-x-4">
+        <div class="classicpanda:text-blacktext flex flex-col md:flex-row bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 gap-x-4">
             @if (Model.PlaylistCoverImageUrl is null)
             {
                 <img src="@Model.PlaylistCoverImageUrl" alt="Playlist Image"
@@ -34,7 +34,7 @@
 
         <div class="flex flex-col">
             <h1 class="text-textback classicpanda:text-whitetext">Tracks</h1>
-            <div class="flex gap-x-3 md:max-h-auto3 w-[360px] md:w-auto overflow-x-auto mr-6 md:mr-0 text-center text-lg">
+            <div class="flex flex-row gap-x-3 md:max-h-auto w-[360px] md:w-[730px] lg:w-[916px] xl:w-[1368px] overflow-x-auto mr-8 md:mr-0 text-center text-lg">
                 @{
                     int trackIndex = 0;
                     foreach (var track in Model.fullResult)
@@ -88,6 +88,7 @@
                             <label for="private-playlist-visibility">No</label>
                         </div>
                     </div>
+                    <input type="text" value="@Model.PlaylistDescription" id="new-playlist-description" class="hidden" name="NewPlaylistDescription"/>
                     
 
                     
@@ -96,30 +97,31 @@
 
 
 
-        <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
-                                classicpanda:text-whitetext
-                                autumn:text-white
-                                revolution:text-white"
-                type="button" id="save-playlist-btn">
-            Save playlist
-        </button>
-        <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
-                                classicpanda:text-whitetext
-                                autumn:text-white
-                                revolution:text-white"
-                type="button" id="discard-playlist-btn">
-            Discard playlist
-        </button>
+            <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+                                    classicpanda:text-whitetext
+                                    autumn:text-white
+                                    revolution:text-white"
+                    type="button" id="save-playlist-btn">
+                Save playlist
+            </button>
+            <button class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+                                    classicpanda:text-whitetext
+                                    autumn:text-white
+                                    revolution:text-white"
+                    type="button" id="discard-playlist-btn">
+                Discard playlist
+            </button>
 
-    </form>
+        </form>
 
-    <form id="upload-playlist-cover-form" class="hidden">
-        <input type="text" name="PlaylistId" value="" placeholder="Future playlistId" id="new-playlist-id" />
-        <input type="text" name="PlaylistImgBaseString" value="@Model.PlaylistImgBase64" placeholder="PlaylistImgBaseString" id="playlist-img-input-extra" />
+        <form id="upload-playlist-cover-form" class="hidden">
+            <input type="text" name="PlaylistId" value="" placeholder="Future playlistId" id="new-playlist-id" />
+            <input type="text" name="PlaylistImgBaseString" value="@Model.PlaylistImgBase64" placeholder="PlaylistImgBaseString" id="playlist-img-input-extra" />
 
-    </form>
+        </form>
     </div>
-</div>
+    </div>
+
 
 <button value="@Model.fullResult[0].Uri" class="hidden" id="track-Uri"></button>
 
