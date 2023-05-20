@@ -6,7 +6,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
 </head>
 
-<div class="flex flex-col ml-4 w-[440px] md:w-full">
+<div class="flex flex-col ml-4 md:ml-96 w-[440px] md:w-full">
     <div class="flex justify-center items-center">
         <form id='search-form' class="ml-5">
             <div class="flex h-14 w-full px-12">
@@ -63,6 +63,7 @@
 
     <div class="flex flex-col mr-3"> @* Search Results *@
         <div id='search-query-display'></div>
+        <div class="overflow-x-hidden bg-coreback shadow-xl rounded-xl">
             <form asp-controller="Search" asp-action="Like">
                 <table id='search-table' class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -71,11 +72,11 @@
                     <tbody id='search-row' class="md:text-center text-lg"></tbody>
                 </table>
             </form>
-          
-          
-          <form asp-controller="Search" asp-action="PlaylistsDisplay" id='playlists-button'>
-            <div id='table-placement' class="overflow-x-hidden bg-coreback shadow-xl rounded-xl">
-          </form>
+
+
+            <form asp-controller="Search" asp-action="PlaylistsDisplay" id='playlists-button'>
+                <div id='table-placement' class="overflow-x-hidden bg-coreback shadow-xl rounded-xl">
+            </form>
         </div>
     </div>
 </div>
