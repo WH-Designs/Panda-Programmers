@@ -29,10 +29,10 @@ INSERT INTO [Tutorials] (Link)
 
 INSERT INTO [Prompts] (Prompt)
     VALUES
-    ('Using these words {0}, give a detailed description of a music playlist and dont mention any specific artists.'),
+    ('Using these words {0}, give a short description of a music playlist and dont mention any specific artists.'),
     ('Give me a detailed paragraph describing an {0} music playlist and dont mention any specific artists.'),
-    ('Using these words {0}, give a detailed description of a {1} music playlist and dont mention any specific artists.'),
+    ('Using these words {0}, give a short description of a {1} music playlist and dont mention any specific artists.'),
     ('Using these description word or words {0}, create a short title for a playlist. Do not return the title in quotes.'),
-    ('Using these words {0}, give a general description of the type of music that could be found in a playlist of similar songs and dont mention any specific artists and dont describe specific songs in the playlist.');
+    ('Using these words {0}, give a short description of the type of music that could be found in a playlist of similar songs and dont mention any specific artists and dont describe specific songs in the playlist.');
 
     
