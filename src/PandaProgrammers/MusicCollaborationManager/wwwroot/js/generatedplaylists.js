@@ -151,49 +151,39 @@ function redirectToGenIndex() {
 
 function savePlaylist(data) {
 
-/*    console.log(`Result of saving playlist: ${data["playlistId"]}`);*/
+    /*    console.log(`Result of saving playlist: ${data["playlistId"]}`);*/
     //console.log("Result of 'SaveMCMGeneratedPlaylist': " + data);
-    let text = "The playlist has been saved to your Spotify account";
 
     if (data === null || data === undefined) {
-        text = "There was an error adding the playlist to your Spotify account";
+        alert("There was an error adding the playlist to your Spotify account.");
     }
-    console.log(`The result: ${text}`);
-    console.log(`The result 2: ${data}`);
+    else {
+        alert("The playlist has been added to your Spotify account.");
+        console.log(`The result of saving playlist attempt (return val from API): ${data}`);
 
+        let playlistCoverToUse = $("#playlist-img-input-extra").val();
 
-    let popUpMsg = `
-    <div class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback lg-rounded fixed">
-            
-            <p class="text-textback 
-                revolution:text-white 
-                autumn:text-white 
-                classicpanda:text-textback">${text}. You will be redirected shortly...
-            </p>
-    </div>`;
+        if (playlistCoverToUse != "NO_PLAYLIST_COVER") {
 
-    $("#explanation-title").append(popUpMsg);
+            $("#new-playlist-id").val(data["playlistId"])
 
-    let playlistCoverToUse = $("#playlist-img-input-extra").val();
+            let newPlaylistDetails = getNewPlaylistImgDetails()
+            //console.log(`newPlaylistDetails (status): ${newPlaylistDetails.status}`);
+            //console.log(`newPlaylistDetails (playlistid): ${newPlaylistDetails.playlistid}`);
 
-    if (playlistCoverToUse != "NO_PLAYLIST_COVER")
-    {
-        $("#new-playlist-id").val(data["playlistId"])
-
-        let newPlaylistDetails = getNewPlaylistImgDetails()
-        //console.log(`newPlaylistDetails (status): ${newPlaylistDetails.status}`);
-        //console.log(`newPlaylistDetails (playlistid): ${newPlaylistDetails.playlistid}`);
-
-        $.ajax({
-            method: "PUT",
-            url: "/api/spotifyauth/changeplaylistcover",
-            dataType: "json",
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(newPlaylistDetails),
-            success: playlistCoverSafe,
-            error: errorOnAjax
-        });
+            $.ajax({
+                method: "PUT",
+                url: "/api/spotifyauth/changeplaylistcover",
+                dataType: "json",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(newPlaylistDetails),
+                success: playlistCoverSafe,
+                error: errorOnAjax
+            });
+        }
     }
+
+
 
     //  setTimeout(redirectToGenIndex, 4000); //An "alert" was preferred over this.
 }
@@ -203,6 +193,7 @@ function playlistCoverSafe(data) {
     if (data["coverSaveSuccessful"] == true) {
         console.log("Playlist cover uploaded successfully!");
     } else {
+        alert("There was a problem uploading the cover for the playlist.")
         console.log(`There was a problem uploading the playlist cover`);
     }
 }
@@ -214,15 +205,9 @@ function errorOnAjax(data) {
 let currentTheme = localStorage.theme;
 
 $("#discard-playlist-btn").click(function () {
-    let msg = `
-    <div class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback rounded fixed">
-            <p class="text-textback 
-                revolution:text-white 
-                autumn:text-white 
-                classicpanda:text-textback">Playlist has been discarded. You will be redirected shortly...
-            </p>
-    </div>`;
-    $("#explanation-title").append(msg);
+
+    $("#save-playlist-btn").attr("disabled", true);
+    alert("Playlist discarded. You will be redirected shortly.");
     setTimeout(redirectToGenIndex, 3000);
 });
 
