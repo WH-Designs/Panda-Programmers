@@ -64,7 +64,7 @@ public class Program
         builder.Services.AddScoped<IPlaylistPollRepository, PlaylistPollRepository>();
         builder.Services.AddScoped<ITutorialRepository, TutorialRepository>();
         builder.Services.AddScoped<IPromptRepository, PromptRepository>();
-        builder.Services.AddScoped<ISpotifyAuthNeededRepository, SpotifyAuthNeededRepository>();
+        builder.Services.AddScoped<ISpotifyAuthorizationNeededRepository, SpotifyAuthorizationNeededRepository>();
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

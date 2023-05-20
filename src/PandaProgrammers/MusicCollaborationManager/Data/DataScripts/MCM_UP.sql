@@ -14,7 +14,7 @@ CREATE TABLE [Listener] (
     [AuthRefreshToken]  nvarchar(512)   NULL
 );
 
-CREATE TABLE [SpotifyAuthorizationNeededListeners] (
+CREATE TABLE [SpotifyAuthorizationNeededListener] (
     [ID]                int             PRIMARY KEY IDENTITY (1, 1),
     [Email]             nvarchar(256)   NOT NULL,
     [Name]              nvarchar(64)    NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE [Prompts] (
     [Prompt]            nvarchar(512)       NOT NULL,
 );
 
-ALTER TABLE [SpotifyAuthorizationNeededListeners] ADD CONSTRAINT [Fk_SpotifyAuthorizationNeededListeners_Listener_ID]
+ALTER TABLE [SpotifyAuthorizationNeededListener] ADD CONSTRAINT [Fk_SpotifyAuthorizationNeededListener_Listener_ID]
     FOREIGN KEY ([ListenerID]) REFERENCES [Listener] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE [Comment] ADD CONSTRAINT [Fk_Comment_Listener_ID]

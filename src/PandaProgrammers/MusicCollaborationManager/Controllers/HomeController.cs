@@ -23,10 +23,10 @@ public class HomeController : Controller
     private readonly IListenerRepository _listenerRepository;
     private readonly SpotifyAuthService _spotifyService;
     private readonly IYouTubeService _youTubeService;
-    private readonly ISpotifyAuthNeededRepository _spotifyAuthNeededRepository;
+    private readonly ISpotifyAuthorizationNeededRepository _spotifyAuthNeededRepository;
 
     public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SpotifyAuthService spotifyService, IListenerRepository listenerRepository
-, IYouTubeService youTubeService, ISpotifyAuthNeededRepository spotifyAuthNeededRepository)
+, IYouTubeService youTubeService, ISpotifyAuthorizationNeededRepository spotifyAuthNeededRepository)
     {
         _logger = logger;
         _userManager = userManager;
@@ -63,10 +63,9 @@ public class HomeController : Controller
     public async Task<IActionResult> PostWhoops(WhoopsViewModel viewModel)
     {
 
-        Console.WriteLine("Inside Whoops Post: " + viewModel.authNeededListener.Name);
-        Console.WriteLine("Inside Whoops Post: " + viewModel.authNeededListener.ListenerId);
-        Console.WriteLine("Inside Whoops Post: " + viewModel.authNeededListener.Email);
-        _spotifyAuthNeededRepository.AddOrUpdateSpotifyAuthListener(viewModel.authNeededListener);
+        SpotifyAuthorizationNeededListener listener_to_pass = viewModel.authNeededListener;
+        _spotifyAuthNeededRepository.AddOrUpdateSpotifyAuthListener(listener_to_pass);
+        
         ViewBag.Passed = "Passed";
 
         IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
@@ -81,6 +80,8 @@ public class HomeController : Controller
 
     public IActionResult callforward()
     {
+        // needs try catch
+
         string aspId = _userManager.GetUserId(User);
         Listener listener = new Listener();
         listener = _listenerRepository.FindListenerByAspId(aspId);
