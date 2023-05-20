@@ -50,32 +50,76 @@ public class HomeController : Controller
         return View(visitorDash);
     }
 
-    public IActionResult Whoops(Listener listener)
+    public async Task<IActionResult> Whoops(Listener listener)
     {
-        SpotifyAuthorizationNeededListener empty_authNeededListener = new SpotifyAuthorizationNeededListener();
-        WhoopsViewModel viewModel = new WhoopsViewModel();
-        viewModel.listener = listener;
-        viewModel.authNeededListener = empty_authNeededListener;
-        return View(viewModel);
+
+        try {
+            SpotifyAuthorizationNeededListener empty_authNeededListener = new SpotifyAuthorizationNeededListener();
+            WhoopsViewModel viewModel = new WhoopsViewModel();
+            viewModel.listener = listener;
+            viewModel.authNeededListener = empty_authNeededListener;
+            return View(viewModel);
+
+        } catch (Exception ex) {
+            Console.WriteLine("Error: " + ex.Message);
+            ViewBag.Error = "Error Occurred";
+
+            IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
+            VisitorDashboard visitorDash = new VisitorDashboard();
+            foreach (MusicVideoDTO video in j)
+            {
+                visitorDash.YouTubeMVs.Add(video);
+            }
+
+            return View("Index", visitorDash);
+        }
+        
     }
 
     [HttpPost]
     public async Task<IActionResult> PostWhoops(WhoopsViewModel viewModel)
     {
+        try {
+            SpotifyAuthorizationNeededListener listener_to_pass = viewModel.authNeededListener;
+            var all_auth_listeners = _spotifyAuthNeededRepository.GetAll().ToList();
+            
+            var current_listener_auth = all_auth_listeners.Where(l => l.ListenerId == listener_to_pass.ListenerId).ToList();
 
-        SpotifyAuthorizationNeededListener listener_to_pass = viewModel.authNeededListener;
-        _spotifyAuthNeededRepository.AddOrUpdateSpotifyAuthListener(listener_to_pass);
-        
-        ViewBag.Passed = "Passed";
+            if (current_listener_auth != null) {
+                ViewBag.Exists = "True";
+                IEnumerable<MusicVideoDTO> ja = await _youTubeService.GetPopularMusicVideosAsync();
+                VisitorDashboard visitorDash2 = new VisitorDashboard();
+                foreach (MusicVideoDTO video in ja)
+                {
+                    visitorDash2.YouTubeMVs.Add(video);
+                }
 
-        IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
-        VisitorDashboard visitorDash = new VisitorDashboard();
-        foreach (MusicVideoDTO video in j)
-        {
-            visitorDash.YouTubeMVs.Add(video);
+                return View("Index", visitorDash2);
+            } else {
+                _spotifyAuthNeededRepository.AddOrUpdateSpotifyAuthListener(listener_to_pass);
+                ViewBag.Passed = "Passed";
+
+                IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
+                VisitorDashboard visitorDash = new VisitorDashboard();
+                foreach (MusicVideoDTO video in j)
+                {
+                    visitorDash.YouTubeMVs.Add(video);
+                }
+
+                return View("Index", visitorDash);    
+            }
+        } catch(Exception ex) {
+            Console.WriteLine("Error: " + ex.Message);
+            ViewBag.Error = "Error Occurred";
+            IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
+            VisitorDashboard visitorDash = new VisitorDashboard();
+            foreach (MusicVideoDTO video in j)
+            {
+                visitorDash.YouTubeMVs.Add(video);
+            }
+
+            return View("Index", visitorDash);    
         }
-
-        return View("Index", visitorDash);
     }
 
     public IActionResult callforward()
