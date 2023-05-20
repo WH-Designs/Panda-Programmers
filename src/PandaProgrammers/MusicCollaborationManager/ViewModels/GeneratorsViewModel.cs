@@ -21,39 +21,39 @@ namespace MusicCollaborationManager.ViewModels
         }
         public string PlaylistTitle { get; set; }
 
-        public void EnsurePlaylistDescriptionSize() 
+        public string EnsurePlaylistDescriptionSize() 
         {
-            if(this.PlaylistDescription.IsNullOrEmpty()) 
+            if (this.PlaylistDescription.IsNullOrEmpty()) 
             {
-                return;
+                return null;
             }
 
-            if (this.PlaylistDescription.Length > 300)
+            else if (this.PlaylistDescription.Length > 300)
             {
-                
-                string OriginalDescription = this.PlaylistDescription;
-
                 string newPlaylistDescription = this.PlaylistDescription;
 
                 newPlaylistDescription =  newPlaylistDescription.Substring(0, 300);
                 int lastPeriodIndex = newPlaylistDescription.LastIndexOf('.');
 
-                if(lastPeriodIndex == newPlaylistDescription.Length -1) 
+                if(lastPeriodIndex == newPlaylistDescription.Length -1)
                 {
-                    this.PlaylistDescription = newPlaylistDescription;
+                    return newPlaylistDescription;
                 }
                 else 
                 {
+                    if(lastPeriodIndex < 1) 
+                    {
+                        return null;
+                    }
+
                     newPlaylistDescription = newPlaylistDescription.Substring(0, lastPeriodIndex + 1);
                     Debug.WriteLine($"Length of playlist description: \n{newPlaylistDescription.Length}\n Description: \n {newPlaylistDescription}");
+                    return newPlaylistDescription;
                 }
-               
-                
-                this.PlaylistDescription = newPlaylistDescription;
-                return;
             }
-            
+
             Debug.WriteLine($"No description trimming needed. Description char count: {this.PlaylistDescription.Length}");
+            return this.PlaylistDescription;
         }
 
         //public string GetUserInputPhrase(string userDescriptionInput)
