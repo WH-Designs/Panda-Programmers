@@ -124,8 +124,8 @@ namespace MusicCollaborationManager.Controllers
                 }
 
                 await Task.WhenAll(convertTask, descriptionTask);
-                generatorsViewModel.fullResult = convertTask.Result;                
-                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
+                generatorsViewModel.fullResult = convertTask.Result;          
+                generatorsViewModel.PlaylistDescription = GeneratorsViewModel.EnsurePlaylistDescriptionSize(descriptionTask.Result);
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
@@ -213,7 +213,7 @@ namespace MusicCollaborationManager.Controllers
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;
-                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
+                generatorsViewModel.PlaylistDescription = GeneratorsViewModel.EnsurePlaylistDescriptionSize(descriptionTask.Result);
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -308,7 +308,7 @@ namespace MusicCollaborationManager.Controllers
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;
-                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
+                generatorsViewModel.PlaylistDescription = GeneratorsViewModel.EnsurePlaylistDescriptionSize(descriptionTask.Result);
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -397,7 +397,7 @@ namespace MusicCollaborationManager.Controllers
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;
-                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
+                generatorsViewModel.PlaylistDescription = GeneratorsViewModel.EnsurePlaylistDescriptionSize(descriptionTask.Result);
 
                 return View("GeneratedPlaylists", generatorsViewModel);
 
@@ -466,8 +466,9 @@ namespace MusicCollaborationManager.Controllers
 
                 await Task.WhenAll(convertTask, descriptionTask, titleTask);
                 generatorsViewModel.fullResult = convertTask.Result;
-                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
+                generatorsViewModel.PlaylistDescription = GeneratorsViewModel.EnsurePlaylistDescriptionSize(descriptionTask.Result);
                 generatorsViewModel.PlaylistTitle = titleTask.Result;
+
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
@@ -555,7 +556,7 @@ namespace MusicCollaborationManager.Controllers
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;
-                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
+                generatorsViewModel.PlaylistDescription = GeneratorsViewModel.EnsurePlaylistDescriptionSize(descriptionTask.Result);
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }
@@ -644,7 +645,7 @@ namespace MusicCollaborationManager.Controllers
 
                 await Task.WhenAll(convertTask, descriptionTask);
                 generatorsViewModel.fullResult = convertTask.Result;
-                generatorsViewModel.PlaylistDescription = descriptionTask.Result;
+                generatorsViewModel.PlaylistDescription = GeneratorsViewModel.EnsurePlaylistDescriptionSize(descriptionTask.Result);
 
                 return View("GeneratedPlaylists", generatorsViewModel);
             }

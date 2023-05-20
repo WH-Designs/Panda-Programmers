@@ -1,4 +1,7 @@
-﻿using SpotifyAPI.Web;
+﻿using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
+using SpotifyAPI.Web;
+using System.Diagnostics;
 
 namespace MusicCollaborationManager.ViewModels
 {
@@ -17,5 +20,45 @@ namespace MusicCollaborationManager.ViewModels
             return Convert.ToBase64String(imageBytes);
         }
         public string PlaylistTitle { get; set; }
+
+        public static string EnsurePlaylistDescriptionSize(string playlistDescription) 
+        {
+            if (playlistDescription.IsNullOrEmpty()) 
+            {
+                return null;
+            }
+
+            else if (playlistDescription.Length > 300)
+            {
+                string newPlaylistDescription = playlistDescription;
+
+                newPlaylistDescription =  newPlaylistDescription.Substring(0, 300);
+                int lastPeriodIndex = newPlaylistDescription.LastIndexOf('.');
+
+                if(lastPeriodIndex == newPlaylistDescription.Length -1)
+                {
+                    return newPlaylistDescription;
+                }
+                else 
+                {
+                    if(lastPeriodIndex < 1) 
+                    {
+                        return null;
+                    }
+
+                    newPlaylistDescription = newPlaylistDescription.Substring(0, lastPeriodIndex + 1);
+                    Debug.WriteLine($"Length of playlist description: \n{newPlaylistDescription.Length}\n Description: \n {newPlaylistDescription}");
+                    return newPlaylistDescription;
+                }
+            }
+
+            Debug.WriteLine($"No description trimming needed. Description char count: {playlistDescription.Length}");
+            return playlistDescription;
+        }
+
+        //public string GetUserInputPhrase(string userDescriptionInput)
+        //{
+        //    userDescriptionInput.
+        //}
     }
 }
