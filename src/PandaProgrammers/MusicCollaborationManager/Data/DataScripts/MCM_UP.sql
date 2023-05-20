@@ -14,6 +14,13 @@ CREATE TABLE [Listener] (
     [AuthRefreshToken]  nvarchar(512)   NULL
 );
 
+CREATE TABLE [SpotifyAuthorizationNeededListener] (
+    [ID]                int             PRIMARY KEY IDENTITY (1, 1),
+    [Email]             nvarchar(256)   NOT NULL,
+    [Name]              nvarchar(64)    NOT NULL,
+    [ListenerID]        int             NOT NULL
+);
+
 CREATE TABLE [Comment] (
     [ID]                int             PRIMARY KEY IDENTITY(1, 1),
     [Likes]             int             NOT NULL,
@@ -43,6 +50,9 @@ CREATE TABLE [Prompts] (
     [ID]                int                 PRIMARY KEY IDENTITY(1, 1),
     [Prompt]            nvarchar(512)       NOT NULL,
 );
+
+ALTER TABLE [SpotifyAuthorizationNeededListener] ADD CONSTRAINT [Fk_SpotifyAuthorizationNeededListener_Listener_ID]
+    FOREIGN KEY ([ListenerID]) REFERENCES [Listener] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE [Comment] ADD CONSTRAINT [Fk_Comment_Listener_ID]
     FOREIGN KEY ([ListenerID]) REFERENCES [Listener] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION;

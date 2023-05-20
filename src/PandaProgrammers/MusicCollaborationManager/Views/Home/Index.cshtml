@@ -5,7 +5,7 @@
 }
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
-<i class="fa-solid fa-frog"></i>
+
         <div class="grid gap-5 flex flex-col w-[88%] ml-4 md:w-3/4">
             <div class="xl:col-span-1">
                 @if(@ViewBag.Error != null){
@@ -15,6 +15,32 @@
                                 <span class="block sm:inline">There was an error while trying to access that. Log into Spotify and try again.</span>
                                 <button id='alert-button' class="absolute top-0 bottom-0 right-0 px-4 py-3">
                                     <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                                </button>
+                            </div>    
+                        </div> 
+                    }    
+            </div>
+            <div class="xl:col-span-1">
+                @if(@ViewBag.Passed != null){
+                        <div id='generator-alert' type=''>
+                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                                <strong class="font-bold">On it!</strong>
+                                <span class="block sm:inline">Your Spotify account was submitted! We'll update our connection with Spotify with your information.</span>
+                                <button id='alert-button' class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                    <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                                </button>
+                            </div>    
+                        </div> 
+                    }    
+            </div>
+            <div class="xl:col-span-1">
+                @if(@ViewBag.Exists != null){
+                        <div id='generator-alert' type=''>
+                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                                <strong class="font-bold">We're On it!</strong>
+                                <span class="block sm:inline">We have already gotten your request and are on it. Sorry for the wait!</span>
+                                <button id='alert-button' class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                    <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
                                 </button>
                             </div>    
                         </div> 
@@ -81,8 +107,8 @@
                 foreach (var mv in Model.YouTubeMVs)
                 {
 
-                    <div class="min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg hover:underline cursor-pointer yt-thumbnail" id="@mv.VideoID">
-                        <img src="@mv.ThumbnailURL">
+                    <div class="min-w-[200px] max-w-auto  bg-primback text-textback p-2 rounded-lg hover:underline cursor-pointer yt-thumbnail" id="@mv.VideoID">
+                        <img src="@mv.ThumbnailURL" class="w-full">
                         <p>@mv.VideoTitle</p>
                     </div>
                 }

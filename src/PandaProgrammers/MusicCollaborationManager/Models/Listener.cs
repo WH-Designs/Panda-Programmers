@@ -28,4 +28,6 @@ public partial class Listener
     public string AuthRefreshToken { get; set; }
 
     public virtual ICollection<Comment> Comments { get; } = new List<Comment>();
+
+    public virtual ICollection<SpotifyAuthorizationNeededListener> SpotifyAuthorizationNeededListeners { get; } = new List<SpotifyAuthorizationNeededListener>();
 }
