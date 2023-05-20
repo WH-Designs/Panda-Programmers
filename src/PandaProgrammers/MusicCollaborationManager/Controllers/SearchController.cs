@@ -28,6 +28,7 @@ public class SearchController : Controller
         _listenerRepository = listenerRepository;
     }
 
+    [Authorize]
     public async Task<IActionResult> Search() 
     {
         try {
@@ -46,6 +47,7 @@ public class SearchController : Controller
         }
     }
     
+    [Authorize]
     public async Task<IActionResult> PlaylistsDisplay(string spotifyID)
     {
         try {
@@ -60,6 +62,7 @@ public class SearchController : Controller
         }
     }
 
+    [Authorize]
     public async Task<IActionResult> Like(string playlistID) 
     {
         try{

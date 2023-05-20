@@ -1,0 +1,52 @@
+@model MusicCollaborationManager.ViewModels.WhoopsViewModel
+
+@{
+    ViewData["Title"] = "Whoops!";
+}
+
+<div class="grid gap-5 flex w-[88%] ml-4 md:w-3/4">
+    <div class="mb-4 text-center shadow-md shadow-gray-950 rounded-lg">                
+        <p class="mb-4 font-semibold text-2xl text-textback">
+            It seems this is the first time you've been here! Thank you for joining us, @Model.listener.FirstName. 
+            
+            Heres the situation:
+            Our connection to Spotify requires that every one of our users is hand written in. All we need is your spotify email
+            and a name of some kind. The name does not need to be the same as the one on your spotify account: only the email. After that you can
+            collaborate all you want! With your friends and with Us!
+        </p>
+    </div>
+    <div class="mb-4 ml-center justify-center rounded-lg">    
+    @* <div class="flex items-center justify-center ml-14 md:ml-12 lg:ml-[300px] xl:ml-[500px]"> *@
+        <form asp-controller='Home' asp-action='PostWhoops' method="Post" class="max-w-2xl bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-center text-2xl pb-3">@ViewData["Title"]</h2>
+            <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm" role="alert"></div>
+            <input type='hidden' asp-for="@Model.authNeededListener.ListenerId" value='@Model.listener.Id' />
+            <div class="w-full px-3">
+                <label
+                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Email</label>
+                <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md"
+                        aria-required="true" placeholder="name@example.com" id="" asp-for="@Model.authNeededListener.Name" type="email" />
+                <span class="text-red-500 text-sm"></span>
+            </div>
+            <div class="w-full px-3">
+                <label 
+                    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Name</label>
+                <input 
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md"
+                    aria-required="true" placeholder="dr. pepper" id="" asp-for="@Model.authNeededListener.Email" type="text" />
+                <span class="text-red-500 text-sm"></span>
+            </div>
+            <div>
+                <button id="" type="submit"
+                    class="w-full flex-shrink-0 bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 border-b-4 border-gray-900 hover:border-gray-700 rounded">Submit</button>
+            </div>
+            <br />
+        </form>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/generatorindex.js"></script>
+}
