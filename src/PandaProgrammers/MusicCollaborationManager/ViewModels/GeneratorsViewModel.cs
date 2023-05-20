@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
 using SpotifyAPI.Web;
 using System.Diagnostics;
 
@@ -22,9 +23,15 @@ namespace MusicCollaborationManager.ViewModels
 
         public void EnsurePlaylistDescriptionSize() 
         {
+            if(this.PlaylistDescription.IsNullOrEmpty()) 
+            {
+                return;
+            }
+
             if (this.PlaylistDescription.Length > 300)
             {
-                //Testing PURPOSES ONLY (above)--
+                
+                string OriginalDescription = this.PlaylistDescription;
 
                 string newPlaylistDescription = this.PlaylistDescription;
 
@@ -48,5 +55,10 @@ namespace MusicCollaborationManager.ViewModels
             
             Debug.WriteLine($"No description trimming needed. Description char count: {this.PlaylistDescription.Length}");
         }
+
+        //public string GetUserInputPhrase(string userDescriptionInput)
+        //{
+        //    userDescriptionInput.
+        //}
     }
 }
