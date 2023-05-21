@@ -60,7 +60,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR QUESTIONAIRE PRE");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -139,7 +139,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR QUESTIONAIRE POST");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -155,7 +155,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR MOOD PRE");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -233,7 +233,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR MOOD POST");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -248,7 +248,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR TIME PRE");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -333,7 +333,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR TIME POST");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -427,7 +427,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR TOP TRACKS POST");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -449,7 +449,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR TRACK INPUT PRE");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -506,7 +506,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR TRACK INPUT POST");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -599,7 +599,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR TOP ARTISTS POST");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -622,7 +622,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR RELATED ARTISTS PRE");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }
@@ -697,7 +697,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE GENERATOR RELATED ARTISTS POST");
                 ViewBag.Error = "Error Occured";
                 return View("Index");
             }

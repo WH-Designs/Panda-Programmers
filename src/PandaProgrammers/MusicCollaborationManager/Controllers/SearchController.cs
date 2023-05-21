@@ -44,7 +44,7 @@ public class SearchController : Controller
             return View("Search");
 
         } catch (Exception e) {
-            Console.WriteLine(e.Message);
+            Console.WriteLine(e.Message + " INSIDE SEARCH SEARCH");
             TempData["Error"] = "Error Occured";
             return RedirectToAction("Index", "Home");
         }
@@ -62,7 +62,7 @@ public class SearchController : Controller
             return View("PlaylistsDisplay", usersPlaylists);
 
         } catch (Exception e) {
-            Console.WriteLine(e.Message);
+            Console.WriteLine(e.Message + " INSIDE SEARCH PLAYLISTSDISPLAY");
             TempData["Error"] = "Error Occured";
             return RedirectToAction("Index", "Home");
         }
@@ -80,7 +80,7 @@ public class SearchController : Controller
             await _spotifyService.LikePlaylist(playlistID, spotifyClient);
             return Redirect("/listener");
         } catch(Exception e) {
-            Console.WriteLine(e.Message);
+            Console.WriteLine(e.Message + " INSIDE SEARCH LIKE");
             TempData["Error"] = "Error Occured";
             return RedirectToAction("Index", "Home");
         }

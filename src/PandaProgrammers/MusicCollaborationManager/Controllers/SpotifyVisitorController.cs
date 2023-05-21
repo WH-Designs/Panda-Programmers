@@ -35,15 +35,27 @@ namespace MusicCollaborationManager.Controllers
                var SpotifyLink = Playlists.Playlists.Items[Index]?.ExternalUrls["spotify"];
                var PlaylistImgObject = Playlists.Playlists.Items[0]?.Images;
 
-               if (PlaylistImgObject != null)
-               {
-                    SinglePlaylist.PlaylistImageURL = Playlists.Playlists.Items[Index].Images[0].Url;
-                    SinglePlaylist.ImageHeight = Playlists.Playlists.Items[Index].Images[0].Height;
-                    SinglePlaylist.ImageWidth = Playlists.Playlists.Items[Index].Images[0].Width;
-               }
-               SinglePlaylist.PlaylistName = Playlists.Playlists.Items[Index].Name;
+                try {
+                    
+                    if (PlaylistImgObject != null)
+                    {
+                        SinglePlaylist.PlaylistImageURL = Playlists.Playlists.Items[Index].Images[0].Url;
+                        SinglePlaylist.ImageHeight = Playlists.Playlists.Items[Index].Images[0].Height;
+                        SinglePlaylist.ImageWidth = Playlists.Playlists.Items[Index].Images[0].Width;
+                    }
+                    
+                    SinglePlaylist.PlaylistName = Playlists.Playlists.Items[Index].Name;
 
-                PlaylistsToReturn.Add(SinglePlaylist);
+                } catch(Exception ex) {
+
+                    Console.WriteLine(ex.Message + " INSIDE GETVISITORPLAYLIST");
+                    SinglePlaylist.PlaylistImageURL = "";
+                    SinglePlaylist.ImageHeight = 0;
+                    SinglePlaylist.ImageWidth = 0;
+                    SinglePlaylist.PlaylistName = "";
+                }
+
+               PlaylistsToReturn.Add(SinglePlaylist);
                Index++;
            }
 

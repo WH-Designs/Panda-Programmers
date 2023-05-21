@@ -61,7 +61,7 @@ public class HomeController : Controller
             return View(viewModel);
 
         } catch (Exception ex) {
-            Console.WriteLine("Error: " + ex.Message);
+            Console.WriteLine(ex.Message + " INSIDE HOME WHOOPS");
             ViewBag.Error = "Error Occurred";
 
             IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
@@ -109,7 +109,7 @@ public class HomeController : Controller
                 return View("Index", visitorDash);    
             }
         } catch(Exception ex) {
-            Console.WriteLine("Error: " + ex.Message);
+            Console.WriteLine(ex.Message + " INSIDE HOME POSTWHOOPS");
             ViewBag.Error = "Error Occurred";
             IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
             VisitorDashboard visitorDash = new VisitorDashboard();
@@ -137,7 +137,7 @@ public class HomeController : Controller
 
             return RedirectToAction("callback", "Home", "");
         } catch(Exception ex) {
-            Console.WriteLine("Error: " + ex.Message);
+            Console.WriteLine(ex.Message + " INSIDE HOME CALLFORWARD");
             ViewBag.Error = "Error Occurred";
             return View("Index");
         }

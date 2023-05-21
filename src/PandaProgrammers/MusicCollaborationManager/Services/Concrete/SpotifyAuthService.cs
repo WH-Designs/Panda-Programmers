@@ -410,19 +410,32 @@ namespace MusicCollaborationManager.Services.Concrete
             foreach (var playlist in FeaturedPlaylists.Playlists.Items)
             {
                 IndividualPlaylist = new UserPlaylistDTO();
-                IndividualPlaylist.Name = playlist.Name;
-                IndividualPlaylist.LinkToPlaylist = playlist.ExternalUrls["spotify"];
-                IndividualPlaylist.Uri = playlist.Uri;
-                IndividualPlaylist.ID = playlist.Id;
+                
+                try {
+                    IndividualPlaylist.Name = playlist.Name;
+                    IndividualPlaylist.LinkToPlaylist = playlist.ExternalUrls["spotify"];
+                    IndividualPlaylist.Uri = playlist.Uri;
+                    IndividualPlaylist.ID = playlist.Id;
 
-                if (playlist.Images.IsNullOrEmpty() == false)
-                {
-                    IndividualPlaylist.ImageURL = playlist.Images.First().Url;
-                }
-                else
-                {
+                    if (playlist.Images.IsNullOrEmpty() == false)
+                    {
+                        IndividualPlaylist.ImageURL = playlist.Images.First().Url;
+                    }
+                    else
+                    {
+                        IndividualPlaylist.ImageURL = null;
+                    }
+
+
+                } catch (Exception e) {
+                    Console.WriteLine(e.Message + " INSIDE GetAuthFeatPlaylistsAsync");
+                    IndividualPlaylist.Name = "";
+                    IndividualPlaylist.LinkToPlaylist = "";
+                    IndividualPlaylist.Uri = "";
+                    IndividualPlaylist.ID = "";
                     IndividualPlaylist.ImageURL = null;
                 }
+
                 PlaylistsToReturn.Add(IndividualPlaylist);
             }
 

@@ -78,7 +78,7 @@ namespace MusicCollaborationManager.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message + " INSIDE LISTENER INDEX");
                 TempData["Error"] = "Error Occured";
                 return RedirectToAction("Index", "Home");
             }
@@ -271,7 +271,7 @@ namespace MusicCollaborationManager.Controllers
 
                 //This needs to incorporate the ViewModel (to do later).
             } catch(Exception e) {
-               Console.WriteLine(e.Message);
+               Console.WriteLine(e.Message + " INSIDE LISTENER PLAYLIST");
                 TempData["Error"] = "Error Occured";
                 return RedirectToAction("Index", "Home");
             }
