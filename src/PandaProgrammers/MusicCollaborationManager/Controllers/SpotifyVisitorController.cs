@@ -49,10 +49,10 @@ namespace MusicCollaborationManager.Controllers
                 } catch(Exception ex) {
 
                     Console.WriteLine(ex.Message + " INSIDE GETVISITORPLAYLIST");
-                    SinglePlaylist.PlaylistImageURL = "";
+                    SinglePlaylist.PlaylistImageURL = "https://i.scdn.co/image/ab67706f00000003163bab0613f6f5cbb87ea4da";
                     SinglePlaylist.ImageHeight = 0;
                     SinglePlaylist.ImageWidth = 0;
-                    SinglePlaylist.PlaylistName = "";
+                    SinglePlaylist.PlaylistName = "teen angst";
                 }
 
                PlaylistsToReturn.Add(SinglePlaylist);

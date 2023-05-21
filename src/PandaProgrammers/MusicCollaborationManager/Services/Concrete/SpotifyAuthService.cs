@@ -429,11 +429,11 @@ namespace MusicCollaborationManager.Services.Concrete
 
                 } catch (Exception e) {
                     Console.WriteLine(e.Message + " INSIDE GetAuthFeatPlaylistsAsync");
-                    IndividualPlaylist.Name = "";
-                    IndividualPlaylist.LinkToPlaylist = "";
+                    IndividualPlaylist.Name = "teen angst";
+                    IndividualPlaylist.LinkToPlaylist = "https://open.spotify.com/playlist/37i9dQZF1DWY1j3jZdCWOQ";
                     IndividualPlaylist.Uri = "";
-                    IndividualPlaylist.ID = "";
-                    IndividualPlaylist.ImageURL = null;
+                    IndividualPlaylist.ID = "37i9dQZF1DWY1j3jZdCWOQ";
+                    IndividualPlaylist.ImageURL = "https://i.scdn.co/image/ab67706f00000003163bab0613f6f5cbb87ea4da";
                 }
 
                 PlaylistsToReturn.Add(IndividualPlaylist);
