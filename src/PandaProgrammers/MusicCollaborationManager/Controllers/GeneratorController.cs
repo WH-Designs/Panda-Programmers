@@ -46,11 +46,14 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
-        public IActionResult Questionaire(QuestionViewModel vm)
+        public async Task<IActionResult> Questionaire(QuestionViewModel vm)
         {
             try
             {
-                var holder = _spotifyService.GetSeedGenresAsync();
+                string aspId = _userManager.GetUserId(User);
+                Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+                var holder = _spotifyService.GetSeedGenresAsync(spotifyClient);
                 var seededVM = vm.SeedGenres(vm, holder);
 
                 return View("Questionaire", seededVM);
@@ -69,6 +72,11 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+
+                string aspId = _userManager.GetUserId(User);
+                Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
                 PromptDTO promptDTO = _promptRepository.GetPromptDTO();
 
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
@@ -76,7 +84,7 @@ namespace MusicCollaborationManager.Controllers
                 GeneratorUtilities utilities = new GeneratorUtilities();
                 RecommendDTO recommendDTO = new RecommendDTO();
                 recommendDTO = recommendDTO.convertToQuestionDTO(vm);
-                RecommendationsResponse response = await _spotifyService.GetRecommendationsGenreBased(recommendDTO);
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsGenreBased(recommendDTO, spotifyClient);
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
                 if (response.Tracks.Count == 0)
@@ -84,17 +92,17 @@ namespace MusicCollaborationManager.Controllers
                     //Calls questionairre dto method
                     recommendDTO = recommendDTO.convertToQuestionDTO(vm);
                     //Get seed artist
-                    List<string> artistResult = await _spotifyService.SearchTopGenrePlaylistTrack(recommendDTO.genre[0]);
+                    List<string> artistResult = await _spotifyService.SearchTopGenrePlaylistTrack(recommendDTO.genre[0], spotifyClient);
                     recommendDTO.seed.Add(artistResult[0]);
 
-                    response = await _spotifyService.GetRecommendationsAsync(recommendDTO);
+                    response = await _spotifyService.GetRecommendationsAsync(recommendDTO, spotifyClient);
                     result = new List<SimpleTrack>();
                     result = response.Tracks;
                 }
                 string UserInputCoverImage = vm.coverImageInput;
                 string UserInputDescription = vm.descriptionInput;
 
-                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result, spotifyClient);
                 var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
                 //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
@@ -160,6 +168,11 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+
+                string aspId = _userManager.GetUserId(User);
+                Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
                 PromptDTO promptDTO = _promptRepository.GetPromptDTO();
 
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
@@ -172,16 +185,16 @@ namespace MusicCollaborationManager.Controllers
 
                 string UserGenre = recommendDTO.genre[0];
 
-                List<string> trackResult = await _spotifyService.SearchTopGenrePlaylistTrack(recommendDTO.genre[0]);
+                List<string> trackResult = await _spotifyService.SearchTopGenrePlaylistTrack(recommendDTO.genre[0], spotifyClient);
                 foreach (string track in trackResult)
                 {
                     recommendDTO.seed.Add(track);
                 }
-                RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO);
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO, spotifyClient);
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;            
 
-                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result, spotifyClient);
                 var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
                 //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
@@ -247,6 +260,11 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+
+                string aspId = _userManager.GetUserId(User);
+                Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
                 PromptDTO promptDTO = _promptRepository.GetPromptDTO();
 
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
@@ -262,17 +280,17 @@ namespace MusicCollaborationManager.Controllers
 
                 string UserGenre = recommendDTO.genre[0];
 
-                List<string> trackResult = await _spotifyService.SearchTopGenrePlaylistTrack(recommendDTO.genre[0]);
+                List<string> trackResult = await _spotifyService.SearchTopGenrePlaylistTrack(recommendDTO.genre[0], spotifyClient);
                 foreach (string track in trackResult)
                 {
                     recommendDTO.seed.Add(track);
                 }
 
-                RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO);
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO, spotifyClient);
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
-                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result, spotifyClient);
                 var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, UserGenre, promptDTO);
                 //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
@@ -333,6 +351,11 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+
+                string aspId = _userManager.GetUserId(User);
+                Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
                 PromptDTO promptDTO = _promptRepository.GetPromptDTO();
 
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
@@ -342,7 +365,7 @@ namespace MusicCollaborationManager.Controllers
                 GeneratorUtilities generatorUtilities = new GeneratorUtilities();
                 List<string> seedIds = new List<string>();
 
-                List<FullTrack> seedTracks = await _spotifyService.GetTopTracksAsync();
+                List<FullTrack> seedTracks = await _spotifyService.GetTopTracksAsync(spotifyClient);
                 if (seedTracks.Count <= 0)
                 {
                     Console.WriteLine("Seed Tracks Count <= 0");
@@ -360,11 +383,11 @@ namespace MusicCollaborationManager.Controllers
                 }
 
                 recommendDTO.limit = 20;
-                RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO);
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO, spotifyClient);
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
-                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result, spotifyClient);
                 var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
                 //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
@@ -415,8 +438,12 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+                string aspId = _userManager.GetUserId(User);
+                Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
                 TrackInputViewModel viewModel = new TrackInputViewModel();
-                viewModel.seedTracks = await _spotifyService.GetTopTracksAsync();
+                viewModel.seedTracks = await _spotifyService.GetTopTracksAsync(spotifyClient);
 
                 return View("TrackInput", viewModel);
             }
@@ -434,6 +461,11 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+
+                string aspId = _userManager.GetUserId(User);
+                Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
                 PromptDTO promptDTO = _promptRepository.GetPromptDTO();
 
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
@@ -443,11 +475,11 @@ namespace MusicCollaborationManager.Controllers
 
                 recommendDTO.seed.Add(vm.trackID);
                 recommendDTO.limit = 20;
-                RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO);
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsAsync(recommendDTO, spotifyClient);
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
-                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result, spotifyClient);
                 var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInputAuto(UserInputDescription, promptDTO);
                 var titleTask = _mcMOpenAiService.GetTitle(vm.trackName, promptDTO);
                 //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
@@ -459,7 +491,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     generatorsViewModel.PlaylistImgBase64 = await GeneratorsViewModel.ImageUrlToBase64(generatorsViewModel.PlaylistCoverImageUrl);
                 }
-                catch (Exception ex) 
+                catch (Exception) 
                 {
                     generatorsViewModel.PlaylistImgBase64 = "NO_PLAYLIST_COVER";
                 }
@@ -492,6 +524,11 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+
+                string aspId = _userManager.GetUserId(User);
+                Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
                 PromptDTO promptDTO = _promptRepository.GetPromptDTO();
 
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
@@ -501,7 +538,7 @@ namespace MusicCollaborationManager.Controllers
                 GeneratorUtilities generatorUtilities = new GeneratorUtilities();
                 List<string> seedIds = new List<string>();
 
-                List<FullTrack> seedTracks = await _spotifyService.GetTopTracksAsync();
+                List<FullTrack> seedTracks = await _spotifyService.GetTopTracksAsync(spotifyClient);
                 if (seedTracks.Count <= 0)
                 {
                     Console.WriteLine("Seed Tracks Count <= 0");
@@ -519,11 +556,11 @@ namespace MusicCollaborationManager.Controllers
                 }
 
                 recommendDTO.limit = 20;
-                RecommendationsResponse response = await _spotifyService.GetRecommendationsArtistBasedAsync(recommendDTO);
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsArtistBasedAsync(recommendDTO, spotifyClient);
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
-                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result, spotifyClient);
                 var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
                 //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);
@@ -573,8 +610,12 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
-                var firstList = await _spotifyService.GetAuthTopArtistsAsync();
-                var holder = await _spotifyService.GetAuthRelatedArtistsAsync(firstList);
+                string aspId = _userManager.GetUserId(User);
+                Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
+                var firstList = await _spotifyService.GetAuthTopArtistsAsync(spotifyClient);
+                var holder = await _spotifyService.GetAuthRelatedArtistsAsync(firstList, spotifyClient);
                 var seededVM = vm.SeedArtists(vm, holder);
 
                 return View("RelatedArtists", seededVM);
@@ -593,6 +634,11 @@ namespace MusicCollaborationManager.Controllers
         {
             try
             {
+
+                string aspId = _userManager.GetUserId(User);
+                Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
                 PromptDTO promptDTO = _promptRepository.GetPromptDTO();
 
                 GeneratorsViewModel generatorsViewModel = new GeneratorsViewModel();
@@ -600,7 +646,7 @@ namespace MusicCollaborationManager.Controllers
                 string UserInputDescription = vm.descriptionInput;
                 string UserArtist = vm.Artist;
 
-                FullArtist artist = await _spotifyService.GetArtistById(vm.Artist);
+                FullArtist artist = await _spotifyService.GetArtistById(vm.Artist, spotifyClient);
                 vm.artistName = artist.Name;
 
                 RecommendDTO recommendDTO = new RecommendDTO();
@@ -609,11 +655,11 @@ namespace MusicCollaborationManager.Controllers
                 recommendDTO.artistSeed.Add(UserArtist);
 
                 recommendDTO.limit = 20;
-                RecommendationsResponse response = await _spotifyService.GetRecommendationsArtistBasedAsync(recommendDTO);
+                RecommendationsResponse response = await _spotifyService.GetRecommendationsArtistBasedAsync(recommendDTO, spotifyClient);
                 List<SimpleTrack> result = new List<SimpleTrack>();
                 result = response.Tracks;
 
-                var convertTask = _spotifyService.ConvertToFullTrackAsync(result);
+                var convertTask = _spotifyService.ConvertToFullTrackAsync(result, spotifyClient);
                 var descriptionTask = _mcMOpenAiService.GetTextResponseFromOpenAiFromUserInput(UserInputDescription, null, promptDTO);
                 //generatorsViewModel.fullResult = await _spotifyService.ConvertToFullTrackAsync(result);
                 generatorsViewModel.PlaylistCoverImageUrl = _deepAiService.GetImageUrlFromApi(UserInputCoverImage);

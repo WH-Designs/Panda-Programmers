@@ -124,19 +124,25 @@ public class HomeController : Controller
 
     public IActionResult callforward()
     {
-        // needs try catch
+        try {
+            string aspId = _userManager.GetUserId(User);
+            Listener listener = new Listener();
+            listener = _listenerRepository.FindListenerByAspId(aspId);
 
-        string aspId = _userManager.GetUserId(User);
-        Listener listener = new Listener();
-        listener = _listenerRepository.FindListenerByAspId(aspId);
+            if (listener.AuthToken == null)
+            {
+                String uri = _spotifyService.GetUriAsync();
+                return Redirect(uri);
+            }
 
-        if (listener.AuthToken == null)
-        {
-            String uri = _spotifyService.GetUriAsync();
-            return Redirect(uri);
+            return RedirectToAction("callback", "Home", "");
+        } catch(Exception ex) {
+            Console.WriteLine("Error: " + ex.Message);
+            ViewBag.Error = "Error Occurred";
+            return View("Index");
         }
 
-        return RedirectToAction("callback", "Home", "");
+        
     }
 
     public async Task<IActionResult> callback(string code)
@@ -147,7 +153,8 @@ public class HomeController : Controller
             listener = _listenerRepository.FindListenerByAspId(aspId);
 
             await _spotifyService.GetCallbackAsync(code, listener);
-            PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUserAsync();
+            SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(listener);
+            PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUserAsync(spotifyClient);
             listener.SpotifyUserName = currentSpotifyUser.DisplayName;
             _listenerRepository.AddOrUpdate(listener);
 

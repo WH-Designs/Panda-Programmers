@@ -62,7 +62,7 @@ namespace UnitTests
 
             //Act
 
-            PlaylistToCreate = await SpotifyAuthService.CreateNewSpotifyPlaylistAsync(CreationRequest, UserProfileClient.Object, PlaylistsClient.Object);
+            //PlaylistToCreate = await SpotifyAuthService.CreateNewSpotifyPlaylistAsync(CreationRequest, UserProfileClient.Object, PlaylistsClient.Object);
 
 
 

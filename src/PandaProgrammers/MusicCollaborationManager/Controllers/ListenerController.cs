@@ -45,6 +45,7 @@ namespace MusicCollaborationManager.Controllers
             _spotifyService = spotifyService;
             _pollsService = pollsService;
             _playlistPollRepository = playlistPollRepository;
+
         }
 
         [Authorize]
@@ -70,9 +71,10 @@ namespace MusicCollaborationManager.Controllers
 
             try
             {
-                vm.TopTracks = await _spotifyService.GetAuthTopTracksAsync();
-                vm.FeatPlaylists = await _spotifyService.GetAuthFeatPlaylistsAsync();
-                vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylistsAsync();
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(listener);
+                vm.TopTracks = await _spotifyService.GetAuthTopTracksAsync(spotifyClient);
+                vm.FeatPlaylists = await _spotifyService.GetAuthFeatPlaylistsAsync(spotifyClient);
+                vm.UserPlaylists = await _spotifyService.GetAuthPersonalPlaylistsAsync(spotifyClient);
             }
             catch (Exception e)
             {
@@ -85,7 +87,7 @@ namespace MusicCollaborationManager.Controllers
         }
 
         [Authorize]
-        public IActionResult Profile(UserProfileViewModel vm)
+        public async Task<IActionResult> Profile(UserProfileViewModel vm)
         {
             string aspId = _userManager.GetUserId(User);
             Listener listener = new Listener();
@@ -96,7 +98,8 @@ namespace MusicCollaborationManager.Controllers
 
             try
             {
-                var holder = _spotifyService.GetAuthUserAsync();
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(listener);
+                var holder = _spotifyService.GetAuthUserAsync(spotifyClient);
 
                 vm.spotifyName = holder.Result.DisplayName;
                 vm.accountType = holder.Result.Product;
@@ -210,7 +213,8 @@ namespace MusicCollaborationManager.Controllers
 
                 FullPlaylistDTO returnPlaylist = new FullPlaylistDTO();
                 List<UserTrackDTO> tracks = new List<UserTrackDTO>();
-                FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistID);
+                SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(listener);
+                FullPlaylist convertPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistID, spotifyClient);
                 
                 returnPlaylist.LinkToPlaylist = convertPlaylist.ExternalUrls["spotify"];
                 returnPlaylist.Name = convertPlaylist.Name;
