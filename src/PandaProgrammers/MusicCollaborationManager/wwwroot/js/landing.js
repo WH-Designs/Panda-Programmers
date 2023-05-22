@@ -25,8 +25,7 @@ function errorOnAjax(data) {
     console.log("ERROR in ajax request: " + data.status + " " + data.statusText);
 }
 
-function getVisitorPlaylists(data)
-{
+function getVisitorPlaylists(data) {
     $.each(data, function (index, item) {
         let playlistName = `<a href="${item["spotifyLinkToPlaylist"]}">${item["playlistName"]}</a>`;
         let playlistImage = `<img src="${item["playlistImageURL"]}">`;
@@ -37,13 +36,12 @@ function getVisitorPlaylists(data)
     });
 }
 
-function getVisitorTracks(data)
-{
+function getVisitorTracks(data) {
     $.each(data, function (index, item) {
         let trackName = `<a href="${item["spotifyTrackLinkURL"]}">${item["name"]}</a>`;
         let trackImage = `<img src="${item["imageURL"]}">`;
 
-        
+
         $(trackImage).appendTo(`#track-${index}-container`);
         $(trackName).appendTo(`#track-${index}-container`);
     });
@@ -98,7 +96,7 @@ function onYouTubeIframeAPIReady() {
 
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
-    event.target.playVideo();
+    event.target.changeVideoById(event.target.videoId);
 }
 
 // 5. The API calls this function when the player's state changes.
@@ -115,5 +113,5 @@ function stopVideo() {
 }
 
 function changeVideoById(videoId) {
-    player.loadVideoById(videoId);
+    player.cueVideoById(videoId);
 }
