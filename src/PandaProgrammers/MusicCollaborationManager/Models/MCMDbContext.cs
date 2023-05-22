@@ -29,9 +29,6 @@ public partial class MCMDbContext : DbContext
 
     public virtual DbSet<Tutorial> Tutorials { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=MCMConnection");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Comment>(entity =>
