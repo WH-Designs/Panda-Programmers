@@ -100,25 +100,25 @@ namespace MusicCollaborationManager.Services.Concrete
             return authenticatedSpotify;
         }
 
-        public async Task<PrivateUser> GetAuthUserAsync(SpotifyClient Spotify)
+        public async Task<PrivateUser> GetAuthUserAsync(ISpotifyClient Spotify)
         {
             authUser.Me = await Spotify.UserProfile.Current();
             return authUser.Me;
         }
 
-        public async Task<String> GetUserDisplayName(string spotifyID, SpotifyClient Spotify)
+        public async Task<String> GetUserDisplayName(string spotifyID, ISpotifyClient Spotify)
         {
             PublicUser user = await Spotify.UserProfile.Get(spotifyID);
             return user.DisplayName;
         }
 
-        public async Task<bool> LikePlaylist(string playlistID, SpotifyClient Spotify)
+        public async Task<bool> LikePlaylist(string playlistID, ISpotifyClient Spotify)
         {
             var resp = await Spotify.Follow.FollowPlaylist(playlistID);
             return resp;
         }
 
-        public async Task<List<SimplePlaylist>> GetUserPlaylists(string spotifyID, SpotifyClient Spotify)
+        public async Task<List<SimplePlaylist>> GetUserPlaylists(string spotifyID, ISpotifyClient Spotify)
         {
             List<SimplePlaylist> playlists = new List<SimplePlaylist>();
 
@@ -130,7 +130,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return playlists;
         }
 
-        public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery, SpotifyClient Spotify)
+        public async Task<SearchResponse> GetSearchResultsAsync(string searchQuery, ISpotifyClient Spotify)
         {
             SearchRequest.Types types = SearchRequest.Types.All;
 
@@ -142,7 +142,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
 
 
-        public async Task<List<FullArtist>> GetAuthTopArtistsAsync(SpotifyClient Spotify)
+        public async Task<List<FullArtist>> GetAuthTopArtistsAsync(ISpotifyClient Spotify)
         {
             var topArtists = await Spotify.Personalization.GetTopArtists();
             List<FullArtist> returnArtists = topArtists.Items;
@@ -166,7 +166,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return returnArtists;
         }
 
-        public async Task<List<FullArtist>> GetAuthRelatedArtistsAsync(List<FullArtist> TopArtists, SpotifyClient Spotify)
+        public async Task<List<FullArtist>> GetAuthRelatedArtistsAsync(List<FullArtist> TopArtists, ISpotifyClient Spotify)
         {
             var relatedArtists = new List<FullArtist>();
 
@@ -183,7 +183,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return relatedArtists;
         }
 
-        public async Task<RecommendationGenresResponse> GetSeedGenresAsync(SpotifyClient Spotify)
+        public async Task<RecommendationGenresResponse> GetSeedGenresAsync(ISpotifyClient Spotify)
         {
             var currentGenres = await Spotify.Browse.GetRecommendationGenres();
             return currentGenres;
@@ -191,7 +191,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
 
 
-        public async Task<RecommendationsResponse> GetRecommendationsAsync(RecommendDTO recommendDTO, SpotifyClient Spotify)
+        public async Task<RecommendationsResponse> GetRecommendationsAsync(RecommendDTO recommendDTO, ISpotifyClient Spotify)
         {
             RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
             recommendationsRequest.Market = recommendDTO.market;
@@ -244,7 +244,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
         }
 
-        public async Task<RecommendationsResponse> GetRecommendationsArtistBasedAsync(RecommendDTO recommendDTO, SpotifyClient Spotify)
+        public async Task<RecommendationsResponse> GetRecommendationsArtistBasedAsync(RecommendDTO recommendDTO, ISpotifyClient Spotify)
         {
             RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
             recommendationsRequest.Market = recommendDTO.market;
@@ -261,7 +261,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
         }
 
-        public async Task<RecommendationsResponse> GetRecommendationsGenreBased(RecommendDTO recommendDTO, SpotifyClient Spotify)
+        public async Task<RecommendationsResponse> GetRecommendationsGenreBased(RecommendDTO recommendDTO, ISpotifyClient Spotify)
         {
             RecommendationsRequest recommendationsRequest = new RecommendationsRequest();
             recommendationsRequest.Market = recommendDTO.market;
@@ -287,7 +287,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return recommendations;
         }
 
-        public async Task<List<FullTrack>> ConvertToFullTrackAsync(List<SimpleTrack> tracks, SpotifyClient Spotify)
+        public async Task<List<FullTrack>> ConvertToFullTrackAsync(List<SimpleTrack> tracks, ISpotifyClient Spotify)
         {
             List<string> trackIds = new List<string>();
             foreach (var track in tracks)
@@ -303,7 +303,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
         }
 
-        public async Task<List<string>> SearchTopGenrePlaylistTrack(string genre, SpotifyClient Spotify)
+        public async Task<List<string>> SearchTopGenrePlaylistTrack(string genre, ISpotifyClient Spotify)
         {
             GeneratorUtilities generatorUtilities = new GeneratorUtilities();
             SearchRequest.Types types = SearchRequest.Types.Playlist;
@@ -325,28 +325,28 @@ namespace MusicCollaborationManager.Services.Concrete
             return trackIDs;
         }
 
-        public static IUserProfileClient GetUserProfileClientAsync(SpotifyClient Spotify)
+        public static IUserProfileClient GetUserProfileClientAsync(ISpotifyClient Spotify)
         {
             return Spotify.UserProfile;
         }
 
-        public static IPlaylistsClient GetPlaylistsClientAsync(SpotifyClient Spotify)
+        public static IPlaylistsClient GetPlaylistsClientAsync(ISpotifyClient Spotify)
         {
             return Spotify.Playlists;
         }
 
-        public async Task AddSongsToPlaylistAsync(FullPlaylist playlistToFill, List<string> trackUris, SpotifyClient Spotify)
+        public async Task AddSongsToPlaylistAsync(FullPlaylist playlistToFill, List<string> trackUris, ISpotifyClient Spotify)
         {
             PlaylistAddItemsRequest AddItemsRequest = new PlaylistAddItemsRequest(trackUris);
             await Spotify.Playlists.AddItems(playlistToFill.Id, AddItemsRequest);
         }
 
-        public async Task<bool> ChangeCoverForPlaylist(string playlistID, string imgAsBase64, SpotifyClient Spotify)
+        public async Task<bool> ChangeCoverForPlaylist(string playlistID, string imgAsBase64, ISpotifyClient Spotify)
         {
             return await Spotify.Playlists.UploadCover(playlistID, imgAsBase64);
         }
 
-        public static async Task<FullPlaylist> CreateNewSpotifyPlaylistAsync(PlaylistCreateRequest createRequest, IUserProfileClient userProfileClient, IPlaylistsClient playlistsClient, SpotifyClient Spotify)
+        public static async Task<FullPlaylist> CreateNewSpotifyPlaylistAsync(PlaylistCreateRequest createRequest, IUserProfileClient userProfileClient, IPlaylistsClient playlistsClient, ISpotifyClient Spotify)
         {
             PrivateUser CurUser = await userProfileClient.Current();
             return await playlistsClient.Create(CurUser.Id, createRequest);
@@ -354,7 +354,7 @@ namespace MusicCollaborationManager.Services.Concrete
 
 
 
-        public async Task<List<UserTrackDTO>> GetAuthTopTracksAsync(SpotifyClient Spotify)
+        public async Task<List<UserTrackDTO>> GetAuthTopTracksAsync(ISpotifyClient Spotify)
         {
 
             PersonalizationTopRequest Request = new PersonalizationTopRequest();
@@ -386,7 +386,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return TracksToReturn;
         }
 
-        public async Task<List<UserPlaylistDTO>> GetAuthFeatPlaylistsAsync(SpotifyClient Spotify)
+        public async Task<List<UserPlaylistDTO>> GetAuthFeatPlaylistsAsync(ISpotifyClient Spotify)
         {
             PrivateUser CurUser = new PrivateUser();
             FeaturedPlaylistsRequest RequestParameters = new FeaturedPlaylistsRequest
@@ -444,7 +444,7 @@ namespace MusicCollaborationManager.Services.Concrete
         }
 
 
-        public async Task<List<UserPlaylistDTO>> GetAuthPersonalPlaylistsAsync(SpotifyClient Spotify)
+        public async Task<List<UserPlaylistDTO>> GetAuthPersonalPlaylistsAsync(ISpotifyClient Spotify)
         {
             List<SimplePlaylist> PersonalPlaylists = new List<SimplePlaylist>();
 
@@ -481,7 +481,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return UserPlaylists;
         }
 
-        public async Task<List<FullTrack>> GetTopTracksAsync(SpotifyClient Spotify)
+        public async Task<List<FullTrack>> GetTopTracksAsync(ISpotifyClient Spotify)
         {
 
             PersonalizationTopRequest Request = new PersonalizationTopRequest();
@@ -492,13 +492,13 @@ namespace MusicCollaborationManager.Services.Concrete
             return topTracksList;
         }
 
-        public async Task<FullPlaylist> GetPlaylistFromIDAsync(string playlistID, SpotifyClient Spotify)
+        public async Task<FullPlaylist> GetPlaylistFromIDAsync(string playlistID, ISpotifyClient Spotify)
         {
             FullPlaylist wantedPlaylist = await Spotify.Playlists.Get(playlistID);
             return wantedPlaylist;
         }
 
-        public static ITracksClient GetTracksClientAsync(SpotifyClient Spotify)
+        public static ITracksClient GetTracksClientAsync(ISpotifyClient Spotify)
         {
             return Spotify.Tracks;
         }
@@ -508,7 +508,7 @@ namespace MusicCollaborationManager.Services.Concrete
             return await tracksClient.Get(trackID);
         }
 
-        public async Task<FullArtist> GetArtistById(string artistID, SpotifyClient Spotify)
+        public async Task<FullArtist> GetArtistById(string artistID, ISpotifyClient Spotify)
         {
             return await Spotify.Artists.Get(artistID);
         }
