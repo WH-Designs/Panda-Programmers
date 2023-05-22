@@ -15,7 +15,8 @@ namespace UnitTests
 {
     public class CommentRepository_Tests
     {
-        private static readonly string _seedFile = @"..\..\..\DATA\SEED.sql";
+        private static string[] paths = { "..", "..", "..", "DATA", "SEED.sql" };
+        private static readonly string _seedFile = Path.Combine(paths);
 
         private InMemoryDbHelper<MCMDbContext> _dbHelper = new InMemoryDbHelper<MCMDbContext>(
             _seedFile,
