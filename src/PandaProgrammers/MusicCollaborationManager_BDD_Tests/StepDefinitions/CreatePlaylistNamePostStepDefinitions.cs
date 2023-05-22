@@ -6,6 +6,7 @@ using MusicCollaborationManager_BDD_Tests.PageObjects;
 using Microsoft.Extensions.Configuration;
 using System;
 using TechTalk.SpecFlow;
+using FluentAssertions;
 
 namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
 {
@@ -55,6 +56,12 @@ namespace MusicCollaborationManager_BDD_Tests.StepDefinitions
         public void WhenIClickOnTheButtonToGenerateThePlaylist()
         {
             _topArtistPage.GeneratePlaylist();
+        }
+
+        [Then(@"I should see a playlist visibility setting")]
+        public void ThenIShouldSeeAPlaylistVisibilitySetting()
+        {
+            _topArtistPost.PlaylistVisibilityOptionExists().Should().BeTrue();
         }
 
     }

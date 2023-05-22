@@ -1,17 +1,6 @@
-﻿//AI & user input
-//"TrackInput" generator does NOT have a input for the user to name the track or for an AI to name the track.
-
-//100 characters for playlist NAME
-//300 characters for playlist DESCRIPTION
-
-//$(function () {
-//    let defaultPlaylistNameMsg = `
-//            <p id="default-playlist-name-msg" class="text-red-500 font-bold playlist-name-error-input">
-//                (A default name will be given to the playlist if this is left blank.)
-//            </p>`;
-
-//    $(defaultPlaylistNameMsg).insertAfter("#titleinput");
-//});
+﻿/*Spotify allows for:
+    100 characters for playlist NAME
+    300 characters for playlist DESCRIPTION*/
 
 function playlistNameIsValid(playlistName) {
     const playlistNameCriteria = /\w+/;

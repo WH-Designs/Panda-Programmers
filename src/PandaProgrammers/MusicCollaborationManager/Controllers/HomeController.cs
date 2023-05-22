@@ -23,15 +23,17 @@ public class HomeController : Controller
     private readonly IListenerRepository _listenerRepository;
     private readonly SpotifyAuthService _spotifyService;
     private readonly IYouTubeService _youTubeService;
+    private readonly ISpotifyAuthorizationNeededRepository _spotifyAuthNeededRepository;
 
     public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SpotifyAuthService spotifyService, IListenerRepository listenerRepository
-, IYouTubeService youTubeService)
+, IYouTubeService youTubeService, ISpotifyAuthorizationNeededRepository spotifyAuthNeededRepository)
     {
         _logger = logger;
         _userManager = userManager;
         _spotifyService = spotifyService;
         _listenerRepository = listenerRepository;
         _youTubeService = youTubeService;
+        _spotifyAuthNeededRepository = spotifyAuthNeededRepository;
     }
 
     public async Task<IActionResult> Index()
@@ -48,40 +50,133 @@ public class HomeController : Controller
         return View(visitorDash);
     }
 
+    public async Task<IActionResult> Whoops(Listener listener)
+    {
+
+        try {
+            SpotifyAuthorizationNeededListener empty_authNeededListener = new SpotifyAuthorizationNeededListener();
+            WhoopsViewModel viewModel = new WhoopsViewModel();
+            viewModel.listener = listener;
+            viewModel.authNeededListener = empty_authNeededListener;
+            return View(viewModel);
+
+        } catch (Exception ex) {
+            Console.WriteLine(ex.Message + " INSIDE HOME WHOOPS");
+            ViewBag.Error = "Error Occurred";
+
+            IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
+            VisitorDashboard visitorDash = new VisitorDashboard();
+            foreach (MusicVideoDTO video in j)
+            {
+                visitorDash.YouTubeMVs.Add(video);
+            }
+
+            return View("Index", visitorDash);
+        }
+        
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostWhoops(WhoopsViewModel viewModel)
+    {
+        try {
+            SpotifyAuthorizationNeededListener listener_to_pass = viewModel.authNeededListener;
+            var all_auth_listeners = _spotifyAuthNeededRepository.GetAll().ToList();
+            
+            var current_listener_auth = all_auth_listeners.Where(l => l.ListenerId == listener_to_pass.ListenerId).ToList();
+
+            if (current_listener_auth != null) {
+                ViewBag.Exists = "True";
+                IEnumerable<MusicVideoDTO> ja = await _youTubeService.GetPopularMusicVideosAsync();
+                VisitorDashboard visitorDash2 = new VisitorDashboard();
+                foreach (MusicVideoDTO video in ja)
+                {
+                    visitorDash2.YouTubeMVs.Add(video);
+                }
+
+                return View("Index", visitorDash2);
+            } else {
+                _spotifyAuthNeededRepository.AddOrUpdateSpotifyAuthListener(listener_to_pass);
+                ViewBag.Passed = "Passed";
+
+                IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
+                VisitorDashboard visitorDash = new VisitorDashboard();
+                foreach (MusicVideoDTO video in j)
+                {
+                    visitorDash.YouTubeMVs.Add(video);
+                }
+
+                return View("Index", visitorDash);    
+            }
+        } catch(Exception ex) {
+            Console.WriteLine(ex.Message + " INSIDE HOME POSTWHOOPS");
+            ViewBag.Error = "Error Occurred";
+            IEnumerable<MusicVideoDTO> j = await _youTubeService.GetPopularMusicVideosAsync();
+            VisitorDashboard visitorDash = new VisitorDashboard();
+            foreach (MusicVideoDTO video in j)
+            {
+                visitorDash.YouTubeMVs.Add(video);
+            }
+
+            return View("Index", visitorDash);    
+        }
+    }
 
     public IActionResult callforward()
     {
-        string aspId = _userManager.GetUserId(User);
-        Listener listener = new Listener();
-        listener = _listenerRepository.FindListenerByAspId(aspId);
+        try {
+            string aspId = _userManager.GetUserId(User);
+            Listener listener = new Listener();
+            listener = _listenerRepository.FindListenerByAspId(aspId);
 
-        if (listener.AuthToken == null)
-        {
-            String uri = _spotifyService.GetUriAsync();
-            return Redirect(uri);
+            if (listener.AuthToken == null)
+            {
+                String uri = _spotifyService.GetUriAsync();
+                return Redirect(uri);
+            }
+
+            return RedirectToAction("callback", "Home", "");
+        } catch(Exception ex) {
+            Console.WriteLine(ex.Message + " INSIDE HOME CALLFORWARD");
+            ViewBag.Error = "Error Occurred";
+            return View("Index");
         }
 
-        return RedirectToAction("callback", "Home", "");
+        
     }
 
     public async Task<IActionResult> callback(string code)
     {
-        string aspId = _userManager.GetUserId(User);
-        Listener listener = new Listener();
-        listener = _listenerRepository.FindListenerByAspId(aspId);
+        try {
+            string aspId = _userManager.GetUserId(User);
+            Listener listener = new Listener();
+            listener = _listenerRepository.FindListenerByAspId(aspId);
 
-        await _spotifyService.GetCallbackAsync(code, listener);
-        PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUserAsync();
-        listener.SpotifyUserName = currentSpotifyUser.DisplayName;
-        _listenerRepository.AddOrUpdate(listener);
-
-        if (listener.SpotifyId == null)
-        {
-            listener.SpotifyId = currentSpotifyUser.Id;
+            await _spotifyService.GetCallbackAsync(code, listener);
+            SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(listener);
+            PrivateUser currentSpotifyUser = await _spotifyService.GetAuthUserAsync(spotifyClient);
+            listener.SpotifyUserName = currentSpotifyUser.DisplayName;
             _listenerRepository.AddOrUpdate(listener);
-        }
 
-        return RedirectToAction("Index", "Listener");
+            if (listener.SpotifyId == null)
+            {
+                listener.SpotifyId = currentSpotifyUser.Id;
+                _listenerRepository.AddOrUpdate(listener);
+            }
+
+            return RedirectToAction("Index", "Listener");
+        } catch(SpotifyAPI.Web.APIException) {
+            string aspId = _userManager.GetUserId(User);
+            Listener listener = new Listener();
+            listener = _listenerRepository.FindListenerByAspId(aspId);
+            
+            SpotifyAuthorizationNeededListener empty_authNeededListener = new SpotifyAuthorizationNeededListener();
+            WhoopsViewModel viewModel = new WhoopsViewModel();
+            viewModel.listener = listener;
+            viewModel.authNeededListener = empty_authNeededListener;
+
+            return View("Whoops", viewModel);
+        }
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -151,47 +151,39 @@ function redirectToGenIndex() {
 
 function savePlaylist(data) {
 
-/*    console.log(`Result of saving playlist: ${data["playlistId"]}`);*/
+    /*    console.log(`Result of saving playlist: ${data["playlistId"]}`);*/
     //console.log("Result of 'SaveMCMGeneratedPlaylist': " + data);
-    let text = "The playlist has been saved to your Spotify account";
 
-    if (data === null) {
-        text = "There was an error adding the playlist to your Spotify account";
+    if (data === null || data === undefined) {
+        alert("There was an error adding the playlist to your Spotify account.");
+    }
+    else {
+        alert("The playlist has been added to your Spotify account.");
+        console.log(`The result of saving playlist attempt (return val from API): ${data}`);
+
+        let playlistCoverToUse = $("#playlist-img-input-extra").val();
+
+        if (playlistCoverToUse != "NO_PLAYLIST_COVER") {
+
+            $("#new-playlist-id").val(data["playlistId"])
+
+            let newPlaylistDetails = getNewPlaylistImgDetails()
+            //console.log(`newPlaylistDetails (status): ${newPlaylistDetails.status}`);
+            //console.log(`newPlaylistDetails (playlistid): ${newPlaylistDetails.playlistid}`);
+
+            $.ajax({
+                method: "PUT",
+                url: "/api/spotifyauth/changeplaylistcover",
+                dataType: "json",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(newPlaylistDetails),
+                success: playlistCoverSafe,
+                error: errorOnAjax
+            });
+        }
     }
 
 
-    let popUpMsg = `
-    <div class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback lg-rounded fixed">
-            
-            <p class="text-textback 
-                revolution:text-white 
-                autumn:text-white 
-                classicpanda:text-textback">${text}. You will be redirected shortly...
-            </p>
-    </div>`;
-
-    $("#explanation-title").append(popUpMsg);
-
-    let playlistCoverToUse = $("#playlist-img-input-extra").val();
-
-    if (playlistCoverToUse != "NO_PLAYLIST_COVER")
-    {
-        $("#new-playlist-id").val(data["playlistId"])
-
-        let newPlaylistDetails = getNewPlaylistImgDetails()
-        //console.log(`newPlaylistDetails (status): ${newPlaylistDetails.status}`);
-        //console.log(`newPlaylistDetails (playlistid): ${newPlaylistDetails.playlistid}`);
-
-        $.ajax({
-            method: "PUT",
-            url: "/api/spotifyauth/changeplaylistcover",
-            dataType: "json",
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(newPlaylistDetails),
-            success: playlistCoverSafe,
-            error: errorOnAjax
-        });
-    }
 
     //  setTimeout(redirectToGenIndex, 4000); //An "alert" was preferred over this.
 }
@@ -201,6 +193,7 @@ function playlistCoverSafe(data) {
     if (data["coverSaveSuccessful"] == true) {
         console.log("Playlist cover uploaded successfully!");
     } else {
+        alert("There was a problem uploading the cover for the playlist.")
         console.log(`There was a problem uploading the playlist cover`);
     }
 }
@@ -212,15 +205,9 @@ function errorOnAjax(data) {
 let currentTheme = localStorage.theme;
 
 $("#discard-playlist-btn").click(function () {
-    let msg = `
-    <div class="p-12 bg-coreback moon:bg-gray-500 classicpanda:bg-secondaryback rounded fixed">
-            <p class="text-textback 
-                revolution:text-white 
-                autumn:text-white 
-                classicpanda:text-textback">Playlist has been discarded. You will be redirected shortly...
-            </p>
-    </div>`;
-    $("#explanation-title").append(msg);
+
+    $("#save-playlist-btn").attr("disabled", true);
+    alert("Playlist discarded. You will be redirected shortly.");
     setTimeout(redirectToGenIndex, 3000);
 });
 
@@ -251,11 +238,22 @@ function getNewPlaylistFormValues() {
     const newPlaylistForm = document.getElementById("playlist-form");
     const tracks = document.getElementsByName('NewTrackUris');
     const playlistName = document.getElementById(`new-playlist-name`);
+    const playlistDescription = document.getElementById(`new-playlist-description`);
+
+    //https://stackoverflow.com/questions/15839169/how-to-get-the-value-of-a-selected-radio-button -- Joe's answer.
+    let options = document.getElementsByName('NewPlaylistIsVisible');
+    let playlistVisibilityDecision;
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].checked) {
+            playlistVisibilityDecision = options[i].value;
+        }
+    }
+
+    console.log("RADIO CHOOSEN: " + playlistVisibilityDecision + ". type: " + typeof playlistVisibilityDecision);
 
     if (!newPlaylistForm.checkValidity()) {
         return { status: false };
     }
-
 
     let tracksAsArray = [];
 
@@ -264,11 +262,23 @@ function getNewPlaylistFormValues() {
         tracksAsArray.push(item.value);
     });
 
+    let playlistIsPublic = null;
+    if (playlistVisibilityDecision == "Public") {
+        console.log(`Playlist is PUBLIC`);
+        playlistIsPublic = true;
+    }
+    else {
+        console.log(`Playlist is PRIVATE`);
+        playlistIsPublic = false;
+    }
+
 /*    console.log(`j content: ${j}`);*/
 
     return {
         newtrackuris: tracksAsArray,
         newplaylistname: playlistName.value,
+        newplaylistisvisible: playlistIsPublic,
+        newplaylistdescription: playlistDescription.value,
         status: true
     }
 }
