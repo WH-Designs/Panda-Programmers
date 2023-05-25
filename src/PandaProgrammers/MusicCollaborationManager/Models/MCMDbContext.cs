@@ -25,16 +25,15 @@ public partial class MCMDbContext : DbContext
 
     public virtual DbSet<Prompt> Prompts { get; set; }
 
-    public virtual DbSet<Tutorial> Tutorials { get; set; }
+    public virtual DbSet<SpotifyAuthorizationNeededListener> SpotifyAuthorizationNeededListeners { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=MCMConnection");
+    public virtual DbSet<Tutorial> Tutorials { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC27477FC065");
+            entity.HasKey(e => e.Id).HasName("PK__Comment__3214EC2774053D49");
 
             entity.ToTable("Comment");
 
@@ -56,7 +55,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Listener>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC2766F11076");
+            entity.HasKey(e => e.Id).HasName("PK__Listener__3214EC27F70E25AB");
 
             entity.ToTable("Listener");
 
@@ -83,7 +82,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Playlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC27CD68B385");
+            entity.HasKey(e => e.Id).HasName("PK__Playlist__3214EC277D22E16C");
 
             entity.ToTable("Playlist");
 
@@ -93,7 +92,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Poll>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Polls__3214EC277447159D");
+            entity.HasKey(e => e.Id).HasName("PK__Polls__3214EC274641B1B1");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.PollId)
@@ -111,7 +110,7 @@ public partial class MCMDbContext : DbContext
 
         modelBuilder.Entity<Prompt>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Prompts__3214EC27F8C4CF77");
+            entity.HasKey(e => e.Id).HasName("PK__Prompts__3214EC27183288FC");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Prompt1)
@@ -120,9 +119,30 @@ public partial class MCMDbContext : DbContext
                 .HasColumnName("Prompt");
         });
 
+        modelBuilder.Entity<SpotifyAuthorizationNeededListener>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SpotifyA__3214EC270EBDB195");
+
+            entity.ToTable("SpotifyAuthorizationNeededListener");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(256);
+            entity.Property(e => e.ListenerId).HasColumnName("ListenerID");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(64);
+
+            entity.HasOne(d => d.Listener).WithMany(p => p.SpotifyAuthorizationNeededListeners)
+                .HasForeignKey(d => d.ListenerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Fk_SpotifyAuthorizationNeededListener_Listener_ID");
+        });
+
         modelBuilder.Entity<Tutorial>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Tutorial__3214EC274DB3A065");
+            entity.HasKey(e => e.Id).HasName("PK__Tutorial__3214EC27665D3E3B");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Link)

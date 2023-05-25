@@ -39,7 +39,8 @@ function TopArtistDomManip(data) {
     let count = 0;
     for (let i = keys.length - 1; i >= 0; i--) {
         let currentGenre = `<p>${keys[i]}</p>`;
-        $(currentGenre).appendTo(`#user-genre-${count}-container`);  
+        let genreContainer = `<div class="flex items-center justify-center md:h-[100px] md:w-[full] text-2xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-${count}-container">${currentGenre}</div>`
+        $("#userGenresContainer").append(genreContainer);
         count = count + 1;  
     } 
 }

@@ -38,6 +38,11 @@ namespace MusicCollaborationManager.Controllers
         [HttpGet("checkifpollexists/{username}/{playlistid}")]
         public async Task<GeneralPollInfoDTO> CheckIfPollExists(string username, string playlistid)
         {
+
+            string aspId = _userManager.GetUserId(User);
+            Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+            SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
             GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
             Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(playlistid);
 
@@ -63,10 +68,10 @@ namespace MusicCollaborationManager.Controllers
                 }
                 InfoToReturn.TotalPollVotes = totalPollVotes.ToString();
 
-                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistid);
+                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(playlistid, spotifyClient);
                 InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
 
-                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync(spotifyClient));
                 InfoToReturn.TrackArtist = PolledTrack.Artists[0].Name;
                 InfoToReturn.TrackTitle = PolledTrack.Name;
                 InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
@@ -110,6 +115,11 @@ namespace MusicCollaborationManager.Controllers
         [HttpPost("createpoll")]
         public async Task<ActionResult<GeneralPollInfoDTO>> CreateNewPoll([Bind("NewPollPlaylistId,NewPollTrackId, NewPollUsername")] PollCreationDTO newPollInput) //TrackID passed here (instead of "trackuri"). (Just haven't updated the name in DB yet.)
         {
+
+            string aspId = _userManager.GetUserId(User);
+            Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+            SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
             GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
 
             Poll ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(newPollInput.NewPollPlaylistId);
@@ -144,7 +154,7 @@ namespace MusicCollaborationManager.Controllers
                  _pollsService.CreateVoteForTrack(NewPoll.PollId, InfoToReturn.YesOptionID, newPollInput.NewPollUsername);
                 InfoToReturn.TotalPollVotes = "1";
 
-                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(newPollInput.NewPollPlaylistId);
+                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(newPollInput.NewPollPlaylistId, spotifyClient);
                 InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
 
 
@@ -152,7 +162,7 @@ namespace MusicCollaborationManager.Controllers
                
 
 
-                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(newPollInput.NewPollTrackId, SpotifyAuthService.GetTracksClientAsync());
+                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(newPollInput.NewPollTrackId, SpotifyAuthService.GetTracksClientAsync(spotifyClient));
                 InfoToReturn.TrackArtist = PolledTrack.Artists[0].Name;
                 InfoToReturn.TrackTitle = PolledTrack.Name;
                 InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
@@ -168,7 +178,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     PlaylistFollowerCountAsInt = Int32.Parse(InfoToReturn.PlaylistFollowerCount);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Console.WriteLine("Unable to parse playlist follower count. Defaulting to 0 as playlist follower count.");
                 }
@@ -188,7 +198,7 @@ namespace MusicCollaborationManager.Controllers
                             {
                                 PolledTrack.Uri
                             };
-                        await _spotifyService.AddSongsToPlaylistAsync(CurPlaylist, TrackToAdd);
+                        await _spotifyService.AddSongsToPlaylistAsync(CurPlaylist, TrackToAdd, spotifyClient);
                     }
 
                     _playlistPollRepository.Delete(NewPoll);
@@ -209,6 +219,11 @@ namespace MusicCollaborationManager.Controllers
         [HttpPost("createvote")]
         public async Task<GeneralPollInfoDTO> CreateVoteOnExistingPoll([Bind("CreateVotePlaylistId, CreateVoteUsername, CreateVoteOptionId")] SubmitVoteDTO userVote)
         {
+
+
+            string aspId = _userManager.GetUserId(User);
+            Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+            SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
 
             GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
 
@@ -245,14 +260,14 @@ namespace MusicCollaborationManager.Controllers
 
 
                 //---------------------------
-                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync(spotifyClient));
                 InfoToReturn.TrackArtist = PolledTrack.Artists[0].Name;
                 InfoToReturn.TrackTitle = PolledTrack.Name;
                 InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
 
                 //-------------------
 
-                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(userVote.CreateVotePlaylistId);
+                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(userVote.CreateVotePlaylistId, spotifyClient);
                 InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
 
                 //----------------------------
@@ -295,7 +310,7 @@ namespace MusicCollaborationManager.Controllers
                             {
                                 PolledTrack.Uri
                             };
-                        await _spotifyService.AddSongsToPlaylistAsync(CurPlaylist, TrackToAdd);
+                        await _spotifyService.AddSongsToPlaylistAsync(CurPlaylist, TrackToAdd, spotifyClient);
                     }
 
 
@@ -319,6 +334,11 @@ namespace MusicCollaborationManager.Controllers
         [HttpPost("removevote")]
         public async Task<GeneralPollInfoDTO> RemoveVoteOnExistingPoll([Bind("RemoveVotePlaylistID, RemoveVoteUsername")] RemoveVoteDTO removeVoteInput)
         {
+
+            string aspId = _userManager.GetUserId(User);
+            Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+            SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
             GeneralPollInfoDTO InfoToReturn = new GeneralPollInfoDTO();
             Poll? ExistingPoll = _playlistPollRepository.GetPollDetailsBySpotifyPlaylistID(removeVoteInput.RemoveVotePlaylistID);
             if (ExistingPoll != null)
@@ -351,7 +371,7 @@ namespace MusicCollaborationManager.Controllers
 
                 //---------------------
 
-                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync());
+                FullTrack PolledTrack = await _spotifyService.GetSpotifyTrackByID(ExistingPoll.SpotifyTrackUri, SpotifyAuthService.GetTracksClientAsync(spotifyClient));
                 InfoToReturn.TrackArtist = PolledTrack.Artists[0].Name;
                 InfoToReturn.TrackTitle = PolledTrack.Name;
                 InfoToReturn.TrackDuration = PolledTrack.DurationMs.ToString(); //Currently in Milliseconds!
@@ -359,7 +379,7 @@ namespace MusicCollaborationManager.Controllers
 
                 //-------------------------------------------
 
-                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(removeVoteInput.RemoveVotePlaylistID);
+                FullPlaylist CurPlaylist = await _spotifyService.GetPlaylistFromIDAsync(removeVoteInput.RemoveVotePlaylistID, spotifyClient);
                 InfoToReturn.PlaylistFollowerCount = CurPlaylist.Followers.Total.ToString();
 
                 int PlaylistFollowerCountAsInt = 0;
@@ -367,7 +387,7 @@ namespace MusicCollaborationManager.Controllers
                 {
                     PlaylistFollowerCountAsInt = Int32.Parse(InfoToReturn.PlaylistFollowerCount);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Console.WriteLine("Unable to parse playlist follower count. Defaulting to 0 as playlist follower count.");
                 }

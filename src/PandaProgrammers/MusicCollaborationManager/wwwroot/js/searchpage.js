@@ -1,4 +1,4 @@
-$(function () {
+$(document).ready(function () {
     $("#search-form").submit(function (event) {
         event.preventDefault();
     })
@@ -61,8 +61,6 @@ function errorOnAjax(data) {
 
 
 function displaySearchResults(data) {
-    console.log('displaySearchResults');
-    console.log(data.jsonify);
     try {
 
         let count = 0;
@@ -118,7 +116,7 @@ function displaySearchResults(data) {
                     </tr>`
                     $(searchItem).appendTo(`#search-row`);
                 } catch (error) {
-                    if (error.message.includes("owner")) {
+                    if (error.message.includes("owner") || error.message.includes("displayName")) {
                         let imageUrl = item[index]["images"][0]['url'];
                         let itemName = item[index]["name"];
                         let itemType = item[index]["type"];
@@ -145,7 +143,7 @@ function displaySearchResults(data) {
                             </td>
                         </tr>`
                         $(searchItem).appendTo(`#search-row`);
-                    } else if (error.message.includes("images")) {
+                    } else if (error.message.includes("images") || error.message.includes("0")) {
                         try {
                             let imageUrl = item[index]["album"]["images"][0]['url'];
                             let itemName = item[index]["name"];
