@@ -1,8 +1,8 @@
-INSERT INTO [Listener] (FirstName, LastName, FriendID, ASPNetIdentityID, SpotifyID)
+INSERT INTO [Listener] (FirstName, LastName, FriendID, ASPNetIdentityID, SpotifyID, SearchConsentFlag, Theme, AuthToken, AuthRefreshToken)
     VALUES
-    ('Chad' ,'Bass' ,1 , '4b7959dc-2e9f-4fa9-ad38-d49ea70c8d32', '0'),
-    ('Tiffany' ,'Fox' ,2 , '52f959dc-3e9a-4fa9-ad38-d49ea7448d32', '0'),
-    ('Dwight' ,'Morse' ,3 , '4b7959dc-2e9f-4fa9-ad38-d49ea70c8d32', '0');
+    ('Chad' ,'Bass' ,1 , '4b7959dc-2e9f-4fa9-ad38-d49ea70c8d32', '0', 1, '0', '0', '0'),
+    ('Tiffany' ,'Fox' ,2 , '52f959dc-3e9a-4fa9-ad38-d49ea7448d32', '0', 1, '0', '0', '0'),
+    ('Dwight' ,'Morse' ,3 , '4b7959dc-2e9f-4fa9-ad38-d49ea70c8d32', '0', 1, '0', '0', '0');
 
 INSERT INTO [Playlist] (ServiceID)
     VALUES
@@ -10,14 +10,13 @@ INSERT INTO [Playlist] (ServiceID)
     (0),
     (0);
 
-INSERT INTO [Comment] (Likes, Message, ListenerID, PlaylistID)
+INSERT INTO [Comment] (Likes, Message, ListenerID, SpotifyID)
     VALUES
-    (10 ,'I like this playlist' ,1 , 1),
-    (20 ,'I dislike this playlist' ,2 , 1),
-    (55 ,'This playlist is average' ,3 , 2);
+    (10 ,'I like this playlist' ,1 , '0wbYwQItyK648wmeNcqP5z'),
+    (20 ,'I dislike this playlist' ,2 , '0wbYwQItyK648wmeNcqP5z'),
+    (55 ,'This playlist is average' ,3 , '0wbYwQItyK848wyeNcqP5z');
 
-INSERT INTO [Theme] (PrimaryColor, SecondaryColor, Font, ListenerID)
+INSERT INTO [Polls] (PollID, SpotifyPlaylistID, SpotifyTrackUri)
     VALUES
-    ('dff064' ,'21637f' ,'Times New Roman' ,1),
-    ('5f605f' ,'f2f3f9' ,'Arial' ,2),
-    ('e88bb4' ,'d5d6cb' ,'Papyrus' ,3);
+    ('apwbYwQItyK648wmeNcqP51','pwbYwQItyK648wmeNcqP51','twbYwQItyK648wmeNcqP51'),
+     ('apwbYwQItyK648wmeNcqP52','pwbYwQItyK648wmeNcqP52','twbYwQItyK648wmeNcqP52')

@@ -49,8 +49,8 @@ public class Listener_Tests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(mv.Valid, Is.False);
-            Assert.That(mv.ContainsFailureFor("FirstName"), Is.True);
+            Assert.That(mv.Valid, Is.True);
+            Assert.That(mv.ContainsFailureFor("FirstName"), Is.False);
         });
     }
 
@@ -67,8 +67,8 @@ public class Listener_Tests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(mv.Valid, Is.False);
-            Assert.That(mv.ContainsFailureFor("FirstName"), Is.True);
+            Assert.That(mv.Valid, Is.True);
+            Assert.That(mv.ContainsFailureFor("FirstName"), Is.False);
         });
     }
 
@@ -85,8 +85,8 @@ public class Listener_Tests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(mv.Valid, Is.False);
-            Assert.That(mv.ContainsFailureFor("FirstName"), Is.True);
+            Assert.That(mv.Valid, Is.True);
+            Assert.That(mv.ContainsFailureFor("FirstName"), Is.False);
         });
     }
 
@@ -103,8 +103,8 @@ public class Listener_Tests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(mv.Valid, Is.False);
-            Assert.That(mv.ContainsFailureFor("LastName"), Is.True);
+            Assert.That(mv.Valid, Is.True);
+            Assert.That(mv.ContainsFailureFor("LastName"), Is.False);
         });
     }
 
@@ -121,8 +121,8 @@ public class Listener_Tests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(mv.Valid, Is.False);
-            Assert.That(mv.ContainsFailureFor("LastName"), Is.True);
+            Assert.That(mv.Valid, Is.True);
+            Assert.That(mv.ContainsFailureFor("LastName"), Is.False);
         });
     }
 
@@ -139,8 +139,8 @@ public class Listener_Tests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(mv.Valid, Is.False);
-            Assert.That(mv.ContainsFailureFor("LastName"), Is.True);
+            Assert.That(mv.Valid, Is.True);
+            Assert.That(mv.ContainsFailureFor("LastName"), Is.False);
         });
     }
 
@@ -157,8 +157,8 @@ public class Listener_Tests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(mv.Valid, Is.False);
-            Assert.That(mv.ContainsFailureFor("AspnetIdentityId"), Is.True);
+            Assert.That(mv.Valid, Is.True);
+            Assert.That(mv.ContainsFailureFor("AspnetIdentityId"), Is.False);
         });
     }
 
@@ -175,8 +175,8 @@ public class Listener_Tests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(mv.Valid, Is.False);
-            Assert.That(mv.ContainsFailureFor("AspnetIdentityId"), Is.True);
+            Assert.That(mv.Valid, Is.True);
+            Assert.That(mv.ContainsFailureFor("AspnetIdentityId"), Is.False);
         });
     }
 }

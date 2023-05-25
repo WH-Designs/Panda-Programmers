@@ -1,4 +1,6 @@
-﻿using MusicCollaborationManager.Services.Abstract;
+﻿using Humanizer.Localisation;
+using MusicCollaborationManager.Models.DTO;
+using MusicCollaborationManager.Services.Abstract;
 using OpenAI.Net;
 using OpenAI.Net.Models.OperationResult;
 using OpenAI.Net.Models.Requests;
@@ -19,7 +21,7 @@ class MCMOpenAiService : IMCMOpenAiService
         _openAIService = OpenAiService;
     }
 
-    public async Task<string> GetTextResponseFromOpenAiFromUserInput(string UserInput, string Genre)
+    public async Task<string> GetTextResponseFromOpenAiFromUserInput(string UserInput, string Genre, PromptDTO promptDTO)
     {
         if (UserInput == null && Genre == null)
         {
@@ -27,7 +29,7 @@ class MCMOpenAiService : IMCMOpenAiService
         }
         else if (Genre == null)
         {
-            string inputOnly = $"Using these words {UserInput}, give a detailed description of a music playlist and don't mention any specific artists.";
+            string inputOnly = string.Format(promptDTO.basicInput, UserInput);
 
             response = await _openAIService.TextCompletion.Get(inputOnly, o =>
             {
@@ -37,7 +39,7 @@ class MCMOpenAiService : IMCMOpenAiService
         }
         else if (UserInput == null)
         {
-            string defaultInput = $"Give me a detailed paragraph describing an {Genre} music playlist and don't mention any specific artists.";
+            string defaultInput = string.Format(promptDTO.basicGenre, Genre);
 
             response = await _openAIService.TextCompletion.Get(defaultInput, o =>
             {
@@ -47,9 +49,66 @@ class MCMOpenAiService : IMCMOpenAiService
         }
         else
         {
-            string InputPlus = $"Using these words {UserInput}, give a detailed description of a {Genre} music playlist and don't mention any specific artists.";
-
+            string InputPlus = string.Format(promptDTO.basicBoth, UserInput, Genre);
             response = await _openAIService.TextCompletion.Get(InputPlus, o =>
+            {
+                o.N = 1;
+                o.MaxTokens = 500;
+            });
+        }
+
+        if (response.IsSuccess)
+        {
+            string result = String.Join(" ", response.Result.Choices.Select(i => i.Text).ToList());
+
+            return result;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public async Task<string> GetTitle(string titlePrompt, PromptDTO promptDTO)
+    {
+        if (titlePrompt == null)
+        {
+            return null;
+        }
+        else
+        {
+            string inputOnly = string.Format(promptDTO.title, titlePrompt);
+
+            response = await _openAIService.TextCompletion.Get(inputOnly, o =>
+            {
+                o.N = 1;
+                o.MaxTokens = 500;
+            });
+        }
+
+        if (response.IsSuccess)
+        {
+            string result = String.Join(" ", response.Result.Choices.Select(i => i.Text).ToList());
+            result = result.Replace('"', ' ').Trim();
+            return result;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public async Task<string> GetTextResponseFromOpenAiFromUserInputAuto(string UserInput, PromptDTO promptDTO)
+    {
+        if (UserInput == null)
+        {
+            return null;
+        }
+        else
+        {
+            string inputOnly = string.Format(promptDTO.auto, UserInput);
+
+            response = await _openAIService.TextCompletion.Get(inputOnly, o =>
             {
                 o.N = 1;
                 o.MaxTokens = 500;

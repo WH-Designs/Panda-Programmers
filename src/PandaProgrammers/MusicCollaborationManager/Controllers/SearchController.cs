@@ -26,8 +26,10 @@ public class SearchController : Controller
         _userManager = userManager;
         _spotifyService = spotifyService;
         _listenerRepository = listenerRepository;
+
     }
 
+    [Authorize]
     public async Task<IActionResult> Search() 
     {
         try {
@@ -35,13 +37,52 @@ public class SearchController : Controller
             Listener listener = new Listener();
             listener = _listenerRepository.FindListenerByAspId(aspId);
             string name = listener.FirstName;
-            await _spotifyService.GetAuthUserAsync();
+            
+            SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(listener);
+            await _spotifyService.GetAuthUserAsync(spotifyClient);
 
             return View("Search");
 
         } catch (Exception e) {
-            Console.WriteLine(e.Message);
+            Console.WriteLine(e.Message + " INSIDE SEARCH SEARCH");
+            TempData["Error"] = "Error Occured";
+            return RedirectToAction("Index", "Home");
+        }
+    }
+    
+    [Authorize]
+    public async Task<IActionResult> PlaylistsDisplay(string spotifyID)
+    {
+        try {
+            string aspId = _userManager.GetUserId(User);
+            Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+            SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
+            List<SimplePlaylist> usersPlaylists = await _spotifyService.GetUserPlaylists(spotifyID, spotifyClient);
+            return View("PlaylistsDisplay", usersPlaylists);
+
+        } catch (Exception e) {
+            Console.WriteLine(e.Message + " INSIDE SEARCH PLAYLISTSDISPLAY");
+            TempData["Error"] = "Error Occured";
+            return RedirectToAction("Index", "Home");
+        }
+    }
+
+    [Authorize]
+    public async Task<IActionResult> Like(string playlistID) 
+    {
+        try{
+
+            string aspId = _userManager.GetUserId(User);
+            Listener current_listener = _listenerRepository.FindListenerByAspId(aspId);
+            SpotifyClient spotifyClient = await _spotifyService.GetSpotifyClientAsync(current_listener);
+
+            await _spotifyService.LikePlaylist(playlistID, spotifyClient);
             return Redirect("/listener");
+        } catch(Exception e) {
+            Console.WriteLine(e.Message + " INSIDE SEARCH LIKE");
+            TempData["Error"] = "Error Occured";
+            return RedirectToAction("Index", "Home");
         }
     }
 }

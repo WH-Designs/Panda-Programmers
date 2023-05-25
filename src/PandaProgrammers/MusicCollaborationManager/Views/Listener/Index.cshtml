@@ -6,7 +6,18 @@
 
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
-<div class="flex flex-col w-[88%] ml-10 md:w-3/4">
+<div class="flex flex-col w-[88%] ml-10 md:-ml-16 md:w-3/4">
+@if(@ViewBag.Error != null){
+                    <div id='generator-alert' type=''>
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                            <strong class="font-bold">Whoops.</strong>
+                            <span class="block sm:inline">There was an error while creating your playlist. Log into Spotify and try again.</span>
+                            <button id='alert-button' class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                                <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                            </button>
+                        </div>    
+                    </div> 
+                }
     <div class="w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4 overflow-hidden">
         <div>
             <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
@@ -43,7 +54,7 @@
                         }
                     </div>
                     <div class="hidden extra-recom-tracks mt-4">
-                        <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                        <div class="flex flex-row gap-x-3 md:max-h-auto w-[340px] md:w-[730px] lg:w-[916px] xl:w-[1400px] overflow-x-auto mr-8 md:mr-0 text-center text-lg">
                             @while (UserTracksIndex < Model.TopTracks.Count)
                             {
                                 for (int UTTwoIndex = 0; UTTwoIndex < 4; UTTwoIndex++)
@@ -122,7 +133,7 @@
                         }
                     </div>
                     <div class="hidden extra-feat-playlists mt-4">
-                        <div class="flex gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                        <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-[730px] lg:w-[916px] xl:w-[1400px] overflow-x-auto mr-8 md:mr-0 text-center text-lg">
                             @while (FeatPlayIndex < Model.FeatPlaylists.Count) //The extra 15 playlists (which the user can hide)
                             {
                                 for (int FpITwo = 0; FpITwo < 5; FpITwo++)
@@ -179,7 +190,7 @@
                         @{
                             for (int UpIOne = 0; UpIOne < Model.UserPlaylists.Count; UpIOne++) //The first 5 playlists (which are always visible to the user)
                             {
-                                <div class="flex flex-col min-w-[200px] max-w-auto bg-primback text-textback p-2 rounded-lg">
+                                <div class="flex flex-col min-w-[200px] max-w-[285px] bg-primback text-textback p-2 rounded-lg">
 
                                     @{
                                         if (Model.UserPlaylists.ElementAtOrDefault(UserPlayIndex).ImageURL != null)
@@ -201,7 +212,7 @@
                         }
                     </div>
                     <div class="hidden extra-user-playlists mt-4">
-                        <div class="flex gap-x-3 md:max-h-auto3 w-[340px] md:w-auto overflow-x-auto mr-8 md:mr-0 text-center text-lg">
+                        <div class="flex flex-row gap-x-3 md:max-h-auto3 w-[340px] md:w-[730px] lg:w-[916px] xl:w-[1400px] overflow-x-auto mr-8 md:mr-0 text-center text-lg">
                             @while (UserPlayIndex < Model.UserPlaylists.Count) //The extra 15 playlists (which the user can hide)
                             {
                                 for (int UpITwo = 0; UpITwo < 5; UpITwo++)
@@ -244,13 +255,9 @@
     <div class="flex flex-col w-auto bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-4">
         <img src="~/img/spotify-logo-white.png" class="w-32 h-10" />
         <h4 class="font-header font-bold mb-6 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500">Your Top Genres</h4>
-        <div class="overflow-x-auto p-2">
-            <div class="flex flex-col md:flex-row md:gap-x-28 gap-y-4 text-center">
-                <div class="flex items-center justify-center md:h-[135px] md:w-[135px] text-xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-0-container"></div>
-                <div class="flex items-center justify-center md:h-[135px] md:w-[135px] text-xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-1-container"></div>
-                <div class="flex items-center justify-center md:h-[135px] md:w-[135px] text-xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-2-container"></div>
-                <div class="flex items-center justify-center md:h-[135px] md:w-[135px] text-xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-3-container"></div>
-                <div class="flex items-center justify-center md:h-[135px] md:w-[135px] text-xl rounded-xl shadow-xl shadow-gray-950 p-5 bg-primback  text-textback classicpanda:text-blacktext luxury:text-yellow-500" id="user-genre-4-container"></div>
+        <div class="overflow-x-auto p-2 overflow-y-auto">
+            <div class="flex flex-col md:h-auto h-[300px] md:flex-row md:gap-x-10 gap-y-4 text-center md:w-screen" id="userGenresContainer">
+                
             </div>
         </div>
     </div>
@@ -285,7 +292,7 @@
         {
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script type="module" src="~/js/listenerindex.js"></script>
-        <script type="text/javascript" src="~/js/colorchanger.js"></script>
+
     }
     @*
     <!--------USER playlists (above)-------------------------->

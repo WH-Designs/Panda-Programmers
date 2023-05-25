@@ -17,18 +17,18 @@ else
             <h1 class="font-header text-[30pt] pb-3 text-textback classicpanda:text-whitetext luxury:text-yellow-500">@ViewData["Title"]</h1>
                <h4 class="font-header font-bold mb-6 mt-2 text-textback classicpanda:text-whitetext luxury:text-yellow-500 text-2xl">Available Themes</h4>
                <div class="flex flex-col md:flex-row md:gap-x-16 gap-y-4 text-center">
-                   <button id="classicpanda-btn" class="md:w-[80px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Original</button>
-                   <button id="revolution-btn" class="md:w-[80px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Red</button>
-                   <button id="autumn-btn" class="md:w-[80px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Purple</button>
-                   <button id="moon-btn" class="md:w-[80px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Dark</button>
-                   <button id="mansion-btn" class="md:w-[80px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Gold</button>
+                   <button id="classicpanda-btn" class="md:w-[100px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Original</button>
+                   <button id="revolution-btn" class="md:w-[100px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Red</button>
+                <button id="autumn-btn" class="md:w-[100px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Purple</button>
+                <button id="moon-btn" class="md:w-[100px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Dark</button>
+                <button id="mansion-btn" class="md:w-[100px] md:h-[50px] md:text-xl text-textback font-bold p-4 rounded-md text-2x hover:bg-gray-700 bg-primback px-1 classicpanda:text-blacktext">Gold</button>
                </div>
                 <h2 class="font-header text-2xl pb-3 text-textback classicpanda:text-whitetext mt-5 font-bold">Current Information</h2>
                 <div class="flex flex-col">
                     <p class="text-xl text-textback classicpanda:text-whitetext">&nbsp;&nbsp;&nbsp;<strong>First Name: </strong>@Model.FirstName</p>
                     <p class="text-xl text-textback classicpanda:text-whitetext">&nbsp;&nbsp;&nbsp;<strong>Last Name: </strong> @Model.LastName</p>
                 </div>
-            <form asp-action="EditListenerInformation" class="max-w-xl bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-5 md:w-[400px] md:ml-32">
+            <form asp-action="EditListenerInformation" class="max-w-xl bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-5 md:w-[600px] md:ml-32">
                 <h2 class="font-header text-center text-2xl pb-3">Change your information.</h2>
                 <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm" role="alert"></div>
                 <div class="w-full px-3">
@@ -44,6 +44,13 @@ else
                     <input asp-for="LastName"
                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" required />
                     <span asp-validation-for="LastName" class="text-red-500 text-sm"></span>
+                </div>
+                <div class="w-full px-3">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input asp-for='SearchConsentFlag' type="checkbox" hidden='hidden' class="peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <span class="ml-3 text-sm font-medium text-gray-900">Show up in searches?</span>
+                    </label>
                 </div>
                 <input type="hidden" asp-for="FriendId" />
                 <input type="hidden" asp-for="AspnetIdentityId" />
@@ -63,5 +70,5 @@ else
     </div>
 }
 @section Scripts{
-    <script type="text/javascript" src="~/js/colorchanger.js"></script>
+
 }

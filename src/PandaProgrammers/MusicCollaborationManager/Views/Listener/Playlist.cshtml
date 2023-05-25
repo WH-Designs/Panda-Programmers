@@ -1,57 +1,186 @@
-@model MusicCollaborationManager.Models.DTO.FullPlaylistDTO
+@model MusicCollaborationManager.ViewModels.PlaylistViewModel
 
+@{
+    Console.WriteLine(Model.PlaylistContents.LinkToPlaylist);
+}
 
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
-<div class="flex flex-col">
-    <div class="flex flex-row ml-48 mt-36">
-        <div class="flex flex-col w-3/4 mx-5" id="explanation-title">
-            <div>
-                <img src="~/img/Spotify_Logo_Black.png" class="w-32  h-10 bg-white" />
-                <h1 class="font-header font-bold text-4xl text-textback luxury:text-black autumn:text-white revolution:text-white">@Model.Name</h1>
-            </div>
-            <div class="w-full h-max max-h-max my-3 p-3 rounded-lg shadow-2xl bg-secondaryback classicpanda:bg-coreback">
-                <img src="@Model.ImageURL" alt="Playlist Image" class="text-textback classicpanda:text-whitetext" width=300 height=300/>
-                <p class="text-textback classicpanda:text-whitetext">@Model.Desc</p>
-                <p class="text-textback classicpanda:text-whitetext">@Model.Owner</p>
-                <div class="flex flex-row gap-x-3 mt-5" id="top-songs-header-container">
-                    <h1 class="text-textback classicpanda:text-whitetext">Tracks</h1>
+<div class="flex flex-col lg:flex-row w-fit">
+    <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-2 mb-4 overflow-hidden" id="user-playlist-container">
+        <div>
+            <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500"><a href="@Model.PlaylistContents.LinkToPlaylist">@Model.PlaylistContents.Name</a>&nbsp;&nbsp; <button class="playable-item hover:text-textback classicpanda:text-blacktext text-xl" data-spotify-id="@Model.PlaylistContents.Uri"><i class="fa-solid fa-play fa-2xl"></i></button></h2>
+            <h2 class="font-bold mb-5 mt-1 text-textback text-xl classicpanda:text-whitetext luxury:text-yellow-500">@Model.PlaylistContents.Owner</h2>
+        </div>
+        <div class="classicpanda:text-blacktext flex flex-col md:flex-row bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8 gap-x-4">
+            @if (Model.PlaylistContents.ImageURL is null)
+            {
+                <img src="@Model.PlaylistContents.ImageURL" alt="Playlist Image"
+                     class="text-textback classicpanda:text-blacktext hidden" />
+                <div class="flex flex-col">
+                    <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center">
+                        <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistContents.Desc</p>
+                    </div>
                 </div>
-                <div class="columns-5 mb-5 h-full max-h-max">
-                    @{int trackIndex = 0;
-                        foreach(var track in Model.Tracks)
-                    {
-                        <div class="w-fit overflow-hidden mt-4" id="song-preview-@trackIndex">
-                            <img src="@track.ImageURL" />
-                                <h2 class="text-textback classicpanda:text-whitetext">Track Name: <span id="entry-track-name-@trackIndex">@track.Title</span></h2>
-                                <h2 class="text-textback classicpanda:text-whitetext">Artist Name: <span id="entry-album-name-@trackIndex">@track.Artist</span></h2>
-                            <div class="flex flex-row">
-                                <i class="text-white playable-item fa-solid fa-circle-play" id="track-@trackIndex" data-spotify-id="@track.Uri"></i>
-                            </div>
-                        </div>
-                        <br>
+            }
+            else
+            {
+                <img src="@Model.PlaylistContents.ImageURL" alt="Playlist Image"
+                     class="text-textback classicpanda:text-blacktext w-[300px] h-[300px]" />
+                <div class="flex flex-col">
+                    <div class="flex h-fit bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-6 items-center">
+                        <p class="text-textback classicpanda:text-blacktext">@Model.PlaylistContents.Desc</p>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="mt-5" id="embed-iframe"></div>
+        <div class="flex flex-col">
+            <div class="classicpanda:text-whitetext flex bg-coreback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl mb-8 h-[500px] overflow-y-auto">
+                <table class="w-full text-sm text-left rounded-xl">
+                    <tr class="sticky top-0 border-b border-gray-200 text-2xl">
+                        <th scope="col" class="pl-3 bg-coreback">#</th>
+                        <th scope="col" class="pl-3 bg-coreback">Track Image</th>
+                        <th scope="col" class="pl-10 bg-coreback">Title</th>
+                        <th scope="col" class="pl-3 bg-coreback">Artist</th>
+                    </tr>
+                    @{
+                        int trackIndex = 0;
+                        foreach (var track in Model.PlaylistContents.Tracks)
+                        {
+                            <tr class="border-b border-gray-200 text-lg">
+                                <th scope="row" class="pl-5 font-medium whitespace-nowrap bg-coreback">@(trackIndex + 1)</th>
+                                <td class="pl-2 pb-2 pt-2 bg-coreback"><img src="@track.ImageURL" alt="" class="text-textback md:w-[150px] md:h-[150px]"/></td>
+                                <td class="pl-10 bg-coreback">@track.Title</td>
+                                <td class="pl-3 pr-2 bg-coreback">@track.Artist</td>
+                            </tr>
                             trackIndex++;
                         }
                     }
-                </div>
+                </table>
             </div>
         </div>
+
+        <button id="transition-to-search-track-btn" class="text-textback classicpanda:text-whitetext luxury:text-yellow-500">Start poll for a track</button>
+            
+        
+        <form id='search-form' class="ml-5 hidden">
+            <div class="flex h-14 w-full px-12">
+                @* Search Box *@
+                <input type="search" id="spotify-search" class="rounded-lg focus:outline-none hover:cursor-pointer" placeholder="Search for a track..." required>
+                <button type="submit" id='search-button' class="ml-3 w-fit flex-shrink-0 bg-gray-800 hover:bg-gray-600 text-textback font-bold py-2 px-4 border-b-4 border-gray-900 hover:border-gray-700 rounded-lg
+                                classicpanda:text-whitetext
+                                autumn:text-white
+                                revolution:text-white">
+                    Search
+                </button>
+            </div>
+
+            <div class="flex hidden">
+                @* Search Filters *@
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="checkbox-item-1" type="checkbox"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ">
+                    <label for="checkbox-item-1" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">All</label>
+                </div>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="checkbox-item-2" type="checkbox"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="checkbox-item-2" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Artists</label>
+                </div>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="checkbox-item-3" type="checkbox"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="checkbox-item-3" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Playlists</label>
+                </div>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input checked id="checkbox-item-4" type="checkbox"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="checkbox-item-4" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Tracks</label>
+                </div>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="checkbox-item-5" type="checkbox"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="checkbox-item-5" class="w-full ml-2 text-sm font-medium text-gray-900 rounded">Albums</label>
+                </div>
+            </div>
+            <div class="flex justify-center items-center hidden">
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="spotify-radio" type="radio" name="mcm-or-spotify-scope" value="spotify" checked />
+                    <label for="spotify-radio">Spotify</label>
+                </div>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100">
+                    <input id="mcm-radio" type="radio" name="mcm-or-spotify-scope" value="mcm" />
+                    <label for="mcm-radio">MCM</label>
+                </div>
+            </div>
+        </form>
+        <div class="flex flex-col mr-3" id="search-results-container">
+            @* Search Results *@
+            <div id='search-query-display'></div>
+            <div class="overflow-x-hidden bg-coreback shadow-xl rounded-xl">
+                <table id='search-table' class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr id='search-headers'>
+                        </tr>
+                    </thead>
+                    <tbody id='search-row' class="md:text-center text-lg">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+     
+        <form id="start-poll-form" class="hidden">
+            <input type="text" id="spotify-playlist-id-input" name="NewPollPlaylistId" value="@Model.PlaylistContents.PlaylistId" />
+            <input type="text" id="track-to-poll-uri-input" name="NewPollTrackId"/>
+            <input type="text" id="username-to-start-poll" name="NewPollUsername" value="@Model.MCMUsername"/>
+        </form>
+  
+        <span id="mcm-username" class="hidden">@Model.MCMUsername</span>
+        <span id="general-playlist-id" class="hidden">@Model.PlaylistContents.PlaylistId</span>
+        <span id="num-playlist-followers" class="hidden">@Model.NumPlaylistFollowers</span>
     </div>
-</div>
-
-
-<div class="-z-50" style="width: 0; height: 0; border: 0; border: none; position: absolute;">
-    <div id="embed-iframe" style=""></div>
+    <div class="flex flex-col">
+        <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-2 mb-4 overflow-hidden">
+            <div>
+                <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500">Comments</h2>
+            </div>
+            <div class="classicpanda:text-blacktext flex flex-col bg-primback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl mb-8 p-3 h-[400px] overflow-y-auto" id="comments-container">
+             
+            </div>
+            <div class="classicpanda:text-blacktext flex flex-col bg-primback classicpanda:bg-primback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-8 mb-8">
+                <form id="comment-form">
+                    <div class="w-full px-3">
+                        <label for="CommentMessage" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Comment</label>
+                        <input id="comment-message-input" name="CommentMessage" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-800 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white shadow-md" type="text" required />
+                    </div>
+                    <input id="playlistId" type="hidden" value="@Model.PlaylistContents.PlaylistId"/>
+                    <input id="listenerId" type="hidden" value="@Model.PlaylistContents.ListenerId"/>
+                    <input id="comment-submit-button" type="submit" value="Post" class="w-full flex-shrink-0 bg-gray-600 hover:bg-gray-400 text-textback font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded
+                                classicpanda:text-whitetext
+                                autumn:text-white
+                                revolution:text-white">
+                </form>
+            </div>
+        </div>
+        <div class="flex flex-col ml-5 mr-8 w-auto lg:ml-10 bg-secondaryback classicpanda:bg-coreback shadow-xl shadow-gray-950 rounded-xl px-5 pt-6 pb-2 mb-4 overflow-hidden">
+            <h2 class="font-bold mb-5 text-textback text-4xl classicpanda:text-whitetext luxury:text-yellow-500" id="polls-header">Poll</h2>
+           
+        </div>
+    </div>
+    <button value="@Model.PlaylistContents.Uri" class="hidden" id="playlist-Uri"></button>
 </div>
 
 <script>
 
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        let playlistUri = $("#playlist-Uri").val();
         let element = document.getElementById('embed-iframe');
         let options = {
-            width: '80%',
-            height: '400',
-            uri: 'spotify:track:4cktbXiXOapiLBMprHFErI' //Memories - Maroon 5
-            
+            width: '100%',
+            height: '250',
+            uri: playlistUri
+
         };
         let callback = (EmbedController) => {
             document.querySelectorAll('.playable-item').forEach(
@@ -63,15 +192,15 @@
                 })
         };
         IFrameAPI.createController(element, options, callback);
-        
+
     };
     console.log("Spotify player should be loaded")
 </script>
 
 
 @section Scripts{
-    <script type="text/javascript" src="~/js/generatedplaylists.js"></script>
-    <script type="text/javascript" src="~/js/colorchanger.js"></script>
+    <script type="text/javascript" src="~/js/comment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/playlistpoll.js"></script>
 }
